@@ -1,0 +1,6 @@
+config:
+  - application-tagging: "application-tagging.json"
+
+application-tagging:
+  - name: "my-app-tag"
+  - appName: "/project/application-web/myApp.name"

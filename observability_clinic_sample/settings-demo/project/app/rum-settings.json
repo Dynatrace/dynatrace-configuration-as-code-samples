@@ -1,0 +1,10 @@
+{
+    "rum": {
+      "enabled": {{ .rum.enabled }},
+      "costAndTrafficControl": {{ .rum.percentage }}
+    },
+    "sessionReplay": {
+      "enabled": {{ .sessionReplay.enabled }},
+      "costAndTrafficControl": {{ .sessionReplay.percentage }}
+    }
+}

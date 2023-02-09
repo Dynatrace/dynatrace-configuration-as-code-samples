@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "{{ .name }}",
+  "metricName": "{{ .metricName }}",
+  "metricExpression": "(builtin:synthetic.browser.availability.location.total:splitBy())",
+  "evaluationType": "AGGREGATE",
+  "filter": "entityId({{ .syntheticId}})",
+  "evaluationWindow": "-1w",
+  "targetSuccess": {{ .thresholdTarget }},
+  "targetWarning": {{ .thresholdWarning }},
+  "errorBudgetBurnRate": {
+      "burnRateVisualizationEnabled": true,
+      "fastBurnThreshold": 10
+  }
+}

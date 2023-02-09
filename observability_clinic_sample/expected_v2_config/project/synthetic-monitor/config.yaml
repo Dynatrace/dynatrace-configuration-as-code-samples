@@ -1,0 +1,16 @@
+configs:
+- id: AppAvailabilityMonitor
+  config:
+    name: My App's Availability
+    parameters:
+      appId:
+        configId: myApp
+        configType: application-web
+        property: id
+        type: reference
+      host: https://www.google.com
+      location: GEOLOCATION-B0A24E76977E7666
+    template: synthetic.json
+    skip: false
+  type:
+    api: synthetic-monitor

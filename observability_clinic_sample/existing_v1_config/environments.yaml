@@ -1,0 +1,4 @@
+environment1:
+  - name: "Sample Environment"
+  - env-url: {{ .Env.DEMO_ENV_URL }}
+  - env-token-name: "DEMO_ENV_TOKEN"

@@ -1,0 +1,15 @@
+configs:
+- id: MyApp_AutoTag
+  type:
+    settings:
+      schema: builtin:tags.auto-tagging
+      scope: environment
+  config:
+    name: my-app-tag
+    parameters:
+      appName:
+        type: reference
+        configType: application-web
+        configId: MyApp
+        property: name
+    template: auto-tag-setting.json

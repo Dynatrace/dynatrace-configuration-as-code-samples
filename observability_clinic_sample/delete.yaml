@@ -1,0 +1,6 @@
+delete:
+  - "application-web/My Sample Web Application"
+  - "auto-tag/my-app-tag"
+  - "slo/My App's Availability SLO"
+  - "synthetic-monitor/My App's Availability"
+  - "builtin:rum.web.enablement/MyApp_RUMSettings"

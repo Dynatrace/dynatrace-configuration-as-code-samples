@@ -1,0 +1,8 @@
+configs:
+- id: myApp
+  config:
+    name: My Sample Web Application
+    template: application.json
+    skip: false
+  type:
+    api: application-web

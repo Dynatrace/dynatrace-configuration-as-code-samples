@@ -1,0 +1,9 @@
+config:
+  - slo: "slo.json"
+
+slo:
+  - name: "My App's Availability SLO"
+  - metricName: "my_app_synthetic_availability"
+  - syntheticId: "/project/synthetic-monitor/AppAvailabilityMonitor.id"
+  - thresholdTarget: "99.98"
+  - thresholdWarning: "99.99"

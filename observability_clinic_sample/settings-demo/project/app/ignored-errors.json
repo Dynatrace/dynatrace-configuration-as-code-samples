@@ -1,0 +1,17 @@
+{
+  "ignoreRequestErrorsInApdexCalculation": false,
+  "errorRules": [
+    {
+      "errorCodes": "404",
+      "considerFailedImages": false,
+      "considerCspViolations": false,
+      "filterSettings": {
+        "filter": "ENDS_WITH",
+        "url": "{{ .ignoredFile }}"
+      },
+      "captureSettings": {
+        "capture": false
+      }
+    }
+  ]
+}

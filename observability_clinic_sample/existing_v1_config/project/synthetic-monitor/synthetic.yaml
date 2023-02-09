@@ -1,0 +1,9 @@
+config:
+  - AppAvailabilityMonitor: "synthetic.json"
+
+AppAvailabilityMonitor:
+  - name: "My App's Availability"
+  - appId: "/project/application-web/myApp.id"
+  - host: https://www.google.com
+  - location: GEOLOCATION-B0A24E76977E7666
+

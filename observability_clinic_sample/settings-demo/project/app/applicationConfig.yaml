@@ -1,0 +1,45 @@
+configs:
+- id: MyApp
+  type: application-web
+  config:
+    name: My Sample Web Application
+    template: application.json
+
+- id: MyApp_RUMSettings
+  type:
+    settings:
+      schema: builtin:rum.web.enablement
+      scope:
+        type: reference
+        configType: application-web
+        configId: MyApp
+        property: id
+  config:
+    name: MyApp_RUMSettings
+    parameters:
+      rum:
+        type: value
+        value:
+          enabled: true
+          percentage: 100
+      sessionReplay:
+        type: value
+        value:
+          enabled: true
+          percentage: 100
+    template: rum-settings.json
+
+- id: MyApp_IgnoredRequestErrors
+  type:
+    settings:
+      schema: builtin:rum.web.request-errors
+      scope:
+        type: reference
+        configType: application-web
+        configId: MyApp
+        property: id
+  config:
+    name: MyApp_IgnoredRequestErrors
+    parameters:
+      ignoredFile: "doesNotExist.png"
+    template: ignored-errors.json

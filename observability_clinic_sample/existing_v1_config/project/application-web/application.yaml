@@ -1,0 +1,6 @@
+
+config:
+  - myApp: "application.json"
+
+myApp:
+  - name: "My Sample Web Application"

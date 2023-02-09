@@ -1,0 +1,37 @@
+configs:
+- id: AppAvailabilityMonitor
+  type: synthetic-monitor
+  config:
+    name: My App's Availability
+    parameters:
+      appId:
+        type: reference
+        configType: application-web
+        configId: MyApp
+        property: id
+      host: https://www.google.com
+      location: GEOLOCATION-B0A24E76977E7666
+    template: synthetic.json
+
+- id: slo
+  type:
+    settings:
+      schema: builtin:monitoring.slo
+      scope: environment
+  config:
+    name: My App's Availability SLO
+    parameters:
+      metricName: "my_app_synthetic_availability"
+      syntheticId:
+        type: reference
+        configType: synthetic-monitor
+        configId: AppAvailabilityMonitor
+        property: id
+      threshold:
+        type: value
+        value:
+          target: 99.98
+          warning: 99.99
+    template: slo-setting.json
+    skip: false
+

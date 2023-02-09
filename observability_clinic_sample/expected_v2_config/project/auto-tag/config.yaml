@@ -1,0 +1,14 @@
+configs:
+- id: application-tagging
+  config:
+    name: my-app-tag
+    parameters:
+      appName:
+        configId: myApp
+        configType: application-web
+        property: name
+        type: reference
+    template: application-tagging.json
+    skip: false
+  type:
+    api: auto-tag
