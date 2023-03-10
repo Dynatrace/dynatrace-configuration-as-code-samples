@@ -1,0 +1,37 @@
+configs:
+  - id: email
+    type:
+      settings:
+        schema: builtin:problem.notifications
+        scope: environment
+    config:
+      name: "(email) Team X Problem Notifications" # REPLACE ME
+      parameters:
+        alertingProfileId:
+          type: reference
+          configType: builtin:alerting.profile
+          configId: alerts
+          property: id
+        email: "team@company.com" # REPLACE ME
+      template: email_template.json
+      skip: true
+
+  - id: slack
+    type:
+      settings:
+        schema: builtin:problem.notifications
+        scope: environment
+    config:
+      name: "(slack) Team X Problem Notifications" # REPLACE ME
+      parameters:
+        alertingProfileId:
+          type: reference
+          configType: builtin:alerting.profile
+          configId: alerts
+          property: id
+        channelName: "#team-x-alerts" # REPLACE ME
+        channelUrl: # slack channel webhook URLs should be treated as secrets, and are thus loaded from env var
+          type: environment
+          name: TEAM_X_SLACK_CHANNEL_HOOK # SET VARIABLE/REPLACE ME
+      template: slack_template.json
+      skip: true # SET false TO CONFIGURE SLACK NOTIFICATIONS

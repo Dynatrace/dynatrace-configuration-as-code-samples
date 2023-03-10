@@ -1,0 +1,47 @@
+configs:
+  ##            Host Name Based Config sample            ##
+  # - id: team-tag
+  #   type:
+  #     settings:
+  #       schema: builtin:tags.auto-tagging
+  #       scope: environment
+  #   config:
+  #     name: "Team App" # REPLACE ME
+  #     parameters:
+  #       databaseNameRegex: "team-app.*db" # REPLACE ME
+  #       hostnameRegex: ".*team-app.*" # REPLACE ME
+  #     template: host_template.json
+  ## --------------------------------------------------- ##
+
+  ##            Kubernetes Namespace sample              ##
+  ## Uncomment this and comment out other samples to use ##
+  - id: team-tag
+    type:
+      settings:
+        schema: builtin:tags.auto-tagging
+        scope: environment
+    config:
+      name: "Team App" # REPLACE ME
+      parameters:
+        databaseNameRegex: "team-app.*db" # REPLACE ME
+        namespace: "team-app-namespace" # REPLACE ME
+        clusterName: "clusterName" # REPLACE ME
+      template: k8s_template.json
+  ## --------------------------------------------------- ##
+
+  ##            Kubernetes & AWS sample                  ##
+  ## Uncomment this and comment out other samples to use ##
+  # - id: team-tag-k8s-aws
+  #   type:
+  #     settings:
+  #       schema: builtin:tags.auto-tagging
+  #       scope: environment
+  #   config:
+  #     name: "Team App" # REPLACE ME
+  #     parameters:
+  #       awsProjectTagValue: "team-app-project" # REPLACE ME
+  #       clusterName: "clusterName" # REPLACE ME
+  #       databaseNameRegex: "team-app.*db" # REPLACE ME
+  #       namespace: "team-app-namespace" # REPLACE ME
+  #     template: aws_k8s_template.json
+  ## --------------------------------------------------- ##

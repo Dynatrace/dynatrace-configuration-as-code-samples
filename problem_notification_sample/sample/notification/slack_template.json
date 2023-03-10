@@ -1,0 +1,11 @@
+{
+    "enabled": true,
+    "type": "SLACK",
+    "displayName": "{{.name}}",
+    "slackNotification": {
+        "url": "{{ .channelUrl }}",
+        "channel": "{{ .channelName }}",
+        "message": "{State} Problmen {ProblemID} \n{ProblemURL}\n{ProblemTitle}\n{ProblemImpact} {ProblemSeverity}\n----\n{ProblemDetailsText}\n"
+    },
+    "alertingProfile": "{{.alertingProfileId}}"
+}

@@ -1,0 +1,59 @@
+{
+  "name": "{{ .name }}",
+  "rules": [
+    {
+      "enabled": true,
+      "valueNormalization": "Leave text as-is",
+      "type": "ME",
+      "attributeRule": {
+        "entityType": "PROCESS_GROUP",
+        "conditions": [
+          {
+            "key": "PROCESS_GROUP_PREDEFINED_METADATA",
+            "dynamicKey": "KUBERNETES_NAMESPACE",
+            "operator": "EQUALS",
+            "stringValue": "{{ .namespace }}",
+            "caseSensitive": true
+          }
+        ],
+        "pgToHostPropagation": false,
+        "pgToServicePropagation": true
+      }
+    },
+    {
+      "enabled": true,
+      "valueNormalization": "Leave text as-is",
+      "type": "ME",
+      "attributeRule": {
+        "entityType": "SERVICE",
+        "conditions": [
+          {
+            "key": "SERVICE_TYPE",
+            "operator": "EQUALS",
+            "enumValue": "DATABASE_SERVICE"
+          },
+          {
+            "key": "SERVICE_DATABASE_NAME",
+            "operator": "REGEX_MATCHES",
+            "stringValue": "{{ .databaseNameRegex }}",
+            "caseSensitive": true
+          }
+        ],
+        "serviceToHostPropagation": false,
+        "serviceToPGPropagation": false
+      }
+    },
+    {
+      "enabled": true,
+      "valueNormalization": "Leave text as-is",
+      "type": "SELECTOR",
+      "entitySelector": "type(CLOUD_APPLICATION),toRelationships.isClusterOfCa(type(KUBERNETES_CLUSTER),entityName.startsWith({{ .clusterName }})),toRelationships.isNamespaceOfCa(type(CLOUD_APPLICATION_NAMESPACE),entityName.startsWith({{ .namespace }}))"
+    },
+    {
+      "enabled": true,
+      "valueNormalization": "Leave text as-is",
+      "type": "SELECTOR",
+      "entitySelector": "type(CLOUD_APPLICATION_NAMESPACE),toRelationships.isClusterOfNamespace(type(KUBERNETES_CLUSTER),entityName.startsWith({{ .clusterName }})),entityName.startsWith({{ .namespace }})"
+    }
+  ]
+}

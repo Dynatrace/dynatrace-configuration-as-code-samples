@@ -1,0 +1,46 @@
+{
+   "name": "{{ .name }}",
+   "rules": [
+      {
+         "enabled": true,
+         "valueNormalization": "Leave text as-is",
+         "type": "ME",
+         "attributeRule": {
+            "entityType": "SERVICE",
+            "conditions": [
+               {
+                  "key": "SERVICE_TYPE",
+                  "operator": "EQUALS",
+                  "enumValue": "DATABASE_SERVICE"
+               },
+               {
+                  "key": "SERVICE_DATABASE_NAME",
+                  "operator": "REGEX_MATCHES",
+                  "stringValue": "{{ .databaseNameRegex }}",
+                  "caseSensitive": false
+               }
+            ],
+            "serviceToHostPropagation": true,
+            "serviceToPGPropagation": true
+         }
+      },
+      {
+         "enabled": true,
+         "valueNormalization": "Leave text as-is",
+         "type": "ME",
+         "attributeRule": {
+            "entityType": "SERVICE",
+            "conditions": [
+               {
+                  "key": "HOST_DETECTED_NAME",
+                  "operator": "REGEX_MATCHES",
+                  "stringValue": "{{ .hostnameRegex }}",
+                  "caseSensitive": false
+               }
+            ],
+            "serviceToHostPropagation": true,
+            "serviceToPGPropagation": true
+         }
+      }
+   ]
+}

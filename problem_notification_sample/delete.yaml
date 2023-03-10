@@ -1,0 +1,5 @@
+delete:
+  - "builtin:alerting.profile/alerts"
+  - "builtin:tags.auto-tagging/team-tag"
+  - "builtin:problem.notifications/email"
+  - "builtin:problem.notifications/slack"

@@ -1,0 +1,16 @@
+configs:
+  - id: alerts
+    type:
+      settings:
+        schema: builtin:alerting.profile
+        scope: environment
+    config:
+      name: "Team X Alerting Profile" # REPLACE ME
+      parameters:
+        taggedWith:
+          type: reference
+          configType: builtin:tags.auto-tagging
+          configId: team-tag
+          property: name
+      template: template.json
+      skip: true
