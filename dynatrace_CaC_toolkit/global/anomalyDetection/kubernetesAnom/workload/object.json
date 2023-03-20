@@ -1,0 +1,85 @@
+{
+    {{- if .default}}
+        "containerRestarts": {
+          "enabled": false
+        },
+        "pendingPods": {
+          "enabled": false
+        },
+        "deploymentStuck": {
+          "enabled": false
+        },
+        "podStuckInTerminating": {
+          "enabled": false
+        },
+        "workloadWithoutReadyPods": {
+          "enabled": false
+        },
+        "notAllPodsReady": {
+          "enabled": false
+        }
+    {{else}}
+        "containerRestarts": {
+          "enabled": {{.cont.enabled}}
+          {{- if .cont.enabled}}
+            ,
+            "configuration": {
+              "threshold": {{.cont.thresh}},
+              "samplePeriodInMinutes": {{.cont.sampleMin}},
+              "observationPeriodInMinutes": {{.cont.obsMin}}
+            }
+          {{- end}}
+        },
+        "pendingPods": {
+          "enabled": {{.pend.enabled}}
+          {{- if .pend.enabled}}
+            ,
+            "configuration": {
+              "threshold": {{.cont.thresh}},
+              "samplePeriodInMinutes": {{.pend.sampleMin}},
+              "observationPeriodInMinutes": {{.pend.obsMin}}
+            }
+          {{- end}}
+        },
+        "deploymentStuck": {
+          "enabled": {{.stuck.enabled}}
+          {{- if .stuck.enabled}}
+            ,
+            "configuration": {
+              "samplePeriodInMinutes": {{.stuck.sampleMin}},
+              "observationPeriodInMinutes": {{.stuck.obsMin}}
+            }
+          {{- end}}
+        },
+        "podStuckInTerminating": {
+          "enabled": {{.term.enabled}}
+          {{- if .term.enabled}}
+            ,
+            "configuration": {
+              "samplePeriodInMinutes": {{.term.sampleMin}},
+              "observationPeriodInMinutes": {{.term.obsMin}}
+            }
+          {{- end}}
+        },
+        "workloadWithoutReadyPods": {
+          "enabled": {{.read.enabled}}
+          {{- if .read.enabled}}
+            ,
+            "configuration": {
+              "samplePeriodInMinutes": {{.read.sampleMin}},
+              "observationPeriodInMinutes": {{.read.obsMin}}
+            }
+          {{- end}}
+        },
+        "notAllPodsReady": {
+          "enabled": {{.not.enabled}}
+          {{- if .not.enabled}}
+            ,
+            "configuration": {
+              "samplePeriodInMinutes": {{.not.sampleMin}},
+              "observationPeriodInMinutes": {{.not.obsMin}}
+            }
+          {{- end}}
+        }
+    {{- end}}
+}

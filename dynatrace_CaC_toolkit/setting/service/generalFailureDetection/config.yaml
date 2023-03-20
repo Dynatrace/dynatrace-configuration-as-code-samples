@@ -1,0 +1,84 @@
+configs:
+  - id: serviceGeneralFailureDetation_1
+    type:
+      settings:
+        schema: builtin:failure-detection.service.general-parameters
+        scope: SERVICE-AA9C6E2B8BEEC6D8
+    config:
+      name: exampleServiceGeneralFailureDetation
+      template: object.json
+      skip: false
+      parameters:
+        enabled: true
+        ignoreAllExec: false
+        ignoreSpanFailureDet: false
+        custErrRule:
+          ###################
+          ## custErrRule - customErrorRules
+          ## Fields:
+          ## - ra: requestAttribute_ID
+          ##   op: compareOperationType 
+          ##    "STRING_EXISTS"
+          ##    "STRING_EQUALS","NOT_STRING_EQUALS","STARTS_WITH",
+          ##    "NOT_STARTS_WITH","CONTAINS","NOT_CONTAINS","ENDS_WITH","NOT_ENDS_WITH"
+          ##    "INTEGER_EXISTS"
+          ##    "INTEGER_EQUALS","NOT_INTEGER_EQUALS","INTEGER_GREATER_THAN",
+          ##    "INTEGER_GREATER_THAN_OR_EQUALS","INTEGER_LESS_THAN","INTEGER_LESS_THAN_OR_EQUALS"
+          ##    "DOUBLE_EXISTS"
+          ##    "DOUBLE_EQUALS","NOT_DOUBLE_EQUALS","DOUBLE_GREATER_THAN",
+          ##    "DOUBLE_GREATER_THAN_OR_EQUALS","DOUBLE_LESS_THAN",
+          ##    "DOUBLE_LESS_THAN_OR_EQUALS"
+          ##   value: value to compare (in quotes)
+          ##   caseSensitive: true/false
+          ##############
+          type : value
+          value:
+          - ra : 42089302-4a0d-41a3-af8b-29f9fe1f4c0e
+            op : INTEGER_EQUALS
+            value: "4"
+          - ra : b4b17bb1-03a6-44c4-8d03-7510e7f62096
+            op : NOT_STRING_EQUALS
+            value : "dd"
+            caseSensitive: false
+        sucForExcep:
+          ###################
+          ## sucForExcep - successForcingExceptions
+          ## Fields:
+          ## - excep: 
+          ##    - classPattern: The pattern will match if it is contained within the actual class name.
+          ##    - messPattern: The pattern will match if the actual exception message contains the pattern.
+          ##############
+          type: value
+          value:
+          - excep:
+            - classPattern: "hi" 
+            - messPattern: "hi"
+        ignExcep:
+          ###################
+          ## ignExcep - ignoredExceptions
+          ## Fields:
+          ## - excep: 
+          ##    - classPattern: The pattern will match if it is contained within the actual class name.
+          ##    - messPattern: The pattern will match if the actual exception message contains the pattern.
+          ##############
+          type: value
+          value:
+          - excep:
+            - classPattern: "hi" 
+            - messPattern: "hi"
+        custHandExcep:
+          ###################
+          ## custHandExcep - customHandledExceptions
+          ## Fields:
+          ## - excep: 
+          ##    - classPattern: The pattern will match if it is contained within the actual class name.
+          ##    - messPattern: The pattern will match if the actual exception message contains the pattern.
+          ##############
+          type: value
+          value:
+          - excep:
+            - classPattern: "hi2" 
+            - messPattern: "hi2"
+          - excep:
+            - classPattern: "hi3" 
+        

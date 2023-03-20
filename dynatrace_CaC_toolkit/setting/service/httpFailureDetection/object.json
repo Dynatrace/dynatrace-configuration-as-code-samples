@@ -1,0 +1,17 @@
+{
+    "enabled": {{ .enabled }}
+    {{- if .enabled}}
+      ,"httpResponseCodes": {
+        "serverSideErrors": "{{ .severSideErrors}}",
+        "failOnMissingResponseCodeServerSide": {{ .failOnMissingServerSide}},
+        "clientSideErrors": "{{ .clientSideErrors}}",
+        "failOnMissingResponseCodeClientSide": {{ .failOnMissingClientSide}}
+      },
+      "brokenLinks": {
+        "http404NotFoundFailures": {{ .errorOnHttp404}}
+        {{- if .errorOnHttp404}}
+          , "brokenLinkDomains": {{ .domains}}
+        {{- end}}
+      }
+    {{- end}}
+}

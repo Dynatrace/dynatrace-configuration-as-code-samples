@@ -1,0 +1,77 @@
+{
+    {{- if .default}}
+        "readinessIssues": {
+            "enabled": true,
+            "configuration": {
+            "samplePeriodInMinutes": 3,
+            "observationPeriodInMinutes": 5
+            }
+        },
+        "cpuRequestsSaturation": {
+            "enabled": false
+        },
+        "memoryRequestsSaturation": {
+            "enabled": false
+        },
+        "podsSaturation": {
+            "enabled": false
+        },
+        "monitoringIssues": {
+            "enabled": false
+        }
+    {{else}}
+    "readinessIssues": {
+        "enabled": {{.read.enabled}}
+        {{- if .read.enabled}}
+        ,
+        "configuration": {
+          "samplePeriodInMinutes": {{.read.sampleMin}},
+          "observationPeriodInMinutes": {{.read.obsMin}}
+        }
+        {{- end}}
+      },
+      "cpuRequestsSaturation": {
+        "enabled": {{.cpu.enabled}}
+        {{- if .cpu.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.cpu.thresh}},
+            "samplePeriodInMinutes": {{.cpu.sampleMin}},
+            "observationPeriodInMinutes": {{.cpu.obsMin}}
+        }
+        {{- end}}
+      },
+      "memoryRequestsSaturation": {
+        "enabled": {{.mem.enabled}}
+        {{- if .mem.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.mem.thresh}},
+            "samplePeriodInMinutes": {{.mem.sampleMin}},
+            "observationPeriodInMinutes": {{.mem.obsMin}}
+        }
+        {{- end}}
+      },
+      "podsSaturation": {
+        "enabled": {{.pod.enabled}}
+        {{- if .pod.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.cpu.thresh}},
+            "samplePeriodInMinutes": {{.pod.sampleMin}},
+            "observationPeriodInMinutes": {{.pod.obsMin}}
+        }
+        {{- end}}
+      },
+      "monitoringIssues": {
+        "enabled": {{.mon.enabled}}
+        {{- if .mon.enabled}}
+        ,
+        "configuration": {
+            "samplePeriodInMinutes": {{.mon.sampleMin}},
+            "observationPeriodInMinutes": {{.mon.obsMin}}
+        }
+        {{- end}}
+      }
+    {{- end}}
+}

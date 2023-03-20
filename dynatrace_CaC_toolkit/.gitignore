@@ -1,0 +1,26 @@
+.vs/
+.vs
+project/
+request.log
+response.log
+.logs/
+.logs
+manifest.yaml
+
+## Monaco Projects (dev)
+dev/
+test/
+temp/
+
+## Monaco Projects (work-in-progress)
+configure/
+global/webMobileMonitor/
+global/synthetic/
+global/anomalyDetection/infraAnom/
+global/anomalyDetection/metricEvent
+
+setting/host/
+setting/hostGroup/
+setting/processGroup/
+setting/synthetic/
+setting/web/

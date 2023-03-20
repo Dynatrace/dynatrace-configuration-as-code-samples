@@ -1,0 +1,94 @@
+configs:
+  - id: globalK8sWorkloadAnomalyDetect
+    type:
+      settings:
+        schema: builtin:anomaly-detection.kubernetes.workload
+        scope: environment
+    config:
+      name: globalK8sWorkloadAnomalyDetect
+      template: object.json
+      skip: false
+      parameters:
+        default: false
+        cont:
+          ###################
+          ## cont - containerRestarts
+          ## Fields:
+          ## enabled - enabled
+          ## sampleMin - samplePeriodInMinutes
+          ## thesh - threshold
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+            thresh: 2
+        pend:
+          ###################
+          ## pend - pendingPods
+          ## Fields:
+          ## enabled - enabled
+          ## sampleMin - samplePeriodInMinutes
+          ## thesh - threshold
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+            thresh: 2
+        stuck:
+          ###################
+          ## stuck - deploymentStuck
+          ## Fields:
+          ## enabled - enabled
+          ## sampleMin - samplePeriodInMinutes
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+        term:
+          ###################
+          ## term - podStuckInTerminating
+          ## Fields:
+          ## enabled - enabled
+          ## sampleMin - samplePeriodInMinutes
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+        read:
+          ###################
+          ## read - workloadWithoutReadyPods
+          ## Fields:
+          ## enabled - enabled
+          ## sampleMin - samplePeriodInMinutes
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+        not:
+          ###################
+          ## not - notAllPodsReady
+          ## Fields:
+          ## enabled - enabled
+          ## sampleMin - samplePeriodInMinutes
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5

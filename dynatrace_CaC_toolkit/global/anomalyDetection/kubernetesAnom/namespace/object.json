@@ -1,0 +1,75 @@
+{
+    {{- if .default}}
+      "cpuRequestsQuotaSaturation": {
+        "enabled": false
+      },
+      "cpuLimitsQuotaSaturation": {
+        "enabled": false
+      },
+      "memoryRequestsQuotaSaturation": {
+        "enabled": false
+      },
+      "memoryLimitsQuotaSaturation": {
+        "enabled": false
+      },
+      "podsQuotaSaturation": {
+        "enabled": false
+      }
+    {{else}}
+      "cpuRequestsQuotaSaturation": {
+        "enabled": {{.cpuReq.enabled}}
+        {{- if .cpuReq.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.cpuReq.thresh}},
+            "samplePeriodInMinutes": {{.cpuReq.sampleMin}},
+            "observationPeriodInMinutes": {{.cpuReq.obsMin}}
+        }
+        {{- end}}
+      },
+      "cpuLimitsQuotaSaturation": {
+        "enabled": {{.cpuLimit.enabled}}
+        {{- if .cpuLimit.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.cpuLimit.thresh}},
+            "samplePeriodInMinutes": {{.cpuLimit.sampleMin}},
+            "observationPeriodInMinutes": {{.cpuLimit.obsMin}}
+        }
+        {{- end}}
+      },
+      "memoryRequestsQuotaSaturation": {
+        "enabled": {{.memReq.enabled}}
+        {{- if .memReq.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.memReq.thresh}},
+            "samplePeriodInMinutes": {{.memReq.sampleMin}},
+            "observationPeriodInMinutes": {{.memReq.obsMin}}
+        }
+        {{- end}}
+      },
+      "memoryLimitsQuotaSaturation": {
+        "enabled": {{.memLimit.enabled}}
+        {{- if .memLimit.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.memLimit.thresh}},
+            "samplePeriodInMinutes": {{.memLimit.sampleMin}},
+            "observationPeriodInMinutes": {{.memLimit.obsMin}}
+        }
+        {{- end}}
+      },
+      "podsQuotaSaturation": {
+        "enabled": {{.pod.enabled}}
+        {{- if .pod.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.pod.thresh}},
+            "samplePeriodInMinutes": {{.pod.sampleMin}},
+            "observationPeriodInMinutes": {{.pod.obsMin}}
+        }
+        {{- end}}
+      }
+    {{- end}}
+}

@@ -1,0 +1,60 @@
+{
+    {{- if .default}}
+      "readinessIssues": {
+        "enabled": false
+      },
+      "cpuRequestsSaturation": {
+        "enabled": false
+      },
+      "memoryRequestsSaturation": {
+        "enabled": false
+      },
+      "podsSaturation": {
+        "enabled": false
+      }
+    {{else}}
+    "readinessIssues": {
+        "enabled": {{.read.enabled}}
+        {{- if .read.enabled}}
+        ,
+        "configuration": {
+          "samplePeriodInMinutes": {{.read.sampleMin}},
+          "observationPeriodInMinutes": {{.read.obsMin}}
+        }
+        {{- end}}
+      },
+      "cpuRequestsSaturation": {
+        "enabled": {{.cpu.enabled}}
+        {{- if .cpu.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.cpu.thresh}},
+            "samplePeriodInMinutes": {{.cpu.sampleMin}},
+            "observationPeriodInMinutes": {{.cpu.obsMin}}
+        }
+        {{- end}}
+      },
+      "memoryRequestsSaturation": {
+        "enabled": {{.mem.enabled}}
+        {{- if .mem.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.mem.thresh}},
+            "samplePeriodInMinutes": {{.mem.sampleMin}},
+            "observationPeriodInMinutes": {{.mem.obsMin}}
+        }
+        {{- end}}
+      },
+      "podsSaturation": {
+        "enabled": {{.pod.enabled}}
+        {{- if .pod.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.pod.thresh}},
+            "samplePeriodInMinutes": {{.pod.sampleMin}},
+            "observationPeriodInMinutes": {{.pod.obsMin}}
+        }
+        {{- end}}
+      }
+    {{- end}}
+}

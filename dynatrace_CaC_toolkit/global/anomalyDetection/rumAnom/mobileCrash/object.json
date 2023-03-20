@@ -1,0 +1,33 @@
+{
+    {{- if .default}}
+      "crashRateIncrease": {
+        "enabled": true,
+        "detectionMode": "auto",
+        "crashRateIncreaseAuto": {
+          "baselineViolationPercentage": 150,
+          "concurrentUsers": 100,
+          "sensitivity": "low"
+        }
+      }
+    {{- else}}
+      "crashRateIncrease": {
+        "enabled": {{.crash.enabled}}
+        {{- if .crash.enabled}}
+          ,
+          "detectionMode": "{{ .crash.mode }}",
+           {{- if eq .crash.mode "fixed"}}
+            "crashRateIncreaseFixed": {
+              "absoluteCrashRate": {{.crash.absInc}},
+              "concurrentUsers": {{ .crash.conUser }}
+            }
+           {{- else}}
+            "crashRateIncreaseAuto": {
+              "baselineViolationPercentage": {{ .crash.percent }},
+              "concurrentUsers": {{ .crash.conUser }},
+              "sensitivity": "{{ .crash.sens }}"
+            }
+           {{- end}}
+        {{- end}}
+      }
+    {{- end}}
+}

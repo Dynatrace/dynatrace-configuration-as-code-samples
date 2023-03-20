@@ -1,0 +1,42 @@
+configs:
+  - id: globalK8sPresVolumeClaimAnomalyDetect
+    type:
+      settings:
+        schema: builtin:anomaly-detection.kubernetes.pvc
+        scope: environment
+    config:
+      name: globalK8sPresVolumeClaimAnomalyDetect
+      template: object.json
+      skip: false
+      parameters:
+        default: true
+        disk:
+          ###################
+          ## disk - lowDiskSpaceCritical
+          ## Fields:
+          ## enabled - enabled
+          ## thresh - threshold
+          ## sampleMin - samplePeriodInMinutes
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+            thresh: 90
+        diskPercent:
+          ###################
+          ## diskPercent - lowDiskSpaceCriticalPercentage
+          ## Fields:
+          ## enabled - enabled
+          ## thresh - threshold
+          ## sampleMin - samplePeriodInMinutes
+          ## obsMin - observationPeriodInMinutes
+          ##############
+          type: value
+          value:
+            enabled: true
+            sampleMin: 3
+            obsMin: 5
+            thresh: 90

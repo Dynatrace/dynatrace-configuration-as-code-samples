@@ -1,0 +1,85 @@
+{
+    "enabled": {{ .enabled}}
+    {{- if .enabled}}
+    ,"exceptionRules": {
+        "ignoreAllExceptions": {{ .ignoreAllExec}},
+        "customErrorRules": [     
+            {{- range $i, $e := .custErrRule}}
+                {{- if $i}},{{- end}}
+                    {
+                        "requestAttribute" : "{{$e.ra}}",
+                        "condition":{
+                            "compareOperationType" : "{{$e.op}}"
+                            {{- if (index $e "value")}}
+                                {{- if or (eq $e.op "INTEGER_EQUALS") (eq $e.op "NOT_INTEGER_EQUALS") (eq $e.op "INTEGER_GREATER_THAN") (eq $e.op "INTEGER_GREATER_THAN_OR_EQUALS") (eq $e.op "INTEGER_LESS_THAN") (eq $e.op "INTEGER_LESS_THAN_OR_EQUALS")}}
+                                ,"intValue": {{$e.value}}
+                                {{- end}}
+                                {{- if or (eq $e.op "STRING_EQUALS") (eq $e.op "NOT_STRING_EQUALS") (eq $e.op "STARTS_WITH") (eq $e.op "CONTAINS") (eq $e.op "NOT_CONTAINS") (eq $e.op "ENDS_WITH") (eq $e.op "NOT_ENDS_WITH")}}
+                                ,"textValue": "{{$e.value}}",
+                                "caseSensitive": {{$e.caseSensitive}}
+                                {{- end}}
+                                {{- if or (eq $e.op "DOUBLE_EQUALS") (eq $e.op "NOT_DOUBLE_EQUALS") (eq $e.op "DOUBLE_GREATER_THAN") (eq $e.op "DOUBLE_GREATER_THAN_OR_EQUALS") (eq $e.op "DOUBLE_LESS_THAN") (eq $e.op "DOUBLE_LESS_THAN_OR_EQUALS")}}
+                                ,"doubleValue": {{$e.value}}
+                                {{- end}}
+                            {{- end}}
+                        }
+                    }
+            {{- end}}
+            ]
+        ,
+        "ignoreSpanFailureDetection": {{ .ignoreSpanFailureDet}}
+        {{- if (not .ignoreAllExec)}}
+            ,
+            "successForcingExceptions": [
+                {{- range $i, $e := .sucForExcep}}
+                    {{- if $i}},{{- end}}
+                    {
+                    {{- range $j, $elem := $e.excep}}
+                        {{- if $j}},{{- end}}
+                        {{- if (index $elem "classPattern")}}
+                                "classPattern": "{{$elem.classPattern}}"
+                        {{- end}}
+                        {{- if (index $elem "messPattern")}}
+                                "messagePattern": "{{$elem.messPattern}}"
+                        {{- end}}
+                    {{- end}}
+                    }
+               {{- end}}
+            ]
+            ,
+            "ignoredExceptions": [
+                {{- range $i, $e := .ignExcep}}
+                    {{- if $i}},{{- end}}
+                    {
+                    {{- range $j, $elem := $e.excep}}
+                        {{- if $j}},{{- end}}
+                        {{- if (index $elem "classPattern")}}
+                                "classPattern": "{{$elem.classPattern}}"
+                        {{- end}}
+                        {{- if (index $elem "messPattern")}}
+                                "messagePattern": "{{$elem.messPattern}}"
+                        {{- end}}
+                    {{- end}}
+                    }
+               {{- end}}
+            ],
+            "customHandledExceptions": [
+                {{- range $i, $e := .custHandExcep}}
+                    {{- if $i}},{{- end}}
+                    {
+                    {{- range $j, $elem := $e.excep}}
+                        {{- if $j}},{{- end}}
+                        {{- if (index $elem "classPattern")}}
+                                "classPattern": "{{$elem.classPattern}}"
+                        {{- end}}
+                        {{- if (index $elem "messPattern")}}
+                                "messagePattern": "{{$elem.messPattern}}"
+                        {{- end}}
+                    {{- end}}
+                    }
+               {{- end}}
+            ]
+        {{- end}}
+      }
+    {{- end}}
+  }

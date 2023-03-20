@@ -1,0 +1,38 @@
+manifestVersion: "1.0"
+
+projects:
+- name: service
+  path: setting/service
+  type: grouping
+- name: database
+  path: setting/database
+- name: databaseServiceAnom
+  path: global/anomalyDetection/databaseServiceAnom
+- name: serviceAnom
+  path: global/anomalyDetection/serviceAnom
+- name: kubernetesAnom
+  path: global/anomalyDetection/kubernetesAnom
+  type: grouping
+- name: rumAnom
+  path: global/anomalyDetection/rumAnom
+  type: grouping
+
+
+#- name: webMobileMonitor
+#  type: grouping
+#  path: global/webMobileMonitor
+# - name: setting
+#   path: setting
+#   type: grouping
+# - name: general
+#   path: general
+#   type: grouping
+
+environmentGroups:
+- name: default
+  environments:
+  - name: ENV_NAME
+    url:
+      value: https://ENV_ID.live.dynatrace.com
+    token:
+      name: API_TOKEN

@@ -1,0 +1,104 @@
+{
+    {{- if .default}}
+    "errorRateIncrease": {
+        "enabled": true,
+        "detectionMode": "auto",
+        "errorRateIncreaseAuto": {
+          "thresholdAbsolute": 5,
+          "thresholdRelative": 50
+        }
+      },
+      "slowUserActions": {
+        "enabled": true,
+        "detectionMode": "auto",
+        "slowUserActionsAuto": {
+          "durationThresholdAll": {
+            "durationThreshold": 100,
+            "slowdownPercentage": 50
+          },
+          "durationThresholdSlowest": {
+            "durationThreshold": 1000,
+            "slowdownPercentage": 100
+          },
+          "durationAvoidOveralerting": {
+            "minActionRate": 10
+          }
+        }
+      },
+      "unexpectedLowLoad": {
+        "enabled": true,
+        "thresholdPercentage": 50
+      },
+      "unexpectedHighLoad": {
+        "enabled": false
+      }
+    {{else}}
+        "slowUserActions": {
+            "enabled": {{ .slow.enabled}}
+        {{- if .slow.enabled}}
+            ,
+            "detectionMode": "{{ .slow.mode }}",
+            {{- if eq .slow.mode "fixed"}}
+                "slowUserActionsFixed": {
+                    "durationThresholdAllFixed": {
+                        "durationThreshold": {{.slow.allDurThresh}}
+                        },
+                        "durationThresholdSlowest": {
+                        "durationThreshold": {{ .slow.slowDurThresh}}
+                        },
+                        "durationAvoidOveralerting": {
+                        "minActionRate": {{ .slow.actPerMin }}
+                        },
+                        "sensitivity": "{{ .slow.sens }}"
+                    }
+            {{- else }}
+                "slowUserActionsAuto": {
+                    "durationThresholdAll": {
+                    "durationThreshold": {{.slow.allDurThresh}},
+                    "slowdownPercentage": {{ .slow.allPercent}}
+                    },
+                    "durationThresholdSlowest": {
+                    "durationThreshold": {{ .slow.slowDurThresh}},
+                    "slowdownPercentage": {{ .slow.slowPercent}}
+                    },
+                    "durationAvoidOveralerting": {
+                    "minActionRate": {{ .slow.actPerMin }}
+                    }
+                }
+            {{- end}}
+        {{- end}}
+      },
+      "errorRateIncrease": {
+        "enabled": {{ .error.enabled }}
+        {{- if .error.enabled}}
+        ,
+        "detectionMode": "{{ .error.mode }}",
+            {{- if eq .error.mode "fixed"}}
+                "errorRateIncreaseFixed": {
+                    "thresholdAbsolute": {{ .error.absInc}},
+                    "sensitivity": "{{ .error.sens }}"
+                }
+            {{- else}}
+                "errorRateIncreaseAuto": {
+                    "thresholdAbsolute": {{ .error.absInc}},
+                    "thresholdRelative": {{ .error.relInc}}
+                }
+            {{- end}}
+        {{- end}}
+      },
+      "unexpectedLowLoad": {
+        "enabled": {{ .low.enabled }}
+        {{- if .low.enabled}}
+            ,
+            "thresholdPercentage": {{.low.threshPercent}}
+        {{- end}}
+      },
+      "unexpectedHighLoad": {
+        "enabled": {{ .high.enabled }}
+        {{- if .high.enabled}}
+            ,
+            "thresholdPercentage": {{.high.threshPercent}}
+        {{- end}}
+      }
+    {{- end}}
+}

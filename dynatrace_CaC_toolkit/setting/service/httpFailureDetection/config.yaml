@@ -1,0 +1,39 @@
+configs:
+- id: serviceHttpFailureDetection_1
+  type:
+    settings:
+      schema: builtin:failure-detection.service.http-parameters
+      #scopeFromSelector: type(service),entityName(easyTravel Customer Frontend)
+      scope: SERVICE-FFEB57261C2F77B0
+  config:
+    name: exampleHttpFailureDetection1
+    template: object.json
+    skip: false
+    parameters:
+      enabled: true
+      severSideErrors: "500-599"
+      failOnMissingServerSide: false
+      clientSideErrors: "400-499"
+      failOnMissingClientSide: false
+      errorOnHttp404: false
+- id: serviceHttpFailureDetection_2
+  type:
+    settings:
+      schema: builtin:failure-detection.service.http-parameters
+      #scopeFromSelector: type(service),entityName(:80)
+      scope: SERVICE-AA9C6E2B8BEEC6D8
+  config:
+    name: exampleHttpFailureDetection2
+    template: object.json
+    skip: false
+    parameters:
+      enabled: true
+      severSideErrors: "500-599"
+      failOnMissingServerSide: false
+      clientSideErrors: "400-499"
+      failOnMissingClientSide: false
+      errorOnHttp404: true
+      domains:
+        type: list
+        values:
+        - "test.com"

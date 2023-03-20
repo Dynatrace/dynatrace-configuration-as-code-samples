@@ -1,0 +1,33 @@
+{
+    {{- if .default}}
+        "lowDiskSpaceCritical": {
+          "enabled": false
+        },
+        "lowDiskSpaceCriticalPercentage": {
+          "enabled": false
+        }
+    {{else}}
+      "lowDiskSpaceCritical": {
+        "enabled": {{.disk.enabled}}
+        {{- if .disk.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.disk.thresh}},
+            "samplePeriodInMinutes": {{.disk.sampleMin}},
+            "observationPeriodInMinutes": {{.disk.obsMin}}
+        }
+        {{- end}}
+      },
+      "lowDiskSpaceCriticalPercentage": {
+        "enabled": {{.diskPercent.enabled}}
+        {{- if .diskPercent.enabled}}
+        ,
+        "configuration": {
+            "threshold": {{.diskPercent.thresh}},
+            "samplePeriodInMinutes": {{.diskPercent.sampleMin}},
+            "observationPeriodInMinutes": {{.diskPercent.obsMin}}
+        }
+        {{- end}}
+      }
+    {{- end}}
+}

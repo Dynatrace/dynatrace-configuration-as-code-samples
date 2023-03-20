@@ -1,0 +1,126 @@
+{
+    {{- if .default}}
+        "responseTime": {
+            "enabled": true,
+            "detectionMode": "auto",
+            "responseTimeAuto": {
+            "responseTimeAll": {
+                "degradationMilliseconds": 100,
+                "degradationPercent": 50
+            },
+            "responseTimeSlowest": {
+                "slowestDegradationMilliseconds": 1000,
+                "slowestDegradationPercent": 100
+            },
+            "overAlertingProtection": {
+                "actionsPerMinute": 10,
+                "minutesAbnormalState": 1
+            }
+            }
+        },
+        "errorRate": {
+            "enabled": true,
+            "errorRateDetectionMode": "auto",
+            "errorRateAuto": {
+            "absoluteIncrease": 0,
+            "relativeIncrease": 50,
+            "overAlertingProtection": {
+                "actionsPerMinute": 10,
+                "minutesAbnormalState": 1
+            }
+            }
+        },
+        "trafficDrops": {
+            "enabled": true,
+            "trafficDrops": {
+            "trafficDropPercentage": 50,
+            "abnormalStateAbnormalState": 1
+            }
+        },
+        "trafficSpikes": {
+            "enabled": false
+        }
+    {{else}}
+        "responseTime": {
+            "enabled": {{ .resp.enabled}}
+        {{- if .resp.enabled}}
+            ,
+            "detectionMode": "{{ .resp.mode }}",
+            {{- if eq .resp.mode "fixed"}}
+                "responseTimeFixed": {
+                    "responseTimeAll": {
+                    "degradationMilliseconds": {{ .resp.degMilli }}
+                    },
+                    "responseTimeSlowest": {
+                    "slowestDegradationMilliseconds": {{ .resp.degSlowestMilli }}
+                    },
+                    "overAlertingProtection": {
+                    "actionsPerMinute": {{.resp.actPerMin}},
+                    "minutesAbnormalState": {{.resp.actPerMin}}
+                    },
+                    "sensitivity": "{{.resp.sens}}"
+                }
+            {{- else }}
+                "responseTimeAuto": {
+                    "responseTimeAll": {
+                        "degradationMilliseconds": {{ .resp.degMilli }},
+                        "degradationPercent": {{ .resp.degPercent }}
+                    },
+                    "responseTimeSlowest": {
+                        "slowestDegradationMilliseconds": {{ .resp.degSlowestMilli }},
+                        "slowestDegradationPercent": {{ .resp.degSlowestPercent }}
+                    },
+                    "overAlertingProtection": {
+                        "actionsPerMinute": {{.resp.actPerMin}},
+                        "minutesAbnormalState": {{.resp.actPerMin}}
+                    }
+                }
+            {{- end}}
+        {{- end}}
+      },
+      "errorRate": {
+        "enabled": {{ .error.enabled }}
+        {{- if .error.enabled}}
+        ,
+        "errorRateDetectionMode": "{{ .error.mode }}",
+            {{- if eq .error.mode "fixed"}}
+                "errorRateFixed": {
+                    "maxFailureRateIncrease": {{ .error.maxFailInc }},
+                    "errorRateReqPerMin": {{ .error.errorReqPerMin }},
+                    "errorRateSensitivity": "{{ .error.sens}}",
+                    "minutesAbnormalState": {{ .error.abState}}
+                }
+            {{- else}}
+                "errorRateAuto": {
+                    "absoluteIncrease": {{ .error.absInc }},
+                    "relativeIncrease": {{ .error.relInc }},
+                    "overAlertingProtection": {
+                    "actionsPerMinute": {{ .error.actPerMin }},
+                    "minutesAbnormalState": {{ .error.abState }}
+                    }
+                }
+            {{- end}}
+        {{- end}}
+      },
+      "trafficDrops": {
+        "enabled": {{ .drop.enabled }}
+        {{- if .drop.enabled}}
+            ,
+            "trafficDrops": {
+                "trafficDropPercentage": {{ .drop.percent }},
+                "abnormalStateAbnormalState": {{ .drop.abState }}
+            }
+        {{- end}}
+      },
+      "trafficSpikes": {
+        "enabled": {{ .spike.enabled }}
+        {{- if .spike.enabled}}
+            ,
+            "trafficSpikes": {
+                "trafficSpikePercentage": {{ .spike.percent }},
+                "minutesAbnormalState": {{ .spike.abState }}
+            }
+        {{- end}}
+      }
+    {{- end}}
+}
