@@ -9,7 +9,7 @@ configs:
       template: object.json
       skip: false
       parameters:
-        enabled: true
+        enabled: false
         ignoreAllExec: false
         ignoreSpanFailureDet: false
         custErrRule:

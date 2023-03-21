@@ -1,6 +1,8 @@
 > **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
 
-# Dynatrace CaC Toolkit
+> **_Disclaimer:_** Supported monaco version: rc.8+
+
+# Dynatrace Template Hub
 
 This is a Dynatrace CaC project of monaco v2 templates for every configuration and setting in Dynatrace. 
 
@@ -25,6 +27,7 @@ API v2 scopes
 API v1 scopes
 - Read configuration
 - Write configuration
+- Access problem and event feed, metrics, and topology
 ```
 
 3. Set Environment Variables

@@ -34,5 +34,6 @@ environmentGroups:
   - name: ENV_NAME
     url:
       value: https://ENV_ID.live.dynatrace.com
-    token:
-      name: API_TOKEN
+    auth:
+      token:
+        name: API_TOKEN
