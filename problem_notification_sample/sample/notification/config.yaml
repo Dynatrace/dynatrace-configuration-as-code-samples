@@ -14,7 +14,7 @@ configs:
           property: id
         email: "team@company.com" # REPLACE ME
       template: email_template.json
-      skip: true
+      skip: false
 
   - id: slack
     type:

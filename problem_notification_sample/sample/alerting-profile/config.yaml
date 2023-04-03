@@ -13,4 +13,4 @@ configs:
           configId: team-tag
           property: name
       template: template.json
-      skip: true
+      skip: false

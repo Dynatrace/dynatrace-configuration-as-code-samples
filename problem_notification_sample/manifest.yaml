@@ -5,10 +5,10 @@ environmentGroups:
   - name: default
     environments:
       - name: environment1
-        type: classic
         url:
           type: environment
           value: DEMO_ENV_URL
-        token:
-          type: environment
-          name: DEMO_ENV_TOKEN
+        auth:
+          token:
+            type: environment
+            name: DEMO_ENV_TOKEN

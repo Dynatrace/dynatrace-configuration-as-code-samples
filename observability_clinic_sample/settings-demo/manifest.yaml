@@ -8,5 +8,6 @@ environmentGroups:
     url:
       type: environment
       value: DEMO_ENV_URL
-    token:
-      name: DEMO_ENV_TOKEN
+    auth:
+      token:
+        name: DEMO_ENV_TOKEN
