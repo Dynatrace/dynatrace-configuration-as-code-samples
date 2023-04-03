@@ -55,12 +55,12 @@ environmentGroups:
 ```
 
 ## Usage
-There are three directories: configure, setting and global.
+There are several directories which will contain monaco projects. The directory "global" will contain projects which can only be applied globally.
 
 Each directory will contain many sub-directories of monaco projects, which contain a folder with a config.yaml and object.json.
 
-#### Global Service Anomaly Detection
-1. Edit the global\anomalyDetection\serviceAnom\config.yaml file. 
+#### Service Anomaly Detection
+1. Edit the anomalyDetection\serviceAnom\config.yaml file. 
 
 Replace the parameter values with your own values. 
 ```yaml
