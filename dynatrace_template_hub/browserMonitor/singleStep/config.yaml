@@ -1,0 +1,66 @@
+configs:
+  - id: createSingleStep
+    type:
+      api: synthetic-monitor
+    config:
+      name: 
+        type: compound
+        format: "{{.env}} - {{ .appName }} - {{.component}}"
+        references:
+          - appName
+          - env
+          - component
+      template: object.json
+      skip: false
+      parameters:
+        enabled: true
+        appName: "google"
+        env: "prod"
+        component: "home page"
+        frequencyMin: "15"
+          ##############
+          ## frequencyMin - frequencyMin
+          ## 0, 5, 10, 15, 30, 60, 120, 240
+          ##############
+        bypasCSP: true
+        url: "https://www.google.com/"
+        validate:
+          ###################
+          ## validate - validate
+          ## Fields:
+          ## - type: element_match, text_match, content_match
+          ##   match: value to match
+          ##   isRegex: is value regex
+          ##   failIfFound: failure if value is matched
+          ##   locations: 
+          ##      - type: css, dom
+          ##        value: value to check
+          ##############
+          type : value
+          value:
+          - type : text_match
+            match : "test"
+            isRegex: false
+            failIfFound: false
+            locators:
+            - type: "css"
+              value: "#test"
+        locations:
+          ###################
+          ## locations - locations
+          ## list of geolocation ids
+          ##############
+          type: list
+          values:
+          - "GEOLOCATION-0DF9A0E1095A5A62"
+        loadActionKpm: "VISUALLY_COMPLETE"
+          ##############
+          ## loadActionKpm - loadActionKpm
+          ## "VISUALLY_COMPLETE", "DOM_INTERACTIVE", "HTML_DOWNLOADED", "LARGEST_CONTENTFUL_PAINT",
+          ## "LOAD_EVENT_END", "LOAD_EVENT_START", "SPEED_INDEX", "TIME_TO_FIRST_BYTE", "USER_ACTION_DURATION"
+          ##############
+        xhrActionKpm: "VISUALLY_COMPLETE"
+          ##############
+          ## xhrActionKpm - xhrActionKpm
+          ## "VISUALLY_COMPLETE", "TIME_TO_FIRST_BYTE", "USER_ACTION_DURATION", "RESPONSE_END"
+          ##############

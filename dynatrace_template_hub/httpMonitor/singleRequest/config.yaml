@@ -1,0 +1,55 @@
+configs:
+  - id: createSingleRequest
+    type:
+      api: synthetic-monitor
+    config:
+      name: 
+        type: compound
+        format: "{{.env}} - {{ .appName }} - {{.component}}"
+        references:
+          - appName
+          - env
+          - component
+      template: object.json
+      skip: false
+      parameters:
+        enabled: true
+        appName: "google"
+        env: "prod"
+        component: "home page 1"
+        frequencyMin: "1"
+          ##############
+          ## frequencyMin - frequencyMin
+          ## 1, 2, 5, 10, 15, 30, 60
+          ##############
+        method: "POST"
+          ##############
+          ## method - method
+          ## "POST", "GET", "PUT", "DELETE", "HEAD", "PATCH"
+          ##############
+        requestBody: "{\n\"test\" : \"test\"\n}"
+          ##############
+          ## requestBody - requestBody
+          ## use if method is POST or PUT
+          ##############
+        url: "https://www.google.com/"
+        locations:
+          ###################
+          ## locations - locations
+          ## list of geolocation ids
+          ##############
+          type: list
+          values:
+          - "GEOLOCATION-0DF9A0E1095A5A62"
+        acceptAnyCert: true
+          ##############
+          ## acceptAnyCert - acceptAnyCertificate
+          ##############
+        followRedirect: true
+          ##############
+          ## followRedirect - followRedirects
+          ##############
+        notPresistSensData: false
+          ##############
+          ## presistSensData - shouldNotPersistSensitiveData
+          ##############

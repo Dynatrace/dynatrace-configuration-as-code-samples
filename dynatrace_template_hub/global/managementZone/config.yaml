@@ -1,0 +1,100 @@
+configs:
+  - id: managementZoneId
+    type:
+      settings:
+        schema: builtin:management-zones
+        scope: environment
+    config:
+      name: managementZoneName
+      template: object.json
+      skip: false
+      parameters:
+        description: "test"
+        ##############
+        ## description - description
+        ## The description of tag.
+        ##############
+        rules:
+          type: value
+          value:
+            - enabled: false
+              type: "DIMENSION"
+              #entitySelector: "type(host)"
+              applyTo: "METRIC"
+              ##############
+              ## type - type
+              ## "ME" - monitored entity
+              ## req: entityType, conds
+              ## "SELECTOR" - entity selector
+              ## req: entitySelector 
+              ## "DIMENSION" - dimension selector
+              ## req: applyTo, conds
+              ##############
+              entityType: "PROCESS_GROUP"
+              ##############
+              ## entityType - entityType
+              ## "PROCESS_GROUP","SERVICE","HOST", etc (check schema)
+              ##############
+              pgToHostProp: false
+              pgToServiceProp: true
+              ##############
+              ## *Prop - propagation rules (applies when entityType = HOST, PROCES_GROUP, or SERVICE)
+              ## "HOST" - host entity
+              ## req: hostToPGProp (boolean)
+              ## "PROCESS_GORUP" - process group entity
+              ## req: pgToHostProp (boolean), pgToServiceProp (boolean)
+              ## "SERVICE" - service entity
+              ## req: serviceToHostProp (boolean), serviceToPGProp (boolean)
+              ## "AZURE" - azure entity
+              ## req: azureToServiceProp (boolean), azureToPGProp (boolean)
+              ## "CUSTOM_DEVICE_GROUP" - custom device group entity
+              ## req: custDGtoCDProp (boolean)
+              ##############
+              meConds:
+              ##############
+              ## meConds - monitored entity conditions
+              ## Fields:
+              ## - key: Attribute key to filter on. (check schema)
+              ##   type: "TAG" (tag condition) or "VALUE" (value condition)
+              ##   op: Operator to apply. (check schema)
+              ##   value: Value to match.
+              ##   case: Test case sensitity. (boolean)
+              ##############
+              #- key: "PROCESS_GROUP_TAGS"
+              #  type: "TAG"
+              #  op: "EQUALS"
+              #  value: "project:easytravel"
+              #  case: true
+              #- key: "PROCESS_GROUP_DETECTED_NAME"
+              #  type: "VALUE"
+              #  op: "EXISTS"
+              dimensionConds:
+              ##############
+              ## dimensionConds - dimension conditions
+              ## Fields:
+              ## - type: condition type. "METRIC_KEY" or "DIMENSION"
+              ##   ruleMatch: Matcher to apply. (check schema)
+              ##   value: Value to match.
+              ##   key: dimension key to match.
+              ##############
+              - type: "DIMENSION"
+                ruleMatch: "BEGINS_WITH"
+                key: "testDimKey"
+                value: "testDimValue"
+              - type: "METRIC_KEY"
+                ruleMatch: "BEGINS_WITH"
+                value: "testMetricKey"
+            - enabled: false
+              type: "SELECTOR"
+              entitySelector: "type(PROCESS_GROUP_INSTANCE)"
+              meConds:
+            - enabled: false
+              type: "ME"
+              entityType: "HOST"
+              hostToPGProp: true
+              meConds:
+              - key: "HOST_DETECTED_NAME"
+                type: "VALUE"
+                op: "EQUALS"
+                value: "testHostName"
+                case: false

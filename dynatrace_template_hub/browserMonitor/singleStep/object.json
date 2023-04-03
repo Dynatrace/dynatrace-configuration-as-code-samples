@@ -1,0 +1,82 @@
+{
+    "name": "{{.name}}",
+    "frequencyMin": {{.frequencyMin}},
+    "enabled": {{.enabled}},
+    "type": "BROWSER",
+    "script": {
+      "type": "availability",
+      "version": "1.0",
+      "configuration": {
+        "device": {
+          "deviceName": "Desktop",
+          "orientation": "landscape"
+        },
+        "bypassCSP": {{.bypasCSP}},
+        "chromiumStartupFlags": {
+          "disable-web-security": false
+        }
+      },
+      "events": [
+        {
+          "type": "navigate",
+          "description": "Loading of {{.component}}",
+          "validate": [
+            {{- range $i, $e := .validate}}
+              {{- if $i}},{{- end}}
+              {
+                "type":"{{$e.type}}",
+                "match":"{{$e.match}}",
+                "isRegex":{{$e.isRegex}},
+                "failIfFound":{{$e.failIfFound}}
+                {{- if or (eq $e.type "element_match")}}
+                ,
+                "target":{
+                  "locators": [
+                    {{- range $j, $elem := $e.locators}}
+                      {{- if $j}},{{- end}}
+                      {
+                        "type":"{{$elem.type}}",
+                        "value":"{{$elem.value}}"
+                      }
+                    {{- end}}
+                  ]
+                }
+                {{- end}}
+              }
+            {{- end}}
+          ],
+          "url": "{{.url}}",
+          "wait": {
+            "waitFor": "page_complete"
+          }
+        }
+      ]
+    },
+    "locations": {{.locations}},
+    "anomalyDetection": {
+      "outageHandling": {
+        "globalOutage": true,
+        "globalOutagePolicy": {
+          "consecutiveRuns": 1
+        },
+        "localOutage": false,
+        "localOutagePolicy": {
+          "affectedLocations": null,
+          "consecutiveRuns": null
+        },
+        "retryOnError": true
+      },
+      "loadingTimeThresholds": {
+        "enabled": true,
+        "thresholds": []
+      }
+    },
+    "tags": [],
+    "managementZones": [],
+    "automaticallyAssignedApps": [],
+    "manuallyAssignedApps": [],
+    "keyPerformanceMetrics": {
+      "loadActionKpm": "{{.loadActionKpm}}",
+      "xhrActionKpm": "{{.xhrActionKpm}}"
+    }
+  }

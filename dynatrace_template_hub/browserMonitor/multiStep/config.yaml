@@ -1,0 +1,143 @@
+configs:
+  - id: createMultiStep
+    type:
+      api: synthetic-monitor
+    config:
+      name: 
+        type: compound
+        format: "{{.env}} - {{ .appName }} - {{.component}}"
+        references:
+          - appName
+          - env
+          - component
+      template: object.json
+      skip: false
+      parameters:
+        enabled: true
+        appName: "test"
+        env: "prod"
+        component: "home page"
+        frequencyMin: "15"
+          ##############
+          ## frequencyMin - frequencyMin
+          ## 0, 5, 10, 15, 30, 60, 120, 240
+          ##############
+        bypasCSP: true
+        events:
+          ##############
+          ## events - events
+          ## Fields: 
+          ## - type: "navigate","click","tap","javascript","cookie","selectOption"
+          ##   description: description of event
+          ##   url: (type eq navigate) url to navigate to.
+          ##   timeInMilli: (type eq navigate or type eq click/tap)
+          ##   waitFor: "validation", "none"
+          ##   failIfFound: failure if value is matched
+          ##   locators: (look at description)
+          ##   validate: (look at description)
+          ##   javascript: (type eq javascript) js to run
+          ##   cookie: (type eq cookie)
+          ##   select: (type eq selectOption)
+          ##############
+          type: value
+          value:
+          - type: "navigate"
+            description: "loading of home page"
+            url: "https://www.test.com/"
+            waitFor: "validation"
+            timeInMilli: 500
+            match: ""
+            failIfFound: false
+            locators:
+              ##############
+              ## locators - locators
+              ## Fields:
+              ## - type: "css", "dom"
+              ##   value: value to match
+              ##############
+            - type: "css"
+              value: "body > div.L3eUgb > div.o3j99.n1xJcf.Ne6nSd > a:nth-child(2)"
+            validate:
+              ##############
+              ## validate - validate
+              ## Fields: (empty if no validation)
+              ## - type: element_match, text_match, content_match
+              ##   match: value to match
+              ##   isRegex: is value regex
+              ##   failIfFound: failure if value is matched
+              ##   locations: 
+              ##      - type: css, dom
+              ##        value: value to check
+              ##############
+            - type: "element_match"
+              match: "test"
+              isRegex: false
+              failIfFound: false
+              locators:
+              - type: "css"
+                value: "#test"
+          - type: "click"
+            description: "click on about"
+            waitFor: "none"
+            locator:
+            - type: "css"
+              value: "body > div.L3eUgb > div.o3j99.n1xJcf.Ne6nSd > a:nth-child(2)"
+            validate:
+          - type: "tap"
+            description: "tap on about"
+            waitFor: "none"
+            locator:
+            - type: "css"
+              value: "body > div.L3eUgb > div.o3j99.n1xJcf.Ne6nSd > a:nth-child(2)"
+            validate:
+          - type: "javascript"
+            description: "javascript test"
+            waitFor: "none"
+            javascript: "api.log('test');"
+            validate:
+          - type: "cookie"
+            description: "javascript test"
+            waitFor: "none"
+            validate:
+            cookie:
+            - list:
+              - name: "test"
+              - value: "test"
+              - domain: "test.com"
+              - path: "/test"
+            - list:
+              - name: "test1"
+              - value: "test1"
+              - domain: "test.com"
+              - path: "/test"
+          - type: "selectOption"
+            description: "selectOption test"
+            waitFor: "none"
+            validate:
+            locator:
+            - type: "css"
+              value: "body > div.L3eUgb > div.o3j99.n1xJcf.Ne6nSd > a:nth-child(2)"
+            select:
+            - index: 0
+              value: "test1"
+            - index: 1
+              value: "test2"
+        locations:
+          ###################
+          ## locations - locations
+          ## list of geolocation ids
+          ##############
+          type: list
+          values:
+          - "GEOLOCATION-0DF9A0E1095A5A62"
+        loadActionKpm: "VISUALLY_COMPLETE"
+          ##############
+          ## loadActionKpm - loadActionKpm
+          ## "VISUALLY_COMPLETE", "DOM_INTERACTIVE", "HTML_DOWNLOADED", "LARGEST_CONTENTFUL_PAINT",
+          ## "LOAD_EVENT_END", "LOAD_EVENT_START", "SPEED_INDEX", "TIME_TO_FIRST_BYTE", "USER_ACTION_DURATION"
+          ##############
+        xhrActionKpm: "VISUALLY_COMPLETE"
+          ##############
+          ## xhrActionKpm - xhrActionKpm
+          ## "VISUALLY_COMPLETE", "TIME_TO_FIRST_BYTE", "USER_ACTION_DURATION", "RESPONSE_END"
+          ##############

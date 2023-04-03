@@ -49,8 +49,9 @@ environmentGroups:
   - name: ENV_NAME
     url:
       value: https://ENV_ID.live.dynatrace.com
-    token:
-      name: API_TOKEN
+    auth:
+      token:
+        name: API_TOKEN
 ```
 
 ## Usage
@@ -98,11 +99,32 @@ monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME
 
 ## Monaco V2 Templates Supported Setting/Configuration Projects
 
+#### mirrored global & local settings/configurations
+
+> settings templates require a switch of the scope to adjust if it's applied globally or locally.
+
 | Name | Type | Description | Group | Monaco Command |
 | ------ | ------ | ------ | ------ | ------ |
-| service | setting | individual services settings | anomalyDetection, generalFailureDetection, httpFailureDetection, keyRequests, mutedRequests | ```monaco deploy manifest.yaml --project service.GROUP -e ENV_NAME```|
-| database | setting | individual database setting | N/A | ```monaco deploy manifest.yaml --project database -e ENV_NAME``` |
-| databaseServiceAnom | global | global database setting | N/A | ```monaco deploy manifest.yaml --project databaseServiceAnom -e ENV_NAME``` |
-| serviceAnom | global | global service setting | N/A | ```monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME``` |
-| kubernetesAnom | global | global k8s setting | cluster, namespace, node, workload, presVolumeClaim | ```monaco deploy manifest.yaml --project kubernetesAnom.GROUP -e ENV_NAME``` |
-| rumAnom | global | global rum setting | app, customApp, customAppCrash, mobile, mobileCrash | ```monaco deploy manifest.yaml --project rumAnom.GROUP -e ENV_NAME``` |
+| databaseServiceAnom | both | database setting | N/A | ```monaco deploy manifest.yaml --project databaseServiceAnom -e ENV_NAME``` |
+| serviceAnom | both | service setting | N/A | ```monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME``` |
+| kubernetesAnom | both | k8s setting | cluster, namespace, node, workload, presVolumeClaim | ```monaco deploy manifest.yaml --project kubernetesAnom.GROUP -e ENV_NAME``` |
+| rumAnom | both | web/mobile/custom setting | app, customApp, customAppCrash, mobile, mobileCrash | ```monaco deploy manifest.yaml --project rumAnom.GROUP -e ENV_NAME``` |
+
+#### strictly global settings/configurations
+
+> templates which can only be applied globally.
+
+| Name | Type | Description | Group | Monaco Command |
+| ------ | ------ | ------ | ------ | ------ |
+| tag | global | auto-tagging | N/A | ```monaco deploy manifest.yaml --project tag -e ENV_NAME``` |
+| managementZone | global | management | N/A | ```monaco deploy manifest.yaml --project managementZone -e ENV_NAME``` |
+
+#### strictly local settings/configurations
+
+> templates which can only be applied locally.
+
+| Name | Type | Description | Group | Monaco Command |
+| ------ | ------ | ------ | ------ | ------ |
+| service | setting | service settings | anomalyDetection, generalFailureDetection, httpFailureDetection, keyRequests, mutedRequests | ```monaco deploy manifest.yaml --project service.GROUP -e ENV_NAME```|
+| browserMonitor | setting | browser monitor settings | singleStep, multiStep | ```monaco deploy manifest.yaml --project browserMonitor.GROUP -e ENV_NAME```|
+| httpMonitor | setting | http monitor settings | singleRequest | ```monaco deploy manifest.yaml --project httpMonitor.GROUP -e ENV_NAME```|

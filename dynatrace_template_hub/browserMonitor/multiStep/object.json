@@ -1,0 +1,201 @@
+{
+    "name": "{{.name}}",
+    "frequencyMin": {{.frequencyMin}},
+    "enabled": {{.enabled}},
+    "type": "BROWSER",
+    "script": {
+      "type": "clickpath",
+      "version": "1.0",
+      "configuration": {
+        "device": {
+          "deviceName": "Desktop",
+          "orientation": "landscape"
+        },
+        "bypassCSP": {{.bypasCSP}},
+        "chromiumStartupFlags": {
+          "disable-web-security": false
+        }
+      },
+      "events": [
+        {{- range $i, $e := .events}}
+          {{- if $i}},{{- end}}
+          {
+            "type": "{{$e.type}}",
+            "description": "{{$e.description}}"
+            {{- if eq $e.type "cookie"}}
+              ,
+              "cookies": [
+                  {{- range $j, $cookie := $e.cookie}}
+                    {{- if $j}},{{- end}}
+                    {
+                      {{- range $k, $list := $cookie.list}}
+                        {{- if $k}},{{- end}}
+                        {{- if (index $list "name")}}
+                          "name": "{{$list.name}}"
+                        {{- end}}
+                        {{- if (index $list "value")}}
+                          "value": "{{$list.value}}"
+                        {{- end}}
+                        {{- if (index $list "domain")}}
+                          "domain": "{{$list.domain}}"
+                        {{- end}}
+                        {{- if (index $list "path")}}
+                          "path": "{{$list.path}}"
+                        {{- end}}
+                      {{- end}}
+                    }
+                  {{- end}}
+              ]
+            {{- else}}
+              {{- if eq $e.type "navigate"}}
+                ,
+                "url": "{{$e.url}}"
+              {{- end}}
+              {{- if eq $e.type "javascript"}}
+                ,
+                "javaScript": "{{$e.javascript}}"
+              {{- end}}
+              {{- if or (eq $e.type "click") (eq $e.type "tap")}}
+                ,
+                "target": {
+                  "locators": [
+                    {{- range $l, $locator := $e.locator }}
+                      {{- if $l}},{{- end}}
+                      {
+                        "type": "{{$locator.type}}",
+                        "value" : "{{$locator.value}}"
+                      }
+                    {{- end}}
+                  ]
+                },
+                "button": 0
+              {{- end}}
+              {{- if eq $e.type "keystroke"}}
+                ,
+                "target": {
+                  "locators": [
+                    {{- range $l, $locator := $e.locator }}
+                      {{- if $l}},{{- end}}
+                      {
+                        "type": "{{$locator.type}}",
+                        "value" : "{{$locator.value}}"
+                      }
+                    {{- end}}
+                  ]
+                },
+                "simulateBlurEvent": {{$e.simBlur}},
+                "textValue": "{{$e.textValue}}",
+                "masked": {{$e.masked}}
+              {{- end}}
+              {{- if eq $e.type "selectOption"}}
+              ,
+              "target": {
+                "locators": [
+                  {{- range $l, $locator := $e.locator }}
+                    {{- if $l}},{{- end}}
+                    {
+                      "type": "{{$locator.type}}",
+                      "value" : "{{$locator.value}}"
+                    }
+                  {{- end}}
+                ]
+              },
+              "selections": [
+                  {{- range $l, $select := $e.select }}
+                    {{- if $l}},{{- end}}
+                    {
+                      "index": "{{$select.index}}",
+                      "value" : "{{$select.value}}"
+                    }
+                  {{- end}}
+                ]
+              {{- end}}
+              {{- if ne $e.waitFor "none"}}
+                ,
+                "wait":{
+                  "waitFor":"{{$e.waitFor}}"
+                  {{- if eq $e.waitFor "time"}}
+                    ,
+                    "milliseconds" : {{$e.timeInMilli}}
+                  {{- end}}
+                  {{- if eq $e.waitFor "validation"}}
+                    ,
+                    "timeoutInMilliseconds": {{$e.timeInMilli}},
+                    "validation": {
+                      "type": "element_match",
+                      "match": "{{$e.match}}",
+                      "failIfFound": {{$e.failIfFound}},
+                      "target": {
+                        "locators": [
+                          {{- range $j, $elem := $e.locators}}
+                            {{- if $j}},{{- end}}
+                            {
+                              "type":"{{$elem.type}}",
+                              "value":"{{$elem.value}}"
+                            }
+                          {{- end}}
+                        ]
+                      }
+                    }
+                  {{- end}}
+                }
+              {{- end}}
+              ,
+              "validate": [
+                {{- range $i, $e := .validate}}
+                  {{- if $i}},{{- end}}
+                  {
+                    "type":"{{$e.type}}",
+                    "match":"{{$e.match}}",
+                    "isRegex":{{$e.isRegex}},
+                    "failIfFound":{{$e.failIfFound}}
+                    {{- if or (eq $e.type "element_match")}}
+                    ,
+                    "target":{
+                      "locators": [
+                        {{- range $j, $elem := $e.locators}}
+                          {{- if $j}},{{- end}}
+                          {
+                            "type":"{{$elem.type}}",
+                            "value":"{{$elem.value}}"
+                          }
+                        {{- end}}
+                      ]
+                    }
+                    {{- end}}
+                  }
+                {{- end}}
+              ]
+              {{- end}}
+          }
+        {{- end}}
+      ]
+    },
+    "locations": {{.locations}},
+    "anomalyDetection": {
+      "outageHandling": {
+        "globalOutage": true,
+        "globalOutagePolicy": {
+          "consecutiveRuns": 1
+        },
+        "localOutage": false,
+        "localOutagePolicy": {
+          "affectedLocations": null,
+          "consecutiveRuns": null
+        },
+        "retryOnError": true
+      },
+      "loadingTimeThresholds": {
+        "enabled": true,
+        "thresholds": []
+      }
+    },
+    "tags": [],
+    "managementZones": [],
+    "automaticallyAssignedApps": [],
+    "manuallyAssignedApps": [],
+    "keyPerformanceMetrics": {
+      "loadActionKpm": "{{.loadActionKpm}}",
+      "xhrActionKpm": "{{.xhrActionKpm}}"
+    }
+  }

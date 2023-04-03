@@ -1,0 +1,57 @@
+{
+    "name": "{{.name}}",
+    "description": "{{.description}}",
+    "rules": [
+        {{- range $i, $e := .rules}}
+            {{- if $i}},{{- end}}
+                {
+                    "enabled": {{$e.enabled}},
+                    "valueFormat": "{{$e.valueForm}}",
+                    "valueNormalization": "{{$e.valueNorm}}",
+                    "type": "{{$e.type}}"
+                    {{- if eq .type "ME" }}
+                        ,
+                        "attributeRule": {
+                        "entityType": "{{$e.entityType}}",
+                        "conditions": [
+                            {{- range $j, $elem := $e.conds}}
+                                {{- if $j}},{{- end}}
+                                {
+                                "key": "{{$elem.key}}",
+                                "operator": "{{$elem.op}}"
+                                {{- if and (ne $elem.op "EXISTS") (ne $elem.op "NOT_EXISTS")}}
+                                    ,
+                                    "stringValue": "{{$elem.value}}",
+                                    "caseSensitive": {{$elem.case}}
+                                {{- end}}
+                                }
+                            {{- end}}
+                        ]
+                        {{- if eq $e.entityType "PROCESS_GROUP"}}
+                            ,
+                            "pgToHostPropagation": {{$e.pgToHostProp}},
+                            "pgToServicePropagation": {{$e.pgToServiceProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "SERVICE"}}
+                            ,
+                            "serviceToHostPropagation": {{$e.serviceToHostProp}},
+                            "serviceToPGPropagation": {{$e.serviceToPGProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "HOST"}}
+                            ,
+                            "hostToPGPropagation": {{$e.hostToPGProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "AZURE"}}
+                            ,
+                            "azureToServicePropagation": {{$e.azureToServiceProp}},
+                            "azureToPGPropagation": {{$e.azureToPGProp}}
+                        {{- end}}
+                        }
+                    {{- else}}
+                    ,
+                    "entitySelector": "{{$e.entitySelector}}"
+                    {{- end}}
+                }
+        {{- end}}
+    ]
+}

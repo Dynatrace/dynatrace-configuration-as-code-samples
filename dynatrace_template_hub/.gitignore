@@ -16,11 +16,12 @@ temp/
 configure/
 global/webMobileMonitor/
 global/synthetic/
-global/anomalyDetection/infraAnom/
-global/anomalyDetection/metricEvent
+anomalyDetection/infraAnom/
+anomalyDetection/metricEvent/
 
 setting/host/
 setting/hostGroup/
 setting/processGroup/
 setting/synthetic/
 setting/web/
+setting/database/

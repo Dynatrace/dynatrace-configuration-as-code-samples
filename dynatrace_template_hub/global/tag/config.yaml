@@ -1,0 +1,78 @@
+configs:
+  - id: autoTag
+    type:
+      settings:
+        schema: builtin:tags.auto-tagging
+        scope: environment
+    config:
+      name: exampleAutoTag
+      template: object.json
+      skip: false
+      parameters:
+        description: "test"
+        ##############
+        ## description - description
+        ## The description of tag.
+        ##############
+        rules:
+          type: value
+          value:
+            - enabled: false
+              valueForm: "{ProcessGroup:DetectedName} ME"
+              ##############
+              ## valueForm - valueFormat
+              ## The placeholder for tag.
+              ##############
+              valueNorm: "Leave text as-is"
+              ##############
+              ## valueNorm - valueNormalization
+              ## "Leave text as-is", "To upper case", "To lower case"
+              ##############
+              type: "ME"
+              #entitySelector: "type(host)"
+              ##############
+              ## type - type
+              ## "ME" - monitored entity
+              ## req: entityType, conds
+              ## "SELECTOR" - entity selector
+              ## req: entitySelector 
+              ##############
+              entityType: "PROCESS_GROUP"
+              ##############
+              ## entityType - entityType
+              ## "PROCESS_GROUP","SERVICE","HOST", etc (check schema)
+              ##############
+              pgToHostProp: false
+              pgToServiceProp: true
+              ##############
+              ## *Prop - propagation rules (applies when entityType = HOST, PROCES_GROUP, or SERVICE)
+              ## "HOST" - host entity
+              ## req: hostToPGProp (boolean)
+              ## "PROCESS_GORUP" - process group entity
+              ## req: pgToHostProp (boolean), pgToServiceProp (boolean)
+              ## "SERVICE" - service entity
+              ## req: serviceToHostProp (boolean), serviceToPGProp (boolean)
+              ## "AZURE" - azure entity
+              ## req: azureToServiceProp (boolean), azureToPGProp (boolean)
+              ##############
+              conds:
+              ##############
+              ## conds - conditions
+              ## Fields:
+              ## - key: Attribute key to filter on. (check schema)
+              ##   op: Operator to apply. (check schema)
+              ##   value: Value to match.
+              ##   case: Test case sensitity. (boolean)
+              ##############
+              - key: "DOCKER_CONTAINER_NAME"
+                op: "CONTAINS"
+                value: "fgfd"
+                case: true
+              - key: DOCKER_FULL_IMAGE_NAME
+                op: "EXISTS"
+            - enabled: false
+              valueForm: "{ProcessGroup:DetectedName} EntitySelector"
+              valueNorm: "Leave text as-is"
+              type: "SELECTOR"
+              entitySelector: "type(PROCESS_GROUP)"
+

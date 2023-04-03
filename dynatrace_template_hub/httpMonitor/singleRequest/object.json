@@ -1,0 +1,55 @@
+{
+    "name": "{{.name}}",
+    "frequencyMin": {{.frequencyMin}},
+    "enabled": {{.enabled}},
+    "type": "HTTP",
+    "script": {
+      "version": "1.0",
+      "requests": [
+        {
+          "description": "request:{{.component}}",
+          "url": "{{.url}}",
+          "method": "{{.method}}",
+          {{- if or (eq .method "POST") (eq .method "PUT")}}
+            "requestBody": "{{.requestBody}}",
+          {{- end}}
+          "validation": {
+            "rules": [
+              {
+                "type": "httpStatusesList",
+                "value": ">=400",
+                "passIfFound": false
+              }
+            ]
+          },
+          "configuration": {
+            "acceptAnyCertificate": {{.acceptAnyCert}},
+            "followRedirects": {{.followRedirect}},
+            "shouldNotPersistSensitiveData": {{.notPresistSensData}}
+          }
+        }
+      ]
+    },
+    "locations": {{.locations}},
+    "anomalyDetection": {
+      "outageHandling": {
+        "globalOutage": true,
+        "globalOutagePolicy": {
+          "consecutiveRuns": 1
+        },
+        "localOutage": false,
+        "localOutagePolicy": {
+          "affectedLocations": null,
+          "consecutiveRuns": null
+        }
+      },
+      "loadingTimeThresholds": {
+        "enabled": true,
+        "thresholds": []
+      }
+    },
+    "tags": [],
+    "managementZones": [],
+    "automaticallyAssignedApps": [],
+    "manuallyAssignedApps": []
+  }

@@ -1,0 +1,84 @@
+{
+    "name": "{{.name}}",
+    "description": "{{.description}}",
+    "rules": [
+        {{- range $i, $e := .rules}}
+            {{- if $i}},{{- end}}
+                {
+                    "enabled": {{$e.enabled}},
+                    "type": "{{$e.type}}"
+                    {{- if eq .type "SELECTOR"}}
+                        ,
+                        "entitySelector": "{{$e.entitySelector}}"
+                    {{- end}}
+                    {{- if eq .type "DIMENSION"}}
+                        ,
+                        "dimensionRule" :{
+                            "appliesTo" : "{{$e.applyTo}}",
+                            "conditions":[
+                                {{- range $j, $elem := $e.dimensionConds}}
+                                    {{- if $j}},{{- end}}
+                                    {
+                                        "conditionType" : "{{$elem.type}}",
+                                        {{- if eq $elem.type "DIMENSION"}}
+                                            "key" : "{{$elem.key}}",
+                                        {{- end}}
+                                        "ruleMatcher": "{{$elem.ruleMatch}}",
+                                        "value": "{{$elem.value}}"
+                                    }
+                                {{- end}}
+                            ]
+                        }
+                    {{- end}}
+                    {{- if eq .type "ME" }}
+                        ,
+                        "attributeRule": {
+                        "entityType": "{{$e.entityType}}",
+                        "conditions": [
+                            {{- range $j, $elem := $e.meConds}}
+                                {{- if $j}},{{- end}}
+                                {
+                                "key": "{{$elem.key}}",
+                                {{- if eq $elem.type "TAG"}}
+                                    "operator": "{{$elem.op}}",
+                                    "tag" : "{{$elem.value}}"
+                                {{- else}}
+                                    "operator": "{{$elem.op}}"
+                                    {{- if and (ne $elem.op "EXISTS") (ne $elem.op "NOT_EXISTS")}}
+                                        ,
+                                        "stringValue": "{{$elem.value}}",
+                                        "caseSensitive": {{$elem.case}}
+                                    {{- end}}
+                                {{- end}}
+                                }
+                            {{- end}}
+                        ]
+                        {{- if eq $e.entityType "PROCESS_GROUP"}}
+                            ,
+                            "pgToHostPropagation": {{$e.pgToHostProp}},
+                            "pgToServicePropagation": {{$e.pgToServiceProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "SERVICE"}}
+                            ,
+                            "serviceToHostPropagation": {{$e.serviceToHostProp}},
+                            "serviceToPGPropagation": {{$e.serviceToPGProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "HOST"}}
+                            ,
+                            "hostToPGPropagation": {{$e.hostToPGProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "AZURE"}}
+                            ,
+                            "azureToServicePropagation": {{$e.azureToServiceProp}},
+                            "azureToPGPropagation": {{$e.azureToPGProp}}
+                        {{- end}}
+                        {{- if eq $e.entityType "CUSTOM_DEVICE_GROUP"}}
+                            ,
+                            "customDeviceGroupToCustomDevicePropagation": {{$e.custDGtoCDProp}}
+                        {{- end}}
+                        }
+                    {{- end}}
+                }
+        {{- end}}
+    ]
+}
