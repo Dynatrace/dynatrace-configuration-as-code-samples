@@ -1,0 +1,66 @@
+{
+    "name": "{{.name}}",
+    "description": "{{.description}}",
+    "identifier": "{{.identifier}}",
+    "supplementaryIdentifiers": [
+        {{- range $i, $e := .suppIds}}
+            {{- if $i}},{{- end}}
+            {
+                "supplementaryIdentifier": "{{$e.suppId}}"
+            }
+        {{- end}}
+    ],
+    "responsibilities": {
+      "development": {{.dev}},
+      "security": {{.sec}},
+      "operations": {{.ops}},
+      "infrastructure": {{.infra}},
+      "lineOfBusiness": {{.lob}}
+    },
+    "contactDetails": [
+    {{- range $i, $e := .contactDetails}}
+        {{- if $i}},{{- end}}
+        {
+            "integrationType": "{{$e.type}}",
+            {{- if eq $e.type "EMAIL" }}
+            "email": "{{$e.email}}"
+            {{- end}}
+            {{- if eq $e.type "SLACK" }}
+            "slackChannel": "{{$e.channel}}",
+            "url": "{{$e.url}}"
+            {{- end}}
+            {{- if eq $e.type "MS_TEAMS" }}
+            "msTeams": "{{$e.team}}",
+            "url": "{{$e.url}}"
+            {{- end}}
+            {{- if eq $e.type "JIRA" }}
+            "jira": {
+                "project": "{{$e.project}}",
+                "defaultAssignee": "{{$e.assignee}}"
+              },
+            "url": "{{$e.url}}"
+            {{- end}}
+        }
+    {{- end}}
+    ],
+    "links": [
+        {{- range $i, $e := .links}}
+            {{- if $i}},{{- end}}
+            {
+                "linkType": "{{$e.type}}",
+                "url": "{{$e.url}}"
+            }
+        {{- end}}
+    ],
+    "additionalInformation": [
+        {{- range $i, $e := .addInfo}}
+            {{- if $i}},{{- end}}
+            {
+                "key": "{{$e.key}}",
+                "value": "{{$e.value}}",
+                "url": "{{$e.url}}"
+            }
+        {{- end}}
+    ],
+    "externalId": "{{.externalId}}"
+  }

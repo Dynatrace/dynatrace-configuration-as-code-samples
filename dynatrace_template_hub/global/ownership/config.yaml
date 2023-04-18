@@ -1,0 +1,78 @@
+configs:
+  - id: ownershipTeams
+    type:
+      settings:
+        schema: builtin:ownership.teams
+        scope: environment
+    config:
+      name: testownershipTeams
+      template: object.json
+      skip: false
+      parameters:
+        description: "test ownerships"
+        ##############
+        ## description - description
+        ## The description of ownership.
+        ##############
+        identifier: "testid"
+        externalId: "externalIdTest"
+        dev: true
+        sec: false
+        ops: true
+        infra: true
+        lob: false
+        contactDetails:
+          ##############
+          ## type - integrationType
+          ## SLACK
+          ##   req: channel, url
+          ## MS_TEAMS
+          ##   req: team, url
+          ## EMAIL
+          ##   req: email
+          ## JIRA
+          ##   req: project, assignee, url
+          ##############
+          type: value
+          value:
+            - type: "SLACK"
+              channel: "testSlackChannel"
+              url: "https://www.testSlackInt.com"
+            - type: "EMAIL"
+              email: "test@gmail.com"
+        suppIds:
+          ##############
+          ## suppId - supplementaryIdentifiers (3 allowed)
+          ##############
+          type: value
+          value:
+          - suppId: "testa"
+          - suppId: "testb"
+          - suppId: "testc"
+        links:
+          ##############
+          ## links - links
+          ## linkType - DASHBOARD, DOCUMENTATION, HEALTH_APP, REPOSITORY, RUNBOOK, URL, WIKI
+          ## url - url
+          ##############
+          type: value
+          value:
+          - type: "URL"
+            url: "https://www.linkResource.com"
+          - type: "DASHBOARD"
+            url: "https://www.linkResource.com"
+        addInfo:
+          ##############
+          ## addInfo - additionalInformation
+          ## key - key
+          ## value - value
+          ## url - url
+          ##############
+          type: value
+          value:
+          - key: "testkey"
+            value: "testvalue"
+            url: "https://www.addInfoTest.com"
+          - key: "testkeytwo"
+            value: "testvaluetwo"
+            url: "https://www.addInfoTest.com"
