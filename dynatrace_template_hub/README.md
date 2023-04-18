@@ -118,6 +118,7 @@ monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME
 | ------ | ------ | ------ | ------ | ------ |
 | tag | global | auto-tagging | N/A | ```monaco deploy manifest.yaml --project tag -e ENV_NAME``` |
 | managementZone | global | management | N/A | ```monaco deploy manifest.yaml --project managementZone -e ENV_NAME``` |
+| ownership | global | ownership teams | N/A | ```monaco deploy manifest.yaml --project ownership -e ENV_NAME``` |
 
 #### strictly local settings/configurations
 

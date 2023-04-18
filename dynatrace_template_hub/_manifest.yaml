@@ -18,6 +18,8 @@ projects:
   path: global/tag
 - name: managementZone
   path: global/managementZone
+- name: ownership
+  path: global/ownership
 
 # strictly local settings/configurations
 - name: service
