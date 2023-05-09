@@ -1,6 +1,6 @@
 > **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
 
-> **_Disclaimer:_** Supported monaco version: rc.8+
+> **_Disclaimer:_** Supported monaco version: 2+
 
 # Dynatrace Template Hub
 
@@ -92,9 +92,44 @@ Replace the parameter values with your own values.
 ```
 > Most Monaco v2 projects contain a "default" parameter. Which returns the setting/configuration back to defaults if set to true.
 
-3. Run the monaco command in the /project directory
+3. Run the monaco command
 ```bash
 monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME
+```
+
+#### Workflow of multiple configurations
+There are several configurations where the id/name should be used as input to another configuration.
+
+> ex: managementZone -> alertingProfile
+
+1. Copy the folders alertingProfile and managementZone, add them to a *new project folder*.
+
+2. Add the *new project folder name* under list of projects in manifest.yaml
+
+```yaml
+  projects:
+  - name: {YOUR PROJECT NAME}
+    type: grouping
+    path: {YOUR PROJECT NAME}/
+```
+
+3. Edit the alertingProfile > config.yaml to make a reference to the id of one of the managementZone configs
+
+```yaml
+    ...
+    parameters:
+      managementZone:
+        type: reference
+        project: managementZone
+        configType: builtin:management-zones
+        configId: {YOUR CONFIG MZ ID}
+        property: id
+    ...
+```
+
+4. Run the monaco command in the /project directory
+```bash
+monaco deploy manifest.yaml --project {YOUR PROJECT NAME} -e ENV_NAME
 ```
 
 ## Monaco V2 Templates Supported Setting/Configuration Projects
@@ -119,6 +154,7 @@ monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME
 | tag | global | auto-tagging | N/A | ```monaco deploy manifest.yaml --project tag -e ENV_NAME``` |
 | managementZone | global | management | N/A | ```monaco deploy manifest.yaml --project managementZone -e ENV_NAME``` |
 | ownership | global | ownership teams | N/A | ```monaco deploy manifest.yaml --project ownership -e ENV_NAME``` |
+| alertingProfile | global | alerting profiles | N/A | ```monaco deploy manifest.yaml --project alertingProfile -e ENV_NAME``` |
 
 #### strictly local settings/configurations
 

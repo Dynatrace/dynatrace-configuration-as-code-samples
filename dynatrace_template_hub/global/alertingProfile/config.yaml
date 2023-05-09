@@ -1,0 +1,99 @@
+configs:
+  - id: alertingProfileId
+    type:
+      settings:
+        schema: builtin:alerting.profile
+        scope: environment
+    config:
+      name: alertingProfileName
+      template: object.json
+      skip: false
+      parameters:
+        managementZone: "-4189653840346202252" 
+        ##########
+        ## Optional reference to existing  managementZone config:
+        ## managementZone:
+        ##  type: reference
+        ##  project: managementZone
+        ##  configType: builtin:management-zones
+        ##  configId: managementZoneId
+        ##  property: id
+        ##########
+        rules:
+          type: value
+          value:
+            - level: "ERRORS"
+              ##############
+              ## level - severityLevel
+              ## "ERRORS", "MONITORING_UNAVAILABLE", "CUSTOM_ALERT", 
+              ## "AVAILABILITY", "RESOURCE_CONTENTION", "PERFORMANCE"
+              ##############
+              min: 5
+              ##############
+              ## min - delayInMinutes
+              ##############
+              tagMode: INCLUDE_ALL
+              ##############
+              ## tagMode - tagFilterIncludeMode
+              ## "NONE", "INCLUDE_ALL", "INCLUDE_ANY"
+              ##############
+              tag:
+              - tagKey: "test:test"
+              - tagKey: "test1:test1"
+              ##############
+              ## tag - tagFilter
+              ## list of tags
+              ##############
+            - level: "MONITORING_UNAVAILABLE"
+              ##############
+              ## level - severityLevel
+              ## "ERRORS", "MONITORING_UNAVAILABLE", "CUSTOM_ALERT", 
+              ## "AVAILABILITY", "RESOURCE_CONTENTION", "PERFORMANCE"
+              ##############
+              min: 5
+              ##############
+              ## min - delayInMinutes
+              ##############
+              tagMode: INCLUDE_ALL
+              ##############
+              ## tagMode - tagFilterIncludeMode
+              ## "NONE", "INCLUDE_ALL", "INCLUDE_ANY"
+              ##############
+              tag:
+              - tagKey: "test:test"
+              - tagKey: "test1:test1"
+              ##############
+              ## tag - tagFilter
+              ## list of tags
+              ##############
+        eventFilters:
+          type: value
+          value:
+          - type: CUSTOM
+            ##############
+            ## type - type
+            ## "CUSTOM"
+            ## req - operator, value, OR title,property,description, negate, enabled, caseSens
+            ##"PREDEFINED"
+            ## req - eventType, negate
+            ##############
+            eventType: "OSI_HIGH_CPU"
+            filters:
+              - title: true
+                value: "test2"
+                operator: "CONTAINS"
+                enabled: true
+                caseSens: false
+                negate: false
+              - property: true
+                items:
+                - key: "test3"
+                  value: "test3"
+                - key: "test4"
+                  value: "test4"
+              - description: true
+                value: "test5"
+                operator: "CONTAINS"
+                enabled: true
+                caseSens: false
+                negate: false

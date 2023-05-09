@@ -20,6 +20,8 @@ projects:
   path: global/managementZone
 - name: ownership
   path: global/ownership
+- name: alertingProfile
+  path: global/alertingProfile
 
 # strictly local settings/configurations
 - name: service

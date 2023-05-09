@@ -1,0 +1,79 @@
+{
+    "name": "{{.name}}",
+    {{- if (index . "managementZone")}}
+        "managementZone": "{{.managementZone}}"
+    {{- else}}
+        "managementZone": null
+    {{- end}}
+    ,
+    "severityRules": [
+        {{- range $i, $e := .rules}}
+            {{- if $i}},{{- end}}
+            {
+                "severityLevel": "{{.level}}",
+                "delayInMinutes": {{.min}},
+                "tagFilterIncludeMode": "{{.tagMode}}"
+                {{- if or (eq .tagMode "INCLUDE_ALL") (eq .tagMode "INCLUDE_ANY")}}
+                ,
+                "tagFilter":[
+                    {{- range $j, $elem := .tag}}
+                        {{- if $j}},{{- end}}
+                        "{{.tagKey}}"
+                    {{- end}}
+                ]
+                {{- end}}
+            }
+        {{- end}}
+    ],
+    "eventFilters": [
+        {{- range $i, $e :=  .eventFilters}}
+            {{- if $i}},{{- end}}
+            {
+                "type":"{{.type}}",
+                {{- if eq .type "PREDEFINED"}}
+                    "predefinedFilter": {
+                        "eventType": "{{.eventType}}",
+                        "negate": {{.negate}}
+                    }
+                {{- else}}
+                    "customFilter": {
+                    {{- range $k, $elems := .filters}}
+                        {{- if $k}},{{- end}}
+                        {{- if (index . "title")}}
+                            "titleFilter": {
+                                "operator": "{{.operator}}",
+                                "value": "{{.value}}",
+                                "negate": {{.negate}},
+                                "enabled": {{.enabled}},
+                                "caseSensitive": {{.caseSens}}
+                            }
+                        {{- end}}
+                        {{- if (index . "description")}}
+                            "descriptionFilter": {
+                                "operator": "{{.operator}}",
+                                "value": "{{.value}}",
+                                "negate": {{.negate}},
+                                "enabled": {{.enabled}},
+                                "caseSensitive": {{.caseSens}}
+                            }
+                        {{- end}}
+                        {{- if (index . "property")}}
+                            "metadataFilter": {
+                                "metadataFilterItems": [
+                                    {{- range $j, $elem := .items}}
+                                        {{- if $j}},{{- end}}
+                                        {
+                                            "metadataKey": "{{ .key }}",
+                                            "metadataValue" : "{{ .value }}"
+                                        }
+                                    {{- end}}
+                                ]
+                            }
+                        {{- end}}
+                    {{- end}}
+                    }
+                {{- end}}
+            }
+        {{- end}}
+    ]
+}
