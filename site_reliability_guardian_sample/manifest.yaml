@@ -17,5 +17,3 @@ environmentGroups:
               name: CLIENT_ID
             clientSecret:
               name: CLIENT_SECRET
-            tokenEndpoint:
-              value: https://sso.dynatrace.com/sso/oauth2/token
