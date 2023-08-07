@@ -1,0 +1,51 @@
+configs:
+- id: easytradeguardian
+  config:
+    name: easytradeguardian
+    parameters:
+      thresholdMemoryWorkingSet:
+        type: value
+        value:
+          target: 20
+          warning: 18
+      thresholdMemoryRequests:
+        type: value
+        value:
+          target: 20
+          warning: 18
+      thresholdAverageCPUUsage:
+        type: value
+        value:
+          target: 0.5
+          warning: 0.4
+      thresholdCPURequests:
+        type: value
+        value:
+          target: 20
+          warning: 18
+    template: guardian.json
+    skip: false
+  type:
+    settings:
+      schema: app:dynatrace.site.reliability.guardian:guardians
+      schemaVersion: 1.0.2
+      scope: environment
+- id: easytradeworkflow
+  config:
+    name: Automated validation
+    parameters:
+      guardianid:
+        configId: easytradeguardian
+        configType: app:dynatrace.site.reliability.guardian:guardians
+        property: id
+        type: reference
+      eventFilters:
+        type: value
+        value:
+          application: easytrade
+          stage: production
+    template: workflow.json
+    skip: false
+  type:
+    automation:
+      resource: workflow

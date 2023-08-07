@@ -1,0 +1,88 @@
+{
+  "description": "",
+  "isPrivate": true,
+  "labels": {},
+  "schemaVersion": 3,
+  "taskDefaults": {},
+  "tasks": {
+    "action_on_failure": {
+      "action": "dynatrace.automations:run-javascript",
+      "conditions": {
+        "custom": "{{`{{`}} result('run_validation').validation_status == \"failure\" {{`}}`}}",
+        "states": {
+          "run_validation": "OK"
+        }
+      },
+      "description": "Build a custom task running js Code",
+      "input": {
+        "script": "// optional import of sdk modules\nimport { execution } from '@dynatrace-sdk/automation-utils';\n\nexport default async function ({ execution_id }) {\n  // your code goes here\n  // e.g. get the current execution\n  const ex = await execution(execution_id);\n  console.log('Automated action after validation failed');\n  \n  return { triggeredBy: ex.trigger };\n}"
+      },
+      "name": "action_on_failure",
+      "position": {
+        "x": 0,
+        "y": 2
+      },
+      "predecessors": [
+        "run_validation"
+      ]
+    },
+    "action_on_pass": {
+      "action": "dynatrace.automations:run-javascript",
+      "conditions": {
+        "custom": "{{`{{`}} result('run_validation').validation_status == \"pass\" {{`}}`}}",
+        "states": {
+          "run_validation": "OK"
+        }
+      },
+      "description": "Build a custom task running js Code",
+      "input": {
+        "script": "// optional import of sdk modules\nimport { execution } from '@dynatrace-sdk/automation-utils';\n\nexport default async function ({ execution_id }) {\n  // your code goes here\n  // e.g. get the current execution\n  const ex = await execution(execution_id);\n  console.log('Automated action after validation passed');\n  \n  return { triggeredBy: ex.trigger };\n}"
+      },
+      "name": "action_on_pass",
+      "position": {
+        "x": -1,
+        "y": 2
+      },
+      "predecessors": [
+        "run_validation"
+      ]
+    },
+    "run_validation": {
+      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
+      "description": "Automation action to start a Site Reliability Guardian validation",
+      "input": {
+        "executionId": "{{`{{`}} execution().id {{`}}`}}",
+        "objectId": "{{.guardianid}}",
+        "timeframeInputType": "timeframeSelector",
+        "timeframeSelector": {
+          "from": "now-30m",
+          "to": "now"
+        }
+      },
+      "name": "run_validation",
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "predecessors": []
+    }
+  },
+  "title": "{{.name}}",
+  "trigger": {
+    "eventTrigger": {
+      "filterQuery": "tag.application == \"{{ .eventFilters.application }}\" and\ntag.stage == \"{{ .eventFilters.stage }}\"",
+      "isActive": true,
+      "triggerConfiguration": {
+        "type": "event",
+        "value": {
+          "eventType": "bizevents",
+          "query": "tag.application == \"{{ .eventFilters.application }}\" and\ntag.stage == \"{{ .eventFilters.stage }}\""
+        }
+      },
+      "uniqueExpression": null
+    }
+  },
+  "triggerType": "Event",
+  "usages": [],
+  "version": 2
+}

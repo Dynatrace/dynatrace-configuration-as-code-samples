@@ -1,0 +1,47 @@
+{
+  "name": "Easy Trade K8s workload",
+  "description": "Safeguard your Kubernetes environment with dedicated resource utilization objectives for a Kubernetes workload (i.e., K8s deployment). The objectives focus on memory and CPU consumption of the workload.",
+  "tags": [
+    "stage:production",
+    "application:easytrade",
+    "deployment:k8s-workload"
+  ],
+  "objectives": [
+    {
+      "name": "Memory working set",
+      "description": "The current working set memory – memory that cannot be reclaimed under pressure – by container. The OOM Killer is invoked if the working set exceeds the limit.",
+      "objectiveType": "DQL",
+      "dqlQuery": "timeseries val = max(dt.kubernetes.workload.memory_working_set), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields max = arrayMax(val)",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .thresholdMemoryWorkingSet.target }},
+      "warning": {{ .thresholdMemoryWorkingSet.warning }}
+    },
+    {
+      "name": "Memory requests",
+      "description": "The requested memory by the sum of the memory requests of all containers in a pod",
+      "objectiveType": "DQL",
+      "dqlQuery": "timeseries val = max(dt.kubernetes.workload.requests_memory), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields max = arrayMax(val)",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .thresholdMemoryRequests.target }},
+      "warning": {{ .thresholdMemoryRequests.warning }}
+    },
+    {
+      "name": "Average CPU usage",
+      "description": "The average CPU consumption – including user usage and system usage – by container.",
+      "objectiveType": "DQL",
+      "dqlQuery": "timeseries val = avg(dt.kubernetes.workload.cpu_usage), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields avg = arrayAvg(val)",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .thresholdAverageCPUUsage.target }},
+      "warning": {{ .thresholdAverageCPUUsage.warning }}
+    },
+    {
+      "name": "CPU requests",
+      "description": "The CPU requests by the sum of the CPU requests of all containers in a pod.",
+      "objectiveType": "DQL",
+      "dqlQuery": "timeseries val = avg(dt.kubernetes.workload.requests_cpu), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields avg = arrayAvg(val)",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .thresholdCPURequests.target }},
+      "warning": {{ .thresholdCPURequests.warning }}
+    }
+  ]
+}
