@@ -6,7 +6,8 @@ This sample provides the configuration for a guardian in the [Site Reliability G
 ## Prerequisites
 
 - Monaco >`v2.6.0`
-- [Install Site Reliability Guardian](https://www.dynatrace.com/support/help/platform-modules/cloud-automation/site-reliability-guardian#install-update-or-uninstall)
+- Dynatrace Platform environment with [Site Reliability Guardian installed](https://www.dynatrace.com/support/help/platform-modules/cloud-automation/site-reliability-guardian#install-update-or-uninstall)
+- OAuth client as described [here](https://www.dynatrace.com/support/help/manage/configuration-as-code/guides/create-oauth-client#create-an-oauth-client), including the additional scope: `app-engine:apps:run`
 
 ## Guardian
 
