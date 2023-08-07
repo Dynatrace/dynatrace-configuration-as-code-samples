@@ -1,0 +1,21 @@
+manifestVersion: 1.0
+projects:
+  - name: srg-config-as-code
+    path: srg-config-as-code
+
+environmentGroups:
+  - name: default
+    environments:
+      - name: DT_ENV_ID
+        url:
+          value: DT_ENV_URL
+        auth:
+          token:
+            name: API_TOKEN
+          oAuth:
+            clientId:
+              name: CLIENT_ID
+            clientSecret:
+              name: CLIENT_SECRET
+            tokenEndpoint:
+              value: https://sso.dynatrace.com/sso/oauth2/token

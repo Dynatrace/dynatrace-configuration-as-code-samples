@@ -5,4 +5,4 @@ request.log
 response.log
 .logs/
 .logs
-manifest.yaml
+// manifest.yaml
