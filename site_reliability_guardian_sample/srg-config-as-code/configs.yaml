@@ -1,0 +1,25 @@
+configs:
+- id: easytradeguardian
+  config:
+    name: easytradeguardian
+    template: guardian.json
+    skip: false
+  type:
+    settings:
+      schema: app:dynatrace.site.reliability.guardian:guardians
+      schemaVersion: 1.0.2
+      scope: environment
+- id: easytradeworkflow
+  config:
+    name: Automated validation
+    parameters:
+      guardianid:
+        configId: easytradeguardian
+        configType: app:dynatrace.site.reliability.guardian:guardians
+        property: id
+        type: reference
+    template: workflow.json
+    skip: false
+  type:
+    automation:
+      resource: workflow
