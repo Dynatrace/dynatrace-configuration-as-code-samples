@@ -39,6 +39,11 @@ configs:
         configType: app:dynatrace.site.reliability.guardian:guardians
         property: id
         type: reference
+      eventFilters:
+        type: value
+        value:
+          application: easytrade
+          stage: production
     template: workflow.json
     skip: false
   type:

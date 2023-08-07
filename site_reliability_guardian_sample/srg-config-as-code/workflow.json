@@ -70,13 +70,13 @@
   "title": "{{.name}}",
   "trigger": {
     "eventTrigger": {
-      "filterQuery": "tag.application == \"easytrade\" and\ntag.stage == \"production\"",
+      "filterQuery": "tag.application == \"{{ .eventFilters.application }}\" and\ntag.stage == \"{{ .eventFilters.stage }}\"",
       "isActive": true,
       "triggerConfiguration": {
         "type": "event",
         "value": {
           "eventType": "bizevents",
-          "query": "tag.application == \"easytrade\" and\ntag.stage == \"production\""
+          "query": "tag.application == \"{{ .eventFilters.application }}\" and\ntag.stage == \"{{ .eventFilters.stage }}\""
         }
       },
       "uniqueExpression": null
