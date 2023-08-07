@@ -1,4 +1,8 @@
 
+# Site Reliability Guardian
+
+This sample provides the configuration for a guardian in the [Site Reliability Guardian](https://www.dynatrace.com/support/help/platform-modules/cloud-automation/site-reliability-guardian) and an automation workflow leveraging [Workflows](https://www.dynatrace.com/support/help/platform-modules/cloud-automation/workflows).
+
 ## Prerequisites
 
 - Monaco >`v2.6.0`
