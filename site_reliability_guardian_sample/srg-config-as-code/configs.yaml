@@ -2,6 +2,27 @@ configs:
 - id: easytradeguardian
   config:
     name: easytradeguardian
+    parameters:
+      thresholdMemoryWorkingSet:
+        type: value
+        value:
+          target: 20
+          warning: 18
+      thresholdMemoryRequests:
+        type: value
+        value:
+          target: 20
+          warning: 18
+      thresholdAverageCPUUsage:
+        type: value
+        value:
+          target: 0.5
+          warning: 0.4
+      thresholdCPURequests:
+        type: value
+        value:
+          target: 20
+          warning: 18
     template: guardian.json
     skip: false
   type:

@@ -13,8 +13,8 @@
       "objectiveType": "DQL",
       "dqlQuery": "timeseries val = max(dt.kubernetes.workload.memory_working_set), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields max = arrayMax(val)",
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
-      "target": 20.0,
-      "warning": 18.0
+      "target": {{ .thresholdMemoryWorkingSet.target }},
+      "warning": {{ .thresholdMemoryWorkingSet.warning }}
     },
     {
       "name": "Memory requests",
@@ -22,8 +22,8 @@
       "objectiveType": "DQL",
       "dqlQuery": "timeseries val = max(dt.kubernetes.workload.requests_memory), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields max = arrayMax(val)",
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
-      "target": 20.0,
-      "warning": 18.0
+      "target": {{ .thresholdMemoryRequests.target }},
+      "warning": {{ .thresholdMemoryRequests.warning }}
     },
     {
       "name": "Average CPU usage",
@@ -31,8 +31,8 @@
       "objectiveType": "DQL",
       "dqlQuery": "timeseries val = avg(dt.kubernetes.workload.cpu_usage), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields avg = arrayAvg(val)",
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
-      "target": 0.5,
-      "warning": 0.4
+      "target": {{ .thresholdAverageCPUUsage.target }},
+      "warning": {{ .thresholdAverageCPUUsage.warning }}
     },
     {
       "name": "CPU requests",
@@ -40,8 +40,8 @@
       "objectiveType": "DQL",
       "dqlQuery": "timeseries val = avg(dt.kubernetes.workload.requests_cpu), filter: in(dt.entity.cloud_application, \"CLOUD_APPLICATION-PLACEHOLDER\")\n| fields avg = arrayAvg(val)",
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
-      "target": 20.0,
-      "warning": 18.0
+      "target": {{ .thresholdCPURequests.target }},
+      "warning": {{ .thresholdCPURequests.warning }}
     }
   ]
 }
