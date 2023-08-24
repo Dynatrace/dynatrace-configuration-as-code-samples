@@ -1,0 +1,14 @@
+   manifestVersion: 1.0
+   projects:
+     - name: auto-tag
+       path: project-example
+
+   environmentGroups:
+     - name: development
+       environments:
+         - name: development-environment
+           url:
+             value: "https://<your-dynatrace-environment>.live.dynatrace.com"
+           auth:
+             token:
+               name: "devToken"

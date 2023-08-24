@@ -1,0 +1,4 @@
+delete:
+  - project: "auto-tag"
+    type: auto-tag
+    name: "DTServer"
