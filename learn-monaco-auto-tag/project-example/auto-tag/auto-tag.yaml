@@ -1,0 +1,9 @@
+configs:
+  - id: application-tagging
+    type:
+      settings:
+        schema: builtin:tags.auto-tagging
+        scope: environment
+    config:
+      template: "auto-tag.json"
+      name: "DTServer"
