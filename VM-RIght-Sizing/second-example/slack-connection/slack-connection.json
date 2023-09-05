@@ -1,0 +1,4 @@
+{
+        "name": "Slack Sandbox ",
+        "token": "{{ .slackToken }}"
+}

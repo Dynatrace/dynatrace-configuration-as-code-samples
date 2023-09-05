@@ -1,0 +1,62 @@
+configs:
+- id: my.workflow
+  config:
+    name: my.workflow
+    template: calculate-ticket.json
+    parameters:
+      jiraProject:
+        type: environment
+        name: JIRA_PROJECT
+      slackChannel:
+        type: environment
+        name: SLACK_CHANNEL
+      jiraIssueType:
+        type: environment
+        name: JIRA_ISSUE_TYPE
+      jiraTicketReporter:
+        type: environment
+        name: JIRA_TICKET_REPORTER
+      jiraTransitionStatus:
+        type: environment
+        name: JIRA_TRANSITION_STATUS
+      slack_Connection:
+        type: reference
+        project: slack-connection
+        configId: my.slack.connection
+        configType: app:dynatrace.slack:connection
+        property: id
+      jira_Connection:
+        type: reference
+        project: jira-connection
+        configId: my.jira.connection
+        configType: app:dynatrace.jira:connection
+        property: id
+    skip: false
+  type:
+    automation:
+      resource: workflow
+- id: my.workflow.event
+  config:
+    name: my.workflow.event
+    template: event-trigger.json
+    parameters:
+      azureTenantId:
+        type: environment
+        name: AZURE_TENANT_ID
+      bearerClientId:
+        type: environment
+        name: BEARER_CLIENT_ID
+      bearerScope:
+        type: environment
+        name: BEARER_SCOPE
+      bearerClientSecret:
+        type: environment
+        name: BEARER_CLIENT_SECRET
+      order:
+          configId: my.workflow
+          property: id
+          type: reference
+    skip: false
+  type:
+    automation:
+      resource: workflow

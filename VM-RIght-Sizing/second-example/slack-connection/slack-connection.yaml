@@ -1,0 +1,21 @@
+configs:
+- id: my.slack.connection
+  config:
+    name: my.slack.connection
+    template: slack-connection.json
+    parameters:
+      slackToken:
+        type: environment
+        name: SLACK_BOT_TOKEN
+      jira_Connection:
+        type: reference
+        project: jira-connection
+        configId: my.jira.connection
+        configType: app:dynatrace.jira:connection
+        property: id
+    skip: false
+  type:
+    settings:
+      schema: "app:dynatrace.slack:connection"
+      schemaVersion: 0.0.11
+      scope: environment

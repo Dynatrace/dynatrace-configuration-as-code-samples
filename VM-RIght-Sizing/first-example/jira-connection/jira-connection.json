@@ -1,0 +1,7 @@
+{
+        "name": "Connection wf_host_resize Jira",
+        "url": "{{ .jiraUrl }}",
+        "type": "cloud-token",
+        "user": "{{ .userEmail }}",
+        "token": "{{ .jiraToken }}"
+}
