@@ -18,9 +18,9 @@ After your Monaco setup is done and you have some practice, feel free to deploy 
 To deploy it, please follow the steps below:
 
     1. Fill out the input-needed.sh as well as the environment url in the manifest.yaml file.   
-    1. Run the script to record the values
-    1. Run the monaco project
-    1. Go to Settings>Dynatrace Apps>Slack/Jira to check your Slack and Jira connections and go to the new Workflows apps to check your 2 newly created workflows. 
+    2. Run the script to record the values
+    3. Run the monaco project
+    4. Go to Settings>Dynatrace Apps>Slack/Jira to check your Slack and Jira connections and go to the new Workflows apps to check your 2 newly created workflows. 
 
 In case you need to delete the configuration, feel free to run the monaco delete command with the delete.yaml.
 
