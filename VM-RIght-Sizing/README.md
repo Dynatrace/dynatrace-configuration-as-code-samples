@@ -1,12 +1,12 @@
-#Dynatrace VM Right-Sizing Example
+# Dynatrace VM Right-Sizing Example
 
 This repository will help you deploy a configuration that will right-size your infrastructure using Dynatrace Automation Workflows. All configuration is deployed automatically using Dynatrace Configuration as Code solution Monaco.
 
-##Description 
+## Description 
 
 The example will help you detect improperly sized hosts, trigger an approval workflow in external tools such as Jira, ServiceNow ... and then react to that approval with a workflow to right-size the environment based on metadata stored in tags by calling the respective infrastructure automation APIs such as Azure, GCP, AWS, Kubernetes, OpenShift, VMWare, Ansible.
 
-##Getting started with VM-Right-Sizing
+## Getting started with VM-Right-Sizing
 
 To get started with Dynatrace Configuration as Code please see [the documentation](https://www.dynatrace.com/support/help/setup-and-configuration/monitoring-as-code).
 
