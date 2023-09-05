@@ -1,0 +1,13 @@
+delete:
+- project: jira-connection
+  type: app:dynatrace.jira:connection
+  id: my.jira.connection
+- project: slack-connection
+  type: app:dynatrace.slack:connection
+  id: my.slack.connection
+- project: workflow-calculate-ticket
+  type: workflow
+  id: my.workflow
+- project: workflow-calculate-ticket
+  type: workflow
+  id: my.workflow.event

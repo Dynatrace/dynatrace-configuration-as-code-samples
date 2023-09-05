@@ -1,0 +1,130 @@
+{
+    "title": "Host Resize - Calculate & Ticket",
+    "description": "",
+    "tasks": {
+      "get_cpu": {
+        "name": "get_cpu",
+        "description": "Identify hosts for right-sizing.",
+        "action": "dynatrace.automations:execute-dql-query",
+        "input": {
+          "query": "timeseries CPU = avg(dt.host.cpu.usage), from:now()-30d, to:now(), interval:30d, by:{dt.entity.host}\n| lookup sourceField:dt.entity.host, lookupField:id, [fetch dt.entity.host]\n| filter isNotNull(lookup.azureEnvironment)\n| filter CPU[1]>90 OR CPU[1]<15\n| fields Host = dt.entity.host,CPU=CPU[1]"
+        },
+        "position": {
+          "x": 0,
+          "y": 1
+        },
+        "predecessors": []
+      },
+      "notify_team": {
+        "name": "notify_team",
+        "description": "Notify team about new tickets.",
+        "action": "dynatrace.slack:slack-send-message",
+        "input": {
+          "channel": "{{ .slackChannel }}",
+          "message": "A new JIRA ticket with ID: {{ `{{` }} _.issue.id }} has been created.\n{{ `{{` }} _.issue.url }}",
+          "reaction": [],
+          "connection": "{{ .slack_Connection }}",
+          "workflowID": "{{ `{{` }} execution().workflow.id }}",
+          "executionID": "{{ `{{` }} execution().id }}",
+          "executionDate": "{{ `{{` }} execution().started_at }}",
+          "channelType": "id",
+          "appendToThread": false,
+          "selectedRequestType": 0,
+          "attachmentToggleValue": "none"
+        },
+        "position": {
+          "x": 0,
+          "y": 4
+        },
+        "predecessors": [
+          "move_to_pending"
+        ],
+        "conditions": {
+          "states": {
+            "move_to_pending": "OK"
+          }
+        },
+        "retry": {
+          "count": 2,
+          "delay": 10,
+          "failedLoopIterationsOnly": true
+        },
+        "concurrency": 1,
+        "withItems": "issue in {{ `{{` }}result(\"create_issue\")}}"
+      },
+      "create_issue": {
+        "name": "create_issue",
+        "description": "Open a ticket in JIRA for each host.",
+        "action": "dynatrace.jira:jira-create-issue",
+        "input": {
+          "labels": [],
+          "project": {
+            "id": "{{ .jiraProject }}"
+          },
+          "summary": "Hosts with possible upsize/downsize",
+          "assignee": null,
+          "priority": null,
+          "reporter": {
+            "id": "{{ .jiraTicketReporter }}"
+          },
+          "issueType": {
+            "id": "{{ .jiraIssueType }}"
+          },
+          "components": [],
+          "description": "{{ `{{` }} _.host.Host }} has a CPU of {{ `{{` }} _.host.CPU }}",
+          "connectionId": "{{ .jira_Connection }}",
+          "fieldSetters": []
+        },
+        "position": {
+          "x": 0,
+          "y": 2
+        },
+        "predecessors": [
+          "get_cpu"
+        ],
+        "conditions": {
+          "states": {
+            "get_cpu": "OK"
+          }
+        },
+        "concurrency": 1,
+        "withItems": "host in {{ `{{` }} result('get_cpu').records }}"
+      },
+      "move_to_pending": {
+        "name": "move_to_pending",
+        "description": "Transition the issue to 'pending'",
+        "action": "dynatrace.jira:jira-transition-issue",
+        "input": {
+          "issue": "{{ `{{` }} _.issue.id }}",
+          "comment": "DT Workflow moving to pending",
+          "project": "{{ .jiraProject }}",
+          "issueType": "{{ .jiraIssueType }}",
+          "connectionId": "{{ .jira_Connection }}",
+          "fieldSetters": [],
+          "targetStatus": "{{ .jiraTransitionStatus }}"
+        },
+        "position": {
+          "x": 0,
+          "y": 3
+        },
+        "predecessors": [
+          "create_issue"
+        ],
+        "conditions": {
+          "states": {
+            "create_issue": "OK"
+          },
+          "custom": ""
+        },
+        "retry": {
+          "count": 2,
+          "delay": 5,
+          "failedLoopIterationsOnly": true
+        },
+        "concurrency": 1,
+        "withItems": "issue in {{ `{{` }}result(\"create_issue\")}}"
+      }
+    },
+    "isPrivate": false,
+    "schemaVersion": 3
+  }

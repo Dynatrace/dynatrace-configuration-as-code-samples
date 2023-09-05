@@ -1,0 +1,29 @@
+manifestVersion: 1.0
+projects:
+  - name: jira-connection
+    path: first-example
+  - name: slack-connection
+    path: second-example
+  - name: workflow-calculate-ticket
+    path: third-example
+
+environmentGroups:
+  - name: production
+    environments:
+      - name: production-environment
+        url:
+          value: "" # Enter environment ID e.g. https://<tenantId>.apps.dynatrace.com/
+        auth:
+          token:
+            type: environment
+            name: DT_API_TOKEN
+          oAuth:
+            clientId:
+              type: environment
+              name: DT_OAUTH_CLIENT_ID
+            clientSecret:
+              type: environment
+              name: DT_OAUTH_CLIENT_SECRET
+            tokenEndpoint:
+              type: environment
+              value: DT_OAUTH_SSO_ENDPOINT

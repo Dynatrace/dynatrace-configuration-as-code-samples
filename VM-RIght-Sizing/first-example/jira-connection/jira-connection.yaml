@@ -1,0 +1,21 @@
+configs:
+- id: my.jira.connection
+  config:
+    name: my.jira.connection
+    template: jira-connection.json
+    parameters:
+      jiraUrl:
+        type: environment
+        name: JIRA_URL
+      userEmail:
+        type: environment
+        name: USER_EMAIL
+      jiraToken:
+        type: environment
+        name: JIRA_TOKEN
+    skip: false
+  type:
+    settings:
+      schema: "app:dynatrace.jira:connection"
+      schemaVersion: 0.0.9
+      scope: environment

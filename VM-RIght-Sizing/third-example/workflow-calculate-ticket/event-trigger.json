@@ -1,0 +1,169 @@
+{
+    "title": "Host Resize - Event Triggered",
+    "description": "",
+    "tasks": {
+      "upsize": {
+        "name": "upsize",
+        "description": "Upsize host",
+        "action": "dynatrace.automations:http-function",
+        "input": {
+          "url": "https://management.azure.com/subscriptions/{{ `{{` }}result(\"host_for_resizing\").records[0].AzureSubID }}/resourceGroups/{{ `{{` }}result(\"host_for_resizing\").records[0].AzureGroup }}/providers/Microsoft.Compute/virtualMachines/{{ `{{` }}result(\"host_for_resizing\").records[0].AzureName }}?api-version=2023-03-01",
+          "method": "PUT",
+          "headers": {
+            "Authorization": "Bearer {{ `{{` }} result(\"obtain_bearer_token\").json.access_token }}"
+          },
+          "payload": "{\n    \"properties\": {\n        \"hardwareProfile\": {\n            \"vmSize\": \"{{ `{{` }}result(\"host_for_resizing\").records[0].AzureUp }}\"\n        }\n    },\n    \"location\": \"West Europe\"\n}"
+        },
+        "position": {
+          "x": 1,
+          "y": 3
+        },
+        "predecessors": [
+          "obtain_bearer_token"
+        ],
+        "conditions": {
+          "states": {
+            "obtain_bearer_token": "OK"
+          },
+          "custom": "{{ `{{` }}result(\"host_for_resizing\").records[0].Cpu > 90 }}"
+        }
+      },
+      "downsize": {
+        "name": "downsize",
+        "description": "Downsize host",
+        "action": "dynatrace.automations:http-function",
+        "input": {
+          "url": "https://management.azure.com/subscriptions/{{ `{{` }}result(\"host_for_resizing\").records[0].AzureSubID }}/resourceGroups/{{ `{{` }}result(\"host_for_resizing\").records[0].AzureGroup }}/providers/Microsoft.Compute/virtualMachines/{{ `{{` }}result(\"host_for_resizing\").records[0].AzureName }}?api-version=2023-03-01",
+          "method": "PUT",
+          "headers": {
+            "Authorization": "Bearer {{ `{{` }} result(\"obtain_bearer_token\").json.access_token }}"
+          },
+          "payload": "{\n    \"properties\": {\n        \"hardwareProfile\": {\n            \"vmSize\": \"{{ `{{` }}result(\"host_for_resizing\").records[0].AzureDown }}\"\n        }\n    },\n    \"location\": \"West Europe\"\n}"
+        },
+        "position": {
+          "x": -1,
+          "y": 3
+        },
+        "predecessors": [
+          "obtain_bearer_token"
+        ],
+        "conditions": {
+          "states": {
+            "obtain_bearer_token": "OK"
+          },
+          "custom": "{{ `{{` }}result(\"host_for_resizing\").records[0].Cpu <15 }}"
+        }
+      },
+      "host_for_resizing": {
+        "name": "host_for_resizing",
+        "description": "Parse event trigger for details of host to rightsize",
+        "action": "dynatrace.automations:execute-dql-query",
+        "input": {
+          "query": "data record(description=\"{{ `{{` }} event()['issuedescription'] }}\")\n| parse description, \"LD:Host SPACE LD DOUBLE:Cpu\"\n| lookup sourceField:Host, lookupField:id, prefix:\"Azure\", [\nfetch dt.entity.host | fieldsAdd Group=azureResourceGroupName, T=toString(tags)\n]\n| parse AzureT, \"LD 'AzureSubscriptionID:'LD:AzureSubID'\\\"'\"\n| parse AzureT, \"LD 'AzureDownsize:'LD:AzureDown'\\\"'\"\n| parse AzureT, \"LD 'AzureUpsize:'LD:AzureUp'\\\"'\"\n| parse Azureentity.name, \"LD:AzureName'.'\"\n| fieldsKeep Cpu,AzureGroup, AzureSubID, AzureDown, AzureUp, AzureName"
+        },
+        "position": {
+          "x": 0,
+          "y": 1
+        },
+        "predecessors": [],
+        "conditions": {
+          "states": {},
+          "custom": ""
+        }
+      },
+      "obtain_bearer_token": {
+        "name": "obtain_bearer_token",
+        "description": "Request bearer token from Azure",
+        "action": "dynatrace.automations:http-function",
+        "input": {
+          "url": "https://login.microsoftonline.com/{{ .azureTenantId }}/oauth2/v2.0/token",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          "payload": "client_id={{ .bearerClientId }}&scope={{ .bearerScope }}&client_secret={{ .bearerClientSecret }}&grant_type=client_credentials"
+        },
+        "position": {
+          "x": 0,
+          "y": 2
+        },
+        "predecessors": [
+          "host_for_resizing"
+        ],
+        "conditions": {
+          "states": {
+            "host_for_resizing": "OK"
+          }
+        }
+      },
+      "upsize_close_ticket": {
+        "name": "upsize_close_ticket",
+        "description": "Close ticket as work completed",
+        "action": "dynatrace.jira:jira-transition-issue",
+        "input": {
+          "issue": "{{ `{{` }} event()[\"issueid\"] }}",
+          "comment": "Dt moving to done",
+          "project": "{{ .jiraProject }}",
+          "issueType": "{{ .jiraIssueType }}",
+          "connectionId": "{{ .jira_Connection }}",
+          "fieldSetters": [],
+          "targetStatus": "{{ .jiraTransitionStatus }}"
+        },
+        "position": {
+          "x": 1,
+          "y": 4
+        },
+        "predecessors": [
+          "upsize"
+        ],
+        "conditions": {
+          "states": {
+            "upsize": "OK"
+          }
+        }
+      },
+      "downsize_close_ticket": {
+        "name": "downsize_close_ticket",
+        "description": "Close ticket as work completed",
+        "action": "dynatrace.jira:jira-transition-issue",
+        "input": {
+          "issue": "{{ `{{` }} event()[\"issueid\"] }}",
+          "comment": "DT moving to done",
+          "project": "{{ .jiraProject }}",
+          "issueType": "{{ .jiraIssueType }}",
+          "connectionId": "{{ .jira_Connection }}",
+          "fieldSetters": [],
+          "targetStatus": "{{ .jiraTransitionStatus }}"
+        },
+        "position": {
+          "x": -1,
+          "y": 4
+        },
+        "predecessors": [
+          "downsize"
+        ],
+        "conditions": {
+          "states": {
+            "downsize": "OK"
+          }
+        }
+      }
+    },
+    "ownerType": "USER",
+    "isPrivate": false,
+    "trigger": {
+      "eventTrigger": {
+        "filterQuery": "matchesPhrase(event.name, \"Jira approval granted\")",
+        "isActive": true,
+        "uniqueExpression": null,
+        "triggerConfiguration": {
+          "type": "event",
+          "value": {
+            "query": "matchesPhrase(event.name, \"Jira approval granted\")",
+            "eventType": "events"
+          }
+        }
+      }
+    },
+    "schemaVersion": 3
+  }
