@@ -25,6 +25,3 @@ environmentGroups:
             clientSecret:
               type: environment
               name: DT_OAUTH_CLIENT_SECRET
-            tokenEndpoint:
-              type: environment
-              value: DT_OAUTH_SSO_ENDPOINT
