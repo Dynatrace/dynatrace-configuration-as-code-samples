@@ -1,5 +1,4 @@
 #!/bin/sh 
-#  ^^ - change to SH if needed
 
 #Customer inputs - Jira and Slack app connections
 export JIRA_URL=""                      # Jira Connection url e.g. https://<url>.atlassian.net
