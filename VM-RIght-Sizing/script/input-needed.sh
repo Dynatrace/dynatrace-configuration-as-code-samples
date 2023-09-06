@@ -1,4 +1,4 @@
-#!/bin/zsh 
+#!/bin/sh 
 #  ^^ - change to SH if needed
 
 #Customer inputs - Jira and Slack app connections
