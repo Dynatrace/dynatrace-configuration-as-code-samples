@@ -19,6 +19,7 @@ export BEARER_SCOPE=""                  # Payload for bearer token - scope e.g. 
 export BEARER_CLIENT_SECRET=""          # Payload for bearer token - client secret
 
 #Dynatrace variables needed
+export DT_URL=""                        # Add your Dynatrace Tenant URL - e.g. https://<tenantId>.apps.dynatrace.com/
 export DT_API_TOKEN=""                  # Dynatrace API token - Check prerequisite here (https://www.dynatrace.com/support/help/shortlink/configuration-as-code-manage-configuration#prerequisites) to see which scopes are required
 export DT_OAUTH_CLIENT_ID=""            # Check "Create OAuth token" page to do this - https://www.dynatrace.com/support/help/manage/configuration-as-code/guides/create-oauth-client 
 export DT_OAUTH_CLIENT_SECRET=""        # Same as above
@@ -34,6 +35,7 @@ echo "$JIRA_ISSUE_TYPE"
 echo "$JIRA_TICKET_REPORTER"
 echo "$JIRA_TRANSITION_STATUS"
 echo "$AZURE_TENANT_ID"
+echo "$DT_URL"
 echo "$DT_API_TOKEN"
 echo "$DT_OAUTH_CLIENT_ID"
 echo "$DT_OAUTH_CLIENT_SECRET"
