@@ -12,7 +12,8 @@ environmentGroups:
     environments:
       - name: production-environment
         url:
-          value: "" # Enter environment ID e.g. https://<tenantId>.apps.dynatrace.com/
+          type: environment
+          value: DT_URL
         auth:
           token:
             type: environment
