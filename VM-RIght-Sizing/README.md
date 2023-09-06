@@ -10,15 +10,14 @@ Monaco will deploy 4 different configurations - Slack for Workflows, Jira for Wo
 
 Here's a breakdown of what each workflow will do:
 
-    1. **Host Resize - Calculate & Ticket** will use DQL to query the current CPU usage for hosts that belong to an Azure environment. It will also use a filter that will only take hosts that are either using above 90% or below 15% of CPU at any given time. 
-    2. Workflow will open a Jira ticket(**using Jira for workflows**) with hosts that need to be resized.
+    1. Host Resize - Calculate & Ticket will use DQL to query the current CPU usage for hosts that belong to an Azure environment. It will also use a filter that will only take hosts that are either using above 90% or below 15% of CPU at any given time. 
+    2. Workflow will open a Jira ticket(using Jira for workflows) with hosts that need to be resized.
     3. Workflow will move the ticket to pending automatically so it can be worked at.
     4. Workflow will send a notification to a slack channel(using Slack for workflows).
     5. In the Jira project, you need to go and define an automation that will react to the ticket that got moved to pending and send a POST event back to Dynatrace.
-       - First automation - Auto approve pending - When issue transitioned from **Open** to **Pending** > **Approve** it. (Skip if there's a team who does this manually)
+       - First automation - Auto approve pending - When issue transitioned from Open to Pending > Approve it. (Skip if there's a team who does this manually)
        - Second automation - Post event for approval - When approved by previous automation(or team) > Send web request (URL - e.g. https://<tenantId>.apps.dynatrace.com/api/v2/events/ingest)
         Payload:
-        ```
                     {
                 "eventType": "CUSTOM_INFO",
                 "title": "Jira approval granted: {{issue.key}}",
@@ -29,8 +28,7 @@ Here's a breakdown of what each workflow will do:
                    "issuedescription": "{{issue.description.replaceAll("(\n)",",")}}"
                       }
                     }
-        ```
-    6. **Host Resize - Event Triggered** will react to the event that Jira automation sent and use DQL to query, extract certain information, and make a decision which hosts need to be resied.
+    6. Host Resize - Event Triggered will react to the event that Jira automation sent and use DQL to query, extract certain information, and make a decision which hosts need to be resied.
     7. Workflow will obtain a bearer token.
     8. Workflow will upsize/downize a Host based on certain conditions from previous steps.
     9. Workflow will close the Jira ticket.
