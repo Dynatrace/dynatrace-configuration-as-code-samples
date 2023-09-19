@@ -52,6 +52,24 @@ configs:
       bearerClientSecret:
         type: environment
         name: BEARER_CLIENT_SECRET
+      jiraProject:
+        type: environment
+        name: JIRA_PROJECT
+      jiraIssueType:
+        type: environment
+        name: JIRA_ISSUE_TYPE
+      jiraTicketReporter:
+        type: environment
+        name: JIRA_TICKET_REPORTER
+      jiraTransitionStatus:
+        type: environment
+        name: JIRA_TRANSITION_STATUS
+      jira_Connection:
+        type: reference
+        project: jira-connection
+        configId: my.jira.connection
+        configType: app:dynatrace.jira:connection
+        property: id
       order:
           configId: my.workflow
           property: id
