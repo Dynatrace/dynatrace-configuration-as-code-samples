@@ -64,6 +64,9 @@ configs:
       jiraTransitionStatus:
         type: environment
         name: JIRA_TRANSITION_STATUS
+      jiraCloseTicket:
+        type: environment
+        name: JIRA_CLOSE_TICKET
       jira_Connection:
         type: reference
         project: jira-connection
