@@ -11,7 +11,8 @@ export SLACK_CHANNEL=""                 # ID of the Slack channel notifications 
 export JIRA_PROJECT=""                  # Jira Project ID
 export JIRA_ISSUE_TYPE="" -             # Jira issue type in an ID format
 export JIRA_TICKET_REPORTER=""          # Jira ticket reporter in an ID format
-export JIRA_TRANSITION_STATUS=""        # Jira transition status in an ID format
+export JIRA_TRANSITION_STATUS=""        # Jira transition status for "pending" in an ID format
+export JIRA_CLOSE_TICKET=""             # Jira transition status for "done" in an ID format
 export AZURE_TENANT_ID="" 
 export BEARER_CLIENT_ID=""              # Payload for bearer token - client ID
 export BEARER_SCOPE=""                  # Payload for bearer token - scope e.g. https%3A%2F%2Fmanagement.azure.com%2F.default
@@ -32,6 +33,7 @@ echo "$JIRA_PROJECT"
 echo "$JIRA_ISSUE_TYPE"
 echo "$JIRA_TICKET_REPORTER"
 echo "$JIRA_TRANSITION_STATUS"
+echo "$JIRA_CLOSE_TICKET"
 echo "$AZURE_TENANT_ID"
 echo "$DT_URL"
 echo "$DT_API_TOKEN"
