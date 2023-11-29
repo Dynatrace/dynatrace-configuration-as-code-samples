@@ -5,6 +5,7 @@
   "variables":[{"name":"version","definition":"1.0.0"}],
   "objectives": [
     {
+<<<<<<< HEAD
       "name": "Validate Process memory Usage",
       "description": "Check if process CPU usage is in valid range",
       "objectiveType": "DQL",
@@ -12,6 +13,15 @@
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
       "target": {{ .target_mem_usage }},
       "warning": {{ .warning_mem_usage }}
+=======
+      "name": "Response Time validation ",
+      "description": "Validate if response time is increasing under high load utilizing OpenTelemetry Spans",
+      "objectiveType": "DQL",
+      "dqlQuery": "{{ .dql_query_span_resp_time }}",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .target_resp_time }},
+      "warning": {{ .warning_resp_time }}
+>>>>>>> c74f9b1 (jsons)
     },
     {
       "name": "Validate Process CPU Usage",
