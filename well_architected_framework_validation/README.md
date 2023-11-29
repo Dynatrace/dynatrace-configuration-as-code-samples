@@ -2,6 +2,24 @@
 
 ## Enabling your Dynatrace Environment:
 
+First of all, install Site Reliability Guardian app from the Dynatrace Hub or upgrade it with the latest release if exists.
+<details>
+  <summary><strong>Install the Site Reliability Guardian</strong></summary>
+
+Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
+
+<img src="./readme-assets/install-SRG.png"  width="1200" height="450">
+</details>
+
+<details>
+  <summary><strong>Upgrade the Site Reliability Guardian</strong></summary>
+   
+Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
+
+<img src="./assets/install-SRG.png"  width="1200" height="450">
+</details>
+
+
 ### Performance Efficiency
 Use computing resources efficiently to meet system requirements​
 
