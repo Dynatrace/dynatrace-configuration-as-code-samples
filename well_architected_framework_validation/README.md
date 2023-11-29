@@ -27,33 +27,34 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
   <img src="./readme-assets/perf-pillar-enable-ot.png"  width="1200" height="450">
 
 ### Security
-Protect information and systems​
-#### Enable Appsec
+- Enable Appsec
 
-### Reliability
-Ensure workloads performing their intended functions even under disruptions​    
-#### Enable Logs and Timeseries OOM_Kills
+### Reliability    
+- Enable Logs and Timeseries OOM_Kills
 
 ### Operational Excellence
-Run and monitor systems for continuous improvement, deliver value to customers​
-#### Enable RUM and Synthetic Monitoring
+- Enable RUM and Synthetic Monitoring
 
 ### Cost Optimization
-Avoid unnecessary  costs​
-#### Enable Logs and Timeseries
+- Enable Logs and Timeseries
 
 ### Sustainability
-Minimize the environmental impacts of running cloud workloads​
-#### Install Carbon-App and enable Timeseries
+- Install Carbon-App and enable Timeseries
 
 
 ## How to Apply Workflow and SRG Configurations:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
    > Note: Verified Monaco Version is v2.6.0
 2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
-   > git clone https://github.com/eemrdog/six-pillars-workflow-template.git
-3. Open a terminal and navigate to the folder you downloaded in the previous step.
-4. Export the below environment variables into your system with the certain values
+   ``` bash
+   git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
+   cd dynatrace-configuration-as-code-samples
+   git sparse-checkout set well_architected_framework_validation
+   git checkout
+   cd well_architected_framework_validation 
+   ```
+4. Open a terminal and navigate to the folder you downloaded in the previous step.
+5. Export the below environment variables into your system with the certain values
 
    ``` bash
    # DT platform secrets
@@ -77,13 +78,13 @@ Minimize the environmental impacts of running cloud workloads​
    echo $DOMAIN_URL
    echo $RELEASE_PRODUCT
    ```
-5. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
+6. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
     sh update-srg-id.sh
     ```
    
-6. Run the below command to apply the workflow and SRG configurations along with the synthetic location configurations
+7. Run the below command to apply the workflow and SRG configurations along with the synthetic location configurations
 
    First, run with '--dry-run' option to validate the template monaco configurations with the given environment variables.
     ``` bash
@@ -93,13 +94,13 @@ Minimize the environmental impacts of running cloud workloads​
     ``` bash
     monaco deploy manifest.yaml
     ```
-7. Validate Workflow, SRG and Synthetic Location configurations are applied successfully. You can do this by going to the Dynatrace UI and check the following:
+8. Validate Workflow, SRG and Synthetic Location configurations are applied successfully. You can do this by going to the Dynatrace UI and check the following:
       - Workflow configurations are applied successfully
       - SRG configurations are applied successfully
       - Synthetic Locations are created successfully
       - Synthetic Monitors are created successfully
 
-8. Trigger the Workflow to apply the well-architected framework validations
+9. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
