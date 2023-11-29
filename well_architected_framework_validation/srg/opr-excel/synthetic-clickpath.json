@@ -1,0 +1,286 @@
+{
+    "name": "{{ .name }}",
+    "frequencyMin": 5,
+    "enabled": true,
+    "type": "BROWSER",
+    "createdFrom": "GUI",
+    "script": {
+      "type": "clickpath",
+      "version": "1.0",
+      "configuration": {
+        "device": {
+          "deviceName": "Desktop",
+          "orientation": "landscape"
+        },
+        "chromiumStartupFlags": {
+          "disable-web-security": false
+        }
+      },
+      "events": [
+        {
+          "type": "navigate",
+          "description": "{{ .description }}",
+          "url": "{{ .url }}",
+          "wait": {
+            "waitFor": "page_complete"
+          }
+        },
+        {
+          "type": "click",
+          "description": "click on \"Echo\"",
+          "target": {
+            "locators": [
+              {
+                "type": "css",
+                "value": "#Echo"
+              },
+              {
+                "type": "css",
+                "value": "button:eq(0)"
+              },
+              {
+                "type": "css",
+                "value": "button:contains(\"Echo\")"
+              },
+              {
+                "type": "css",
+                "value": "html body:nth-child(3) div:nth-child(2) div:nth-child(3) button:nth-child(2)"
+              },
+              {
+                "type": "css",
+                "value": "#Echo"
+              }
+            ]
+          },
+          "button": 0,
+          "wait": {
+            "waitFor": "network"
+          }
+        },
+        {
+          "type": "click",
+          "description": "click on \"Invoke\"",
+          "target": {
+            "locators": [
+              {
+                "type": "css",
+                "value": "#Invoke"
+              },
+              {
+                "type": "css",
+                "value": "button:eq(1)"
+              },
+              {
+                "type": "css",
+                "value": "button:contains(\"Invoke\")"
+              },
+              {
+                "type": "css",
+                "value": "html body:nth-child(3) div:nth-child(2) div:nth-child(4) button:nth-child(2)"
+              },
+              {
+                "type": "css",
+                "value": "#Invoke"
+              }
+            ]
+          },
+          "button": 0,
+          "wait": {
+            "waitFor": "network"
+          }
+        },
+        {
+          "type": "click",
+          "description": "click on \"Login\"",
+          "target": {
+            "locators": [
+              {
+                "type": "css",
+                "value": "#Login"
+              },
+              {
+                "type": "css",
+                "value": "button:eq(2)"
+              },
+              {
+                "type": "css",
+                "value": "button:contains(\"LOG ME IN :-\")"
+              },
+              {
+                "type": "css",
+                "value": "#loginarea button:nth-child(2)"
+              },
+              {
+                "type": "css",
+                "value": "#Login"
+              }
+            ]
+          },
+          "button": 0,
+          "wait": {
+            "waitFor": "network"
+          }
+        },
+        {
+          "type": "click",
+          "description": "click on \"Version\"",
+          "target": {
+            "locators": [
+              {
+                "type": "css",
+                "value": "#Version"
+              },
+              {
+                "type": "css",
+                "value": "button:eq(3)"
+              },
+              {
+                "type": "css",
+                "value": "button:contains(\"Get MyVersion!\")"
+              },
+              {
+                "type": "css",
+                "value": "html body:nth-child(3) div:nth-child(2) div:nth-child(6) button"
+              },
+              {
+                "type": "css",
+                "value": "#Version"
+              }
+            ]
+          },
+          "button": 0,
+          "wait": {
+            "waitFor": "network"
+          }
+        },
+        {
+          "type": "click",
+          "description": "click on \"Invoke\"",
+          "target": {
+            "locators": [
+              {
+                "type": "css",
+                "value": "#Invoke"
+              },
+              {
+                "type": "css",
+                "value": "button:eq(1)"
+              },
+              {
+                "type": "css",
+                "value": "button:contains(\"Invoke\")"
+              },
+              {
+                "type": "css",
+                "value": "html body:nth-child(3) div:nth-child(2) div:nth-child(4) button:nth-child(2)"
+              },
+              {
+                "type": "css",
+                "value": "#Invoke"
+              }
+            ]
+          },
+          "button": 0,
+          "wait": {
+            "waitFor": "network"
+          }
+        },
+        {
+          "type": "click",
+          "description": "click on \"Echo\"",
+          "target": {
+            "locators": [
+              {
+                "type": "css",
+                "value": "#Echo"
+              },
+              {
+                "type": "css",
+                "value": "button:eq(0)"
+              },
+              {
+                "type": "css",
+                "value": "button:contains(\"Echo\")"
+              },
+              {
+                "type": "css",
+                "value": "html body:nth-child(3) div:nth-child(2) div:nth-child(3) button:nth-child(2)"
+              },
+              {
+                "type": "css",
+                "value": "#Echo"
+              }
+            ]
+          },
+          "button": 0,
+          "wait": {
+            "waitFor": "network"
+          }
+        }
+      ]
+    },
+    "locations": {{ .locations }},
+    "anomalyDetection": {
+      "outageHandling": {
+        "globalOutage": true,
+        "globalOutagePolicy": {
+          "consecutiveRuns": 1
+        },
+        "localOutage": false,
+        "localOutagePolicy": {
+          "affectedLocations": null,
+          "consecutiveRuns": null
+        },
+        "retryOnError": true
+      },
+      "loadingTimeThresholds": {
+        "enabled": true,
+        "thresholds": []
+      }
+    },
+    "tags": [],
+    "managementZones": [],
+    "automaticallyAssignedApps": [],
+    "manuallyAssignedApps": ["{{ .applicationId }}"],
+    "keyPerformanceMetrics": {
+      "loadActionKpm": "VISUALLY_COMPLETE",
+      "xhrActionKpm": "VISUALLY_COMPLETE"
+    },
+    "events": [
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-D3B3C0CE0D898227",
+        "name": "Loading of {{ .url }}",
+        "sequenceNumber": 1
+      },
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-10B76D43595A0DD1",
+        "name": "click on \"Echo\"",
+        "sequenceNumber": 2
+      },
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-966D5B72418707ED",
+        "name": "click on \"Invoke\"",
+        "sequenceNumber": 3
+      },
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-7541DAD866D793B1",
+        "name": "click on \"Login\"",
+        "sequenceNumber": 4
+      },
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-601CD884931139D3",
+        "name": "click on \"Version\"",
+        "sequenceNumber": 5
+      },
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-3613A9377E66B003",
+        "name": "click on \"Invoke\"",
+        "sequenceNumber": 6
+      },
+      {
+        "entityId": "SYNTHETIC_TEST_STEP-D29CC2F7A2AB32C6",
+        "name": "click on \"Echo\"",
+        "sequenceNumber": 7
+      }
+    ]
+  }

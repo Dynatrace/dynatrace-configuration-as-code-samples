@@ -1,0 +1,17 @@
+{
+  "name": "{{ .name }}",
+  "description": null,
+  "tags": {{ .tags }},
+  "variables":[{"name":"version","definition":"1.0.0"}],
+  "objectives": [
+    {
+      "name": "Apdex Rating validation",
+      "description": null,
+      "objectiveType": "REFERENCE_SLO",
+      "referenceSlo": "{{ .reference_slo_metric_apdex }}",
+      "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+      "target": {{ .target_slo_apdex }},
+      "warning": {{ .warning_slo_apdex }}
+    }
+  ]
+}
