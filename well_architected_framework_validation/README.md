@@ -32,22 +32,20 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
   
   <img src="./readme-assets/perf-pillar-enable-ot.png"  width="1200" height="450">
 
-<img src="./readme-assets/upgrade-SRG.png"  width="1200" height="450">
-</details>
+### Security
+- Enable Appsec
 
-### Well-Architected Pillars Prerequisities
+### Reliability    
+- Enable Logs and Timeseries OOM_Kills
 
-#### Performance Efficiency
-- Enable OpenTelemetry span data for the technology you use for your deployed application.
-  For example, if your application is based on Node.js, enable it accordingly
-  
-  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="50%" height="50%">
+### Operational Excellence
+- Enable RUM and Synthetic Monitoring
 
-#### Security
-- Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
+### Cost Optimization
+- Enable Logs and Timeseries
 
-#### Reliability    
-- [Upgrade to Log Management and Analytics](https://docs.dynatrace.com/docs/observe-and-explore/logs/logs-upgrade/lma-upgrade) if you have classic log management
+### Sustainability
+- Install Carbon-App and enable Timeseries
 
 #### Operational Excellence
 - Verify that Real User Monitoring (RUM) is enabled for operational excellence score calculation. You should navigate to `Settings -> Web and mobile monitoring -> Enablement and cost control` and turn on "Enable Real User Monitoring".
@@ -65,7 +63,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    > Note: Verified Monaco Version is v2.6.0
 2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
    ``` bash
-   git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
+   git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
    cd dynatrace-configuration-as-code-samples
    git sparse-checkout set well_architected_framework_validation
    git checkout
@@ -91,45 +89,12 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
-    #### *Required API Token scopes for `DT_API_TOKEN` variable*
-    Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
-   
-    - slo.read
-    - slo.write
-    - CaptureRequestData
-    - credentialVault.read
-    - credentialVault.write
-    - DataExport
-    - DataPrivacy
-    - ExternalSyntheticIntegration
-    - ReadConfig
-    - WriteConfig
-    - events.ingest
-    - settings.read
-    - settings.write
-    
-    #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
-    - automation:workflows:read (Read access to workflows)
-    - automation:workflows:write (Write access to workflows)
-    - automation:workflows:run (Execute permissions for workflows)
-    - automation:rules:read (Read access to scheduling rules)
-    - automation:rules:write (Write access to scheduling rules)
-    - app-engine:apps:run (Access to Apps and its actions)
-    - app-engine:apps:install (Install apps)
-    - storage:logs:read
-    - storage:logs:write
-    - storage:events:read
-    - storage:events:write
-    - storage:metrics:read
-    - storage:bizevents:read
-    - storage:system:read
-    - storage:buckets:read
-    - storage:bucket-definitions:read
-    - storage:bizevents:write
-    - settings:objects:read
-    - settings:objects:write
-    - settings:schemas:read
-
+   Verify if these environment variables are set correctly. For example:
+   ``` bash
+   echo $DT_TENANT_URL
+   echo $DOMAIN_URL
+   echo $RELEASE_PRODUCT
+   ```
 6. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
@@ -146,15 +111,15 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     ``` bash
     monaco deploy manifest.yaml
     ```
-8. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
-      - *Workflow and SRG configurations are applied successfully
+8. Validate Workflow, SRG and Synthetic Location configurations are applied successfully. You can do this by going to the Dynatrace UI and check the following:
+      - Workflow configurations are applied successfully
+      - SRG configurations are applied successfully
+      - Synthetic Locations are created successfully
       - Synthetic Monitors are created successfully
       - Application and detection rules set properly
       - SLO and Log ingestion rules applied correctly
 
-   *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
-    
-    <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
+9. Trigger the Workflow to apply the well-architected framework validations
 
     - app-settings:objects:read
     - app-settings:objects:write
