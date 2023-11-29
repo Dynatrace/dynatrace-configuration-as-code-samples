@@ -5,13 +5,13 @@
   "variables":[{"name":"version","definition":"1.0.0"}],
   "objectives": [
     {
-      "name": "Response Time validation ",
-      "description": "Validate if response time is increasing under high load utilizing OpenTelemetry Spans",
+      "name": "Validate Process memory Usage",
+      "description": "Check if process CPU usage is in valid range",
       "objectiveType": "DQL",
-      "dqlQuery": "{{ .dql_query_span_resp_time }}",
+      "dqlQuery": "{{ .dql_query_mem_usage }}",
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
-      "target": {{ .target_resp_time }},
-      "warning": {{ .warning_resp_time }}
+      "target": {{ .target_mem_usage }},
+      "warning": {{ .warning_mem_usage }}
     },
     {
       "name": "Validate Process CPU Usage",

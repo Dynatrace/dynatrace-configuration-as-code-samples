@@ -1,0 +1,14 @@
+{
+    "enabled": true,
+    "config-item-title": "Include K8s Container logs",
+    "send-to-storage": true,
+    "matchers": [
+        {
+            "attribute": "k8s.container.name",
+            "operator": "MATCHES",
+            "values": [
+                "{{ .releaseProduct }}"
+            ]
+        }
+    ]
+}

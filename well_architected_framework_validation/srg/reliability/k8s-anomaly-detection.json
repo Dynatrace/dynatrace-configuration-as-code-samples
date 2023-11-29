@@ -1,0 +1,85 @@
+{
+    "containerRestarts": {
+        "enabled": true,
+        "configuration": {
+            "threshold": 1,
+            "samplePeriodInMinutes": 3,
+            "observationPeriodInMinutes": 5
+        }
+    },
+    "deploymentStuck": {
+        "enabled": true,
+        "configuration": {
+            "samplePeriodInMinutes": 3,
+            "observationPeriodInMinutes": 5
+        }
+    },
+    "pendingPods": {
+        "enabled": true,
+        "configuration": {
+            "threshold": 1,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
+    },
+    "podStuckInTerminating": {
+        "enabled": true,
+        "configuration": {
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
+    },
+    "workloadWithoutReadyPods": {
+        "enabled": true,
+        "configuration": {
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
+    },
+    "notAllPodsReady": {
+        "enabled": true,
+        "configuration": {
+            "samplePeriodInMinutes": 30,
+            "observationPeriodInMinutes": 60
+        }
+    },
+    "highMemoryUsage": {
+        "enabled": true,
+        "configuration": {
+            "threshold": 90,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
+    },
+    "highCpuUsage": {
+        "enabled": true,
+        "configuration": {
+            "threshold": 90,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
+    },
+    "highCpuThrottling": {
+        "enabled": true,
+        "configuration": {
+            "threshold": 50,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
+    },
+    "oomKills": {
+        "enabled": true
+    },
+    "jobFailureEvents": {
+        "enabled": true
+    },
+    "podBackoffEvents": {
+        "enabled": true
+    },
+    "podEvictionEvents": {
+        "enabled": true
+    },
+    "podPreemptionEvents": {
+        "enabled": true
+    }
+}

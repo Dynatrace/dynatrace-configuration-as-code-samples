@@ -91,8 +91,8 @@ configs:
           name: RELEASE_PRODUCT
         evaluationWindow:
           type: environment
-          name: EVALUATION_WINDOW
-          default: "-1h"
+          name: SLO_EVALUATION_WINDOW
+          default: "-10m"
 
   # app-detection-rule 
   - id: appDetection-$RELEASE_PRODUCT
@@ -142,7 +142,7 @@ configs:
         locations:
           type: list
           values:
-            - GEOLOCATION-0DF9A0E1095A5A62 # Portland Public synthetic location ID on AWS
+            - GEOLOCATION-9999453BE4BDB3CD # North Virginia Public synthetic location ID on AWS
         frequencyMin: 5
         url:
           type: environment
