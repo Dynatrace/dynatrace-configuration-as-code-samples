@@ -16,7 +16,7 @@ Search in the Dynatrace Hub for the Site Reliability Guardian and install it in 
    
 Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
 
-<img src="./assets/install-SRG.png"  width="1200" height="450">
+<img src="./readme-assets/upgrade-SRG.png"  width="1200" height="450">
 </details>
 
 
