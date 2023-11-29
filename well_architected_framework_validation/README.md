@@ -31,12 +31,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 - Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
 
 #### Reliability    
-- Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
-  
-  <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
-
-
-  <img src="./readme-assets/oom-kills-settings.png"  width="60%" height="50%">
+- [Upgrade to Log Management and Analytics](https://docs.dynatrace.com/docs/observe-and-explore/logs/logs-upgrade/lma-upgrade) if you have classic log management
 
 #### Operational Excellence
 - Verify that Real User Monitoring (RUM) is enabled for operational excellence score calculation. You should navigate to `Settings -> Web and mobile monitoring -> Enablement and cost control` and turn on "Enable Real User Monitoring".
@@ -54,7 +49,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    > Note: Verified Monaco Version is v2.6.0
 2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
    ``` bash
-   git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
+   git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
    cd dynatrace-configuration-as-code-samples
    git sparse-checkout set well_architected_framework_validation
    git checkout
@@ -77,14 +72,48 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    export RELEASE_PRODUCT="<Your Application Name>" # e.g. my-application
    export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e.g. staging, dev, production
    export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://easy-trade.internal.cloudapp.net, 34.79.202.168.nip.io
+   export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
-   Verify if these environment variables are set correctly. For example:
-   ``` bash
-   echo $DT_TENANT_URL
-   echo $DOMAIN_URL
-   echo $RELEASE_PRODUCT
-   ```
+    #### *Required API Token scopes for `DT_API_TOKEN` variable*
+    Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
+   
+    - slo.read
+    - slo.write
+    - CaptureRequestData
+    - credentialVault.read
+    - credentialVault.write
+    - DataExport
+    - DataPrivacy
+    - ExternalSyntheticIntegration
+    - ReadConfig
+    - WriteConfig
+    - events.ingest
+    - settings.read
+    - settings.write
+    
+    #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
+    - automation:workflows:read (Read access to workflows)
+    - automation:workflows:write (Write access to workflows)
+    - automation:workflows:run (Execute permissions for workflows)
+    - automation:rules:read (Read access to scheduling rules)
+    - automation:rules:write (Write access to scheduling rules)
+    - app-engine:apps:run (Access to Apps and its actions)
+    - app-engine:apps:install (Install apps)
+    - storage:logs:read
+    - storage:logs:write
+    - storage:events:read
+    - storage:events:write
+    - storage:metrics:read
+    - storage:bizevents:read
+    - storage:system:read
+    - storage:buckets:read
+    - storage:bucket-definitions:read
+    - storage:bizevents:write
+    - settings:objects:read
+    - settings:objects:write
+    - settings:schemas:read
+
 6. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
@@ -101,12 +130,34 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     ``` bash
     monaco deploy manifest.yaml
     ```
-8. Validate Workflow, SRG and Synthetic Location configurations are applied successfully. You can do this by going to the Dynatrace UI and check the following:
-      - Workflow configurations are applied successfully
-      - SRG configurations are applied successfully
-      - Synthetic Locations are created successfully
+8. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
+      - *Workflow and SRG configurations are applied successfully
       - Synthetic Monitors are created successfully
+      - Application and detection rules set properly
+      - SLO and Log ingestion rules applied correctly
 
+   *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
+    
+    <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
+
+    - app-settings:objects:read
+    - app-settings:objects:write
+    - automation:rules:read 
+    - automation:rules:write
+    - automation:workflows:read
+    - automation:workflows:run
+    - automation:workflows:write
+    - environment-api:entities:read
+    - state:app-states:read
+    - storage:buckets:read
+    - storage:entities:read
+    - storage:events:read
+    - storage:events:write
+    - storage:logs:read
+    - storage:metrics:read
+    - storage:spans:read
+    - storage:system:read
+    
 9. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
@@ -173,6 +224,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
    export RELEASE_PRODUCT="<Your Application Name>" # e.g. my-application
    export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e.g. staging, dev, production
    export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://easy-trade.internal.cloudapp.net, 34.79.202.168.nip.io
+   export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
  #### 3. Clone the well_architected_framework_validation template from dynatrace-configuration-as-code-samples repository.
@@ -224,14 +276,14 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
     monaco deploy manifest.yaml --dry-run
     monaco deploy manifest.yaml
     ```
-#### 3. Add the six pillars evaluation job in the pipeline
+#### 5. Add the six pillars evaluation job in the pipeline
 
-   ##### 3.1 Define a job runner that will use the Docker image below.
+   ##### 5.1 Define a job runner that will use the Docker image below.
    ```
    dynatraceace/dt-automation-cli:latest
    ```
 
-   ##### 3.2 Once you have defined your job runner, you can then execute the below bash scripts.
+   ##### 5.2 Once you have defined your job runner, you can then execute the below bash scripts.
     ``` bash
     RELEASE_PRODUCT="<Your application name>" # e.g. my-application
     RELEASE_STAGE="<Your application stage in your deployment pipeline>"  # e.g. staging, dev, production
@@ -250,7 +302,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
       image: alpine/git
       script:
         # Clone the Six Pillars Workflow configurations
-        - git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
+        - git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
         - cd dynatrace-configuration-as-code-samples
         - git sparse-checkout set well_architected_framework_validation
         - git checkout
@@ -268,6 +320,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
          - export RELEASE_PRODUCT="<Your Application Name>"
          - export RELEASE_STAGE="<Your Application Stage in your CICD pipeline>" 
          - export DOMAIN_URL="<Ingress domain for your application>" 
+         - export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
          
          - cd dynatrace-configuration-as-code-samples/well_architected_framework_validation
          - monaco deploy --dry-run

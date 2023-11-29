@@ -85,6 +85,34 @@ configs:
         target_oom_kills: 5
         warning_oom_kills: 3
 
+  # log ingestion rules
+  - id: log-ingestion-rules-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:logmonitoring.log-storage-settings
+        scope: environment
+        schemaVersion: "1.0.7"
+    config:
+      skip: true
+      name: "Six Pillars - Log Ingestion Rule - $RELEASE_PRODUCT"
+      template: log-ingestion-rules.json      
+      parameters:
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+
+  # K8s anomaly detection rules
+  - id: k8s-anomaly-detection-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:anomaly-detection.kubernetes.workload
+        scope: environment
+        schemaVersion: "1.10"
+    config:
+      skip: true
+      name: "Six Pillars - K8s Anomaly Detection - $RELEASE_PRODUCT"
+      template: k8s-anomaly-detection.json      
+
   # synthetic-monitor
   - id: health-check-synth-monitor-$RELEASE_PRODUCT
     type:
@@ -105,7 +133,7 @@ configs:
         locations:
           type: list
           values:
-            - GEOLOCATION-0DF9A0E1095A5A62 # Portland Public synthetic location ID on AWS
+            - GEOLOCATION-9999453BE4BDB3CD # North Virginia Public synthetic location ID on AWS
         frequencyMin: 2
         url:
           type: environment

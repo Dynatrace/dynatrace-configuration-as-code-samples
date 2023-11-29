@@ -74,8 +74,8 @@
         "custom": "{{`{{`}} result('performance').validation_status == \"fail\" {{`}}`}}"
       }
     },
-    "wait_for_security_data_available_in_grail": {
-      "name": "wait_for_security_data_available_in_grail",
+    "wait_for_security_apdex_data_available_in_grail": {
+      "name": "wait_for_security_apdex_data_available_in_grail",
       "description": "Build a custom task running js Code",
       "action": "dynatrace.automations:run-javascript",
       "input": {
@@ -110,11 +110,11 @@
         "y": 2
       },
       "predecessors": [
-        "wait_for_security_data_available_in_grail"
+        "wait_for_security_apdex_data_available_in_grail"
       ],
       "conditions": {
         "states": {
-          "wait_for_security_data_available_in_grail": "OK"
+          "wait_for_security_apdex_data_available_in_grail": "OK"
         },
         "custom": "",
         "else": "STOP"
@@ -143,7 +143,7 @@
         "fieldSetters": []
       },
       "position": {
-        "x": 2,
+        "x": 1,
         "y": 3
       },
       "predecessors": [
@@ -154,6 +154,72 @@
           "security": "OK"
         },
         "custom": "{{`{{`}} result('security').validation_status == \"fail\" {{`}}`}}"
+      }
+    },
+    "operational_excellence": {
+      "name": "operational_excellence",
+      "description": "Operational Excellence Validation",
+      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
+      "input": {
+        "objectId": "{{ .srg_opr_excel_id }}",
+        "executionId": "{{`{{`}} execution().id {{`}}`}}",
+        "expressionTo": "{{`{{`}} event()['timeframe.to'] {{`}}`}}",
+        "expressionFrom": "{{`{{`}} event()['timeframe.from'] {{`}}`}}",
+        "timeframeSelector": {
+          "to": "now",
+          "from": "now-30m"
+        },
+        "timeframeInputType": "expression"
+      },
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "predecessors": [
+        "wait_for_security_apdex_data_available_in_grail"
+      ],
+      "conditions": {
+        "states": {
+          "wait_for_security_apdex_data_available_in_grail": "OK"
+        },
+        "custom": "",
+        "else": "STOP"
+      },
+      "retry": {
+        "count": 2,
+        "delay": 30,
+        "failedLoopIterationsOnly": true
+      },
+      "timeout": 900
+    },
+    "opr_excel_snow_incident": {
+      "name": "opr_excel_snow_incident",
+      "description": "Create an incident in ServiceNow",
+      "action": "dynatrace.servicenow:snow-create-incident",
+      "active": true,
+      "input": {
+        "caller": "",
+        "impact": "3",
+        "urgency": "3",
+        "category": "inquiry",
+        "description": "Event details: {{`{{`}} event() {{`}}`}}",
+        "subCategory": "internal application",
+        "connectionId": "",
+        "correlationId": "{{`{{`}} event()[\"event.id\"] {{`}}`}}",
+        "shortDescription": "{{`{{`}} event()[\"event.category\"] {{`}}`}} {{`{{`}} event()[\"event.name\"] {{`}}`}}"
+      },
+      "position": {
+        "x": 2,
+        "y": 3
+      },
+      "predecessors": [
+        "operational_excellence"
+      ],
+      "conditions": {
+        "states": {
+          "operational_excellence": "OK"
+        },
+        "custom": "{{`{{`}} result('operational_excellence').validation_status == \"fail\" {{`}}`}}"
       }
     },
     "cost": {
@@ -268,12 +334,12 @@
         "custom": "{{`{{`}} (result('reliability').validation_status == \"fail\")  {{`}}`}}"
       }
     },
-    "operational_excellence": {
-      "name": "operational_excellence",
-      "description": "Operational Excellence Validation",
+    "sustainability": {
+      "name": "sustainability",
+      "description": "Sustainability Validation",
       "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
       "input": {
-        "objectId": "{{ .srg_opr_excel_id }}",
+        "objectId": "{{ .srg_sustainability_id }}",
         "executionId": "{{`{{`}} execution().id {{`}}`}}",
         "expressionTo": "{{`{{`}} event()['timeframe.to'] {{`}}`}}",
         "expressionFrom": "{{`{{`}} event()['timeframe.from'] {{`}}`}}",
@@ -297,65 +363,6 @@
         "custom": "{{`{{`}} (result('reliability').validation_status == \"pass\") or (result('reliability').validation_status == \"warning\") {{`}}`}}"
       }
     },
-    "opr_excel_snow_incident": {
-      "name": "opr_excel_snow_incident",
-      "description": "Create an incident in ServiceNow",
-      "action": "dynatrace.servicenow:snow-create-incident",
-      "active": true,
-      "input": {
-        "caller": "",
-        "impact": "3",
-        "urgency": "3",
-        "category": "inquiry",
-        "description": "Event details: {{`{{`}} event() {{`}}`}}",
-        "subCategory": "internal application",
-        "connectionId": "",
-        "correlationId": "{{`{{`}} event()[\"event.id\"] {{`}}`}}",
-        "shortDescription": "{{`{{`}} event()[\"event.category\"] {{`}}`}} {{`{{`}} event()[\"event.name\"] {{`}}`}}"
-      },
-      "position": {
-        "x": -1,
-        "y": 5
-      },
-      "predecessors": [
-        "operational_excellence"
-      ],
-      "conditions": {
-        "states": {
-          "operational_excellence": "OK"
-        },
-        "custom": "{{`{{`}} result('operational_excellence').validation_status == \"fail\" {{`}}`}}"
-      }
-    },
-    "sustainability": {
-      "name": "sustainability",
-      "description": "Sustainability Validation",
-      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
-      "input": {
-        "objectId": "{{ .srg_sustainability_id }}",
-        "executionId": "{{`{{`}} execution().id {{`}}`}}",
-        "expressionTo": "{{`{{`}} event()['timeframe.to'] {{`}}`}}",
-        "expressionFrom": "{{`{{`}} event()['timeframe.from'] {{`}}`}}",
-        "timeframeSelector": {
-          "to": "now",
-          "from": "now-30m"
-        },
-        "timeframeInputType": "expression"
-      },
-      "position": {
-        "x": 0,
-        "y": 5
-      },
-      "predecessors": [
-        "operational_excellence"
-      ],
-      "conditions": {
-        "states": {
-          "operational_excellence": "OK"
-        },
-        "custom": "{{`{{`}} (result('operational_excellence').validation_status == \"pass\") or (result('operational_excellence').validation_status == \"warning\") {{`}}`}}"
-      }
-    },
     "sust_fail_pod_mem_alloc_optimize": {
       "name": "sust_fail_pod_mem_alloc_optimize",
       "description": "Apply kubernetes yaml configurations",
@@ -367,7 +374,7 @@
       },
       "position": {
         "x": -1,
-        "y": 6
+        "y": 5
       },
       "predecessors": [
         "sustainability"
