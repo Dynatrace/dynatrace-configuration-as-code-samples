@@ -27,12 +27,9 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 
 
 ### Performance Efficiency
-Use computing resources efficiently to meet system requirements​
-
-<details>
-  <summary><strong>Upgrade the Site Reliability Guardian</strong></summary>
-   
-  Search in the Dynatrace Hub for the Site Reliability Guardian and upgrade it to the release 1.6.4 if you have lower release in place.
+- Enable OpenTelemetry span data for the technology you use for your deployed application
+  For example, if your application is based on Node.js, enable it accordingly
+  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="1200" height="450">
 
 <img src="./readme-assets/upgrade-SRG.png"  width="1200" height="450">
 </details>
