@@ -4,11 +4,6 @@
 
 **key*
 *.env
-
-/srg/*/*
 !/srg/*/_config_template.yaml
-
-/workflow/*
 !/workflow/_config_*template.yaml
-
 /deletefiles/*
