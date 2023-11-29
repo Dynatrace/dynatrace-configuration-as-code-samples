@@ -1,0 +1,83 @@
+configs:
+  # workflow
+  - id: sixpillars-workflow-$RELEASE_PRODUCT
+    type:
+      automation:
+        resource: workflow
+    config:
+      skip: true
+      name: Demo AWS Six Pillars SRG Evaluation - $RELEASE_PRODUCT
+      template: wf-sixpillars.json
+      
+      parameters: 
+        #wf related
+        wf_description: "AWS Six Pillars Workflow with Guardians by Monaco"
+        wf_isPrivate: false
+        #trigger related
+        tag_usecase:
+          type: environment
+          name: USE_CASE
+        tag_stage:
+          type: environment
+          name: RELEASE_STAGE
+        tag_service:
+          type: environment
+          name: RELEASE_PRODUCT
+
+        #performance
+        srg_perf_id:
+          type: reference     
+          configType: app:dynatrace.site.reliability.guardian:guardians
+          project: srg.perf
+          configId: srg-perf-$RELEASE_PRODUCT
+          property: id
+
+        slack_perf_channel: "team-operations-simplenode"
+        
+        #security
+        srg_security_id:
+          type: reference
+          configType: app:dynatrace.site.reliability.guardian:guardians
+          project: srg.security
+          configId: srg-security-$RELEASE_PRODUCT
+          property: id
+
+        slack_security_channel: "team-security-simplenode"        
+                
+        #cost
+        srg_cost_id:
+          type: reference
+          configType: app:dynatrace.site.reliability.guardian:guardians
+          project: srg.cost
+          configId: srg-cost-$RELEASE_PRODUCT
+          property: id
+
+        slack_cost_channel: "team-infrastructure-simplenode"  
+
+        # reliability
+        srg_reliability_id:
+          type: reference
+          configType: app:dynatrace.site.reliability.guardian:guardians
+          project: srg.reliability
+          configId: srg-reliability-$RELEASE_PRODUCT
+          property: id
+
+        slack_reliability_channel: "team-operations-simplenode"  
+        
+        # operational excellence
+        srg_opr_excel_id:
+          type: reference          
+          configType: app:dynatrace.site.reliability.guardian:guardians
+          project: srg.opr-excel
+          configId: srg-opr-excel-$RELEASE_PRODUCT
+          property: id
+        slack_opr_excel_channel: "team-operations-simplenode"  
+
+        srg_sustainability_id:
+          configType: app:dynatrace.site.reliability.guardian:guardians
+          project: srg.sustainability
+          type: reference
+          configId: srg-sustainability-$RELEASE_PRODUCT
+          property: id
+        slack_sustainability_channel: "team-infrastructure-simplenode"  
+        

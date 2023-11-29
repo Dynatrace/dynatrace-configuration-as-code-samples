@@ -1,0 +1,9 @@
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./srg/cost/_config_template.yaml > ./srg/cost/_config_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./srg/opr-excel/_config_template.yaml > ./srg/opr-excel/_config_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./srg/perf/_config_template.yaml > ./srg/perf/_config_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./srg/reliability/_config_template.yaml > ./srg/reliability/_config_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./srg/security/_config_template.yaml > ./srg/security/_config_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./srg/sustainability/_config_template.yaml > ./srg/sustainability/_config_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./workflow/_config_wf_actions_template.yaml > ./workflow/_config_wf_actions_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/skip: true/skip: false/g" ./workflow/_config_wf_template.yaml > ./workflow/_config_wf_generated.yaml
+sed -e "s/\$RELEASE_PRODUCT/$RELEASE_PRODUCT/g" -e "s/\$RELEASE_STAGE/$RELEASE_STAGE/g" -e "s/\$USE_CASE/$USE_CASE/g" delete_template.yaml > delete.yaml

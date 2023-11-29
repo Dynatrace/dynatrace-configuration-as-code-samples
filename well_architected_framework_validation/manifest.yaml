@@ -1,0 +1,27 @@
+manifestVersion: 1.0
+
+projects:
+  - name: workflow
+    path: workflow
+  - name: srg
+    path: srg
+    type: grouping
+
+environmentGroups:
+  - name: staging
+    environments:
+      - name: staging-environment
+        url:
+          type: environment
+          value: DYNATRACE_URL_GEN3
+        auth:
+          token:
+            name: DT_API_TOKEN
+          oAuth:
+            clientId:
+              name: DYNATRACE_CLIENT_ID
+            clientSecret:
+              name: DYNATRACE_SECRET
+            tokenEndpoint:
+              type: environment
+              value: DYNATRACE_SSO_URL

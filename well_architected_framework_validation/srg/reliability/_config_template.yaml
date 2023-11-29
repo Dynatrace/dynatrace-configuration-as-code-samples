@@ -1,0 +1,121 @@
+configs:
+  # srg
+  - id: srg-reliability-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: app:dynatrace.site.reliability.guardian:guardians
+        schemaVersion: 1.1.1
+        scope: environment
+    config:
+      skip: true
+      name: "Six Pillars - Reliability - $RELEASE_PRODUCT"
+    
+      template: srg-reliability.json
+      
+      parameters:
+        tags:
+          type: list
+          values:
+            - "usecase:sixpillars"
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        # objective - dql - successs rate
+        dql_query_success_rate: 
+          type: compound
+          format: |  
+            fetch logs
+            | fields pgis = dt.entity.process_group_instance,content
+            | expand pgis
+            | lookup 
+              [ fetch dt.entity.process_group_instance
+              | fieldsAdd tags
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              | sort lifetime  desc
+              | summarize pgi_id = takeFirst(id)
+              ], sourceField:pgis, lookupField:pgi_id, prefix:"pg_"
+            | filter isNotNull(pg_pgi_id)
+            | filter pgis == pg_pgi_id
+            | filter matchesPhrase(content, "GET / ")
+            | parse content, "DATA 'status:' SPACE? INT:http_status " 
+            | filter isNotNull(http_status)
+            | fieldsAdd success =  toLong(http_status < 400)
+            | summarize successRate = sum(success)/count() * 100
+          references:
+            - releaseStage
+            - releaseProduct
+        target_success_rate: 95
+        warning_success_rate: 98
+        # objective - timeseries - oom kills
+        container_name: "CONTAINER-NAME"
+        dql_query_oom_kills:
+          type: compound
+          format: |  
+            data record(default=0,id=1)
+            | lookup [timeseries val=avg(dt.kubernetes.container.oom_kills), 
+            by:{dt.source_entity}
+            | lookup 
+              [ fetch dt.entity.container_group_instance
+              | fields id, pgis=contains[dt.entity.process_group_instance],lifetime
+              | expand pgis
+              | lookup  
+                [ fetch dt.entity.process_group_instance
+                  | fields id, metadata, tags, lifetime
+                  | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+                  | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+                  | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+                  | sort lifetime  desc
+                  | summarize count(), by: {id}
+                ] , sourceField: pgis , lookupField: id
+              | filter pgis == lookup.id
+              | sort lifetime  desc
+              | summarize latest_container_group_instance_id = takeFirst(id)
+              ], sourceField:dt.source_entity , lookupField:latest_container_group_instance_id
+            | filter dt.source_entity == lookup.latest_container_group_instance_id
+            | fields avg = arrayAvg(val), id=1 ], lookupfield:id, fields:{avg}
+            | fields avg=default+if(isnull(avg),0,else:avg)
+          references:
+            - releaseStage
+            - releaseProduct      
+        target_oom_kills: 5
+        warning_oom_kills: 3
+
+  # synthetic-monitor
+  - id: health-check-synth-monitor-$RELEASE_PRODUCT
+    type:
+      api: synthetic-monitor
+    config:
+      skip: true
+      name:
+        type: compound
+        format: "{{ .releaseProduct }}-{{ .releaseStage }}-health-check-{{ .useCase }}"
+        references:
+          - releaseStage
+          - useCase
+          - releaseProduct
+      template: health-check-monitor.json      
+      parameters:
+        description: Health check for simplenode      
+        applicationId: ["srg.opr-excel","application-web", "app-$RELEASE_PRODUCT", "id"]
+        locations:
+          type: list
+          values:
+            - GEOLOCATION-0DF9A0E1095A5A62 # Portland Public synthetic location ID on AWS
+        frequencyMin: 2
+        url:
+          type: environment
+          name: DOMAIN_URL
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        useCase: 
+          type: environment
+          name: USE_CASE
