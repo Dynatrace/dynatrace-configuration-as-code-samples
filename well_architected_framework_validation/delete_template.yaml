@@ -1,0 +1,55 @@
+delete:
+  
+  # project - srg
+  - project: srg.cost
+    type: app:dynatrace.site.reliability.guardian:guardians
+    id: srg-cost-$RELEASE_PRODUCT
+  - project: srg.opr-excel
+    type: app:dynatrace.site.reliability.guardian:guardians
+    id: srg-opr-excel-$RELEASE_PRODUCT
+  - project: srg.perf
+    type: app:dynatrace.site.reliability.guardian:guardians
+    id: srg-perf-$RELEASE_PRODUCT
+  - project: srg.reliability
+    type: app:dynatrace.site.reliability.guardian:guardians
+    id: srg-reliability-$RELEASE_PRODUCT
+  - project: srg.security
+    type: app:dynatrace.site.reliability.guardian:guardians
+    id: srg-security-$RELEASE_PRODUCT
+  - project: srg.sustainability
+    type: app:dynatrace.site.reliability.guardian:guardians
+    id: srg-sustainability-$RELEASE_PRODUCT
+
+  - project: srg
+    type: builtin:rum.web.app-detection
+    id: appDetection-$RELEASE_PRODUCT
+  - project: srg
+    type: application-web
+    name: $RELEASE_PRODUCT-$RELEASE_STAGE-$USE_CASE  
+  - project: srg
+    type: synthetic-monitor
+    name: $RELEASE_PRODUCT-$RELEASE_STAGE-clickpath-$USE_CASE
+  - project: srg
+    type: synthetic-monitor
+    name: $RELEASE_PRODUCT-$RELEASE_STAGE-health-check-$USE_CASE
+  - project: srg
+    type: slo
+    name: $RELEASE_PRODUCT_$RELEASE_STAGE_slo_apdex_$USE_CASE 
+
+  #ownership teams
+  - project: workflow
+    type: builtin:ownership.teams
+    id: ownership-infra-$RELEASE_PRODUCT
+  - project: workflow
+    type: builtin:ownership.teams
+    id: ownership-security-$RELEASE_PRODUCT
+  - project: workflow
+    type: builtin:ownership.teams
+    id: ownership-perf-$RELEASE_PRODUCT
+  - project: workflow
+    type: builtin:ownership.teams
+    id: ownership-business-$RELEASE_PRODUCT
+
+  - project: workflow
+    type: workflow
+    id: sixpillars-workflow-$RELEASE_PRODUCT

@@ -1,0 +1,73 @@
+configs:
+  # srg
+  - id: srg-sustainability-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: app:dynatrace.site.reliability.guardian:guardians
+        schemaVersion: 1.1.1
+        scope: environment
+    config:
+      skip: true
+      name: "Six Pillars - Sustainability - $RELEASE_PRODUCT"
+
+      template: srg-sustainability.json
+      
+      parameters:
+        tags:
+          type: list
+          values:
+            - "usecase:sixpillars"
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT 
+        # objective - dql - carbon index
+        dql_query_carbon_index: 
+          type: compound
+          format: |  
+            fetch bizevents 
+            | filter event.type == "carbon.report" 
+            | summarize count(), by: { dt.entity.host, emissions }
+            | lookup [ 
+              fetch dt.entity.process_group
+              | fieldsAdd tags
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              | sort lifetime  desc
+              | fieldsAdd runs_on[dt.entity.host], alias: hosts
+              | summarize hosts_id = takeFirst(hosts)
+              | expand  hosts_id
+            ], sourceField:dt.entity.host, lookupField:hosts_id
+            | filter isNotNull(lookup.hosts_id)
+            | summarize toDouble(sum(emissions)), alias:total
+          references:
+            - releaseStage
+            - releaseProduct       
+        target_carbon_index: 40
+        warning_carbon_index: 30
+        # objective - timeseries - mem usage
+        dql_query_mem_usage: 
+          type: compound
+          format: |  
+            timeseries mem=avg(dt.containers.memory.usage_percent), by:dt.entity.host 
+            | lookup [ 
+              fetch dt.entity.process_group
+              | fieldsAdd tags
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              | sort lifetime  desc
+              | fieldsAdd runs_on[dt.entity.host], alias: hosts
+              | summarize hosts_id = takeFirst(hosts)
+              | expand  hosts_id
+            ], sourceField:dt.entity.host, lookupField:hosts_id
+            | filter isNotNull(lookup.hosts_id)
+            | fields avg = arrayAvg(mem)
+          references:
+            - releaseStage
+            - releaseProduct  
+        target_mem_usage: 10
+        warning_mem_usage: 20

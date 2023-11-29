@@ -1,0 +1,183 @@
+configs:
+  ## ownership configurations
+  
+  # ownership infra
+  - id: ownership-infra-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:ownership.teams
+        schemaVersion: 1.0.6
+        scope: environment
+    config:
+      skip: true
+      name:
+        type: compound
+        format: "Team $RELEASE_PRODUCT {{ .releaseStage }} infra"
+        references:
+          - releaseStage
+      template: ownership.json
+      parameters:        
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE     
+        useCase:
+          type: environment
+          name: USE_CASE  
+        description: "infrastructure team"
+        identifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .releaseStage }}-infra"
+          references:
+            - releaseStage     
+        supplementaryIdentifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .useCase }}"
+          references:
+            - useCase             
+        isDevelopment: false
+        isSecurity: false
+        isOperations: true
+        isInfrastructure: true
+        isLineofBusiness: false
+        
+        email: team-infra@your-company.com
+        jiraProjectId: "ProjectInfra"
+        jiraDefaultAssigneeId: "team-infra"
+        slackChannel: "#team-infrastructure"
+        slackChannelURL: "https://demoworkflowworkspace.slack.com"
+
+  # ownership security
+  - id: ownership-security-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:ownership.teams
+        schemaVersion: 1.0.6
+        scope: environment
+    config:
+      skip: true
+      name:
+        type: compound
+        format: "Team $RELEASE_PRODUCT {{ .releaseStage }} security"
+        references:
+          - releaseStage
+      template: ownership.json
+      parameters:
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        useCase:
+          type: environment
+          name: USE_CASE     
+        description: "security team"
+        identifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .releaseStage }}-security"
+          references:
+            - releaseStage   
+        supplementaryIdentifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .useCase }}"
+          references:
+            - useCase      
+        isDevelopment: true
+        isSecurity: true
+        isOperations: false
+        isInfrastructure: false
+        isLineofBusiness: false
+        
+        email: team-sec@dynatrace.com
+        jiraProjectId: "ProjectSecurity"
+        jiraDefaultAssigneeId: "team-security"
+        slackChannel: "#team-security"
+        slackChannelURL: "https://demoworkflowworkspace.slack.com"
+
+  # ownership performance
+  - id: ownership-perf-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:ownership.teams
+        schemaVersion: 1.0.6
+        scope: environment
+    config:
+      skip: true
+      name:
+        type: compound
+        format: "Team $RELEASE_PRODUCT {{ .releaseStage }} performance"
+        references:
+          - releaseStage
+      template: ownership.json
+      parameters:
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        useCase:
+          type: environment
+          name: USE_CASE        
+        description: "performance team for $RELEASE_PRODUCT"
+        identifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .releaseStage }}-perf"
+          references:
+            - releaseStage      
+        supplementaryIdentifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .useCase }}"
+          references:
+            - useCase    
+        isDevelopment: true
+        isSecurity: false
+        isOperations: true
+        isInfrastructure: false
+        isLineofBusiness: false
+        
+        email: team-perf@dynatrace.com
+        jiraProjectId: "ProjectPerformance"
+        jiraDefaultAssigneeId: "team-perf"
+        slackChannel: "#team-performance"
+        slackChannelURL: "https://demoworkflowworkspace.slack.com"
+
+  # ownership business
+  - id: ownership-business-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:ownership.teams
+        schemaVersion: 1.0.6
+        scope: environment
+    config:
+      skip: true
+      name:
+        type: compound
+        format: "Team $RELEASE_PRODUCT{{ .releaseStage }} business"
+        references:
+          - releaseStage
+      template: ownership.json
+      parameters:
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        useCase:
+          type: environment
+          name: USE_CASE        
+        description: "business team for $RELEASE_PRODUCT"
+        identifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .releaseStage }}-business"
+          references:
+            - releaseStage  
+        supplementaryIdentifier:
+          type: compound
+          format: "$RELEASE_PRODUCT-{{ .useCase }}"
+          references:
+            - releaseProduct 
+            - useCase        
+        isDevelopment: false
+        isSecurity: false
+        isOperations: false
+        isInfrastructure: false
+        isLineofBusiness: true
+        
+        email: team-business@dynatrace.com
+        jiraProjectId: "ProjectBusiness"
+        jiraDefaultAssigneeId: "team-business"
+        slackChannel: "#team-business"
+        slackChannelURL: "https://demoworkflowworkspace.slack.com"
