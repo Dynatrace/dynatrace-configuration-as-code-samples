@@ -34,7 +34,8 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 - Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
   
   <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
-  
+
+
   <img src="./readme-assets/oom-kills-settings.png"  width="60%" height="50%">
 
 #### Operational Excellence
@@ -46,7 +47,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 #### Sustainability
 - Install Carbon Impact App from the Dynatrace Hub or upgrade it with the latest release if installed.
 
- <img src="./readme-assets/sustainability-carbon-app.png"  width="50%" height="50%">
+  <img src="./readme-assets/sustainability-carbon-app.png"  width="50%" height="50%">
 
 ## How to Apply Workflow and SRG Configurations:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
