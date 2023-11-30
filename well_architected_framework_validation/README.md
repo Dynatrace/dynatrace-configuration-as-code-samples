@@ -8,48 +8,34 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
   
   Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
 
-First of all, install Site Reliability Guardian app from the Dynatrace Hub or upgrade it with the latest release if exists.
-<details>
-  <summary><strong>Install the Site Reliability Guardian</strong></summary>
-  
-  Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
-
 <img src="./readme-assets/install-SRG.png"  width="1200" height="450">
 </details>
 
 <details>
   <summary><strong>Upgrade the Site Reliability Guardian</strong></summary>
    
-  Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
+  Search in the Dynatrace Hub for the Site Reliability Guardian and upgrade it to the release 1.6.4 if you have lower release in place.
 
 <img src="./readme-assets/upgrade-SRG.png"  width="1200" height="450">
 </details>
 
+### Well-Architected Pillars Prerequisities
 
-### Performance Efficiency
-- Enable OpenTelemetry span data for the technology you use for your deployed application
+#### Performance Efficiency
+- Enable OpenTelemetry span data for the technology you use for your deployed application.
   For example, if your application is based on Node.js, enable it accordingly
   
   <img src="./readme-assets/perf-pillar-enable-ot.png"  width="50%" height="50%">
 
-### Security
-- Enable Appsec
+#### Security
+- Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
 
-### Reliability    
+#### Reliability    
 - Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
   
   <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
   
   <img src="./readme-assets/oom-kills-settings.png"  width="60%" height="50%">
-
-### Operational Excellence
-- Enable RUM and Synthetic Monitoring
-
-### Cost Optimization
-- Enable Logs and Timeseries
-
-### Sustainability
-- Install Carbon-App and enable Timeseries
 
 #### Operational Excellence
 - Verify that Real User Monitoring (RUM) is enabled for operational excellence score calculation. You should navigate to `Settings -> Web and mobile monitoring -> Enablement and cost control` and turn on "Enable Real User Monitoring".
@@ -60,7 +46,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 #### Sustainability
 - Install Carbon Impact App from the Dynatrace Hub or upgrade it with the latest release if installed.
 
-  <img src="./readme-assets/sustainability-carbon-app.png"  width="50%" height="50%">
+ <img src="./readme-assets/sustainability-carbon-app.png"  width="50%" height="50%">
 
 ## How to Apply Workflow and SRG Configurations:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
