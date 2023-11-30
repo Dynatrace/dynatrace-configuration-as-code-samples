@@ -30,13 +30,17 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 - Enable OpenTelemetry span data for the technology you use for your deployed application
   For example, if your application is based on Node.js, enable it accordingly
   
-  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="1200" height="450">
+  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="50%" height="50%">
 
 ### Security
 - Enable Appsec
 
 ### Reliability    
-- Enable Logs and Timeseries OOM_Kills
+- Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
+  
+  <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
+  
+  <img src="./readme-assets/oom-kills-settings.png"  width="60%" height="50%">
 
 ### Operational Excellence
 - Enable RUM and Synthetic Monitoring
@@ -121,26 +125,6 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 
 9. Trigger the Workflow to apply the well-architected framework validations
 
-    - app-settings:objects:read
-    - app-settings:objects:write
-    - automation:rules:read 
-    - automation:rules:write
-    - automation:workflows:read
-    - automation:workflows:run
-    - automation:workflows:write
-    - environment-api:entities:read
-    - state:app-states:read
-    - storage:buckets:read
-    - storage:entities:read
-    - storage:events:read
-    - storage:events:write
-    - storage:logs:read
-    - storage:metrics:read
-    - storage:spans:read
-    - storage:system:read
-    
-9. Trigger the Workflow to apply the well-architected framework validations
-
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
     - Update the parameters shown within '< >' with your system details
@@ -205,7 +189,6 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
    export RELEASE_PRODUCT="<Your Application Name>" # e.g. my-application
    export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e.g. staging, dev, production
    export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://easy-trade.internal.cloudapp.net, 34.79.202.168.nip.io
-   export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
  #### 3. Clone the well_architected_framework_validation template from dynatrace-configuration-as-code-samples repository.
@@ -283,7 +266,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
       image: alpine/git
       script:
         # Clone the Six Pillars Workflow configurations
-        - git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
+        - git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
         - cd dynatrace-configuration-as-code-samples
         - git sparse-checkout set well_architected_framework_validation
         - git checkout
@@ -301,7 +284,6 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
          - export RELEASE_PRODUCT="<Your Application Name>"
          - export RELEASE_STAGE="<Your Application Stage in your CICD pipeline>" 
          - export DOMAIN_URL="<Ingress domain for your application>" 
-         - export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
          
          - cd dynatrace-configuration-as-code-samples/well_architected_framework_validation
          - monaco deploy --dry-run
