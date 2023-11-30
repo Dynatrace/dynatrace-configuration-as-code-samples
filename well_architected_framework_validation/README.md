@@ -24,13 +24,17 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 - Enable OpenTelemetry span data for the technology you use for your deployed application
   For example, if your application is based on Node.js, enable it accordingly
   
-  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="1200" height="450">
+  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="50%" height="50%">
 
 ### Security
 - Enable Appsec
 
 ### Reliability    
-- Enable Logs and Timeseries OOM_Kills
+- Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
+  
+  <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
+  
+  <img src="./readme-assets/oom-kills-settings.png"  width="60%" height="50%">
 
 ### Operational Excellence
 - Enable RUM and Synthetic Monitoring
@@ -102,7 +106,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 
 9. Trigger the Workflow to apply the well-architected framework validations
 
-    - Navigate to the workflow with the name "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
+    - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
     - Update the parameters shown within '< >' with your system details
 
@@ -145,8 +149,6 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
 
 ## Integrate with a CICD Pipeline:
 
-TODO : Show how the generic workflow looks like with Build, Test, Deploy stages. Explain how to add DT config and SRG evaluation jobs in the pipeline and where to add them.
-
 > Note: Below steps are designed to be generic for different types of CICD tools.
 
 #### 1. Define the secrets in your CICD pipeline using their secrets definition capabilities.
@@ -161,10 +163,39 @@ TODO : Show how the generic workflow looks like with Build, Test, Deploy stages.
    DYNATRACE_SECRET=<Dynatrace oAuth Client Secret> # e.g. dt0s02.XXXXYYY.SSSDDDD...
    DYNATRACE_SSO_URL=<Dynatrace oAuth SSO Endpoint> # e.g. https://sso-xxx.dynatrace.com/sso/oauth2/token
    ```
-     
-#### 2. Add the Dynatrace Workflow and Site Reliability Guardian creations job via Dynatrace Configuration as Code (Monaco)
+#### 2. Define the application specific environment variables in your pipeline configuration file
+   
+   ``` bash
+   export USE_CASE="sixpillars"
+   export RELEASE_PRODUCT="<Your Application Name>" # e.g. my-application
+   export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e.g. staging, dev, production
+   export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://easy-trade.internal.cloudapp.net, 34.79.202.168.nip.io
+   ```
 
-   ##### 2.1 Define a job runner that will use the Docker image below.
+ #### 3. Clone the well_architected_framework_validation template from dynatrace-configuration-as-code-samples repository.
+  
+  Create a job/step in your pipeline using a job/step docker runner with a recommended image `alpine/git`
+  Then copy the below code piece in your script section of the job.
+  > Note:  After cloning the particular template folder, this script will adjust the parameters running the script `update-srg-id.sh`
+
+  ``` bash
+  git clone --depth 1 --no-checkout https://github.com/dynatrace/dynatrace-configuration-as-code-samples.git
+  cd dynatrace-configuration-as-code-samples
+  git sparse-checkout set well_architected_framework_validation
+  git checkout
+  cd well_architected_framework_validation 
+  sh update-srg-id.sh
+  ```
+
+  Assign the below path as an artifact in your pipeline:
+  
+  ```
+  dynatrace-configuration-as-code-samples/well_architected_framework_validation/
+  ```
+     
+#### 4. Add the Dynatrace Workflow and Site Reliability Guardian creations job via Dynatrace Configuration as Code (Monaco)
+   
+   ##### 4.1 Define a job runner that will use the Docker image below.
 
    ```
    dynatrace/dynatrace-configuration-as-code:v2.6.0
@@ -179,16 +210,16 @@ TODO : Show how the generic workflow looks like with Build, Test, Deploy stages.
      
      > in GitHub Actions, you can define a runner by specifying the Docker image to use as the job runner in your workflow file.
 
-   ##### 2.2 Once you have defined your job runner, you can then define the below bash scripts.
+   ##### 4.2 Once you have defined your job runner, you can then add the below script in your job.
     ``` bash
-    git clone https://github.com/eemrdog/six-pillars-workflow-template
     export USE_CASE="sixpillars"
     export RELEASE_PRODUCT="<Your application name>" # e.g. my-application
     export RELEASE_STAGE="<Your application stage in your deployment pipeline>"  # e.g. staging, dev, production
     export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://easy-trade.internal.cloudapp.net, 34.79.202.168.nip.io
 
-    monaco deploy --dry-run
-    monaco deploy
+    cd dynatrace-configuration-as-code-samples/well_architected_framework_validation
+    monaco deploy manifest.yaml --dry-run
+    monaco deploy manifest.yaml
     ```
 #### 3. Add the six pillars evaluation job in the pipeline
 
@@ -204,34 +235,49 @@ TODO : Show how the generic workflow looks like with Build, Test, Deploy stages.
     eval_start=<test start time>   # e.g. test start time in this format: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     eval_end=<test end time> # e.g. test end time in this format: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
     
-    dta srg evaluate --service $RELEASE_PRODUCT --stage $RELEASE_STAGE --start-time=$eval_start --end-time=$eval_end
+    dta srg evaluate --service $RELEASE_PRODUCT --stage $STAGE_NAME --release-version $RELEASE_VERSION --buildId $RELEASE_BUILD_VERSION --start-time=$eval_start --end-time=$eval_end --multiple-guardians
     ```
 
    #### A Gitlab pipeline example:
    > Note: Do not forget to define the secrets mentioned in Step 1 above
    
-   ``` bash
-   Create_SixPillars_Workflow:
-     stage: Deploy SixPillars Workflow
-     image: dynatrace/dynatrace-configuration-as-code:v2.6.0
-     script:
-       - git clone https://github.com/eemrdog/six-pillars-workflow-template
-       - export USE_CASE="sixpillars"
-       - export RELEASE_PRODUCT="<Your Application Name>"
-       - export RELEASE_STAGE="<Your Application Stage in your CICD pipeline>" 
-       - export DOMAIN_URL="<Ingress domain for your application>" 
-
-       - monaco deploy --dry-run
-       - monaco deploy
-
-   Evaluate_with_Six_Pillars_WF:
-     image: dynatraceace/dt-automation-cli:latest
-     stage: Execute SixPillars Workflow
-     script:
-       - eval_start=$(cat srg.test.starttime)
-       - eval_end=$(cat srg.test.endtime)
-       - dta srg evaluate --service $STAGE_NAME --stage $RELEASE_PRODUCT --start-time=$eval_start --end-time=$eval_end
-   ```
+    ``` bash
+    Clone the configurations:
+      stage: Clone
+      image: alpine/git
+      script:
+        # Clone the Six Pillars Workflow configurations
+        - git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
+        - cd dynatrace-configuration-as-code-samples
+        - git sparse-checkout set well_architected_framework_validation
+        - git checkout
+        - cd well_architected_framework_validation 
+        - sh update-srg-id.sh
+      artifacts:
+        paths:
+          - dynatrace-configuration-as-code-samples/well_architected_framework_validation/
+  
+     Create_SixPillars_Workflow:
+       stage: Deploy SixPillars Workflow
+       image: dynatrace/dynatrace-configuration-as-code:v2.6.0
+       script:
+         - export USE_CASE="sixpillars"
+         - export RELEASE_PRODUCT="<Your Application Name>"
+         - export RELEASE_STAGE="<Your Application Stage in your CICD pipeline>" 
+         - export DOMAIN_URL="<Ingress domain for your application>" 
+         
+         - cd dynatrace-configuration-as-code-samples/well_architected_framework_validation
+         - monaco deploy --dry-run
+         - monaco deploy
+  
+     Evaluate_with_Six_Pillars_WF:
+       image: dynatraceace/dt-automation-cli:latest
+       stage: Execute SixPillars Workflow
+       script:
+         - eval_start=$(cat srg.test.starttime)
+         - eval_end=$(cat srg.test.endtime)
+         - dta srg evaluate --service $RELEASE_PRODUCT --stage $STAGE_NAME --release-version $RELEASE_VERSION --buildId $RELEASE_BUILD_VERSION --start-time=$eval_start --end-time=$eval_end --multiple-guardians
+     ```
    
 ## Cleanup
 Run the below command to delete the workflow and SRG configurations along with the synthetic location configurations.
