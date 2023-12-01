@@ -224,14 +224,14 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
     monaco deploy manifest.yaml --dry-run
     monaco deploy manifest.yaml
     ```
-#### 3. Add the six pillars evaluation job in the pipeline
+#### 5. Add the six pillars evaluation job in the pipeline
 
-   ##### 3.1 Define a job runner that will use the Docker image below.
+   ##### 5.1 Define a job runner that will use the Docker image below.
    ```
    dynatraceace/dt-automation-cli:latest
    ```
 
-   ##### 3.2 Once you have defined your job runner, you can then execute the below bash scripts.
+   ##### 5.2 Once you have defined your job runner, you can then execute the below bash scripts.
     ``` bash
     RELEASE_PRODUCT="<Your application name>" # e.g. my-application
     RELEASE_STAGE="<Your application stage in your deployment pipeline>"  # e.g. staging, dev, production
