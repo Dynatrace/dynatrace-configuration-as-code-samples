@@ -28,22 +28,17 @@ configs:
         dql_query_span_resp_time: 
           type: compound
           format: |  
-            fetch spans
-            | fields dt.entity.process_group_instance,endpoint.name,duration,http.response.status_code
-            | filter isNotNull(dt.entity.process_group_instance)
-            | filter http.response.status_code == 200
-            | filter endpoint.name == "/api/invoke"
-            | lookup
-              [ fetch dt.entity.process_group_instance
-                | fields id, metadata, tags, lifetime
-                | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-                | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
-                | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
-                | sort lifetime  desc
-                | summarize count(), by: {id}
-              ], sourceField:dt.entity.process_group_instance , lookupField: id
-            | filter dt.entity.process_group_instance == lookup.id
-            | summarize median(toDouble(toString(duration)))
+            timeseries val = avg(dt.process.memory.usage), by:{dt.entity.process_group_instance} 
+            | lookup 
+              [ fetch dt.entity.process_group_instance 
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              ], sourceField:dt.entity.process_group_instance, lookupField:id 
+            | filterOut isNull(lookup.tags) 
+            | filterOut arrayAvg(val) == 0 
+            | fields avg = arrayAvg(val)
+            | summarize latest_avg =takeFirst(avg) 
           references:
             - releaseProduct
             - releaseStage
