@@ -194,7 +194,6 @@
         "failedLoopIterationsOnly": true
       },
       "timeout": 900
-      }
     },
     "opr_excel_snow_incident": {
       "name": "opr_excel_snow_incident",
