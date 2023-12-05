@@ -25,7 +25,7 @@ configs:
           name: RELEASE_STAGE   
  
         # objective - dql - response time via span
-        dql_query_span_resp_time: 
+        dql_query_mem_usage: 
           type: compound
           format: |  
             timeseries val = avg(dt.process.memory.usage), by:{dt.entity.process_group_instance} 
@@ -42,8 +42,8 @@ configs:
           references:
             - releaseProduct
             - releaseStage
-        target_resp_time: 0.5
-        warning_resp_time: 0.4
+        target_mem_usage: 0.5
+        warning_mem_usage: 0.4
         # objective - dql - cpu usage   
         dql_query_cpu_usage: 
           type: compound
