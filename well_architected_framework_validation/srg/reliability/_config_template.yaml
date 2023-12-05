@@ -105,7 +105,7 @@ configs:
         locations:
           type: list
           values:
-            - SYNTHETIC_LOCATION-000000000000000F # North Virginia Public synthetic location ID on AWS
+            - GEOLOCATION-9999453BE4BDB3CD # North Virginia Public synthetic location ID on AWS
         frequencyMin: 2
         url:
           type: environment
