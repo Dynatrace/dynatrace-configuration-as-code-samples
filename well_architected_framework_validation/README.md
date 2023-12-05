@@ -31,6 +31,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 - Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
 
 #### Reliability    
+- [Upgrade to Log Management and Analytics](https://docs.dynatrace.com/docs/observe-and-explore/logs/logs-upgrade/lma-upgrade) if you have classic log management
 - Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
   
   <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
