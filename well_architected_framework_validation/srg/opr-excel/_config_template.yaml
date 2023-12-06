@@ -91,8 +91,8 @@ configs:
           name: RELEASE_PRODUCT
         evaluationWindow:
           type: environment
-          name: EVALUATION_WINDOW
-          default: "-1h"
+          name: SLO_EVALUATION_WINDOW
+          default: "-10m"
 
   # app-detection-rule 
   - id: appDetection-$RELEASE_PRODUCT
