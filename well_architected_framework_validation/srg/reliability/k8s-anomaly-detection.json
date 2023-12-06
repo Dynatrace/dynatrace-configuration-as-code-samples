@@ -37,16 +37,35 @@
         }
     },
     "notAllPodsReady": {
-        "enabled": true
+        "enabled": true,
+        "configuration": {
+            "samplePeriodInMinutes": 30,
+            "observationPeriodInMinutes": 60
+        }
     },
     "highMemoryUsage": {
-        "enabled": true
+        "enabled": true,
+        "configuration": {
+            "threshold": 90,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
     },
     "highCpuUsage": {
-        "enabled": true
+        "enabled": true,
+        "configuration": {
+            "threshold": 90,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
     },
     "highCpuThrottling": {
-        "enabled": true
+        "enabled": true,
+        "configuration": {
+            "threshold": 50,
+            "samplePeriodInMinutes": 10,
+            "observationPeriodInMinutes": 15
+        }
     },
     "oomKills": {
         "enabled": true
