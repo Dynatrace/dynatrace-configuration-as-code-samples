@@ -171,6 +171,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
    export RELEASE_PRODUCT="<Your Application Name>" # e.g. my-application
    export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e.g. staging, dev, production
    export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://easy-trade.internal.cloudapp.net, 34.79.202.168.nip.io
+   export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
  #### 3. Clone the well_architected_framework_validation template from dynatrace-configuration-as-code-samples repository.
@@ -266,6 +267,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
          - export RELEASE_PRODUCT="<Your Application Name>"
          - export RELEASE_STAGE="<Your Application Stage in your CICD pipeline>" 
          - export DOMAIN_URL="<Ingress domain for your application>" 
+         - export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
          
          - cd dynatrace-configuration-as-code-samples/well_architected_framework_validation
          - monaco deploy --dry-run
