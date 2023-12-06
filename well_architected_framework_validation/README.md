@@ -98,10 +98,10 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     monaco deploy manifest.yaml
     ```
 8. Validate Workflow, SRG and Synthetic Location configurations are applied successfully. You can do this by going to the Dynatrace UI and check the following:
-      - Workflow configurations are applied successfully
-      - SRG configurations are applied successfully
-      - Synthetic Locations are created successfully
+      - Workflow and SRG configurations are applied successfully
       - Synthetic Monitors are created successfully
+      - Application and detection rules set properly
+      - SLO and Log ingestion rules applied correctly
 
 9. Trigger the Workflow to apply the well-architected framework validations
 
