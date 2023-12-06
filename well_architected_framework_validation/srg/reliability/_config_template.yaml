@@ -85,6 +85,32 @@ configs:
         target_oom_kills: 5
         warning_oom_kills: 3
 
+  # log ingestion rules
+  - id: log-ingestion-rules-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:logmonitoring.log-storage-settings
+        scope: environment
+        schemaVersion: "1.0.7"
+    config:
+      skip: true
+      template: log-ingestion-rules.json      
+      parameters:
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+
+  # K8s anomaly detection rules
+  - id: k8s-anomaly-detection-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: builtin:anomaly-detection.kubernetes.workload
+        scope: environment
+        schemaVersion: "1.10"
+    config:
+      skip: true
+      template: k8s-anomaly-detection.json      
+
   # synthetic-monitor
   - id: health-check-synth-monitor-$RELEASE_PRODUCT
     type:
