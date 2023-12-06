@@ -114,12 +114,6 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     - settings:objects:write
     - settings:schemas:read
 
-   Verify if these environment variables are set correctly. For example:
-   ``` bash
-   echo $DT_TENANT_URL
-   echo $DOMAIN_URL
-   echo $RELEASE_PRODUCT
-   ```
 6. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
@@ -136,12 +130,34 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     ``` bash
     monaco deploy manifest.yaml
     ```
-8. Validate Workflow, SRG and Synthetic Location configurations are applied successfully. You can do this by going to the Dynatrace UI and check the following:
-      - Workflow and SRG configurations are applied successfully
+8. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
+      - *Workflow and SRG configurations are applied successfully
       - Synthetic Monitors are created successfully
       - Application and detection rules set properly
       - SLO and Log ingestion rules applied correctly
 
+   *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
+    
+    <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
+
+    - app-settings:objects:read
+    - app-settings:objects:write
+    - automation:rules:read 
+    - automation:rules:write
+    - automation:workflows:read
+    - automation:workflows:run
+    - automation:workflows:write
+    - environment-api:entities:read
+    - state:app-states:read
+    - storage:buckets:read
+    - storage:entities:read
+    - storage:events:read
+    - storage:events:write
+    - storage:logs:read
+    - storage:metrics:read
+    - storage:spans:read
+    - storage:system:read
+    
 9. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
