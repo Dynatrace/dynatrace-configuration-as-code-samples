@@ -94,6 +94,7 @@ configs:
         schemaVersion: "1.0.7"
     config:
       skip: true
+      name: "Six Pillars - Log Ingestion Rule - $RELEASE_PRODUCT"
       template: log-ingestion-rules.json      
       parameters:
         releaseProduct:
@@ -109,6 +110,7 @@ configs:
         schemaVersion: "1.10"
     config:
       skip: true
+      name: "Six Pillars - K8s Anomaly Detection - $RELEASE_PRODUCT"
       template: k8s-anomaly-detection.json      
 
   # synthetic-monitor
