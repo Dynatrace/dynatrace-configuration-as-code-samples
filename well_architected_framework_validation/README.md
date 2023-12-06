@@ -49,7 +49,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    > Note: Verified Monaco Version is v2.6.0
 2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
    ``` bash
-   git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
+   git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
    cd dynatrace-configuration-as-code-samples
    git sparse-checkout set well_architected_framework_validation
    git checkout
@@ -249,7 +249,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
       image: alpine/git
       script:
         # Clone the Six Pillars Workflow configurations
-        - git clone --depth 1 --no-checkout https://github.com/eemrdog/dynatrace-configuration-as-code-samples.git
+        - git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
         - cd dynatrace-configuration-as-code-samples
         - git sparse-checkout set well_architected_framework_validation
         - git checkout
