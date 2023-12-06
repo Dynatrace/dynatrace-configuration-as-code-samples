@@ -32,12 +32,6 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 
 #### Reliability    
 - [Upgrade to Log Management and Analytics](https://docs.dynatrace.com/docs/observe-and-explore/logs/logs-upgrade/lma-upgrade) if you have classic log management
-- Enable detection of out of memory kills on your Kubernetes workload anomaly detection rules
-  
-  <img src="./readme-assets/oom-kills-detection.png"  width="50%" height="50%">
-
-
-  <img src="./readme-assets/oom-kills-settings.png"  width="60%" height="50%">
 
 #### Operational Excellence
 - Verify that Real User Monitoring (RUM) is enabled for operational excellence score calculation. You should navigate to `Settings -> Web and mobile monitoring -> Enablement and cost control` and turn on "Enable Real User Monitoring".
