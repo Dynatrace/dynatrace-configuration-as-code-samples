@@ -75,6 +75,45 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
+    #### *Required API Token scopes for `DT_API_TOKEN` variable*
+    Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
+   
+    - slo.read
+    - slo.write
+    - CaptureRequestData
+    - credentialVault.read
+    - credentialVault.write
+    - DataExport
+    - DataPrivacy
+    - ExternalSyntheticIntegration
+    - ReadConfig
+    - WriteConfig
+    - events.ingest
+    - settings.read
+    - settings.write
+    
+    #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
+    - automation:workflows:read (Read access to workflows)
+    - automation:workflows:write (Write access to workflows)
+    - automation:workflows:run (Execute permissions for workflows)
+    - automation:rules:read (Read access to scheduling rules)
+    - automation:rules:write (Write access to scheduling rules)
+    - app-engine:apps:run (Access to Apps and its actions)
+    - app-engine:apps:install (Install apps)
+    - storage:logs:read
+    - storage:logs:write
+    - storage:events:read
+    - storage:events:write
+    - storage:metrics:read
+    - storage:bizevents:read
+    - storage:system:read
+    - storage:buckets:read
+    - storage:bucket-definitions:read
+    - storage:bizevents:write
+    - settings:objects:read
+    - settings:objects:write
+    - settings:schemas:read
+
    Verify if these environment variables are set correctly. For example:
    ``` bash
    echo $DT_TENANT_URL
