@@ -276,6 +276,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
     monaco deploy manifest.yaml --dry-run
     monaco deploy manifest.yaml
     ```
+
 #### 5. Add the six pillars evaluation job in the pipeline
 
    ##### 5.1 Define a job runner that will use the Docker image below.
@@ -284,6 +285,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
    ```
 
    ##### 5.2 Once you have defined your job runner, you can then execute the below bash scripts.
+
     ``` bash
     RELEASE_PRODUCT="<Your application name>" # e.g. my-application
     RELEASE_STAGE="<Your application stage in your deployment pipeline>"  # e.g. staging, dev, production
@@ -321,7 +323,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
          - export RELEASE_STAGE="<Your Application Stage in your CICD pipeline>" 
          - export DOMAIN_URL="<Ingress domain for your application>" 
          - export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
-         
+
          - cd dynatrace-configuration-as-code-samples/well_architected_framework_validation
          - monaco deploy --dry-run
          - monaco deploy

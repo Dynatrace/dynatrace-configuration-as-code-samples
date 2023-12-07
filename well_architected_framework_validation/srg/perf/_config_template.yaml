@@ -44,6 +44,7 @@ configs:
             - releaseStage
         target_mem_usage: 0.5
         warning_mem_usage: 0.4
+
         # objective - dql - cpu usage   
         dql_query_cpu_usage: 
           type: compound
