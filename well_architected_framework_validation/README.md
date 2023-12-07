@@ -336,7 +336,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
      ```
    
 ## Cleanup
-Run the below command to delete the workflow and SRG configurations along with the synthetic location configurations.
+Run the below command to delete the workflow and SRG configurations along with the other Dynatrace configurations.
 
  ``` bash
  monaco delete --file delete.yaml
