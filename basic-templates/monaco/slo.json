@@ -1,0 +1,17 @@
+{
+    "enabled": true,
+    "name": "{{ .name }}",
+    "customDescription": null,
+    "metricName": "{{ .metricName }}",
+    "metricExpression": "{{ .metricExpression }}",
+    "evaluationType": "AGGREGATE",
+    "filter": "{{ .filter }}",
+    "evaluationWindow": "-5m",
+    "targetSuccess": 80,
+    "targetWarning": 90,
+    "errorBudgetBurnRate": {
+      "burnRateVisualizationEnabled": true,
+      "fastBurnThreshold": 10
+    }
+  }
+  

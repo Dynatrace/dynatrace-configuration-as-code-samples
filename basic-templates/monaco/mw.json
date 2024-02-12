@@ -1,0 +1,33 @@
+{
+      "enabled": true,
+      "generalProperties": {
+        "name": "{{ .name }}",
+        "description": "Subject Service planned maintenance",
+        "maintenanceType": "PLANNED",
+        "suppression": "DETECT_PROBLEMS_DONT_ALERT",
+        "disableSyntheticMonitorExecution": {{ .syntheticMonitorExecution }}
+      },
+      "schedule": {
+        "scheduleType": "{{ .scheduleType }}",
+        "weeklyRecurrence": {
+          "dayOfWeek": "MONDAY",
+          "timeWindow": {
+            "startTime": "{{ .scheduleStartTimeOfDay }}",
+            "endTime": "{{ .scheduleEndTimeOfDay }}",
+            "timeZone": "UTC"
+          },
+          "recurrenceRange": {
+            "scheduleStartDate": "{{ .scheduleStartDate }}",
+            "scheduleEndDate": "{{ .scheduleEndDate }}"
+          }
+        }
+      },
+      "filters": [
+        {
+          "entityTags": [],
+          "managementZones": [
+            "{{ .managementZone }}"
+          ]
+        }
+      ]
+}
