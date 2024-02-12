@@ -1,0 +1,23 @@
+manifestVersion: 1.0
+projects:
+  - name: monaco
+    path: monaco
+
+environmentGroups:
+  - name: production
+    environments:
+      - name: production-environment
+        url:
+          type: environment
+          value: DT_URL
+        auth:
+          token:
+            type: environment
+            name: DT_API_TOKEN
+          # oAuth:
+          #   clientId:
+          #     type: environment
+          #     name: DT_OAUTH_CLIENT_ID
+          #   clientSecret:
+          #     type: environment
+          #     name: DT_OAUTH_CLIENT_SECRET

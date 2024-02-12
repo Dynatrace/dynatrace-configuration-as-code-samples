@@ -1,0 +1,145 @@
+{
+    "name": "{{ .name }}",
+    "rules": [
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "WEB_APPLICATION",
+          "conditions": [
+            {
+              "key": "WEB_APPLICATION_TAGS",
+              "operator": "EQUALS",
+              "tag": "{{ .tagKey }}:{{ .serviceTagValue }}"
+            }
+          ]
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "HTTP_MONITOR",
+          "conditions": [
+            {
+              "key": "HTTP_MONITOR_TAGS",
+              "operator": "EQUALS",
+              "tag": "{{ .tagKey }}:{{ .serviceTagValue }}"
+            }
+          ]
+        }
+      },
+      {
+        "enabled": true,
+        "type": "SELECTOR",
+        "entitySelector": "type(SERVICE),databaseName.exists(),toRelationships.calls(type(SERVICE),tag({{ .tagKey }}:{{ .serviceTagValue }}))"
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "BROWSER_MONITOR",
+          "conditions": [
+            {
+              "key": "BROWSER_MONITOR_TAGS",
+              "operator": "EQUALS",
+              "tag": "{{ .tagKey }}:{{ .serviceTagValue }}"
+            }
+          ]
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "SERVICE",
+          "conditions": [
+            {
+              "key": "SERVICE_TAGS",
+              "operator": "EQUALS",
+              "tag": "{{ .tagKey }}:{{ .serviceTagValue }}"
+            }
+          ],
+          "serviceToHostPropagation": true,
+          "serviceToPGPropagation": true
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "CLOUD_APPLICATION",
+          "conditions": [
+            {
+              "key": "CLOUD_APPLICATION_NAMESPACE_LABELS",
+              "dynamicKey": "app.kubernetes.io/name",
+              "operator": "CONTAINS",
+              "stringValue": "{{ .serviceTagValue }}",
+              "caseSensitive": true
+            }
+          ]
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "KUBERNETES_SERVICE",
+          "conditions": [
+            {
+              "key": "KUBERNETES_SERVICE_NAME",
+              "operator": "CONTAINS",
+              "stringValue": "{{ .serviceTagValue }}",
+              "caseSensitive": true
+            }
+          ]
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "KUBERNETES_CLUSTER",
+          "conditions": [
+            {
+              "key": "KUBERNETES_CLUSTER_NAME",
+              "operator": "EQUALS",
+              "stringValue": "{{ .k8sClusterName }}",
+              "caseSensitive": true
+            }
+          ]
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "HOST",
+          "conditions": [
+            {
+              "key": "HOST_TAGS",
+              "operator": "EQUALS",
+              "tag": "{{ .tagKey }}:{{ .serviceTagValue }}"
+            }
+          ],
+          "hostToPGPropagation": true
+        }
+      },
+      {
+        "enabled": true,
+        "type": "ME",
+        "attributeRule": {
+          "entityType": "PROCESS_GROUP",
+          "conditions": [
+            {
+              "key": "PROCESS_GROUP_TAGS",
+              "operator": "EQUALS",
+              "tag": "{{ .tagKey }}:{{ .serviceTagValue}}"
+            }
+          ],
+          "pgToHostPropagation": true,
+          "pgToServicePropagation": true
+        }
+      }
+    ]
+}

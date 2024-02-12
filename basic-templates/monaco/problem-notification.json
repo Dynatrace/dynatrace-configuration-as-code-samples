@@ -1,0 +1,14 @@
+{
+      "enabled": true,
+      "type": "WEBHOOK",
+      "displayName": "{{ .name }}",
+      "webHookNotification": {
+        "url": "{{ .problemNotificationUrl }}",
+        "acceptAnyCertificate": false,
+        "notifyEventMergesEnabled": false,
+        "notifyClosedProblems": true,
+        "headers": [],
+        "payload": "{\"title\":\"{ProblemTitle}\",\"text\":\"{ProblemDetailsHTML}\",\"themeColor\":\"EA4300\"}"
+      },
+      "alertingProfile": "{{ .alertingProfile }}"
+}

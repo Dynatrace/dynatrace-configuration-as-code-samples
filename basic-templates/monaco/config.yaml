@@ -1,0 +1,373 @@
+configs:
+  - id: managementZoneId
+    config:
+      name: <Management Zone Name>                # Add your MZ name
+      template: mz.json
+      parameters:
+        serviceTagValue:
+          type: environment
+          name: SERVICE_TAG_VALUE
+        k8sClusterName:
+          type: environment
+          name: KUBERNETES_CLUSTER_NAME
+        tagKey:
+          type: environment
+          name: TAG_KEY
+      skip: false
+    type:
+      settings:
+        schema: 'builtin:management-zones'
+        schemaVersion: 1.0.6
+        scope: environment
+
+
+  - id: alertingProfileId
+    config:
+      name: <Alerting Profile Name>               # Add your Alerting profile name
+      template: alerting-profile.json
+      parameters:
+        managementZone:
+          type: reference
+          project: monaco
+          configId: managementZoneId
+          configType: 'builtin:management-zones'
+          property: id
+      skip: false
+    type:
+      settings:
+        schema: 'builtin:alerting.profile'
+        schemaVersion: '8.4'
+        scope: environment
+
+
+  - id: applicationId
+    config:
+      name: <Application name>                    # Add your Application name
+      template: application-web.json
+      parameters:
+        replayEnabled:
+          type: environment
+          name: REPLAY_ENABLED
+        replayPercentage:
+          type: environment
+          name: REPLAY_PERCENTAGE
+        rumPercentage:
+          type: environment
+          name: RUM_PERCENTAGE
+      skip: false
+    type:
+      api: application-web
+
+
+  - id: applicationDetectionRule
+    config:
+      name: <App Detection Rule Name>             # Add your Application Detection Rule name
+      template: application-detection.json
+      parameters:
+        applicationId:
+          type: reference
+          project: monaco
+          configId: applicationId
+          configType: application-web
+          property: id
+        matcher:
+          type: environment
+          name: MATCHER
+        appDetectionPattern:
+          type: environment
+          name: APP_DETECTION_PATTERN
+      skip: false
+    type:
+      settings:
+        schema: 'builtin:rum.web.app-detection'
+        schemaVersion: 2.1.1
+        scope: environment
+
+
+  - id: problemNotificationId
+    config:
+      name: <Problem notification name>           # Add your Problem Notification name
+      template: problem-notification.json
+      parameters:
+        alertingProfile:
+          type: reference
+          project: monaco
+          configId: alertingProfileId
+          configType: 'builtin:alerting.profile'
+          property: id
+        problemNotificationUrl:
+          type: environment
+          name: PROBLEM_NOTIFICATION_URL
+      skip: false
+    type:
+      settings:
+        schema: 'builtin:problem.notifications'
+        schemaVersion: 1.4.11
+        scope: environment
+
+
+  - id: httpMonitorId
+    config:
+      name: <HTTP Monitor Name>                   # Add your HTTP Monitor name
+      template: http-monitor.json
+      parameters:
+        httpMonitorFrequency:
+          type: environment
+          name: HTTP_MONITOR_FREQUENCY
+        syntheticLocation:
+          type: environment
+          name: SYNTHETIC_LOCATION
+        httpSyntheticUrl:
+          type: environment
+          name: HTTP_SYNTHETIC_URL
+        serviceTagValue:
+          type: environment
+          name: SERVICE_TAG_VALUE
+        managementZone:
+          type: reference
+          project: monaco
+          configId: managementZoneId
+          configType: 'builtin:management-zones'
+          property: id
+        applicationId:
+          type: reference
+          project: monaco
+          configId: applicationId
+          configType: application-web
+          property: id
+      skip: false
+    type:
+      api: synthetic-monitor
+
+
+  - id: ownership
+    config:
+      name: <OWnership Team Name>                  # Add your Team name
+      template: ownership.json
+      parameters:
+        ownershipEmail:
+          type: environment
+          name: OWNERSHIP_EMAIL
+        team:
+          type: environment
+          name: OWNERSHIP_TEAM_NAME
+        channelUrl:
+          type: environment
+          name: CHANNEL_URL
+      skip: false
+    type:
+      settings:
+        schema: 'builtin:ownership.teams'
+        schemaVersion: 1.0.6
+        scope: environment
+
+
+  - id: maintenanceWindowId
+    config:
+      name: <Maintenance Window Name>               # Add your Maintenance Window name
+      template: mw.json
+      parameters:
+        managementZone:
+          type: reference
+          project: monaco
+          configId: managementZoneId
+          configType: 'builtin:management-zones'
+          property: id
+        syntheticMonitorExecution:
+          type: environment
+          name: DISABLE_SYNTHETIC_MONITOR_EXECUTION
+        scheduleType:
+          type: environment
+          name: SCHEDULE_TYPE
+        scheduleStartDate:
+          type: environment
+          name: SCHEDULE_START_DATE
+        scheduleEndDate:
+          type: environment
+          name: SCHEDULE_END_DATE
+        scheduleStartTimeOfDay:
+          type: environment
+          name: SCHEDULE_START_TIME_OF_DAY
+        scheduleEndTimeOfDay:
+          type: environment
+          name: SCHEDULE_END_TIME_OF_DAY
+      skip: false
+    type:
+      settings:
+        schema: 'builtin:alerting.maintenance-window'
+        schemaVersion: 2.14.4
+        scope: environment
+
+
+  - id: sloFailureRateStaging
+    config:
+      name:
+        type: compound
+        format: '{{ .releaseProduct }}.failure_rate'
+        references:
+          - releaseProduct
+      template: slo.json
+      skip: false
+      parameters:
+        metricName:
+          type: compound
+          format: '{{ .sloMetricName }}_failure_rate'
+          references:
+            - sloMetricName
+        metricExpression: >-
+          (100)*(builtin:service.errors.server.successCount:splitBy())/(builtin:service.requestCount.server:splitBy())
+        filter:
+          type: compound
+          format: 'type("SERVICE"),tag("project:{{ .releaseProduct }}")'              # Be careful about the tag values here
+          references:
+            - releaseProduct
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        sloMetricName:
+          type: environment
+          name: SLO_METRIC_NAME
+    type:
+      settings:
+        schema: 'builtin:monitoring.slo'
+        schemaVersion: 6.0.13
+        scope: environment
+    groupOverrides:
+      - group: production
+        override:
+          skip: true
+
+
+  - id: sloResponseTimeStaging
+    config:
+      name:
+        type: compound
+        format: '{{ .releaseProduct }}.{{ .releaseStage }}.response_time'
+        references:
+          - releaseProduct
+          - releaseStage
+      template: slo.json
+      skip: false
+      parameters:
+        metricName:
+          type: compound
+          format: '{{ .sloMetricName }}_{{ .releaseStage }}_response_time'
+          references:
+            - sloMetricName
+            - releaseStage
+        metricExpression: >-
+          ((builtin:service.response.time:avg:partition("latency",value("good",lt(600000))):splitBy():count:default(0))/(builtin:service.response.time:avg:splitBy():count)*(100))
+        filter:
+          type: compound
+          format: >-
+            type("SERVICE"),tag("project:{{ .releaseProduct
+            }}"),tag("environment:{{ .releaseStage }}")
+          references:
+            - releaseProduct
+            - releaseStage
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        sloMetricName:
+          type: environment
+          name: SLO_METRIC_NAME
+    type:
+      settings:
+        schema: 'builtin:monitoring.slo'
+        schemaVersion: 6.0.13
+        scope: environment
+    groupOverrides:
+      - group: production
+        override:
+          skip: true
+
+
+  - id: sloFailureRateProduction
+    config:
+      name:
+        type: compound
+        format: '{{ .releaseProduct }}.{{ .releaseStage }}.failure_rate'
+        references:
+          - releaseProduct
+          - releaseStage
+      template: slo.json
+      skip: true
+      parameters:
+        metricName:
+          type: compound
+          format: '{{ .releaseProduct }}_{{ .releaseStage }}_failure_rate'
+          references:
+            - releaseProduct
+            - releaseStage
+        metricExpression: >-
+          (100)*(builtin:service.errors.server.successCount:splitBy())/(builtin:service.requestCount.server:splitBy())
+        filter:
+          type: compound
+          format: >-
+            type("SERVICE"),tag("project:{{ .releaseProduct
+            }}"),tag("environment:{{ .releaseStage }}")
+          references:
+            - releaseProduct
+            - releaseStage
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+    type:
+      settings:
+        schema: 'builtin:monitoring.slo'
+        schemaVersion: 6.0.11
+        scope: environment
+    groupOverrides:
+      - group: staging
+        override:
+          skip: true
+
+
+  - id: sloResponseTimeProduction
+    config:
+      name:
+        type: compound
+        format: '{{ .releaseProduct }}.{{ .releaseStage }}.response_time'
+        references:
+          - releaseProduct
+          - releaseStage
+      template: slo.json
+      skip: true
+      parameters:
+        metricName:
+          type: compound
+          format: '{{ .releaseProduct }}_{{ .releaseStage }}_response_time'
+          references:
+            - releaseProduct
+            - releaseStage
+        metricExpression: >-
+          ((builtin:service.response.time:avg:partition("latency",value("good",lt(600000))):splitBy():count:default(0))/(builtin:service.response.time:avg:splitBy():count)*(100))
+        filter:
+          type: compound
+          format: >-
+            type("SERVICE"),tag("project:{{ .releaseProduct
+            }}"),tag("environment:{{ .releaseStage }}")
+          references:
+            - releaseProduct
+            - releaseStage
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+    type:
+      settings:
+        schema: 'builtin:monitoring.slo'
+        schemaVersion: 6.0.11
+        scope: environment
+    groupOverrides:
+      - group: staging
+        override:
+          skip: true
