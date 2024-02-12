@@ -1,0 +1,52 @@
+configs:
+  # srg
+  - id: srg-security-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: app:dynatrace.site.reliability.guardian:guardians
+        schemaVersion: 1.1.2
+        scope: environment
+    config:
+      skip: true
+      name: "Six Pillars - Security - $RELEASE_PRODUCT"
+         
+      template: srg-security.json
+      
+      parameters:
+        tags:
+          type: list
+          values:
+            - "usecase:sixpillars"
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        # objective - dql - security score
+        dql_query_security_score: 
+          type: compound
+          format: |
+            fetch events
+            | filter event.kind == "SECURITY_EVENT" 
+            | filter event.type == "VULNERABILITY_STATE_REPORT_EVENT" 
+            | filter event.level == "ENTITY" 
+            | filter vulnerability.resolution.status == "OPEN" 
+            | summarize{
+            sc=takeFirst(vulnerability.davis_assessment.score), 
+            procs=takeFirst(affected_entity.affected_processes.ids)}, by: {vulnerability.id, affected_entity.id} 
+            | lookup
+              [ fetch dt.entity.process_group 
+              | fieldsAdd tags 
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              | summarize pg_id = takeFirst(id)
+              ], sourceField:affected_entity.id , lookupField:pg_id 
+            | filter affected_entity.id == toString(lookup.pg_id) 
+            | summarize maxScore=takeMax(sc)
+          references:
+            - releaseStage
+            - releaseProduct
+        target_security_score: 8.5
+        warning_security_score: 7.5

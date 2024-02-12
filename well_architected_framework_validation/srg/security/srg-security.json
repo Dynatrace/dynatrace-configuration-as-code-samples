@@ -1,0 +1,17 @@
+{
+  "name": "{{ .name }}",
+  "description": "Security Guardian - Perform Security Checks of an application",
+  "tags": {{ .tags }},
+  "variables":[{"name":"version","definition":"1.0.0"}],
+  "objectives": [
+    {
+      "name": "Runtime Vulnerability Analysis - Davis Security Score",
+      "description": "Runtime Vulnerability Analysis for a Process Group Instance - Davis Security Score",
+      "objectiveType": "DQL",
+      "dqlQuery": "{{ .dql_query_security_score }}",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .target_security_score }},
+      "warning": {{ .warning_security_score }}
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+configs:
+  # srg
+  - id: srg-perf-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: app:dynatrace.site.reliability.guardian:guardians
+        schemaVersion: 1.1.2
+        scope: environment
+    config:
+      skip: true
+      name: "Six Pillars - Performance Efficiency - $RELEASE_PRODUCT"
+
+      template: srg-perf.json
+      
+      parameters:
+        tags:
+          type: list
+          values:
+            - "usecase:sixpillars"
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE   
+ 
+        # objective - dql - response time via span
+        dql_query_mem_usage: 
+          type: compound
+          format: |  
+            timeseries val = avg(dt.process.memory.usage), by:{dt.entity.process_group_instance} 
+            | lookup 
+              [ fetch dt.entity.process_group_instance 
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              ], sourceField:dt.entity.process_group_instance, lookupField:id 
+            | filterOut isNull(lookup.tags) 
+            | filterOut arrayAvg(val) == 0 
+            | fields avg = arrayAvg(val)
+            | summarize latest_avg =takeFirst(avg) 
+          references:
+            - releaseProduct
+            - releaseStage
+        target_mem_usage: 0.5
+        warning_mem_usage: 0.4
+        # objective - dql - cpu usage   
+        dql_query_cpu_usage: 
+          type: compound
+          format: |          
+            timeseries val = avg(dt.process.cpu.usage), by:{dt.entity.process_group_instance} 
+            | lookup 
+              [ fetch dt.entity.process_group_instance 
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              ], sourceField:dt.entity.process_group_instance, lookupField:id 
+            | filterOut isNull(lookup.tags) 
+            | filterOut arrayAvg(val) == 0 
+            | fields avg = arrayAvg(val)
+            | summarize latest_avg =takeFirst(avg)          
+          references:
+            - releaseProduct
+            - releaseStage
+        target_cpu_usage: 10
+        warning_cpu_usage: 5        
+

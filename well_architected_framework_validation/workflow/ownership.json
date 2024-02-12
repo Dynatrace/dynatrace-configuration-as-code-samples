@@ -1,0 +1,34 @@
+{
+  "name": "{{ .name }}",
+  "description": "{{ .description }}",
+  "identifier": "{{ .identifier }}",
+  "supplementaryIdentifiers":[{"supplementaryIdentifier":"{{ .supplementaryIdentifier }}"}],
+  "responsibilities": {
+    "development": {{ .isDevelopment }},
+    "security": {{ .isSecurity }},
+    "operations": {{ .isOperations }},
+    "infrastructure": {{ .isInfrastructure }},
+    "lineOfBusiness": {{ .isLineofBusiness }}
+  },
+  "contactDetails": [
+    {
+      "integrationType": "EMAIL",
+      "email": "{{ .email }}"
+    },
+    {
+      "jira": {
+        "project": "{{ .jiraProjectId }}",
+        "defaultAssignee": "{{ .jiraDefaultAssigneeId }}"
+      },
+      "integrationType": "JIRA"
+    },
+    {
+      "integrationType": "SLACK",
+      "slackChannel": "{{ .slackChannel }}",
+      "url": "{{ .slackChannelURL }}"
+  }
+  ],
+  "links": [],
+  "additionalInformation": [],
+  "externalId": null
+}

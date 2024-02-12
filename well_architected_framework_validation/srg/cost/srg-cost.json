@@ -1,0 +1,26 @@
+{
+  "name": "{{ .name }}",
+  "description": "Cost Guardian - Cost effectiveness of an application while having the similar performance",
+  "tags": {{ .tags }},
+  "variables":[{"name":"version","definition":"1.0.0"}],
+  "objectives": [
+    {
+      "name": "Optimize Container CPU Limit",
+      "description": "If it fails, reduce the CPU size and perform validation against the response time objective (Objective 2)",
+      "objectiveType": "DQL",
+      "dqlQuery": "{{ .dql_query_cpu_usage_percent }}",
+      "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+      "target": {{ .target_cpu_usage_percent }},
+      "warning": {{ .warning_cpu_usage_percent }}
+    },
+    {
+      "name": "Optimize Disk Usage",
+      "description": "If the below SLO fails, reduce the disk size and revalidate the same objective against the performance efficiency validation pillar. If the performance efficiency pillar passes, you achieved your cost reduction on the disk size",
+      "objectiveType": "DQL",
+      "dqlQuery": "{{ .dql_query_disk_usage }}",
+      "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+      "target": {{ .target_disk_usage }},
+      "warning": {{ .warning_disk_usage }}
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+#any .log file and folder
+*/.logs/*
+.logs/
+
+**key*
+*.env
+!/srg/*/_config_template.yaml
+!/workflow/_config_*template.yaml
+/deletefiles/*

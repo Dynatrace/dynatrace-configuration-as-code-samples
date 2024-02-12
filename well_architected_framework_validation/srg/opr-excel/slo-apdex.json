@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "{{ .name }}",
+  "customDescription": null,
+  "metricName": "{{ .metric_name }}",
+  "metricExpression": "(100)*(builtin:apps.web.actionCount.category:filter(eq(\"Apdex category\",SATISFIED)):splitBy())/(builtin:apps.web.actionCount.category:splitBy())",
+  "evaluationType": "AGGREGATE",
+  "filter": "type(\"APPLICATION\"),entityName.equals(\"{{ .application_name }}\")",
+  "evaluationWindow": "{{ .evaluationWindow }}",
+  "targetSuccess": {{ .target_apdex }},
+  "targetWarning": {{ .warning_apdex }},
+  "errorBudgetBurnRate": {
+    "burnRateVisualizationEnabled": false
+  }
+}

@@ -1,0 +1,84 @@
+configs:
+  # srg
+  - id: srg-cost-$RELEASE_PRODUCT
+    type:
+      settings:
+        schema: app:dynatrace.site.reliability.guardian:guardians
+        schemaVersion: 1.1.2
+        scope: environment
+    config:
+      skip: true
+      name: "Six Pillars - Cost Optimization - $RELEASE_PRODUCT"
+
+      template: srg-cost.json
+      
+      parameters:
+        tags:
+          type: list
+          values:
+            - "usecase:sixpillars"
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        # objective - timeseries - cpu usage percent
+        dql_query_cpu_usage_percent: 
+          type: compound
+          format: |
+            timeseries val = avg(dt.containers.cpu.usage_percent),
+            by:{dt.source_entity}
+            | lookup
+              [ fetch dt.entity.container_group_instance
+              | fields id, pgis=contains[dt.entity.process_group_instance],lifetime
+              | expand pgis
+              | lookup 
+                [ fetch dt.entity.process_group_instance
+                | fields id, metadata, tags, lifetime
+                | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+                | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+                | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+                | sort lifetime  desc
+                | summarize count(), by: {id}
+                ], sourceField: pgis , lookupField: id
+              | filter pgis == lookup.id
+              | sort lifetime  desc
+              | summarize latest_container_group_instance_id = takeFirst(id)
+              ], sourceField:dt.source_entity , lookupField:latest_container_group_instance_id
+            | filter dt.source_entity == lookup.latest_container_group_instance_id
+            | fields avg = arrayAvg(val)
+          references:
+            - releaseStage
+            - releaseProduct
+        target_cpu_usage_percent: 10
+        warning_cpu_usage_percent: 15       
+        
+        # objective - timeseries - disk usage
+        dql_query_disk_usage: 
+          type: compound
+          format: |  
+            timeseries disk_used = avg(dt.host.disk.used.percent) , by:{dt.entity.host}
+            | lookup 
+              [ fetch dt.entity.host
+              | fields id, pgi=contains[dt.entity.process_group_instance]
+              ], sourceField:dt.entity.host, lookupField:id
+            | filter dt.entity.host == lookup.id
+            | expand lookup.pgi
+            | fieldsAdd pgiStr=toString(lookup.pgi)
+            | lookup 
+              [ fetch dt.entity.process_group_instance
+              | fieldsAdd tags
+              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
+              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
+              | sort lifetime  desc
+              | summarize pgi_id = takeFirst(id)
+              ], sourceField:pgiStr, lookupField:pgi_id, prefix:"pg_"
+            | filter isNotNull(pg_pgi_id)
+            | fields avg = arrayAvg(disk_used)
+          references:
+            - releaseStage
+            - releaseProduct
+        target_disk_usage: 10
+        warning_disk_usage: 15

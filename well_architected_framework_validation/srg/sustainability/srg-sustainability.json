@@ -1,0 +1,26 @@
+{
+  "name": "{{ .name }}",
+  "description": "Sustainability Guardian",
+  "tags": {{ .tags }},
+  "variables":[{"name":"version","definition":"1.0.0"}],
+  "objectives": [
+    {
+      "name": "Carbon Emission total for the host running the application",
+      "description": "The host id to be referenced as a parameter from the workflow",
+      "objectiveType": "DQL",
+      "dqlQuery": "{{ .dql_query_carbon_index }}",
+      "comparisonOperator": "LESS_THAN_OR_EQUAL",
+      "target": {{ .target_carbon_index }},
+      "warning": {{ .warning_carbon_index }}
+    },
+    {
+      "name": "Under-utilized memory resource validation",
+      "description": "Identify underutilized memory by querying the memory usage with the memory limit in Kubernetes cluster",
+      "objectiveType": "DQL",
+      "dqlQuery": "{{ .dql_query_mem_usage }}",
+      "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+      "target": {{ .target_mem_usage }},
+      "warning": {{ .warning_mem_usage }}
+    }
+  ]
+}

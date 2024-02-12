@@ -1,0 +1,18 @@
+manifestVersion: 1.0
+projects:
+  - name: bucket
+
+environmentGroups:
+  - name: default
+    environments:
+      - name: DT_ENV_ID
+        url:
+          value: DT_ENV_URL
+        auth:
+          token:
+            name: API_TOKEN
+          oAuth:
+            clientId:
+              name: CLIENT_ID
+            clientSecret:
+              name: CLIENT_SECRET
