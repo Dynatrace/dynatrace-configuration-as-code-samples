@@ -1,0 +1,8 @@
+policies:
+  - name: Storage - Bucket CasC Admin
+    id: bucket-admin
+    level:
+      type: account
+    description: Allows admin (read, write, delete) access to Bucket definition.
+    policy: |-
+      ALLOW storage:bucket-definitions:write, storage:bucket-definitions:delete, storage:buckets:read, storage:bucket-definitions:read;

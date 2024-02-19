@@ -1,0 +1,22 @@
+groups:
+  - name: Config-as-Code Admin Access
+    id: casc-admin-access
+    description: >  
+      This grants elevated admin (read/write) access for config-as-code use-cases,
+      including Automation and Grail Bucket permissions not included in any pre-configured group.
+    account:
+      policies:
+        - AppEngine - Admin
+        - AutomationEngine - Admin access
+        - Environment role - Access environment
+        - Environment role - Change monitoring settings
+        - Extensions - Admin access
+        - Settings Reader
+        - Settings Writer
+        - type: reference
+          id: bucket-admin
+      environments:
+        - environment: %YOUR_ENVIRONMENT_ID%
+          permissions:
+            - tenant-manage-settings
+        # ADD FURTHER ENVIRONMENTS AS NEEDED
