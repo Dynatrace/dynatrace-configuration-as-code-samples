@@ -3,3 +3,4 @@
     "pattern": "{{ .appDetectionPattern }}",
     "applicationId": "{{ .applicationId }}"
   }
+  
