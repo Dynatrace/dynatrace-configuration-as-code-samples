@@ -142,7 +142,7 @@ configs:
 
   - id: ownership
     config:
-      name: <OWnership Team Name>                  # Add your Team name
+      name: <Ownership Team Name>                  # Add your Team name
       template: ownership.json
       parameters:
         ownershipEmail:
