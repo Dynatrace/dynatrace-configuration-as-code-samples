@@ -5,7 +5,7 @@
         "description": "Subject Service planned maintenance",
         "maintenanceType": "PLANNED",
         "suppression": "DETECT_PROBLEMS_DONT_ALERT",
-        "disableSyntheticMonitorExecution": {{ .syntheticMonitorExecution }}
+        "disableSyntheticMonitorExecution": "{{ .syntheticMonitorExecution }}"
       },
       "schedule": {
         "scheduleType": "{{ .scheduleType }}",
@@ -31,4 +31,3 @@
         }
       ]
 }
-
