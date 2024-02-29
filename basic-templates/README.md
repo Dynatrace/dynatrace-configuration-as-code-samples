@@ -7,7 +7,7 @@ This repository will help you deploy a few basic templates and allow you to have
 The repository consists of 2 folders:
 
     1. env_variables
-        - Default script that will run before the monaco runs to make sure all environment variables are exported properly
+        - Default script that will run before Monaco runs to make sure all environment variables are exported properly
     2. monaco
         - Contains all json and yaml configurations needed to deploy everything to your Dynatrace environment
 
@@ -43,13 +43,14 @@ To download the CLI, head over to the [dynatrace-configuration-as-code GitHub re
 
 If you're new to Monaco and want to learn more, check out the [Observability Clinic on Monaco 2.0](https://dt-url.net/monaco-observability-clinic).
 
-After your Monaco setup is done and you have some practice, feel free to deploy this configuration and explore it in your tenant. 
+After your Monaco setup is done, and you have some practice, feel free to deploy this configuration and explore it in your tenant. 
 To deploy it, please follow the steps below:
 
     1. Fill out the default.sh in the env_variables folder.   
-    2. Run the script to export the variables
-    3. Run the monaco project
-    4. Explore your Dynatrace environment and check out what got deployed
+    2. Run the script to export the variables - execute "source env_variables/default.sh"
+    3. Run "monaco deploy manifest.yaml --dry-run" to very syntax of all files is correct.
+    4. Run the monaco project with "monaco deploy manifest.yaml"
+    5. Explore your Dynatrace environment and check out what got deployed
 
 In case you need to **delete** the configuration, feel free to explore the [delete command](https://docs.dynatrace.com/docs/manage/configuration-as-code/monaco/reference/commands#delete).
 
