@@ -2,7 +2,6 @@
   "description": "",
   "isPrivate": true,
   "labels": {},
-  "schemaVersion": 3,
   "taskDefaults": {},
   "tasks": {
     "action_on_failure": {
