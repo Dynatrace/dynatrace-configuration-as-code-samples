@@ -4,7 +4,6 @@ configs:
     type:
       settings:
         schema: app:dynatrace.site.reliability.guardian:guardians
-        schemaVersion: 1.1.2
         scope: environment
     config:
       skip: true
@@ -91,7 +90,6 @@ configs:
       settings:
         schema: builtin:logmonitoring.log-storage-settings
         scope: environment
-        schemaVersion: "1.0.7"
     config:
       skip: true
       name: "Six Pillars - Log Ingestion Rule - $RELEASE_PRODUCT"
@@ -107,7 +105,6 @@ configs:
       settings:
         schema: builtin:anomaly-detection.kubernetes.workload
         scope: environment
-        schemaVersion: "1.10"
     config:
       skip: true
       name: "Six Pillars - K8s Anomaly Detection - $RELEASE_PRODUCT"

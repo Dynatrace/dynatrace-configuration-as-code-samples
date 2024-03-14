@@ -2,10 +2,6 @@
   "title": "{{ .name }}",
   "description": "{{ .wf_description }}",
   "isPrivate": "{{ .wf_isPrivate }}",
-<<<<<<< HEAD
-=======
-  "schemaVersion": 3,
->>>>>>> c74f9b1 (jsons)
   "triggerType": "Event",
   "trigger": {
     "eventTrigger": {

@@ -4,7 +4,6 @@ configs:
     type:
       settings:
         schema: app:dynatrace.site.reliability.guardian:guardians
-        schemaVersion: 1.1.2
         scope: environment
     config:
       skip: true
@@ -100,7 +99,6 @@ configs:
       settings:
         schema: builtin:rum.web.app-detection
         scope: environment
-        schemaVersion: "2.0.1"
     config:
       skip: true
       name: 
