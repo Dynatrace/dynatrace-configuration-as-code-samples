@@ -2,7 +2,6 @@
   "title": "{{ .name }}",
   "description": "{{ .wf_description }}",
   "isPrivate": "{{ .wf_isPrivate }}",
-  "schemaVersion": 3,
   "triggerType": "Event",
   "trigger": {
     "eventTrigger": {
