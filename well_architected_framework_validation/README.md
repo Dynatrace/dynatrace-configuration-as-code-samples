@@ -91,6 +91,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     - events.ingest
     - settings.read
     - settings.write
+    - AdvancedSyntheticIntegration
     
     #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
     - automation:workflows:read (Read access to workflows)
