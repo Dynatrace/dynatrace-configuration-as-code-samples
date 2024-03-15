@@ -50,7 +50,7 @@ configs:
           references:
             - releaseStage
             - releaseProduct
-        target_cpu_usage_percent: 10
+        target_cpu_usage_percent: 5
         warning_cpu_usage_percent: 15       
         
         # objective - timeseries - disk usage
