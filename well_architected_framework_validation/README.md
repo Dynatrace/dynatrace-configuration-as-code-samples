@@ -123,24 +123,28 @@
          *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
         
         <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
-    
-        - app-settings:objects:read
-        - app-settings:objects:write
-        - automation:rules:read 
-        - automation:rules:write
-        - automation:workflows:read
-        - automation:workflows:run
-        - automation:workflows:write
-        - environment-api:entities:read
-        - state:app-states:read
-        - storage:buckets:read
-        - storage:entities:read
-        - storage:events:read
-        - storage:events:write
-        - storage:logs:read
-        - storage:metrics:read
-        - storage:system:read
-    
+  
+         <details>
+          <summary><strong>Click to open required authorization settings for the workflow </strong></summary>
+           
+          - app-settings:objects:read
+          - app-settings:objects:write
+          - automation:rules:read 
+          - automation:rules:write
+          - automation:workflows:read
+          - automation:workflows:run
+          - automation:workflows:write
+          - environment-api:entities:read
+          - state:app-states:read
+          - storage:buckets:read
+          - storage:entities:read
+          - storage:events:read
+          - storage:events:write
+          - storage:logs:read
+          - storage:metrics:read
+          - storage:system:read
+         </details>
+       
 10. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
