@@ -41,7 +41,7 @@
     },
     "perf_fail_slack_notification": {
       "name": "perf_fail_slack_notification",
-      "description": "Send a message to a Slack workspace",
+      "description": "Send a  Slack message to the Performance Assurance team",
       "action": "dynatrace.slack:slack-send-message",
       "active": true,
       "input": {
@@ -102,22 +102,12 @@
         "custom": "{{`{{`}} (result('performance').validation_status == \"pass\") or (result('performance').validation_status == \"warning\") {{`}}`}}"
       }
     },
-    "cost_fail_pagerduty_incident": {
-      "name": "cost_fail_pagerduty_incident",
-      "description": "Creates an incident for a service.",
-      "action": "dynatrace.pagerduty:create-incident",
+    "cost_fail_send_email": {
+      "name": "cost_fail_send_email",
+      "description": "Send email to Project Management team",
+      "action": "dynatrace.email:send-email",
       "active": true,
-      "input": {
-        "from": "",
-        "title": "",
-        "details": "",
-        "urgency": "",
-        "serviceId": "",
-        "priorityId": "",
-        "connectionId": "",
-        "assigneeUserId": "",
-        "escalationPolicyId": ""
-      },
+      "input": {},
       "position": {
         "x": -1,
         "y": 3
@@ -161,16 +151,12 @@
         "custom": "{{`{{`}} (result('cost').validation_status == \"pass\") or (result('cost').validation_status == \"warning\") {{`}}`}}"
       }
     },
-    "reliability_fail_auto_remediate_ansible": {
-      "name": "reliability_fail_auto_remediate_ansible",
-      "description": "Launch a job template on Red Hat Ansible Automation Platform",
-      "action": "dynatrace.redhat:launch-job-template",
+    "reliability_fail_jira_ticket": {
+      "name": "reliability_fail_jira_ticket",
+      "action": "dynatrace.jira:jira-create-issue",
+      "description": "Create new Jira issue with various fields",
+      "input": {},
       "active": true,
-      "input": {
-        "extraVars": "",
-        "templateId": "1234",
-        "connectionId": ""
-      },
       "position": {
         "x": -1,
         "y": 4
@@ -216,8 +202,8 @@
     },
     "sust_fail_pod_mem_alloc_optimize": {
       "name": "sust_fail_pod_mem_alloc_optimize",
-      "description": "Apply kubernetes yaml configurations",
       "action": "dynatrace.kubernetes.control:apply",
+      "description": "Apply kubernetes yaml configurations for less resource usage",
       "input": {
         "resource": "simplenodeservice",
         "namespace": "simplenodeservice-staging",
@@ -294,22 +280,22 @@
       },
       "timeout": 900
     },
-    "security_fail_jira_issue": {
-      "name": "security_fail_jira_issue",
-      "description": "Create new Jira issues with various fields",
-      "action": "dynatrace.jira:jira-create-issue",
-      "active": true,
+    "security_fail_servicenow_issue": {
+      "name": "security_fail_servicenow_issue",
+      "action": "dynatrace.servicenow:snow-create-incident",
+      "description": "Create an incident in ServiceNow for Security team",
       "input": {
-        "labels": [],
-        "project": null,
-        "summary": "",
-        "priority": null,
-        "issueType": null,
-        "components": [],
-        "description": "",
-        "connectionId": null,
-        "fieldSetters": []
+        "caller": "",
+        "impact": "3",
+        "urgency": "3",
+        "category": "inquiry",
+        "description": "Event details: {{ event() }}",
+        "subCategory": "internal application",
+        "connectionId": "",
+        "correlationId": "DT_{{ event()[\"event.id\"] }}",
+        "shortDescription": "{{ event()[\"event.category\"] }} {{ event()[\"event.name\"] }}"
       },
+      "active": true,
       "position": {
         "x": -1,
         "y": 7
@@ -360,22 +346,12 @@
       },
       "timeout": 900
     },
-    "opr_excel_snow_incident": {
-      "name": "opr_excel_snow_incident",
-      "description": "Create an incident in ServiceNow",
-      "action": "dynatrace.servicenow:snow-create-incident",
+    "opr_excel_fail_ansible_job": {
+      "name": "opr_excel_fail_ansible_job",
+      "action": "dynatrace.redhat.ansible:launch-job-template",
+      "description": "Launch a job template in Red Hat Ansible Automation Controller",
+      "input": {},
       "active": true,
-      "input": {
-        "caller": "",
-        "impact": "3",
-        "urgency": "3",
-        "category": "inquiry",
-        "description": "Event details: {{`{{`}} event() {{`}}`}}",
-        "subCategory": "internal application",
-        "connectionId": "",
-        "correlationId": "{{`{{`}} event()[\"event.id\"] {{`}}`}}",
-        "shortDescription": "{{`{{`}} event()[\"event.category\"] {{`}}`}} {{`{{`}} event()[\"event.name\"] {{`}}`}}"
-      },
       "position": {
         "x": -1,
         "y": 8
