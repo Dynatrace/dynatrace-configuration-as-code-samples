@@ -70,7 +70,7 @@
         "states": {
           "performance": "OK"
         },
-        "custom": "{{`{{`}} result('performance').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('performance').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "cost": {
@@ -119,7 +119,7 @@
         "states": {
           "cost": "OK"
         },
-        "custom": "{{`{{`}} result('cost').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('cost').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "reliability": {
@@ -168,7 +168,7 @@
         "states": {
           "reliability": "OK"
         },
-        "custom": "{{`{{`}} (result('reliability').validation_status == \"fail\")  {{`}}`}}"
+        "custom": "{{`{{`}} result('reliability').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "sustainability": {
@@ -220,7 +220,7 @@
         "states": {
           "sustainability": "OK"
         },
-        "custom": "{{`{{`}} result('sustainability').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('sustainability').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "wait_for_security_apdex_data_available_in_grail": {
@@ -307,7 +307,7 @@
         "states": {
           "security": "OK"
         },
-        "custom": "{{`{{`}} result('security').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('security').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "operational_excellence": {
@@ -363,7 +363,7 @@
         "states": {
           "operational_excellence": "OK"
         },
-        "custom": "{{`{{`}} result('operational_excellence').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('operational_excellence').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     }
 
