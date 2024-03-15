@@ -68,5 +68,5 @@ configs:
           references:
             - releaseStage
             - releaseProduct  
-        target_mem_usage: 5
+        target_mem_usage: 10
         warning_mem_usage: 15
