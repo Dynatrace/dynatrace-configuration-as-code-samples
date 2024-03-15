@@ -2,7 +2,7 @@
 
 ## Enabling your Dynatrace Environment:
 
-### Well-Architected Pillars Prerequisities
+### Prerequisities for sample workflow
 
 #### Security
 - Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
