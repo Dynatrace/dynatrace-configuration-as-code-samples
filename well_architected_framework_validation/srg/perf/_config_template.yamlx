@@ -106,6 +106,9 @@ configs:
         target_resptime_ms: 400000
         target_resptime: 95
         warning_resptime: 97
+        useCase:
+          type: environment
+          name: USE_CASE
         releaseStage:
           type: environment
           name: RELEASE_STAGE
