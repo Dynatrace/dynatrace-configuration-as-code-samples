@@ -27,12 +27,6 @@ delete:
     type: application-web
     name: $RELEASE_PRODUCT-$RELEASE_STAGE-$USE_CASE  
   - project: srg
-    type: synthetic-monitor
-    name: $RELEASE_PRODUCT-$RELEASE_STAGE-clickpath-$USE_CASE
-  - project: srg
-    type: synthetic-monitor
-    name: $RELEASE_PRODUCT-$RELEASE_STAGE-health-check-$USE_CASE
-  - project: srg
     type: slo
     name: $RELEASE_PRODUCT_$RELEASE_STAGE_slo_apdex_$USE_CASE 
 
