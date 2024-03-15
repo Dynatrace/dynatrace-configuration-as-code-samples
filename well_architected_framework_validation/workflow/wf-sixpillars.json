@@ -99,7 +99,7 @@
         "states": {
           "performance": "OK"
         },
-        "custom": "{{`{{`}} (result('performance').validation_status == \"pass\") or (result('performance').validation_status == \"warning\") {{`}}`}}"
+        "custom": ""
       }
     },
     "cost_fail_send_email": {
@@ -148,7 +148,7 @@
         "states": {
           "cost": "OK"
         },
-        "custom": "{{`{{`}} (result('cost').validation_status == \"pass\") or (result('cost').validation_status == \"warning\") {{`}}`}}"
+        "custom": ""
       }
     },
     "reliability_fail_jira_ticket": {
@@ -197,7 +197,7 @@
         "states": {
           "reliability": "OK"
         },
-        "custom": "{{`{{`}} (result('reliability').validation_status == \"pass\") or (result('reliability').validation_status == \"warning\") {{`}}`}}"
+        "custom": ""
       }
     },
     "sust_fail_pod_mem_alloc_optimize": {
