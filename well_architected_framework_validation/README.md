@@ -45,13 +45,10 @@
      
       - slo.read
       - slo.write
-      - CaptureRequestData
-      - credentialVault.read
-      - credentialVault.write
       - DataExport
-      - DataPrivacy
       - ReadConfig
       - WriteConfig
+      - bizevents.ingest
       - events.ingest
       - settings.read
       - settings.write
