@@ -1,23 +1,6 @@
 # Well-Architected Framework Six Pillars Workflow and Site Reliability Guardian Template
 
 ## Enabling your Dynatrace Environment:
-### Site Reliability Guardian
-First of all, install Site Reliability Guardian app from the Dynatrace Hub or upgrade it with the latest release if installed.
-<details>
-  <summary><strong>Install the Site Reliability Guardian</strong></summary>
-  
-  Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
-
-<img src="./readme-assets/install-SRG.png"  width="1200" height="450">
-</details>
-
-<details>
-  <summary><strong>Upgrade the Site Reliability Guardian</strong></summary>
-   
-  Search in the Dynatrace Hub for the Site Reliability Guardian and upgrade it to the release 1.6.4 if you have lower release in place.
-
-<img src="./readme-assets/upgrade-SRG.png"  width="1200" height="450">
-</details>
 
 ### Well-Architected Pillars Prerequisities
 
@@ -46,7 +29,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 
 ## How to Apply Workflow and SRG Configurations:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
-   > Note: Verified Monaco Version is v2.6.0
+   > Note: Verified Monaco Version is v2.11.0
 2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
    ``` bash
    git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
