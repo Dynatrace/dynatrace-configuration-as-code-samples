@@ -289,11 +289,11 @@
         "impact": "3",
         "urgency": "3",
         "category": "inquiry",
-        "description": "Event details: {{ event() }}",
+        "description": "Event details: {{`{{`}} event() {{`}}`}}",
         "subCategory": "internal application",
         "connectionId": "",
-        "correlationId": "DT_{{ event()[\"event.id\"] }}",
-        "shortDescription": "{{ event()[\"event.category\"] }} {{ event()[\"event.name\"] }}"
+        "correlationId": "DT_{{`{{`}} event()[\"event.id\"] {{`}}`}}",
+        "shortDescription": "{{`{{`}} event()[\"event.category\"] {{`}}`}} {{`{{`}} event()[\"event.name\"] {{`}}`}}"
       },
       "active": true,
       "position": {
