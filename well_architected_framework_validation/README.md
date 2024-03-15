@@ -54,13 +54,11 @@
       - credentialVault.write
       - DataExport
       - DataPrivacy
-      - ExternalSyntheticIntegration
       - ReadConfig
       - WriteConfig
       - events.ingest
       - settings.read
       - settings.write
-      - AdvancedSyntheticIntegration
       
       #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
       Further details on how to create an oAuth token can be found [here](https://docs.dynatrace.com/docs/dynatrace-api/basics/dynatrace-api-authentication/account-api-authentication#create-an-oauth2-client)
@@ -88,7 +86,7 @@
       - settings:schemas:read
    </details>
    
-7. Export the below environment variables into your system with the certain values
+6. Export the below environment variables into your system with the certain values
 
    ``` bash
    # DT platform secrets
@@ -107,13 +105,13 @@
    export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
-8. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
+7. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
     sh update-srg-id.sh
     ```
    
-9. Run the below command to apply the workflow and SRG configurations along with the synthetic location configurations
+8. Run the below command to apply the workflow and SRG configurations to your Dynatrace environment.
 
    First, run with '--dry-run' option to validate the template monaco configurations with the given environment variables.
     ``` bash
@@ -123,9 +121,8 @@
     ``` bash
     monaco deploy manifest.yaml
     ```
-10. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
+9.  Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
       - *Workflow and SRG configurations are applied successfully
-      - Synthetic Monitors are created successfully
       - Application and detection rules set properly
       - SLO and Log ingestion rules applied correctly
 
@@ -151,7 +148,7 @@
         - storage:spans:read
         - storage:system:read
     
-11. Trigger the Workflow to apply the well-architected framework validations
+10. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
