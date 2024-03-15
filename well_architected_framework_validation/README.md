@@ -1,5 +1,7 @@
 # Well-Architected Framework Six Pillars Workflow and Site Reliability Guardian Template
 
+ <img src="./readme-assets/wa-wf.png"  width="50%" height="50%">
+
 ## Enabling your Dynatrace Environment:
 
 ### Prerequisities for sample workflow
