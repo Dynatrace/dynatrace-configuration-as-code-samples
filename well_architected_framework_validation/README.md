@@ -2,9 +2,7 @@
 
  <img src="./readme-assets/wa-wf.png"  width="50%" height="50%">
 
-## Enabling your Dynatrace Environment:
-
-### Prerequisities for sample workflow
+## Prerequisities for sample workflow
 
 #### Security
 - Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
@@ -23,7 +21,7 @@
 #### Performance Efficiency
 - No prerequisities needed.
   
-## How to onboard well-architected workflow and SRG:
+## Self-service - Onboard well-architected workflow and SRGs:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
    > Note: Verified Monaco Version is v2.11.0
 2. Open a terminal and execute "git clone" command or directly download the artifacts from this repository.
