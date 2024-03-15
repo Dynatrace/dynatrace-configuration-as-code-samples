@@ -4,12 +4,6 @@
 
 ### Well-Architected Pillars Prerequisities
 
-#### Performance Efficiency
-- Enable OpenTelemetry span data for the technology you use for your deployed application.
-  For example, if your application is based on Node.js, enable it accordingly
-  
-  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="50%" height="50%">
-
 #### Security
 - Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
 
@@ -19,14 +13,14 @@
 #### Operational Excellence
 - Verify that Real User Monitoring (RUM) is enabled for operational excellence score calculation. You should navigate to `Settings -> Web and mobile monitoring -> Enablement and cost control` and turn on "Enable Real User Monitoring".
 
-#### Cost Optimization
-- No prerequisities needed.
-
-#### Sustainability
+#### Cost Optimization and Sustainability
 - Install Carbon Impact App from the Dynatrace Hub or upgrade it with the latest release if installed.
 
   <img src="./readme-assets/sustainability-carbon-app.png"  width="50%" height="50%">
 
+#### Performance Efficiency
+- No prerequisities needed.
+  
 ## How to Apply Workflow and SRG Configurations:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
    > Note: Verified Monaco Version is v2.11.0
@@ -145,7 +139,6 @@
         - storage:events:write
         - storage:logs:read
         - storage:metrics:read
-        - storage:spans:read
         - storage:system:read
     
 10. Trigger the Workflow to apply the well-architected framework validations
