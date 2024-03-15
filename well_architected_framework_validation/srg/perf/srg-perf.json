@@ -26,10 +26,10 @@
       "name": "Response time validation",
       "description": null,
       "objectiveType": "REFERENCE_SLO",
-      "referenceSlo": "{{ .reference_slo_metric_resp_time }}",
+      "referenceSlo": "{{ .reference_slo_metric_resptime }}",
       "comparisonOperator": "GREATER_THAN_OR_EQUAL",
-      "target": {{ .target_slo_resp_time }},
-      "warning": {{ .warning_slo_resp_time }}
+      "target": {{ .target_slo_resptime }},
+      "warning": {{ .warning_slo_resptime }}
     },
   ]
 }
