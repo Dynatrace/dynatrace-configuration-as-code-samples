@@ -173,7 +173,7 @@
        }
      }
      ```
-   - Click on 'Run' and observe the workflow executions
+     - Click on 'Run' and observe the workflow executions
 
 ## How to scale the same workflow for multiple workloads:
 Once you completed the workflow and SRG configurations in the previous section, now it is time to scale the same workflow with your other workloads to be validated. Follow the below steps to apply them quickly at scale.
