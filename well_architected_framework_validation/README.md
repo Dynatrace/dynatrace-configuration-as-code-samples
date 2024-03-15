@@ -26,7 +26,8 @@
 ## How to Apply Workflow and SRG Configurations:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
    > Note: Verified Monaco Version is v2.11.0
-2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
+2. Open a terminal and execute "git clone" command or directly download the artifacts from this repository.
+
    ``` bash
    git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
    cd dynatrace-configuration-as-code-samples
@@ -34,8 +35,7 @@
    git checkout
    cd well_architected_framework_validation 
    ```
-4. Open a terminal and navigate to the folder you downloaded in the previous step.
-5. Create Authorization Token for connecting to your Dynatrace environment
+3. Create Authorization Token for connecting to your Dynatrace environment
    <details>
     <summary><strong>Click to open required authorization token scopes</strong></summary>
     
@@ -82,7 +82,7 @@
       - settings:schemas:read
    </details>
    
-6. Export the below environment variables into your system with the certain values
+4. Export the below environment variables into your system with the certain values
 
    ``` bash
    # DT platform secrets
@@ -101,13 +101,13 @@
    export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
-7. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
+5. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
     sh update-srg-id.sh
     ```
    
-8. Run the below command to apply the workflow and SRG configurations to your Dynatrace environment.
+6. Run the below command to apply the workflow and SRG configurations to your Dynatrace environment.
 
    First, run with '--dry-run' option to validate the template monaco configurations with the given environment variables.
     ``` bash
@@ -117,8 +117,8 @@
     ``` bash
     monaco deploy manifest.yaml
     ```
-9.  Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
-      - *Workflow and SRG configurations are applied successfully
+7.  Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
+      - Workflow and SRG configurations are applied successfully
       - Application and detection rules set properly
       - SLO and Log ingestion rules applied correctly
 
@@ -127,7 +127,7 @@
         <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
   
          <details>
-          <summary><strong>Click to open required authorization settings for the workflow </strong></summary>
+          <summary><strong>*Click to open required authorization settings for the workflow </strong></summary>
            
           - app-settings:objects:read
           - app-settings:objects:write
@@ -147,7 +147,7 @@
           - storage:system:read
          </details>
        
-10. Trigger the Workflow to apply the well-architected framework validations
+8. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
@@ -188,7 +188,7 @@ export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e
 export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-application-2.cloudapp.net
 ```
 
-2. Continue with the remaining steps until Step 8 and update your Application name and stage information to generate a test trigger event accordingly.
+2. Continue with the remaining steps and update your Application name and stage information to generate a test trigger event accordingly.
 
 ## Integrate with a CICD Pipeline:
 
@@ -242,7 +242,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
    ##### 4.1 Define a job runner that will use the Docker image below.
 
    ```
-   dynatrace/dynatrace-configuration-as-code:v2.6.0
+   dynatrace/dynatrace-configuration-as-code:v2.11.0
    ```
      > Note: The job runner can be defined in different ways depending on the CICD tool you are using. For example:
      
@@ -303,7 +303,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
   
      Create_SixPillars_Workflow:
        stage: Deploy SixPillars Workflow
-       image: dynatrace/dynatrace-configuration-as-code:v2.6.0
+       image: dynatrace/dynatrace-configuration-as-code:v2.11.0
        script:
          - export USE_CASE="sixpillars"
          - export RELEASE_PRODUCT="<Your Application Name>"
