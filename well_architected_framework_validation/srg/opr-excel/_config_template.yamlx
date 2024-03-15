@@ -91,7 +91,7 @@ configs:
         evaluationWindow:
           type: environment
           name: SLO_EVALUATION_WINDOW
-          default: "-10m"
+          default: "-15m"
 
   # app-detection-rule 
   - id: appDetection-$RELEASE_PRODUCT
