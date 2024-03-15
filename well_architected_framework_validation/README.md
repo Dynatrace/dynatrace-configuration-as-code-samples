@@ -39,7 +39,56 @@
    cd well_architected_framework_validation 
    ```
 4. Open a terminal and navigate to the folder you downloaded in the previous step.
-5. Export the below environment variables into your system with the certain values
+5. Create Authorization Token for connecting to your Dynatrace environment
+   <details>
+    <summary><strong>Click to open required authorization token scopes</strong></summary>
+    
+      #### *Required API Token scopes for `DT_API_TOKEN` variable*
+      Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
+      Further details on how to create an API token can be found [here](https://docs.dynatrace.com/docs/manage/access-control/access-tokens#create-api-token)
+     
+      - slo.read
+      - slo.write
+      - CaptureRequestData
+      - credentialVault.read
+      - credentialVault.write
+      - DataExport
+      - DataPrivacy
+      - ExternalSyntheticIntegration
+      - ReadConfig
+      - WriteConfig
+      - events.ingest
+      - settings.read
+      - settings.write
+      - AdvancedSyntheticIntegration
+      
+      #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
+      Further details on how to create an oAuth token can be found [here](https://docs.dynatrace.com/docs/dynatrace-api/basics/dynatrace-api-authentication/account-api-authentication#create-an-oauth2-client)
+
+   
+      - automation:workflows:read (Read access to workflows)
+      - automation:workflows:write (Write access to workflows)
+      - automation:workflows:run (Execute permissions for workflows)
+      - automation:rules:read (Read access to scheduling rules)
+      - automation:rules:write (Write access to scheduling rules)
+      - app-engine:apps:run (Access to Apps and its actions)
+      - app-engine:apps:install (Install apps)
+      - storage:logs:read
+      - storage:logs:write
+      - storage:events:read
+      - storage:events:write
+      - storage:metrics:read
+      - storage:bizevents:read
+      - storage:system:read
+      - storage:buckets:read
+      - storage:bucket-definitions:read
+      - storage:bizevents:write
+      - settings:objects:read
+      - settings:objects:write
+      - settings:schemas:read
+   </details>
+   
+7. Export the below environment variables into your system with the certain values
 
    ``` bash
    # DT platform secrets
@@ -58,53 +107,13 @@
    export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
-    #### *Required API Token scopes for `DT_API_TOKEN` variable*
-    Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
-   
-    - slo.read
-    - slo.write
-    - CaptureRequestData
-    - credentialVault.read
-    - credentialVault.write
-    - DataExport
-    - DataPrivacy
-    - ExternalSyntheticIntegration
-    - ReadConfig
-    - WriteConfig
-    - events.ingest
-    - settings.read
-    - settings.write
-    - AdvancedSyntheticIntegration
-    
-    #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
-    - automation:workflows:read (Read access to workflows)
-    - automation:workflows:write (Write access to workflows)
-    - automation:workflows:run (Execute permissions for workflows)
-    - automation:rules:read (Read access to scheduling rules)
-    - automation:rules:write (Write access to scheduling rules)
-    - app-engine:apps:run (Access to Apps and its actions)
-    - app-engine:apps:install (Install apps)
-    - storage:logs:read
-    - storage:logs:write
-    - storage:events:read
-    - storage:events:write
-    - storage:metrics:read
-    - storage:bizevents:read
-    - storage:system:read
-    - storage:buckets:read
-    - storage:bucket-definitions:read
-    - storage:bizevents:write
-    - settings:objects:read
-    - settings:objects:write
-    - settings:schemas:read
-
-6. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
+8. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
     sh update-srg-id.sh
     ```
    
-7. Run the below command to apply the workflow and SRG configurations along with the synthetic location configurations
+9. Run the below command to apply the workflow and SRG configurations along with the synthetic location configurations
 
    First, run with '--dry-run' option to validate the template monaco configurations with the given environment variables.
     ``` bash
@@ -114,35 +123,35 @@
     ``` bash
     monaco deploy manifest.yaml
     ```
-8. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
+10. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
       - *Workflow and SRG configurations are applied successfully
       - Synthetic Monitors are created successfully
       - Application and detection rules set properly
       - SLO and Log ingestion rules applied correctly
 
-   *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
+         *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
+        
+        <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
     
-    <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
-
-    - app-settings:objects:read
-    - app-settings:objects:write
-    - automation:rules:read 
-    - automation:rules:write
-    - automation:workflows:read
-    - automation:workflows:run
-    - automation:workflows:write
-    - environment-api:entities:read
-    - state:app-states:read
-    - storage:buckets:read
-    - storage:entities:read
-    - storage:events:read
-    - storage:events:write
-    - storage:logs:read
-    - storage:metrics:read
-    - storage:spans:read
-    - storage:system:read
+        - app-settings:objects:read
+        - app-settings:objects:write
+        - automation:rules:read 
+        - automation:rules:write
+        - automation:workflows:read
+        - automation:workflows:run
+        - automation:workflows:write
+        - environment-api:entities:read
+        - state:app-states:read
+        - storage:buckets:read
+        - storage:entities:read
+        - storage:events:read
+        - storage:events:write
+        - storage:logs:read
+        - storage:metrics:read
+        - storage:spans:read
+        - storage:system:read
     
-9. Trigger the Workflow to apply the well-architected framework validations
+11. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
