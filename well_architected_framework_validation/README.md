@@ -23,7 +23,7 @@
 #### Performance Efficiency
 - No prerequisities needed.
   
-## How to Apply Workflow and SRG Configurations:
+## How to onboard Well-architected workflow and SRG:
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
    > Note: Verified Monaco Version is v2.11.0
 2. Open a terminal and execute "git clone" command or directly download the artifacts from this repository.
