@@ -251,13 +251,13 @@
       "input": {
         "objectId": "{{ .srg_security_id }}",
         "executionId": "{{`{{`}} execution().id {{`}}`}}",
-        "expressionTo": "{{`{{`}} event()['timeframe.to'] {{`}}`}}",
-        "expressionFrom": "{{`{{`}} event()['timeframe.from'] {{`}}`}}",
+        "expressionTo": "",
+        "expressionFrom": "",
         "timeframeSelector": {
           "to": "now",
-          "from": "now-30m"
+          "from": "now-15m"
         },
-        "timeframeInputType": "expression"
+        "timeframeInputType": "timeframeSelector"
       },
       "position": {
         "x": 0,

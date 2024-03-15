@@ -6,12 +6,12 @@ configs:
         resource: workflow
     config:
       skip: true
-      name: Demo AWS Six Pillars SRG Evaluation - $RELEASE_PRODUCT
+      name: Well-architected Six Pillars Evaluation - $RELEASE_PRODUCT
       template: wf-sixpillars.json
       
       parameters: 
         #wf related
-        wf_description: "AWS Six Pillars Workflow with Guardians by Monaco"
+        wf_description: "Well-architected Six Pillars Workflow with Guardians by Monaco"
         wf_isPrivate: false
         #trigger related
         tag_usecase:
