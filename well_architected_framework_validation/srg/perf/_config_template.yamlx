@@ -23,7 +23,7 @@ configs:
           type: environment
           name: RELEASE_STAGE   
  
-        # objective - dql - response time via span
+        # objective - dql - memory usage
         dql_query_mem_usage: 
           type: compound
           format: |  
