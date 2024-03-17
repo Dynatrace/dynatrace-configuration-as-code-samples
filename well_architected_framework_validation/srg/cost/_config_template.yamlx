@@ -35,8 +35,8 @@ configs:
               | lookup 
                 [ fetch dt.entity.process_group_instance
                 | fields id, metadata, tags, lifetime
-                | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-                | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+                | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+                | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
                 | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
                 | sort lifetime  desc
                 | summarize count(), by: {id}
@@ -68,8 +68,8 @@ configs:
             | lookup 
               [ fetch dt.entity.process_group_instance
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | summarize pgi_id = takeFirst(id)

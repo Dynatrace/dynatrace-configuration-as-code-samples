@@ -30,8 +30,8 @@ configs:
             timeseries val = avg(dt.process.memory.usage), by:{dt.entity.process_group_instance} 
             | lookup 
               [ fetch dt.entity.process_group_instance 
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               ], sourceField:dt.entity.process_group_instance, lookupField:id 
             | filterOut isNull(lookup.tags) 
@@ -51,8 +51,8 @@ configs:
             timeseries val = avg(dt.process.cpu.usage), by:{dt.entity.process_group_instance} 
             | lookup 
               [ fetch dt.entity.process_group_instance 
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               ], sourceField:dt.entity.process_group_instance, lookupField:id 
             | filterOut isNull(lookup.tags) 
