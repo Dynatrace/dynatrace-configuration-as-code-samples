@@ -32,8 +32,8 @@ configs:
             | lookup [ 
               fetch dt.entity.process_group
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | fieldsAdd runs_on[dt.entity.host], alias: hosts
@@ -55,8 +55,8 @@ configs:
             | lookup [ 
               fetch dt.entity.process_group
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | fieldsAdd runs_on[dt.entity.host], alias: hosts
