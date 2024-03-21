@@ -1,0 +1,27 @@
+{
+    "name": "{{.name}}",
+    "identifier": "{{ .team }}",
+    "supplementaryIdentifiers": [],
+    "responsibilities": {
+      "development": true,
+      "security": false,
+      "operations": false,
+      "infrastructure": false,
+      "lineOfBusiness": false
+    },
+    "contactDetails": [
+      {
+        "integrationType": "MS_TEAMS",
+        "msTeams": "Test",
+        "url": "{{ .channelUrl }}"
+      },
+      {
+        "integrationType": "EMAIL",
+        "email": "{{ .ownershipEmail }}"
+      }
+    ],
+    "links": [],
+    "additionalInformation": []
+  }
+  
+  

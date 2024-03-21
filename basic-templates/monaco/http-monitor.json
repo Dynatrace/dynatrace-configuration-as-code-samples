@@ -1,0 +1,83 @@
+{
+    "name": "{{.name}}",
+    "frequencyMin": "{{ .httpMonitorFrequency }}",
+    "enabled": true,
+    "type": "HTTP",
+    "script": {
+      "version": "1.0",
+      "requests": [
+        {
+          "description": "Healthcheck for {{ .serviceTagValue }}",
+          "url": "{{ .httpSyntheticUrl }}",
+          "method": "GET",
+          "validation": {
+            "rules": [
+              {
+                "type": "patternConstraint",
+                "value": "nhealthy",
+                "passIfFound": false
+              },
+              {
+                "type": "httpStatusesList",
+                "value": ">=400",
+                "passIfFound": false
+              }
+            ]
+          },
+          "configuration": {
+            "requestHeaders": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "acceptAnyCertificate": true,
+            "followRedirects": true,
+            "shouldNotPersistSensitiveData": false
+          }
+        }
+      ]
+    },
+    "locations": [
+        "{{ .syntheticLocation }}"
+    ],
+    "anomalyDetection": {
+      "outageHandling": {
+        "globalOutage": false,
+        "localOutage": true,
+        "localOutagePolicy": {
+          "affectedLocations": 1,
+          "consecutiveRuns": 3
+        }
+      },
+      "loadingTimeThresholds": {
+        "enabled": false,
+        "thresholds": [
+          {
+            "type": "TOTAL",
+            "valueMs": 0
+          }
+        ]
+      }
+    },
+    "tags": [
+      {
+        "source": "USER",
+        "context": "CONTEXTLESS",
+        "key": "project",
+        "value": "{{ .serviceTagValue }}"
+      }
+    ],
+    "managementZones": [ "{{ .managementZone }}" ],
+    "automaticallyAssignedApps": [ "{{ .applicationId }}" ],
+    "manuallyAssignedApps": [
+      
+    ],
+    "requests": [
+      {
+        "name": "{{ .name }}",
+        "sequenceNumber": 1
+      }
+    ]
+  }
+  
