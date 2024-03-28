@@ -4,7 +4,6 @@ configs:
     type:
       settings:
         schema: app:dynatrace.site.reliability.guardian:guardians
-        schemaVersion: 1.1.2
         scope: environment
     config:
       skip: true
@@ -33,8 +32,8 @@ configs:
             | lookup 
               [ fetch dt.entity.process_group_instance
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | summarize pgi_id = takeFirst(id)
@@ -66,8 +65,8 @@ configs:
               | lookup  
                 [ fetch dt.entity.process_group_instance
                   | fields id, metadata, tags, lifetime
-                  | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-                  | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+                  | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+                  | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
                   | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
                   | sort lifetime  desc
                   | summarize count(), by: {id}
@@ -91,7 +90,6 @@ configs:
       settings:
         schema: builtin:logmonitoring.log-storage-settings
         scope: environment
-        schemaVersion: "1.0.7"
     config:
       skip: true
       name: "Six Pillars - Log Ingestion Rule - $RELEASE_PRODUCT"
@@ -107,43 +105,7 @@ configs:
       settings:
         schema: builtin:anomaly-detection.kubernetes.workload
         scope: environment
-        schemaVersion: "1.10"
     config:
       skip: true
       name: "Six Pillars - K8s Anomaly Detection - $RELEASE_PRODUCT"
       template: k8s-anomaly-detection.json      
-
-  # synthetic-monitor
-  - id: health-check-synth-monitor-$RELEASE_PRODUCT
-    type:
-      api: synthetic-monitor
-    config:
-      skip: true
-      name:
-        type: compound
-        format: "{{ .releaseProduct }}-{{ .releaseStage }}-health-check-{{ .useCase }}"
-        references:
-          - releaseStage
-          - useCase
-          - releaseProduct
-      template: health-check-monitor.json      
-      parameters:
-        description: Health check for simplenode      
-        applicationId: ["srg.opr-excel","application-web", "app-$RELEASE_PRODUCT", "id"]
-        locations:
-          type: list
-          values:
-            - GEOLOCATION-9999453BE4BDB3CD # North Virginia Public synthetic location ID on AWS
-        frequencyMin: 2
-        url:
-          type: environment
-          name: DOMAIN_URL
-        releaseProduct:
-          type: environment
-          name: RELEASE_PRODUCT
-        releaseStage:
-          type: environment
-          name: RELEASE_STAGE
-        useCase: 
-          type: environment
-          name: USE_CASE

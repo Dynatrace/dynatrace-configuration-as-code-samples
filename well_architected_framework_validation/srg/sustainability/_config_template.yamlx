@@ -4,7 +4,6 @@ configs:
     type:
       settings:
         schema: app:dynatrace.site.reliability.guardian:guardians
-        schemaVersion: 1.1.2
         scope: environment
     config:
       skip: true
@@ -33,8 +32,8 @@ configs:
             | lookup [ 
               fetch dt.entity.process_group
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | fieldsAdd runs_on[dt.entity.host], alias: hosts
@@ -56,8 +55,8 @@ configs:
             | lookup [ 
               fetch dt.entity.process_group
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | fieldsAdd runs_on[dt.entity.host], alias: hosts
@@ -70,4 +69,4 @@ configs:
             - releaseStage
             - releaseProduct  
         target_mem_usage: 10
-        warning_mem_usage: 20
+        warning_mem_usage: 15

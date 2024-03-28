@@ -4,7 +4,6 @@ configs:
     type:
       settings:
         schema: app:dynatrace.site.reliability.guardian:guardians
-        schemaVersion: 1.1.2
         scope: environment
     config:
       skip: true
@@ -24,15 +23,15 @@ configs:
           type: environment
           name: RELEASE_STAGE   
  
-        # objective - dql - response time via span
+        # objective - dql - memory usage
         dql_query_mem_usage: 
           type: compound
           format: |  
             timeseries val = avg(dt.process.memory.usage), by:{dt.entity.process_group_instance} 
             | lookup 
               [ fetch dt.entity.process_group_instance 
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               ], sourceField:dt.entity.process_group_instance, lookupField:id 
             | filterOut isNull(lookup.tags) 
@@ -51,8 +50,8 @@ configs:
             timeseries val = avg(dt.process.cpu.usage), by:{dt.entity.process_group_instance} 
             | lookup 
               [ fetch dt.entity.process_group_instance 
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               ], sourceField:dt.entity.process_group_instance, lookupField:id 
             | filterOut isNull(lookup.tags) 
@@ -63,5 +62,59 @@ configs:
             - releaseProduct
             - releaseStage
         target_cpu_usage: 10
-        warning_cpu_usage: 5        
+        warning_cpu_usage: 5       
 
+        # objective - apdex - slo
+        reference_slo_resptime: ["slo", "slo-resptime-$RELEASE_PRODUCT", "name"]
+        reference_slo_metric_resptime:
+          type: compound
+          format: "func:slo.{{ .reference_slo_resptime }}"
+          references:
+            - reference_slo_resptime
+        target_slo_resptime: 95
+        warning_slo_resptime: 97
+
+  #slo
+  - id: slo-resptime-$RELEASE_PRODUCT
+    type:
+      api: slo
+    config:
+      skip: true
+      template: slo-resptime.json
+      name:
+        type: compound
+        format: "{{ .releaseProduct }}_{{ .releaseStage }}_slo_resptime_{{ .useCase }}"
+        references:
+          - releaseProduct
+          - releaseStage
+          - useCase
+      parameters:
+        metric_name: 
+          type: compound
+          format: "{{ .releaseProduct }}_{{ .releaseStage }}_slo_resptime_{{ .useCase }}"
+          references:
+            - releaseProduct
+            - releaseStage
+            - useCase
+        service_name:
+          type: compound
+          format: "{{ .releaseProduct }}.{{ .releaseStage }}"
+          references:
+            - releaseProduct
+            - releaseStage
+        target_resptime_ms: 400000
+        target_resptime: 95
+        warning_resptime: 97
+        useCase:
+          type: environment
+          name: USE_CASE
+        releaseStage:
+          type: environment
+          name: RELEASE_STAGE
+        releaseProduct:
+          type: environment
+          name: RELEASE_PRODUCT
+        evaluationWindow:
+          type: environment
+          name: SLO_EVALUATION_WINDOW
+          default: "-15m"

@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "name": "{{ .name }}",
+  "customDescription": null,
+  "metricName": "{{ .metric_name }}",
+  "metricExpression": "((builtin:service.response.time:max:partition(\"latency\",value(\"good\",lt({{ .target_resptime_ms }}))):splitBy():count:default(0))/(builtin:service.response.time:avg:splitBy():count)*(100)):default(100,always)",
+  "evaluationType": "AGGREGATE",
+  "filter": "type(\"SERVICE\"),entityName.equals(\"{{ .service_name }}\")",
+  "evaluationWindow": "{{ .evaluationWindow }}",
+  "targetSuccess": {{ .target_resptime }},
+  "targetWarning": {{ .warning_resptime }},
+  "errorBudgetBurnRate": {
+    "burnRateVisualizationEnabled": false
+  }
+}

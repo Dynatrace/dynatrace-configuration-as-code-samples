@@ -6,7 +6,7 @@
   "objectives": [
     {
       "name": "Optimize Container CPU Limit",
-      "description": "If it fails, reduce the CPU size and perform validation against the response time objective (Objective 2)",
+      "description": "If it fails, reduce the CPU size and revalidate the same objective against the other pillars",
       "objectiveType": "DQL",
       "dqlQuery": "{{ .dql_query_cpu_usage_percent }}",
       "comparisonOperator": "GREATER_THAN_OR_EQUAL",

@@ -6,7 +6,6 @@ configs:
     type:
       settings:
         schema: builtin:ownership.teams
-        schemaVersion: 1.0.6
         scope: environment
     config:
       skip: true
@@ -51,7 +50,6 @@ configs:
     type:
       settings:
         schema: builtin:ownership.teams
-        schemaVersion: 1.0.6
         scope: environment
     config:
       skip: true
@@ -96,7 +94,6 @@ configs:
     type:
       settings:
         schema: builtin:ownership.teams
-        schemaVersion: 1.0.6
         scope: environment
     config:
       skip: true
@@ -141,7 +138,6 @@ configs:
     type:
       settings:
         schema: builtin:ownership.teams
-        schemaVersion: 1.0.6
         scope: environment
     config:
       skip: true
