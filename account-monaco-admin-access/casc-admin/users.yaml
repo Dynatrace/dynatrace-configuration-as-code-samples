@@ -1,0 +1,7 @@
+users:
+  - email: %YOUR_USER_EMAIL% # THE USER YOU CREATE YOUR CASC OAUTH CLIENT FOR
+    groups:
+      - type: reference
+        id: casc-admin-access
+  # ADD FURTHER USERS AS NEEDED
+
