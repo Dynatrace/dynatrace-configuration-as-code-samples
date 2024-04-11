@@ -1,0 +1,9 @@
+delete:
+  - type: user
+    email: %YOUR_USER_EMAIL%
+  - type: group
+    name: Config-as-Code Admin Access
+  - type: policy
+    name: Storage - Bucket CasC Admin
+    level:
+      type: account
