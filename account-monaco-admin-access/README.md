@@ -19,7 +19,7 @@ The sample also contains a [delete file](./delete.yaml) allowing you to remove t
 
 **Pre-requisites**
 * Monaco CLI version 2.11.0+
-* An oAuth token granting Dynatrace Account access
+* An OAuth token granting Dynatrace Account access
 * The following environment variables defined
   * ACCOUNT_UUID ... the UUID of your account
   * ACCOUNT_OAUTH_CLIENT_ID ... your oAuth client's ID
