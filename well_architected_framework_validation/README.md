@@ -1,31 +1,8 @@
 # Well-Architected Framework Six Pillars Workflow and Site Reliability Guardian Template
 
-## Enabling your Dynatrace Environment:
-### Site Reliability Guardian
-First of all, install Site Reliability Guardian app from the Dynatrace Hub or upgrade it with the latest release if installed.
-<details>
-  <summary><strong>Install the Site Reliability Guardian</strong></summary>
-  
-  Search in the Dynatrace Hub for the Site Reliability Guardian and install it in your Dynatrace Environment.
+ <img src="./readme-assets/wa-wf.png"  width="50%" height="50%">
 
-<img src="./readme-assets/install-SRG.png"  width="1200" height="450">
-</details>
-
-<details>
-  <summary><strong>Upgrade the Site Reliability Guardian</strong></summary>
-   
-  Search in the Dynatrace Hub for the Site Reliability Guardian and upgrade it to the release 1.6.4 if you have lower release in place.
-
-<img src="./readme-assets/upgrade-SRG.png"  width="1200" height="450">
-</details>
-
-### Well-Architected Pillars Prerequisities
-
-#### Performance Efficiency
-- Enable OpenTelemetry span data for the technology you use for your deployed application.
-  For example, if your application is based on Node.js, enable it accordingly
-  
-  <img src="./readme-assets/perf-pillar-enable-ot.png"  width="50%" height="50%">
+## Prerequisities for sample workflow
 
 #### Security
 - Enable Application security on your Dynatrace environment by following the instructions in this [link](https://docs.dynatrace.com/docs/shortlink/start-security#enable-appsec).
@@ -36,18 +13,19 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
 #### Operational Excellence
 - Verify that Real User Monitoring (RUM) is enabled for operational excellence score calculation. You should navigate to `Settings -> Web and mobile monitoring -> Enablement and cost control` and turn on "Enable Real User Monitoring".
 
-#### Cost Optimization
-- No prerequisities needed.
-
-#### Sustainability
+#### Cost Optimization and Sustainability
 - Install Carbon Impact App from the Dynatrace Hub or upgrade it with the latest release if installed.
 
   <img src="./readme-assets/sustainability-carbon-app.png"  width="50%" height="50%">
 
-## How to Apply Workflow and SRG Configurations:
+#### Performance Efficiency
+- No prerequisities needed.
+  
+## Self-service - Onboard well-architected workflow and SRGs
 1. [Install monaco](https://www.dynatrace.com/support/help/manage/configuration-as-code/monaco/installation) 
-   > Note: Verified Monaco Version is v2.6.0
-2. Download the entire folder.  You can execute "git clone" command or directly download the artifacts from this repository
+   > Note: Verified Monaco Version is v2.11.0
+2. Open a terminal and execute "git clone" command or directly download the artifacts from this repository.
+
    ``` bash
    git clone --depth 1 --no-checkout https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
    cd dynatrace-configuration-as-code-samples
@@ -55,8 +33,51 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    git checkout
    cd well_architected_framework_validation 
    ```
-4. Open a terminal and navigate to the folder you downloaded in the previous step.
-5. Export the below environment variables into your system with the certain values
+3. Create Authorization Token for connecting to your Dynatrace environment
+   <details>
+    <summary><strong>Click to open required authorization token scopes</strong></summary>
+    
+      #### *Required API Token scopes for `DT_API_TOKEN` variable*
+      Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
+      Further details on how to create an API token can be found [here](https://docs.dynatrace.com/docs/manage/access-control/access-tokens#create-api-token)
+     
+      - slo.read
+      - slo.write
+      - DataExport
+      - ReadConfig
+      - WriteConfig
+      - bizevents.ingest
+      - events.ingest
+      - settings.read
+      - settings.write
+      
+      #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
+      Further details on how to create an oAuth token can be found [here](https://docs.dynatrace.com/docs/dynatrace-api/basics/dynatrace-api-authentication/account-api-authentication#create-an-oauth2-client)
+
+   
+      - automation:workflows:read (Read access to workflows)
+      - automation:workflows:write (Write access to workflows)
+      - automation:workflows:run (Execute permissions for workflows)
+      - automation:rules:read (Read access to scheduling rules)
+      - automation:rules:write (Write access to scheduling rules)
+      - app-engine:apps:run (Access to Apps and its actions)
+      - app-engine:apps:install (Install apps)
+      - storage:logs:read
+      - storage:logs:write
+      - storage:events:read
+      - storage:events:write
+      - storage:metrics:read
+      - storage:bizevents:read
+      - storage:system:read
+      - storage:buckets:read
+      - storage:bucket-definitions:read
+      - storage:bizevents:write
+      - settings:objects:read
+      - settings:objects:write
+      - settings:schemas:read
+   </details>
+   
+4. Export the below environment variables into your system with the certain values
 
    ``` bash
    # DT platform secrets
@@ -75,52 +96,13 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
    export SLO_EVALUATION_WINDOW="-<time period>" # e.g. -5m,-1h,-2d 
    ```
 
-    #### *Required API Token scopes for `DT_API_TOKEN` variable*
-    Initial API token with scopes below is required to create a new API token with the required scopes for the use case.This token will be used by various roles to manage their own tokens.
-   
-    - slo.read
-    - slo.write
-    - CaptureRequestData
-    - credentialVault.read
-    - credentialVault.write
-    - DataExport
-    - DataPrivacy
-    - ExternalSyntheticIntegration
-    - ReadConfig
-    - WriteConfig
-    - events.ingest
-    - settings.read
-    - settings.write
-    
-    #### *Required oAuth scopes for `DYNATRACE_CLIENT_ID` variable*
-    - automation:workflows:read (Read access to workflows)
-    - automation:workflows:write (Write access to workflows)
-    - automation:workflows:run (Execute permissions for workflows)
-    - automation:rules:read (Read access to scheduling rules)
-    - automation:rules:write (Write access to scheduling rules)
-    - app-engine:apps:run (Access to Apps and its actions)
-    - app-engine:apps:install (Install apps)
-    - storage:logs:read
-    - storage:logs:write
-    - storage:events:read
-    - storage:events:write
-    - storage:metrics:read
-    - storage:bizevents:read
-    - storage:system:read
-    - storage:buckets:read
-    - storage:bucket-definitions:read
-    - storage:bizevents:write
-    - settings:objects:read
-    - settings:objects:write
-    - settings:schemas:read
-
-6. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
+5. Run the below command to generate a specific SRG configurations for your application that has been set in RELEASE_PRODUCT environment variable.
 
     ``` bash
     sh update-srg-id.sh
     ```
    
-7. Run the below command to apply the workflow and SRG configurations along with the synthetic location configurations
+6. Run the below command to apply the workflow and SRG configurations to your Dynatrace environment.
 
    First, run with '--dry-run' option to validate the template monaco configurations with the given environment variables.
     ``` bash
@@ -130,35 +112,37 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
     ``` bash
     monaco deploy manifest.yaml
     ```
-8. Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
-      - *Workflow and SRG configurations are applied successfully
-      - Synthetic Monitors are created successfully
+7.  Validate if Dynatrace configurations have been applied successfully. You can do this by going to the Dynatrace UI and check the following:
+      - Workflow and SRG configurations are applied successfully
       - Application and detection rules set properly
       - SLO and Log ingestion rules applied correctly
 
-   *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
-    
-    <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
-
-    - app-settings:objects:read
-    - app-settings:objects:write
-    - automation:rules:read 
-    - automation:rules:write
-    - automation:workflows:read
-    - automation:workflows:run
-    - automation:workflows:write
-    - environment-api:entities:read
-    - state:app-states:read
-    - storage:buckets:read
-    - storage:entities:read
-    - storage:events:read
-    - storage:events:write
-    - storage:logs:read
-    - storage:metrics:read
-    - storage:spans:read
-    - storage:system:read
-    
-9. Trigger the Workflow to apply the well-architected framework validations
+         *To be able to view and run the workflow, make sure that below authorization settings are set as the following:
+        
+        <img src="./readme-assets/wflow_settings_main.png"  width="50%" height="50%">
+  
+         <details>
+          <summary><strong>*Click to open required authorization settings for the workflow </strong></summary>
+           
+          - app-settings:objects:read
+          - app-settings:objects:write
+          - automation:rules:read 
+          - automation:rules:write
+          - automation:workflows:read
+          - automation:workflows:run
+          - automation:workflows:write
+          - environment-api:entities:read
+          - state:app-states:read
+          - storage:buckets:read
+          - storage:entities:read
+          - storage:events:read
+          - storage:events:write
+          - storage:logs:read
+          - storage:metrics:read
+          - storage:system:read
+         </details>
+       
+8. Trigger the Workflow to apply the well-architected framework validations
 
     - Navigate to the workflow with the name starting with "Demo AWS Six Pillars SRG Evaluation" and click on "Run".
     - Paste the below event sample to trigger the workflow
@@ -186,7 +170,7 @@ First of all, install Site Reliability Guardian app from the Dynatrace Hub or up
        }
      }
      ```
-   - Click on 'Run' and observe the workflow executions
+     - Click on 'Run' and observe the workflow executions
 
 ## How to scale the same workflow for multiple workloads:
 Once you completed the workflow and SRG configurations in the previous section, now it is time to scale the same workflow with your other workloads to be validated. Follow the below steps to apply them quickly at scale.
@@ -199,7 +183,7 @@ export RELEASE_STAGE="<Your Application Stage in your deployment pipeline>"  # e
 export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-application-2.cloudapp.net
 ```
 
-2. Continue with the remaining steps until Step 8 and update your Application name and stage information to generate a test trigger event accordingly.
+2. Continue with the remaining steps and update your Application name and stage information to generate a test trigger event accordingly.
 
 ## Integrate with a CICD Pipeline:
 
@@ -253,7 +237,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
    ##### 4.1 Define a job runner that will use the Docker image below.
 
    ```
-   dynatrace/dynatrace-configuration-as-code:v2.6.0
+   dynatrace/dynatrace-configuration-as-code:v2.11.0
    ```
      > Note: The job runner can be defined in different ways depending on the CICD tool you are using. For example:
      
@@ -314,7 +298,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
   
      Create_SixPillars_Workflow:
        stage: Deploy SixPillars Workflow
-       image: dynatrace/dynatrace-configuration-as-code:v2.6.0
+       image: dynatrace/dynatrace-configuration-as-code:v2.11.0
        script:
          - export USE_CASE="sixpillars"
          - export RELEASE_PRODUCT="<Your Application Name>"
@@ -336,7 +320,7 @@ export DOMAIN_URL="<Ingress domain for your application>" # e.g. http://my-appli
      ```
    
 ## Cleanup
-Run the below command to delete the workflow and SRG configurations along with the synthetic location configurations.
+Run the below command to delete the workflow and SRG configurations along with the other Dynatrace configurations.
 
  ``` bash
  monaco delete --file delete.yaml

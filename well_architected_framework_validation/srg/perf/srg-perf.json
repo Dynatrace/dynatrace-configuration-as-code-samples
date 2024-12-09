@@ -21,6 +21,15 @@
       "comparisonOperator": "LESS_THAN_OR_EQUAL",
       "target": {{ .target_cpu_usage }},
       "warning": {{ .warning_cpu_usage }}
+    },
+    {
+      "name": "Response time validation",
+      "description": "Response time validation",
+      "objectiveType": "REFERENCE_SLO",
+      "referenceSlo": "{{ .reference_slo_metric_resptime }}",
+      "comparisonOperator": "GREATER_THAN_OR_EQUAL",
+      "target": {{ .target_slo_resptime }},
+      "warning": {{ .warning_slo_resptime }}
     }
   ]
 }

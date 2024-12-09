@@ -125,6 +125,5 @@
         "withItems": "issue in {{ `{{` }}result(\"create_issue\")}}"
       }
     },
-    "isPrivate": false,
-    "schemaVersion": 3
+    "isPrivate": false
   }

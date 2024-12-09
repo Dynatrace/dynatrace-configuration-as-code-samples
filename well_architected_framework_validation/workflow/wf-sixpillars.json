@@ -2,7 +2,6 @@
   "title": "{{ .name }}",
   "description": "{{ .wf_description }}",
   "isPrivate": "{{ .wf_isPrivate }}",
-  "schemaVersion": 3,
   "triggerType": "Event",
   "trigger": {
     "eventTrigger": {
@@ -42,7 +41,7 @@
     },
     "perf_fail_slack_notification": {
       "name": "perf_fail_slack_notification",
-      "description": "Send a message to a Slack workspace",
+      "description": "Send a  Slack message to the Performance Assurance team",
       "action": "dynatrace.slack:slack-send-message",
       "active": true,
       "input": {
@@ -71,155 +70,7 @@
         "states": {
           "performance": "OK"
         },
-        "custom": "{{`{{`}} result('performance').validation_status == \"fail\" {{`}}`}}"
-      }
-    },
-    "wait_for_security_apdex_data_available_in_grail": {
-      "name": "wait_for_security_apdex_data_available_in_grail",
-      "description": "Build a custom task running js Code",
-      "action": "dynatrace.automations:run-javascript",
-      "input": {
-        "script": "import { executionsClient, actionExecutionsClient  } from '@dynatrace-sdk/client-automation';\nconst MAX_DURATION_MS = 900000;\nconst LONG_WAIT_MS = 60000;\nconst SHORT_WAIT_MS = 10;\n\nexport default async function ({ execution_id, action_execution_id  }) {\n  \n  const ex = await executionsClient.getExecution({ id: execution_id });\n  \n  var timeframeFrom  = new Date(ex.params.event['timeframe.from']);\n  var currentDate = new Date();\n  var timePassedUntilNow = currentDate - timeframeFrom;\n\n  var calculatedWaitTime = MAX_DURATION_MS - timePassedUntilNow;\n  if (calculatedWaitTime <=0) return; \n  \n  const loopNumToStop = Math.ceil(parseFloat(calculatedWaitTime / 60000 ));\n\n  const actionEx = await actionExecutionsClient.getActionExecution({ id: action_execution_id });\n  const loopNum = parseInt(actionEx.loopItem.item);\n\n  if (loopNum <= loopNumToStop) {\n    console.log('Time passed until now for the event to be validated: '\n                + timePassedUntilNow + ' ms = ' + timePassedUntilNow / 60000 + ' minutes. '\n                + 'The wait will end at the loop number ' + loopNumToStop); \n\n    console.log(LONG_WAIT_MS/1000 + ' sec wait for the loop ' + loopNum);\n    return await new Promise((res) => setTimeout(res, LONG_WAIT_MS));\n  } else {\n    console.log(SHORT_WAIT_MS + ' ms wait for the loop ' + loopNum);\n    return await new Promise((res) => setTimeout(res, SHORT_WAIT_MS));\n  }\n  \n}"
-      },
-      "position": {
-        "x": 1,
-        "y": 1
-      },
-      "predecessors": [],
-      "timeout": 3000,
-      "concurrency": 1,
-      "withItems": "item in [1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15]"
-    },
-    "security": {
-      "name": "security",
-      "description": "Security Vulnerability Validation",
-      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
-      "input": {
-        "objectId": "{{ .srg_security_id }}",
-        "executionId": "{{`{{`}} execution().id {{`}}`}}",
-        "expressionTo": "{{`{{`}} event()['timeframe.to'] {{`}}`}}",
-        "expressionFrom": "{{`{{`}} event()['timeframe.from'] {{`}}`}}",
-        "timeframeSelector": {
-          "to": "now",
-          "from": "now-30m"
-        },
-        "timeframeInputType": "expression"
-      },
-      "position": {
-        "x": 1,
-        "y": 2
-      },
-      "predecessors": [
-        "wait_for_security_apdex_data_available_in_grail"
-      ],
-      "conditions": {
-        "states": {
-          "wait_for_security_apdex_data_available_in_grail": "OK"
-        },
-        "custom": "",
-        "else": "STOP"
-      },
-      "retry": {
-        "count": 2,
-        "delay": 30,
-        "failedLoopIterationsOnly": true
-      },
-      "timeout": 900
-    },
-    "security_fail_jira_issue": {
-      "name": "security_fail_jira_issue",
-      "description": "Create new Jira issues with various fields",
-      "action": "dynatrace.jira:jira-create-issue",
-      "active": true,
-      "input": {
-        "labels": [],
-        "project": null,
-        "summary": "",
-        "priority": null,
-        "issueType": null,
-        "components": [],
-        "description": "",
-        "connectionId": null,
-        "fieldSetters": []
-      },
-      "position": {
-        "x": 1,
-        "y": 3
-      },
-      "predecessors": [
-        "security"
-      ],
-      "conditions": {
-        "states": {
-          "security": "OK"
-        },
-        "custom": "{{`{{`}} result('security').validation_status == \"fail\" {{`}}`}}"
-      }
-    },
-    "operational_excellence": {
-      "name": "operational_excellence",
-      "description": "Operational Excellence Validation",
-      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
-      "input": {
-        "objectId": "{{ .srg_opr_excel_id }}",
-        "executionId": "{{`{{`}} execution().id {{`}}`}}",
-        "expressionTo": "{{`{{`}} event()['timeframe.to'] {{`}}`}}",
-        "expressionFrom": "{{`{{`}} event()['timeframe.from'] {{`}}`}}",
-        "timeframeSelector": {
-          "to": "now",
-          "from": "now-30m"
-        },
-        "timeframeInputType": "expression"
-      },
-      "position": {
-        "x": 2,
-        "y": 2
-      },
-      "predecessors": [
-        "wait_for_security_apdex_data_available_in_grail"
-      ],
-      "conditions": {
-        "states": {
-          "wait_for_security_apdex_data_available_in_grail": "OK"
-        },
-        "custom": "",
-        "else": "STOP"
-      },
-      "retry": {
-        "count": 2,
-        "delay": 30,
-        "failedLoopIterationsOnly": true
-      },
-      "timeout": 900
-    },
-    "opr_excel_snow_incident": {
-      "name": "opr_excel_snow_incident",
-      "description": "Create an incident in ServiceNow",
-      "action": "dynatrace.servicenow:snow-create-incident",
-      "active": true,
-      "input": {
-        "caller": "",
-        "impact": "3",
-        "urgency": "3",
-        "category": "inquiry",
-        "description": "Event details: {{`{{`}} event() {{`}}`}}",
-        "subCategory": "internal application",
-        "connectionId": "",
-        "correlationId": "{{`{{`}} event()[\"event.id\"] {{`}}`}}",
-        "shortDescription": "{{`{{`}} event()[\"event.category\"] {{`}}`}} {{`{{`}} event()[\"event.name\"] {{`}}`}}"
-      },
-      "position": {
-        "x": 2,
-        "y": 3
-      },
-      "predecessors": [
-        "operational_excellence"
-      ],
-      "conditions": {
-        "states": {
-          "operational_excellence": "OK"
-        },
-        "custom": "{{`{{`}} result('operational_excellence').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('performance').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "cost": {
@@ -248,25 +99,15 @@
         "states": {
           "performance": "OK"
         },
-        "custom": "{{`{{`}} (result('performance').validation_status == \"pass\") or (result('performance').validation_status == \"warning\") {{`}}`}}"
+        "custom": ""
       }
     },
-    "cost_fail_pagerduty_incident": {
-      "name": "cost_fail_pagerduty_incident",
-      "description": "Creates an incident for a service.",
-      "action": "dynatrace.pagerduty:create-incident",
+    "cost_fail_send_email": {
+      "name": "cost_fail_send_email",
+      "description": "Send email to Project Management team",
+      "action": "dynatrace.email:send-email",
       "active": true,
-      "input": {
-        "from": "",
-        "title": "",
-        "details": "",
-        "urgency": "",
-        "serviceId": "",
-        "priorityId": "",
-        "connectionId": "",
-        "assigneeUserId": "",
-        "escalationPolicyId": ""
-      },
+      "input": {},
       "position": {
         "x": -1,
         "y": 3
@@ -278,7 +119,7 @@
         "states": {
           "cost": "OK"
         },
-        "custom": "{{`{{`}} result('cost').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('cost').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "reliability": {
@@ -307,19 +148,15 @@
         "states": {
           "cost": "OK"
         },
-        "custom": "{{`{{`}} (result('cost').validation_status == \"pass\") or (result('cost').validation_status == \"warning\") {{`}}`}}"
+        "custom": ""
       }
     },
-    "reliability_fail_auto_remediate_ansible": {
-      "name": "reliability_fail_auto_remediate_ansible",
-      "description": "Launch a job template on Red Hat Ansible Automation Platform",
-      "action": "dynatrace.redhat:launch-job-template",
+    "reliability_fail_jira_ticket": {
+      "name": "reliability_fail_jira_ticket",
+      "action": "dynatrace.jira:jira-create-issue",
+      "description": "Create new Jira issue with various fields",
+      "input": {},
       "active": true,
-      "input": {
-        "extraVars": "",
-        "templateId": "1234",
-        "connectionId": ""
-      },
       "position": {
         "x": -1,
         "y": 4
@@ -331,7 +168,7 @@
         "states": {
           "reliability": "OK"
         },
-        "custom": "{{`{{`}} (result('reliability').validation_status == \"fail\")  {{`}}`}}"
+        "custom": "{{`{{`}} result('reliability').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     },
     "sustainability": {
@@ -360,13 +197,13 @@
         "states": {
           "reliability": "OK"
         },
-        "custom": "{{`{{`}} (result('reliability').validation_status == \"pass\") or (result('reliability').validation_status == \"warning\") {{`}}`}}"
+        "custom": ""
       }
     },
     "sust_fail_pod_mem_alloc_optimize": {
       "name": "sust_fail_pod_mem_alloc_optimize",
-      "description": "Apply kubernetes yaml configurations",
       "action": "dynatrace.kubernetes.control:apply",
+      "description": "Apply kubernetes yaml configurations for less resource usage",
       "input": {
         "resource": "simplenodeservice",
         "namespace": "simplenodeservice-staging",
@@ -383,8 +220,156 @@
         "states": {
           "sustainability": "OK"
         },
-        "custom": "{{`{{`}} result('sustainability').validation_status == \"fail\" {{`}}`}}"
+        "custom": "{{`{{`}} result('sustainability').validation_status in [\"fail\",\"error\"] {{`}}`}}"
+      }
+    },
+    "wait_for_security_apdex_data_available_in_grail": {
+      "name": "wait_for_security_apdex_data_available_in_grail",
+      "description": "Build a custom task running js Code",
+      "action": "dynatrace.automations:run-javascript",
+      "input": {
+        "script": "import { executionsClient, actionExecutionsClient  } from '@dynatrace-sdk/client-automation';\nconst MAX_DURATION_MS = 900000;\nconst LONG_WAIT_MS = 60000;\nconst SHORT_WAIT_MS = 10;\n\nexport default async function ({ execution_id, action_execution_id  }) {\n  \n  const ex = await executionsClient.getExecution({ id: execution_id });\n  \n  var timeframeFrom  = new Date(ex.params.event['timeframe.from']);\n  var currentDate = new Date();\n  var timePassedUntilNow = currentDate - timeframeFrom;\n\n  var calculatedWaitTime = MAX_DURATION_MS - timePassedUntilNow;\n  if (calculatedWaitTime <=0) return; \n  \n  const loopNumToStop = Math.ceil(parseFloat(calculatedWaitTime / 60000 ));\n\n  const actionEx = await actionExecutionsClient.getActionExecution({ id: action_execution_id });\n  const loopNum = parseInt(actionEx.loopItem.item);\n\n  if (loopNum <= loopNumToStop) {\n    console.log('Time passed until now for the event to be validated: '\n                + timePassedUntilNow + ' ms = ' + timePassedUntilNow / 60000 + ' minutes. '\n                + 'The wait will end at the loop number ' + loopNumToStop); \n\n    console.log(LONG_WAIT_MS/1000 + ' sec wait for the loop ' + loopNum);\n    return await new Promise((res) => setTimeout(res, LONG_WAIT_MS));\n  } else {\n    console.log(SHORT_WAIT_MS + ' ms wait for the loop ' + loopNum);\n    return await new Promise((res) => setTimeout(res, SHORT_WAIT_MS));\n  }\n  \n}"
+      },
+      "position": {
+        "x": 0,
+        "y": 5
+      },
+      "predecessors": ["sustainability"],
+      "conditions": {
+        "states": {
+          "sustainability": "OK"
+        }
+      },
+      "timeout": 3000,
+      "concurrency": 1,
+      "withItems": "item in [1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15]"
+    },
+    "security": {
+      "name": "security",
+      "description": "Security Vulnerability Validation",
+      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
+      "input": {
+        "objectId": "{{ .srg_security_id }}",
+        "executionId": "{{`{{`}} execution().id {{`}}`}}",
+        "expressionTo": "",
+        "expressionFrom": "",
+        "timeframeSelector": {
+          "to": "now",
+          "from": "now-15m"
+        },
+        "timeframeInputType": "timeframeSelector"
+      },
+      "position": {
+        "x": 0,
+        "y": 6
+      },
+      "predecessors": [
+        "wait_for_security_apdex_data_available_in_grail"
+      ],
+      "conditions": {
+        "states": {
+          "wait_for_security_apdex_data_available_in_grail": "OK"
+        },
+        "custom": "",
+        "else": "STOP"
+      },
+      "retry": {
+        "count": 2,
+        "delay": 30,
+        "failedLoopIterationsOnly": true
+      },
+      "timeout": 900
+    },
+    "security_fail_servicenow_issue": {
+      "name": "security_fail_servicenow_issue",
+      "action": "dynatrace.servicenow:snow-create-incident",
+      "description": "Create an incident in ServiceNow for Security team",
+      "input": {
+        "caller": "",
+        "impact": "3",
+        "urgency": "3",
+        "category": "inquiry",
+        "description": "Event details: {{`{{`}} event() {{`}}`}}",
+        "subCategory": "internal application",
+        "connectionId": "",
+        "correlationId": "DT_{{`{{`}} event()[\"event.id\"] {{`}}`}}",
+        "shortDescription": "{{`{{`}} event()[\"event.category\"] {{`}}`}} {{`{{`}} event()[\"event.name\"] {{`}}`}}"
+      },
+      "active": true,
+      "position": {
+        "x": -1,
+        "y": 7
+      },
+      "predecessors": [
+        "security"
+      ],
+      "conditions": {
+        "states": {
+          "security": "OK"
+        },
+        "custom": "{{`{{`}} result('security').validation_status in [\"fail\",\"error\"] {{`}}`}}"
+      }
+    },
+    "operational_excellence": {
+      "name": "operational_excellence",
+      "description": "Operational Excellence Validation",
+      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
+      "input": {
+        "objectId": "{{ .srg_opr_excel_id }}",
+        "executionId": "{{`{{`}} execution().id {{`}}`}}",
+        "expressionTo": "",
+        "expressionFrom": "",
+        "timeframeSelector": {
+          "to": "now",
+          "from": "now-15m"
+        },
+        "timeframeInputType": "timeframeSelector"
+      },
+      "position": {
+        "x": 0,
+        "y": 7
+      },
+      "predecessors": [
+        "security"
+      ],
+      "conditions": {
+        "states": {
+          "security": "OK"
+        },
+        "custom": "",
+        "else": "STOP"
+      },
+      "retry": {
+        "count": 2,
+        "delay": 30,
+        "failedLoopIterationsOnly": true
+      },
+      "timeout": 900
+    },
+    "opr_excel_fail_ansible_job": {
+      "name": "opr_excel_fail_ansible_job",
+      "action": "dynatrace.redhat.ansible:launch-job-template",
+      "description": "Launch a job template in Red Hat Ansible Automation Controller",
+      "input": {},
+      "active": true,
+      "position": {
+        "x": -1,
+        "y": 8
+      },
+      "predecessors": [
+        "operational_excellence"
+      ],
+      "conditions": {
+        "states": {
+          "operational_excellence": "OK"
+        },
+        "custom": "{{`{{`}} result('operational_excellence').validation_status in [\"fail\",\"error\"] {{`}}`}}"
       }
     }
+
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c74f9b1 (jsons)

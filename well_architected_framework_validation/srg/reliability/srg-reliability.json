@@ -5,8 +5,8 @@
   "variables":[{"name":"version","definition":"1.0.0"}],
   "objectives": [
     {
-      "name": "Success Rate - Availability Validation with Synthetic Monitoring ",
-      "description": "Success Rate - Availability Validation with Synthetic Monitoring ",
+      "name": "Success Rate - Availability Validation",
+      "description": "Success Rate - Availability Validation",
       "objectiveType": "DQL",
       "dqlQuery": "{{ .dql_query_success_rate }}",
       "comparisonOperator": "GREATER_THAN_OR_EQUAL",

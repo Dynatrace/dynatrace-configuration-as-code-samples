@@ -4,7 +4,6 @@ configs:
     type:
       settings:
         schema: app:dynatrace.site.reliability.guardian:guardians
-        schemaVersion: 1.1.2
         scope: environment
     config:
       skip: true
@@ -36,8 +35,8 @@ configs:
               | lookup 
                 [ fetch dt.entity.process_group_instance
                 | fields id, metadata, tags, lifetime
-                | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-                | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+                | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+                | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
                 | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
                 | sort lifetime  desc
                 | summarize count(), by: {id}
@@ -51,7 +50,7 @@ configs:
           references:
             - releaseStage
             - releaseProduct
-        target_cpu_usage_percent: 10
+        target_cpu_usage_percent: 5
         warning_cpu_usage_percent: 15       
         
         # objective - timeseries - disk usage
@@ -69,8 +68,8 @@ configs:
             | lookup 
               [ fetch dt.entity.process_group_instance
               | fieldsAdd tags
-              | filter(matchesPhrase(metadata,"DT_RELEASE_STAGE={{ .releaseStage }}"))
-              | filter(matchesPhrase(metadata,"DT_RELEASE_PRODUCT={{ .releaseProduct }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_STAGE:{{ .releaseStage }}"))
+              | filter(matchesPhrase(tags,"DT_RELEASE_PRODUCT:{{ .releaseProduct }}"))
               | filter(matchesPhrase(tags,"DT_RELEASE_VERSION:$version"))
               | sort lifetime  desc
               | summarize pgi_id = takeFirst(id)
