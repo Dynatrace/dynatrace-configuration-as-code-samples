@@ -44,7 +44,7 @@ resource "dynatrace_management_zone_v2" "DaniloTest" {
         attribute_conditions {
           condition {
             key      = "HOST_TAGS"
-            operator = "equals"
+            operator = "EQUALS"
             tag = "[CONTEXT]dt.owner:azure-vm"
           }
         }
