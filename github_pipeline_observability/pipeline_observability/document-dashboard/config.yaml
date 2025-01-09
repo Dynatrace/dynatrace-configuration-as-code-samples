@@ -1,0 +1,31 @@
+configs:
+- id: c987eb44-e834-44d8-8c28-9c24a016df41
+  config:
+    name: GitHub Pull Request monitoring v.3
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
+    template: c987eb44-e834-44d8-8c28-9c24a016df41.json
+    skip: false
+    originObjectId: c987eb44-e834-44d8-8c28-9c24a016df41
+  type:
+    document:
+      kind: dashboard
+      private: true
+- id: d589113d-d8c4-4687-afe7-39d639f168b3
+  config:
+    name: GitHub Workflows monitoring v.3
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
+    template: d589113d-d8c4-4687-afe7-39d639f168b3.json
+    skip: false
+    originObjectId: d589113d-d8c4-4687-afe7-39d639f168b3
+  type:
+    document:
+      kind: dashboard
+      private: true
