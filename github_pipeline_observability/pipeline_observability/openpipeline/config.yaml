@@ -1,0 +1,13 @@
+configs:
+- id: events.sdlc
+  config:
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_9ecd9ce4_ad89_4aa8_af7b_ebb7daf55435: 9ecd9ce4-ad89-4aa8-af7b-ebb7daf55435
+    template: events.sdlc.json
+    skip: false
+  type:
+    openpipeline:
+      kind: events.sdlc

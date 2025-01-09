@@ -1,0 +1,22 @@
+manifestVersion: 1.0
+projects:
+  - name: pipeline_observability
+environmentGroups:
+  - name: group
+    environments:
+      - name: <ENVIRONMENT-NAME>
+        url:
+          type: value
+          value: <YOUR-DT-ENV>
+        auth:
+            token:
+              name: DT_ENV_TOKEN
+            oAuth:
+              clientId:
+                name: OAUTH_CLIENT_ID
+              clientSecret:
+                name: OAUTH_CLIENT_SECRET
+              tokenEndpoint:
+                type: environment
+                value: OAUTH_TOKEN_ENDPOINT
+                
