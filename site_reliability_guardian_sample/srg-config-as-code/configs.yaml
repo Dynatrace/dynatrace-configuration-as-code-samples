@@ -28,11 +28,7 @@ configs:
   type:
     settings:
       schema: app:dynatrace.site.reliability.guardian:guardians
-<<<<<<< HEAD
-      schemaVersion: 1.1.0
-=======
       schemaVersion: 1.0.2
->>>>>>> main
       scope: environment
 - id: easytradeworkflow
   config:
