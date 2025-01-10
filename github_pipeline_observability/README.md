@@ -1,8 +1,8 @@
 # GitHub Pipeline Observability Package
 
 If you want to know how your GitHub workflows are performing in terms of task duration, failure rate, runner utilization, etc. and you are interested in analyzing pull requests, then leverage this **GitHub Pipeline Observability Package**. To apply it, two steps are required:
-* Configure Dynatrace OpenPipeline and upload Dashboards
-* Configure GitHub to send Webhook events to Dynatrace
+1. Configure Dynatrace OpenPipeline and upload Dashboards
+2. Configure GitHub to send Webhook events to Dynatrace
 
 ## Configure Dynatrace OpenPipeline and upload Dashboards
 
@@ -62,11 +62,9 @@ flowchart TD
   B -- Yes --> D[Merge configuration before deploying OpenPipeline configuration]
 ```
 
-
 #### Deploy OpenPipeline configuratioon
 
-To prepare Dynatrace for GitHub pipeline observability, a OpenPipeline and two Dashboards need to be configured. 
-Run the following command to apply this configure. 
+Run the following command to apply the provided configuration. 
 
 ```
 monaco deploy manifest.yaml
@@ -74,7 +72,7 @@ monaco deploy manifest.yaml
 
 #### Merge configuration before deploying OpenPipeline configuration
 
-MERGE is needed
+Describe how to MERGE first
 
 ## Configure GitHub to send Webhook events to Dynatrace
 
