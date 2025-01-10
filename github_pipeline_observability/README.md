@@ -1,6 +1,6 @@
 # GitHub Pipeline Observability Package
 
-To leverage the GitHub Pipeline Observability Package, two steps are required:
+If you want to know how your GitHub workflows are performing in terms of task duration, failure rate, runner utilization, etc. and you are interested in analyzing pull requests, then leverage this **GitHub Pipeline Observability Package**. To apply it, two steps are required:
 * Configure Dynatrace OpenPipeline and upload Dashboards
 * Configure GitHub to send Webhook events to Dynatrace
 
@@ -9,22 +9,22 @@ To leverage the GitHub Pipeline Observability Package, two steps are required:
 ### Prerequisites
 
 1. [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
-2. [Create an API token](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/manage-configuration#prerequisites) and store as environment variable
+
+2. [Create an API token](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/manage-configuration#prerequisites) and store it as an environment variable:
 ```
 $env:DT_ENV_TOKEN 
 ```
 
-3. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions and store as it as environment variables:
+3. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions and store it as an environment variables:
     * "Scopes"
-
 ```
 $env:OAUTH_CLIENT_ID
 $env:OAUTH_CLIENT_SECRET 
 ```
 
-4. (Optional) Download this repository and go to `github_pipeline_observability`
+4. Download this repository and go to `github_pipeline_observability`
 ```
-git clone
+git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
 cd github_pipeline_observability
 ```
 
@@ -53,19 +53,26 @@ environmentGroups:
                 value: OAUTH_TOKEN_ENDPOINT
 ```
 
-
 ### Apply Monaco configuration
 
-#### OpenPipeline configuration for Software Development Lifecycle is empty
+```mermaid
+flowchart TD
+  A[Check your OpenPipeline SDLC scope] --> B{Is there a custom endpoint/pipeline?};
+  B -- No --> C[Deploy OpenPipeline configuration]
+  B -- Yes --> D[Merge configuration before deploying OpenPipeline configuration]
+```
 
-To configure Dynatrace for GitHub pipeline observability, a OpenPipeline and two Dashboards need to be configured. 
+
+#### Deploy OpenPipeline configuratioon
+
+To prepare Dynatrace for GitHub pipeline observability, a OpenPipeline and two Dashboards need to be configured. 
 Run the following command to apply this configure. 
 
 ```
 monaco deploy manifest.yaml
 ```
 
-#### OpenPipeline configuration for Software Development Lifecycle is available
+#### Merge configuration before deploying OpenPipeline configuration
 
 MERGE is needed
 
@@ -106,3 +113,29 @@ You can configure webhooks at either the organization level (affecting all repos
 5. Select **Active** to receive event details when the hook is triggered.
 6. Click **Add webhook** to save the webhook.
 
+## Observe your GitHub workfow and pull request activities
+
+#### GitHub Workflow monitoring
+* Overall Pipeline analysis
+    * Total number of pipeline runs (+details)
+    * Pipeline duration: p50, avg
+    * Failure rate / Pipeline completion status
+    * Re-runs
+    * Pipeline triggers
+    * Error-prune pipelines | Top 5
+![](./images/GitHub%20Workflows%20monitoring%20v.2_pipelines.png)
+* Pipeline tasks / steps
+    * Task duration (p50)
+    * Error-prune tasks | Top 5
+    * Distribution of Runners
+    * Steps by duration (p50) | Top 5
+![](./images/GitHub%20Workflows%20monitoring%20v.2_tasks.png)
+
+#### GitHub Pull Request monitoring
+* Open PRs (+details)
+* Open PRs by repository
+* In Open status
+* Merged PRs (+details)
+* Merged PRs by taget repository
+* Time to merge (Open-to-merge duration): p50, avg
+![](./images/GitHub%20Pull%20Request%20monitoring%20v.2.png)
