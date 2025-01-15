@@ -1,30 +1,25 @@
 configs:
-- id: c987eb44-e834-44d8-8c28-9c24a016df41
+- id: 0a635714-5545-4413-95e1-023333e8edac
   config:
-    name: GitHub Pull Request monitoring v.3
+    name: GitHub Workflow v.0.2.1
     parameters:
       extractedIDs:
         type: value
         value:
           id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
-    template: c987eb44-e834-44d8-8c28-9c24a016df41.json
+    template: 0a635714-5545-4413-95e1-023333e8edac.json
     skip: false
-    originObjectId: c987eb44-e834-44d8-8c28-9c24a016df41
+    originObjectId: 0a635714-5545-4413-95e1-023333e8edac
   type:
     document:
       kind: dashboard
       private: true
-- id: d589113d-d8c4-4687-afe7-39d639f168b3
+- id: f9847607-0c63-4f8a-99bd-92e7cf7d86db
   config:
-    name: GitHub Workflows monitoring v.3
-    parameters:
-      extractedIDs:
-        type: value
-        value:
-          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
-    template: d589113d-d8c4-4687-afe7-39d639f168b3.json
+    name: GitHub Pull Request v.0.2.1
+    template: f9847607-0c63-4f8a-99bd-92e7cf7d86db.json
     skip: false
-    originObjectId: d589113d-d8c4-4687-afe7-39d639f168b3
+    originObjectId: f9847607-0c63-4f8a-99bd-92e7cf7d86db
   type:
     document:
       kind: dashboard

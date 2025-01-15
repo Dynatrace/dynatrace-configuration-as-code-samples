@@ -2,82 +2,124 @@
   "importedWithCode": false,
   "layouts": {
     "0": {
-      "h": 2,
-      "w": 5,
+      "h": 3,
+      "w": 4,
       "x": 0,
-      "y": 1
+      "y": 7
     },
     "1": {
-      "h": 4,
-      "w": 5,
-      "x": 5,
-      "y": 1
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 7
     },
     "10": {
-      "h": 2,
-      "w": 5,
+      "h": 3,
+      "w": 4,
       "x": 0,
-      "y": 3
+      "y": 10
     },
     "11": {
-      "h": 1,
-      "w": 23,
+      "h": 2,
+      "w": 24,
       "x": 0,
       "y": 0
     },
     "12": {
-      "h": 1,
+      "h": 2,
       "w": 24,
       "x": 0,
-      "y": 9
+      "y": 18
     },
-    "2": {
-      "h": 4,
-      "w": 23,
+    "13": {
+      "h": 2,
+      "w": 24,
       "x": 0,
       "y": 5
     },
-    "3": {
-      "h": 2,
-      "w": 5,
+    "15": {
+      "h": 5,
+      "w": 24,
       "x": 0,
+      "y": 32
+    },
+    "16": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 31
+    },
+    "17": {
+      "h": 6,
+      "w": 8,
+      "x": 16,
+      "y": 20
+    },
+    "18": {
+      "h": 6,
+      "w": 8,
+      "x": 16,
+      "y": 7
+    },
+    "19": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
       "y": 10
+    },
+    "2": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 13
+    },
+    "20": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 2
+    },
+    "3": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 20
     },
     "4": {
-      "h": 2,
-      "w": 5,
-      "x": 5,
-      "y": 10
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 23
     },
     "5": {
-      "h": 2,
-      "w": 5,
-      "x": 5,
-      "y": 12
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 20
     },
     "6": {
-      "h": 4,
-      "w": 23,
+      "h": 5,
+      "w": 24,
       "x": 0,
-      "y": 14
+      "y": 26
     },
     "7": {
-      "h": 4,
-      "w": 13,
-      "x": 10,
-      "y": 1
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 7
     },
     "8": {
-      "h": 4,
-      "w": 13,
-      "x": 10,
-      "y": 10
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 20
     },
     "9": {
-      "h": 2,
-      "w": 5,
+      "h": 3,
+      "w": 4,
       "x": 0,
-      "y": 12
+      "y": 23
     }
   },
   "settings": {},
@@ -89,7 +131,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } | filter not in(statuses[0],array(\"merged\",\"closed\")) \n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| fieldsAdd OpenedPrDuration = toTimestamp(now())-toTimestamp(start_time) | summarize max(OpenedPrDuration), count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider==\"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| filter in(ext.task.repository.target.full_name,$TargetRepository) \n| filter in(ext.task.repository.target.ref,$TargetRef)\n| fieldsAdd OpenedPrDuration = toTimestamp(now())-toTimestamp(start_time) \n| summarize max(OpenedPrDuration), count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -128,6 +170,13 @@
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "dataMapping": {
+          "dimension": "max(OpenedPrDuration)",
+          "displayedFields": [],
+          "latitude": "count()",
+          "longitude": "max(OpenedPrDuration)",
+          "value": "count()"
+        },
         "histogram": {
           "dataMappings": [
             {
@@ -153,6 +202,14 @@
           },
           "shape": "hexagon"
         },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
@@ -177,7 +234,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "1": {
@@ -187,7 +251,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } | filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now())-toTimestamp(start_time) | summarize max(OpenedPrDuration), count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize max(OpenedPrDuration), count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -195,7 +259,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "In Open status (time max)",
+      "title": "Oldest Open PR",
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
@@ -225,6 +289,15 @@
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "dataMapping": {
+          "dimension": "max(OpenedPrDuration)",
+          "displayedFields": [
+            "count()"
+          ],
+          "latitude": "count()",
+          "longitude": "max(OpenedPrDuration)",
+          "value": "count()"
+        },
         "histogram": {
           "dataMappings": [
             {
@@ -249,6 +322,14 @@
             "position": "auto"
           },
           "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -279,6 +360,9 @@
           "rowDensity": "condensed"
         },
         "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
         "unitsOverrides": [
           {
             "added": 1727701272906,
@@ -290,7 +374,11 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ]
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "10": {
@@ -300,7 +388,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| sort timestamp desc\n| summarize { statuses = collectArray(event.status), actions = collectArray(ext.task.action) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } | filter not in(statuses[0],array(\"merged\",\"closed\")) \n| filter contains(toString(actions),\"reopened\")\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider==\"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status), actions = collectArray(ext.task.action) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| filter contains(toString(actions),\"reopened\")\n| filter in(ext.task.repository.target.full_name, $TargetRepository) and in(ext.task.repository.target.ref, $TargetRef)\n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -336,10 +424,19 @@
           "hiddenLegendFields": [
             "task"
           ],
+          "legend": {
+            "hidden": true
+          },
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
           "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [],
+          "longitude": "count()",
+          "value": "count()"
         },
         "histogram": {
           "dataMappings": [
@@ -361,6 +458,14 @@
             "position": "auto"
           },
           "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -388,16 +493,53 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "11": {
-      "content": "## Open Pull Requests",
+      "content": "### GitHub Pull Request Pulse: Open \u0026 Merged Insights\nThis dashboard provides a comprehensive overview of the status of pull requests (PRs) in your GitHub repositories. Track open and merged PRs in real-time, analyze trends, and gain insights into your team's development workflow. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
       "title": "",
       "type": "markdown"
     },
     "12": {
-      "content": "## Merged Pull Requests",
+      "content": "### Merged Pull Requests\n\nThis section provides a clear and detailed view of the merged pull requests, helping you to understand the efficiency and effectiveness of your code integration process.\n\n-----",
+      "title": "",
+      "type": "markdown"
+    },
+    "13": {
+      "content": "### Open Pull Requests\n\nThis section provides a clear and detailed view of the current state of open pull requests, enabling you to manage and prioritize them effectively. \n\n-----",
+      "title": "",
+      "type": "markdown"
+    },
+    "15": {
+      "content": "#### Additional resources\n**Software Development Lifecycle Events**\n* [SDLC events](https://myaccount.dynatrace.com) (docs)\n**Optimize DQL usage**\n* [DQL Best practices](https://docs.dynatrace.com/docs/shortlink/dql-best-practices) (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.2.1",
+      "title": "",
+      "type": "markdown"
+    },
+    "16": {
+      "content": " ",
+      "title": "",
+      "type": "markdown"
+    },
+    "17": {
+      "content": "Merged PRs by Author",
+      "title": "",
+      "type": "markdown"
+    },
+    "18": {
+      "content": "Open PRs by Author",
+      "title": "",
+      "type": "markdown"
+    },
+    "19": {
+      "content": "Average Time Open",
       "title": "",
       "type": "markdown"
     },
@@ -408,7 +550,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| sort timestamp desc\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url , vcs.repository.change.id } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fields \nIn_open_status = toTimestamp(now())-toTimestamp(start_time),\nPR_number = number, \nPR_title = task.name,\nPR_url= ext.pr.url,\nSource_repo = ext.task.repository.source.full_name, \nSource_ref=ext.task.repository.source.ref, \nTarget_repo = ext.task.repository.target.full_name, \nTarget_ref=ext.task.repository.target.ref,\nCreated_at = start_time, GlobalId = vcs.repository.change.id \n| sort In_open_status desc\n\n",
+      "query": "fetch events \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider==\"github.com\" \n| sort timestamp desc\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| summarize { statuses = collectArray(event.status) }, by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url , vcs.repository.change.id } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fields \nIn_open_status = toTimestamp(now())-toTimestamp(start_time),\nPR_number = number, \nPR_title = task.name,\nPR_url= ext.pr.url,\nSource_repo = ext.task.repository.source.full_name, \nSource_ref=ext.task.repository.source.ref, \nTarget_repo = ext.task.repository.target.full_name, \nTarget_ref=ext.task.repository.target.ref,\nCreated_at = start_time, GlobalId = vcs.repository.change.id \n| sort In_open_status desc\n\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -416,7 +558,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Open PRs details",
+      "title": "Open PRs Details",
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
@@ -447,24 +589,55 @@
           },
           "curve": "linear",
           "fieldMapping": {
-            "leftAxisDimensions": [
-              "PR_title"
-            ],
             "leftAxisValues": [
               "In_open_status"
             ],
             "timestamp": "Created_at"
           },
           "gapPolicy": "connect",
-          "hiddenLegendFields": [],
+          "hiddenLegendFields": [
+            "In_open_status",
+            "PR_number",
+            "GlobalId"
+          ],
+          "leftYAxisSettings": {},
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "Created_at",
           "xAxisScaling": "analyzedTimeframe"
         },
-        "histogram": {
-          "dataMappings": [],
+        "dataMapping": {
+          "dimension": "In_open_status",
           "displayedFields": [],
+          "latitude": "PR_number",
+          "longitude": "In_open_status",
+          "value": "PR_number"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "In_open_status"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "PR_number"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "GlobalId"
+            }
+          ],
+          "displayedFields": [
+            "PR_title",
+            "PR_url",
+            "Source_repo",
+            "Source_ref",
+            "Target_repo",
+            "Target_ref"
+          ],
           "variant": "single"
         },
         "honeycomb": {
@@ -486,6 +659,14 @@
             "position": "auto"
           },
           "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "PR_number",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -532,6 +713,9 @@
           "rowDensity": "default"
         },
         "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
         "unitsOverrides": [
           {
             "added": 1727701272906,
@@ -543,8 +727,17 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ]
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
+    },
+    "20": {
+      "content": "**Merge Success Rate:** Shows the percentage of pull requests that have been successfully merged out of the total submitted, indicating the overall success rate of PR merges.",
+      "title": "",
+      "type": "markdown"
     },
     "3": {
       "davis": {
@@ -553,7 +746,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.status == \"merged\" and event.category == \"task\" and event.type==\"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| dedup task.id\n| summarize Count= count(), Median = percentile(duration,50), Avg = avg(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type==\"change\" \n| filter event.status == \"merged\" \n| filter event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| dedup task.id\n| summarize Count= count(), Median = percentile(duration,50), Avg = avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -593,6 +786,17 @@
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "dataMapping": {
+          "dimension": "Count",
+          "displayedFields": [
+            "Count",
+            "Median",
+            "Avg"
+          ],
+          "latitude": "Median",
+          "longitude": "Count",
+          "value": "Count"
+        },
         "histogram": {
           "dataMappings": [
             {
@@ -621,6 +825,14 @@
             "position": "auto"
           },
           "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -646,7 +858,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "4": {
@@ -656,7 +875,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter  event.status == \"merged\"  and event.category == \"task\" and event.type==\"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\"\n | filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n | dedup task.id\n | summarize Count= count(), Median = percentile(duration,50), Avg = avg(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type==\"change\" \n| filter event.status == \"merged\"  \n| filter event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| dedup task.id\n| summarize Count= count(), Median = percentile(duration,50), Avg = avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -664,7 +883,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Open-to-merge duration (p50)",
+      "title": "Merge Time (p50)",
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
@@ -696,6 +915,17 @@
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "dataMapping": {
+          "dimension": "Count",
+          "displayedFields": [
+            "Count",
+            "Median",
+            "Avg"
+          ],
+          "latitude": "Median",
+          "longitude": "Count",
+          "value": "Count"
+        },
         "histogram": {
           "dataMappings": [
             {
@@ -724,6 +954,14 @@
             "position": "auto"
           },
           "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -749,7 +987,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "5": {
@@ -759,7 +1004,8 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.status == \"merged\"  and event.category == \"task\" and event.type==\"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| dedup task.id\n| summarize Count= count(), Median = percentile(duration,50), Avg = avg(duration)",
+      "description": "Shows the average time taken to merge pull requests, providing insights into the efficiency of the review and merge process.",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type==\"change\" \n| filter event.status == \"merged\" \n| filter event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| dedup task.id\n| summarize Count= count(), Median = percentile(duration,50), Avg = avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -767,7 +1013,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Open-to-merge duration (avg)",
+      "title": "Average Merge Time",
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
@@ -799,6 +1045,17 @@
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "dataMapping": {
+          "dimension": "Count",
+          "displayedFields": [
+            "Count",
+            "Median",
+            "Avg"
+          ],
+          "latitude": "Median",
+          "longitude": "Count",
+          "value": "Count"
+        },
         "histogram": {
           "dataMappings": [
             {
@@ -828,6 +1085,14 @@
           },
           "shape": "hexagon"
         },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
+        },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
@@ -852,7 +1117,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "6": {
@@ -862,7 +1134,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.status == \"merged\"  and event.category == \"task\" and event.type==\"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" | sort timestamp asc\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| dedup task.id\n| fields Duration = duration, Number = number, Title = task.name,Url= ext.pr.url,SourceRepository = ext.task.repository.source.full_name, SourceRef=ext.task.repository.source.ref, TargetRepository = ext.task.repository.target.full_name, TargetRef=ext.task.repository.target.ref, CreatedAt = start_time, MergetAt = end_time,GlobalId = vcs.repository.change.id | sort Duration desc\n",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type==\"change\" \n| filter event.status == \"merged\" \n| filter event.provider==\"github.com\" \n| sort timestamp asc\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| dedup task.id\n| fields \nMergetAt = end_time,\nDuration = duration, \nNumber = number, \nTitle = task.name,\nUrl= ext.pr.url,\nSourceRepository = ext.task.repository.source.full_name, \nSourceRef=ext.task.repository.source.ref, \nTargetRepository = ext.task.repository.target.full_name, \nTargetRef=ext.task.repository.target.ref, \nCreatedAt = start_time, \nGlobalId = vcs.repository.change.id \n| sort Duration desc\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -870,7 +1142,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Merged PRs details",
+      "title": "Merged PRs Details",
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
@@ -901,26 +1173,53 @@
           },
           "curve": "linear",
           "fieldMapping": {
-            "leftAxisDimensions": [
-              "Title"
-            ],
             "leftAxisValues": [
               "Duration"
             ],
-            "timestamp": "CreatedAt"
+            "timestamp": "MergetAt"
           },
           "gapPolicy": "connect",
-          "hiddenLegendFields": [],
+          "hiddenLegendFields": [
+            "Duration",
+            "Number",
+            "GlobalId"
+          ],
+          "leftYAxisSettings": {},
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "MergetAt",
           "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "MergetAt",
+          "displayedFields": [
+            "Duration",
+            "Number",
+            "Title",
+            "Url",
+            "SourceRepository",
+            "SourceRef",
+            "TargetRepository",
+            "TargetRef",
+            "CreatedAt",
+            "MergetAt",
+            "GlobalId"
+          ],
+          "latitude": "Number",
+          "longitude": "Duration",
+          "value": "Number"
         },
         "histogram": {
           "dataMappings": [
             {
               "rangeAxis": "",
               "valueAxis": "Duration"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "Number"
             },
             {
               "rangeAxis": "",
@@ -957,6 +1256,14 @@
           },
           "shape": "hexagon"
         },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Number",
+          "showLabel": false
+        },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
@@ -985,7 +1292,12 @@
             "direction": "descending"
           }
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {},
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "7": {
@@ -995,7 +1307,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| sort timestamp desc\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } | filter not in(statuses[0],array(\"merged\",\"closed\")) \n| summarize count(),by: {ext.task.repository.target.full_name}",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider==\"github.com\"\n| sort timestamp desc\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name,ext.task.repository.target.ref, ext.task.repository.source.full_name,ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| summarize count(),by: {ext.task.repository.target.full_name}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1003,7 +1315,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": " Open PRs by target repository",
+      "title": " Open PRs by Repository",
       "type": "data",
       "visualization": "pieChart",
       "visualizationSettings": {
@@ -1029,13 +1341,29 @@
           "colorPalette": "swamps",
           "curve": "linear",
           "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
         },
-        "histogram": {
-          "dataMappings": [],
+        "dataMapping": {
+          "dimension": "ext.task.repository.target.full_name",
           "displayedFields": [],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "ext.task.repository.target.full_name"
+          ],
           "variant": "single"
         },
         "honeycomb": {
@@ -1054,6 +1382,14 @@
           "max": null,
           "min": null,
           "shape": "circle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -1079,7 +1415,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "8": {
@@ -1089,7 +1432,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.status == \"merged\"  and event.category == \"task\" and event.type==\"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" | sort timestamp asc\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| dedup task.id\n| summarize Count= count(),by:{vcs.repository.ref.name}",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type==\"change\" \n| filter event.status == \"merged\"  \n| filter event.provider==\"github.com\" \n| sort timestamp asc\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| dedup task.id\n| summarize Count= count(),by:{vcs.repository.ref.name}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1097,7 +1440,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Merged Pull Requests by Target Repository",
+      "title": "Merged PRs by Repository",
       "type": "data",
       "visualization": "pieChart",
       "visualizationSettings": {
@@ -1122,9 +1465,21 @@
           "colorPalette": "blue-steel",
           "curve": "linear",
           "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "vcs.repository.ref.name",
+          "displayedFields": [
+            "vcs.repository.ref.name",
+            "Count"
+          ],
+          "longitude": "Count",
+          "value": "Count"
         },
         "histogram": {
           "dataMappings": [
@@ -1153,6 +1508,14 @@
           },
           "shape": "hexagon"
         },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
+        },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
@@ -1177,7 +1540,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "9": {
@@ -1187,7 +1557,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter  event.status == \"merged\"  and event.category == \"task\" and event.type==\"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name,$TargetRepository) and in(ext.task.repository.target.ref,$TargetRef)\n| dedup task.id\n| summarize SumCommits = sum(ext.task.merge.commits)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type==\"change\" \n| filter  event.status == \"merged\"\n| filter event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name, $TargetRepository) \n| filter in(ext.task.repository.target.ref, $TargetRef)\n| dedup task.id\n| summarize SumCommits = sum(ext.task.merge.commits)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1195,7 +1565,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Merged commits via PRs",
+      "title": "Merged commits",
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
@@ -1219,9 +1589,17 @@
           },
           "curve": "linear",
           "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "SumCommits",
+          "value": "SumCommits"
         },
         "histogram": {
           "dataMappings": [
@@ -1243,6 +1621,14 @@
             "position": "auto"
           },
           "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "SumCommits",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
@@ -1268,26 +1654,30 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     }
   },
   "variables": [
     {
-      "defaultValue": [
-        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
-      ],
-      "input": "fetch events | filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| summarize distinctTargetRepositories = collectDistinct(ext.task.repository.target.full_name)\n| expand distinctTargetRepositories\n| sort distinctTargetRepositories",
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider==\"github.com\" \n| summarize distinctTargetRepositories = collectDistinct(ext.task.repository.target.full_name)\n| expand distinctTargetRepositories\n| sort distinctTargetRepositories",
       "key": "TargetRepository",
-      "multiple": true,
+      "multiple": false,
       "type": "query",
       "visible": true
     },
     {
       "defaultValue": [
-        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
+        "main"
       ],
-      "input": "fetch events | filter event.category == \"task\" and event.type == \"change\" and event.kind == \"SDLC_EVENT\" and event.provider==\"github.com\" \n| summarize distinctTargetRef = collectDistinct(ext.task.repository.target.ref)\n| expand distinctTargetRef\n| sort distinctTargetRef",
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider==\"github.com\"\n| summarize distinctTargetRef = collectDistinct(ext.task.repository.target.ref)\n| expand distinctTargetRef\n| sort distinctTargetRef",
       "key": "TargetRef",
       "multiple": true,
       "type": "query",
