@@ -1,0 +1,756 @@
+{
+  "version": 16,
+  "variables": [
+    {
+      "key": "App",
+      "type": "query",
+      "visible": true,
+      "input": "fetch dt.entity.service\n| fields managementZones\n| expand managementZones\n| dedup managementZones\n// | fields managementZones = replaceString(managementZones,\" \",\"+\")\n// | fields managementZones = replaceString(managementZones,\":\",\"\")",
+      "multiple": true
+    },
+    {
+      "key": "Link",
+      "type": "query",
+      "visible": false,
+      "input": "data record(link=\"[{{`{{ZONE}}`}}](https://{{`{{TENANT}}`}}.apps.dynatrace.com/ui/apps/dynatrace.dashboards/dashboard/{{ .slidashboard }}#vfilter_App={{`{{ZONE}}`}}&vfilter_MZ_Override=true&vfilter_SLI_Threshold={{`{{SLI_THRESHOLD}}`}}&vfilter_Target={{`{{TARGET}}`}}&vfilter_Entrypoint={{`{{ENTRY_POINT}}`}}&from={{`{{FROM}}`}}&to={{`{{TO}}`}})\")\n| fieldsAdd link = replaceString(link,\"{{`{{TENANT}}`}}\",$Tenant)",
+      "multiple": false,
+      "defaultValue": "[{{`{{ZONE}}`}}]({{ .tenanturl }}ui/apps/dynatrace.dashboards/dashboard/{{ .slidashboard }}#vfilter_App={{`{{ZONE}}`}}&vfilter_MZ_Override=true&vfilter_SLI_Threshold={{`{{SLI_THRESHOLD}}`}}&vfilter_Target={{`{{TARGET}}`}}&vfilter_Entrypoint={{`{{ENTRY_POINT}}`}}&from={{`{{FROM}}`}}&to={{`{{TO}}`}})"
+    },
+    {
+      "key": "SLI_Threshold",
+      "type": "text",
+      "visible": true,
+      "defaultValue": "50"
+    },
+    {
+      "key": "Target",
+      "type": "text",
+      "visible": true,
+      "defaultValue": "99.0"
+    },
+    {
+      "key": "Data",
+      "type": "query",
+      "visible": false,
+      "input": "timeseries avg = avg(dt.service.request.response_time), \ntotal = sum(dt.service.request.count),\nfailures=sum(dt.service.request.failure_count)\n, by:{dt.entity.service,endpoint.name}\n, filter:{ \n      if(toBoolean($Entrypoint), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        // and not(entityAttr(dt.entity.service, \"isExternalService\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), $App), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), $App)\n      )\n      }\n| fieldsAdd managementZones = entityAttr(dt.entity.service,\"managementZones\")\n| expand managementZones\n| filter in(managementZones,$App)\n| summarize avg = avg(avg[]), total = sum(total[]), failures = sum(failures[]) ,by:{managementZones}\n// Performance SLI\n| fieldsAdd high=iCollectArray(if(avg[]> (1000 * toDouble($SLI_Threshold)), avg[]))\n| fieldsAdd low=iCollectArray(if(avg[]<= (1000 * toDouble($SLI_Threshold)), avg[]))\n| fieldsAdd highRespTimes=iCollectArray(if(isNull(high[]),0,else:1))\n| fieldsAdd lowRespTimes=iCollectArray(if(isNull(low[]),0,else:1))\n| fieldsAdd performance_sli=100*(lowRespTimes[]/(lowRespTimes[]+highRespTimes[]))\n//Availability SLI\n| fieldsAdd availability_good = total[]-failures[]\n| fieldsAdd availability_sli=((availability_good[])/total[])*(100)\n| summarize status = avg((performance_sli[]+availability_sli[])/2), by:{managementZones}\n| fieldsAdd status = arrayAvg(status)\n| fieldsAdd Error_budget = (1 - (toDouble($Target)/100))\n| fieldsAdd Error_rate_consumed = (1 - (status/100))\n| fieldsAdd remaining_error_budget = (Error_budget - Error_rate_consumed) * 100\n| sort managementZones asc\n| summarize records = collectArray(record(status = status,budget=remaining_error_budget,zone = managementZones))\n| fields string = encodeBase64(concat(\"{\\\"results\\\":\", tostring(arrayflatten(records)),\"}\"))",
+      "multiple": true,
+      "defaultValue": ["3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"]
+    },
+    {
+      "key": "Entrypoint",
+      "type": "csv",
+      "visible": true,
+      "input": "true,false",
+      "multiple": false
+    },
+    {
+      "key": "Tenant",
+      "type": "query",
+      "visible": false,
+      "input": "fetch dt.system.events \n| fields dt.system.environment \n| limit 1",
+      "multiple": false
+    }
+  ],
+  "tiles": {
+    "0": {
+      "type": "data",
+      "title": "",
+      "query": "data record(string = decodeBase64ToString($Data))\n| parse string,\"JSON:json\"\n| fields zones = json[`results`]\n| fieldsAdd total = arraySize(zones)\n| fieldsAdd length = floor(total / 4), remainder = total % 4, i = 3\n| fieldsAdd start = i * length + if(i < remainder, i, else: remainder)\n| fieldsAdd end = total - 1\n| fields zones = arrayRemoveNulls(iCollectArray(if(iIndex() >= start and iIndex() <= end, zones[])))\n| expand zones\n| fieldsFlatten zones \n| fieldsRemove zones\n| sort zones.status asc\n| fieldsAdd zone = replaceString(zones.zone,\" \",\"+\"), sli_threshold = $SLI_Threshold, target = $Target, entry_point = $Entrypoint\n| fieldsAdd app = $Link\n| fieldsAdd app = replaceString(app,\"{{`{{ZONE}}`}}\",zone)\n| fieldsAdd app = replaceString(app,\"{{`{{SLI_THRESHOLD}}`}}\",sli_threshold)\n| fieldsAdd app = replaceString(app,\"{{`{{TARGET}}`}}\",target)\n| fieldsAdd app = replaceString(app,\"{{`{{ENTRY_POINT}}`}}\",entry_point)\n| fieldsAdd app = replaceString(app,\"{{`{{FROM}}`}}\",$dt_timeframe_from)\n| fieldsAdd app = replaceString(app,\"{{`{{TO}}`}}\",$dt_timeframe_to)\n| fieldsAdd threshold = if(zones.status >= toDouble($Target),1,else:0)\n| fields `APP` = app,\n`SLO`= zones.status,\n`Budget` = zones.budget,threshold\n",
+      "davis": {
+        "enabled": false,
+        "davisVisualization": { "isAvailable": true }
+      },
+      "visualization": "table",
+      "visualizationSettings": {
+        "thresholds": [
+          {
+            "id": 1,
+            "field": "threshold",
+            "title": "Test",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-13-default, #1c520a)"
+                },
+                "comparator": "=",
+                "label": "Good",
+                "value": 1
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                },
+                "comparator": "=",
+                "label": "Bad",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "field": "Budget",
+            "title": "",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 1
+              },
+              {
+                "id": 1,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 0
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "<",
+                "label": "",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "chartSettings": {
+          "xAxisScaling": "analyzedTimeframe",
+          "gapPolicy": "connect",
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "categoryOverrides": {},
+          "curve": "linear",
+          "pointsDisplay": "auto",
+          "categoricalBarChartSettings": {
+            "layout": "horizontal",
+            "categoryAxisTickLayout": "horizontal",
+            "scale": "absolute",
+            "groupMode": "stacked",
+            "colorPaletteMode": "multi-color",
+            "categoryAxis": ["APP"],
+            "categoryAxisLabel": "APP",
+            "valueAxis": ["SLO", "Budget", "threshold"],
+            "valueAxisLabel": "SLO,Budget,threshold",
+            "tooltipVariant": "single"
+          },
+          "colorPalette": "categorical",
+          "valueRepresentation": "absolute",
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisIsLabelVisible": false,
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "Service request response time",
+            "max": 150,
+            "scale": "linear"
+          },
+          "legend": { "hidden": true },
+          "tooltip": { "variant": "single" }
+        },
+        "singleValue": {
+          "showLabel": false,
+          "prefixIcon": "",
+          "autoscale": true,
+          "alignment": "center",
+          "trend": { "trendType": "auto", "isVisible": true },
+          "colorThresholdTarget": "background",
+          "recordField": "Status",
+          "label": "dt.entity.service"
+        },
+        "table": {
+          "rowDensity": "condensed",
+          "enableSparklines": false,
+          "hiddenColumns": [["threshold"]],
+          "linewrapEnabled": true,
+          "lineWrapIds": [["APP"], ["SLO"]],
+          "monospacedFontEnabled": false,
+          "monospacedFontColumns": [],
+          "columnWidths": {
+            "[\"APP\"]": 166.2552032470703,
+            "[\"SLO\"]": 84.70832824707031
+          },
+          "columnTypeOverrides": [
+            { "id": 1470735.1999999993, "fields": ["APP"], "value": "markdown" }
+          ],
+          "colorThresholdTarget": "background",
+          "enableThresholdInRow": true,
+          "selectedColumnForRowThreshold": "threshold"
+        },
+        "honeycomb": {
+          "shape": "hexagon",
+          "legend": { "hidden": false, "position": "auto" },
+          "displayedFields": ["APP"],
+          "dataMappings": { "value": "SLO" },
+          "truncationMode": "middle",
+          "colorMode": "color-palette",
+          "colorPalette": "blue"
+        },
+        "histogram": {
+          "legend": "auto",
+          "yAxis": { "label": "Frequency", "scale": "linear" },
+          "colorPalette": "categorical",
+          "dataMappings": [
+            { "valueAxis": "SLO", "rangeAxis": "" },
+            { "valueAxis": "Budget", "rangeAxis": "" },
+            { "valueAxis": "threshold", "rangeAxis": "" }
+          ],
+          "variant": "single",
+          "truncationMode": "middle",
+          "displayedFields": ["APP"]
+        },
+        "autoSelectVisualization": false,
+        "recordView": { "fieldsWidth": 203.49 }
+      },
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      }
+    },
+    "1": {
+      "type": "data",
+      "title": "",
+      "query": "data record(string = decodeBase64ToString($Data))\n| parse string,\"JSON:json\"\n| fields zones = json[`results`]\n| fieldsAdd total = arraySize(zones)\n| fieldsAdd length = floor(total / 4), remainder = total % 4, i = 2\n| fieldsAdd start = i * length + if(i < remainder, i, else: remainder)\n| fieldsAdd end = start + length - 1 + if(i < remainder, 1, else: 0)\n| fields zones = arrayRemoveNulls(iCollectArray(if(iIndex() >= start and iIndex() <= end, zones[])))\n| expand zones\n| fieldsFlatten zones \n| fieldsRemove zones\n| sort zones.status asc\n| fieldsAdd zone = replaceString(zones.zone,\" \",\"+\"), sli_threshold = $SLI_Threshold, target = $Target, entry_point = $Entrypoint\n| fieldsAdd app = $Link\n| fieldsAdd app = replaceString(app,\"{{`{{ZONE}}`}}\",zone)\n| fieldsAdd app = replaceString(app,\"{{`{{SLI_THRESHOLD}}`}}\",sli_threshold)\n| fieldsAdd app = replaceString(app,\"{{`{{TARGET}}`}}\",target)\n| fieldsAdd app = replaceString(app,\"{{`{{ENTRY_POINT}}`}}\",entry_point)\n| fieldsAdd app = replaceString(app,\"{{`{{FROM}}`}}\",$dt_timeframe_from)\n| fieldsAdd app = replaceString(app,\"{{`{{TO}}`}}\",$dt_timeframe_to)\n| fieldsAdd threshold = if(zones.status >= toDouble($Target),1,else:0)\n| fields `APP` = app,\n`SLO`= zones.status,\n`Budget` = zones.budget,threshold\n",
+      "davis": {
+        "enabled": false,
+        "davisVisualization": { "isAvailable": true }
+      },
+      "visualization": "table",
+      "visualizationSettings": {
+        "thresholds": [
+          {
+            "id": 1,
+            "field": "threshold",
+            "title": "Test",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-13-default, #1c520a)"
+                },
+                "comparator": "=",
+                "label": "Good",
+                "value": 1
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                },
+                "comparator": "=",
+                "label": "Bad",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "field": "Budget",
+            "title": "",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 1
+              },
+              {
+                "id": 1,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 0
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "<",
+                "label": "",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "chartSettings": {
+          "xAxisScaling": "analyzedTimeframe",
+          "gapPolicy": "connect",
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "categoryOverrides": {},
+          "curve": "linear",
+          "pointsDisplay": "auto",
+          "categoricalBarChartSettings": {
+            "layout": "horizontal",
+            "categoryAxisTickLayout": "horizontal",
+            "scale": "absolute",
+            "groupMode": "stacked",
+            "colorPaletteMode": "multi-color",
+            "categoryAxis": ["APP"],
+            "categoryAxisLabel": "APP",
+            "valueAxis": ["SLO", "Budget", "threshold"],
+            "valueAxisLabel": "SLO,Budget,threshold",
+            "tooltipVariant": "single"
+          },
+          "colorPalette": "categorical",
+          "valueRepresentation": "absolute",
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisIsLabelVisible": false,
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "Service request response time",
+            "max": 150,
+            "scale": "linear"
+          },
+          "legend": { "hidden": true },
+          "tooltip": { "variant": "single" }
+        },
+        "singleValue": {
+          "showLabel": false,
+          "prefixIcon": "",
+          "autoscale": true,
+          "alignment": "center",
+          "trend": { "trendType": "auto", "isVisible": true },
+          "colorThresholdTarget": "background",
+          "recordField": "Status",
+          "label": "dt.entity.service"
+        },
+        "table": {
+          "rowDensity": "condensed",
+          "enableSparklines": false,
+          "hiddenColumns": [["threshold"]],
+          "linewrapEnabled": true,
+          "lineWrapIds": [["APP"], ["SLO"]],
+          "monospacedFontEnabled": false,
+          "monospacedFontColumns": [],
+          "columnWidths": {
+            "[\"APP\"]": 168.2552032470703,
+            "[\"SLO\"]": 84.70832824707031
+          },
+          "columnTypeOverrides": [
+            { "id": 1470735.1999999993, "fields": ["APP"], "value": "markdown" }
+          ],
+          "colorThresholdTarget": "background",
+          "enableThresholdInRow": true,
+          "selectedColumnForRowThreshold": "threshold"
+        },
+        "honeycomb": {
+          "shape": "hexagon",
+          "legend": { "hidden": false, "position": "auto" },
+          "displayedFields": ["APP"],
+          "dataMappings": { "value": "SLO" },
+          "truncationMode": "middle",
+          "colorMode": "color-palette",
+          "colorPalette": "blue"
+        },
+        "histogram": {
+          "legend": "auto",
+          "yAxis": { "label": "Frequency", "scale": "linear" },
+          "colorPalette": "categorical",
+          "dataMappings": [
+            { "valueAxis": "SLO", "rangeAxis": "" },
+            { "valueAxis": "Budget", "rangeAxis": "" },
+            { "valueAxis": "threshold", "rangeAxis": "" }
+          ],
+          "variant": "single",
+          "truncationMode": "middle",
+          "displayedFields": ["APP"]
+        },
+        "autoSelectVisualization": false,
+        "recordView": { "fieldsWidth": 203.49 }
+      },
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      }
+    },
+    "2": {
+      "type": "data",
+      "title": "",
+      "query": "data record(string = decodeBase64ToString($Data))\n| parse string,\"JSON:json\"\n| fields zones = json[`results`]\n| fieldsAdd total = arraySize(zones)\n| fieldsAdd length = floor(total / 4), remainder = total % 4, i = 1\n| fieldsAdd start = i * length + if(i < remainder, i, else: remainder)\n| fieldsAdd end = start + length - 1 + if(i < remainder, 1, else: 0)\n| fields zones = arrayRemoveNulls(iCollectArray(if(iIndex() >= start and iIndex() <= end, zones[])))\n| expand zones\n| fieldsFlatten zones \n| fieldsRemove zones\n| sort zones.status asc\n| fieldsAdd zone = replaceString(zones.zone,\" \",\"+\"), sli_threshold = $SLI_Threshold, target = $Target, entry_point = $Entrypoint\n| fieldsAdd app = $Link\n| fieldsAdd app = replaceString(app,\"{{`{{ZONE}}`}}\",zone)\n| fieldsAdd app = replaceString(app,\"{{`{{SLI_THRESHOLD}}`}}\",sli_threshold)\n| fieldsAdd app = replaceString(app,\"{{`{{TARGET}}`}}\",target)\n| fieldsAdd app = replaceString(app,\"{{`{{ENTRY_POINT}}`}}\",entry_point)\n| fieldsAdd app = replaceString(app,\"{{`{{FROM}}`}}\",$dt_timeframe_from)\n| fieldsAdd app = replaceString(app,\"{{`{{TO}}`}}\",$dt_timeframe_to)\n| fieldsAdd threshold = if(zones.status >= toDouble($Target),1,else:0)\n| fields `APP` = app,\n`SLO`= zones.status,\n`Budget` = zones.budget,threshold\n",
+      "davis": {
+        "enabled": false,
+        "davisVisualization": { "isAvailable": true }
+      },
+      "visualization": "table",
+      "visualizationSettings": {
+        "thresholds": [
+          {
+            "id": 1,
+            "field": "threshold",
+            "title": "Test",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-13-default, #1c520a)"
+                },
+                "comparator": "=",
+                "label": "Good",
+                "value": 1
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                },
+                "comparator": "=",
+                "label": "Bad",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "field": "Budget",
+            "title": "",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 1
+              },
+              {
+                "id": 1,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 0
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "<",
+                "label": "",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "chartSettings": {
+          "xAxisScaling": "analyzedTimeframe",
+          "gapPolicy": "connect",
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "categoryOverrides": {},
+          "curve": "linear",
+          "pointsDisplay": "auto",
+          "categoricalBarChartSettings": {
+            "layout": "horizontal",
+            "categoryAxisTickLayout": "horizontal",
+            "scale": "absolute",
+            "groupMode": "stacked",
+            "colorPaletteMode": "multi-color",
+            "categoryAxis": ["APP"],
+            "categoryAxisLabel": "APP",
+            "valueAxis": ["SLO", "Budget", "threshold"],
+            "valueAxisLabel": "SLO,Budget,threshold",
+            "tooltipVariant": "single"
+          },
+          "colorPalette": "categorical",
+          "valueRepresentation": "absolute",
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisIsLabelVisible": false,
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "Service request response time",
+            "max": 150,
+            "scale": "linear"
+          },
+          "legend": { "hidden": true },
+          "tooltip": { "variant": "single" }
+        },
+        "singleValue": {
+          "showLabel": false,
+          "prefixIcon": "",
+          "autoscale": true,
+          "alignment": "center",
+          "trend": { "trendType": "auto", "isVisible": true },
+          "colorThresholdTarget": "background",
+          "recordField": "Status",
+          "label": "dt.entity.service"
+        },
+        "table": {
+          "rowDensity": "condensed",
+          "enableSparklines": false,
+          "hiddenColumns": [["threshold"]],
+          "linewrapEnabled": true,
+          "lineWrapIds": [["APP"], ["SLO"]],
+          "monospacedFontEnabled": false,
+          "monospacedFontColumns": [],
+          "columnWidths": {
+            "[\"APP\"]": 152.2552032470703,
+            "[\"SLO\"]": 84.70832824707031
+          },
+          "columnTypeOverrides": [
+            { "id": 1470735.1999999993, "fields": ["APP"], "value": "markdown" }
+          ],
+          "colorThresholdTarget": "background",
+          "enableThresholdInRow": true,
+          "selectedColumnForRowThreshold": "threshold"
+        },
+        "honeycomb": {
+          "shape": "hexagon",
+          "legend": { "hidden": false, "position": "auto" },
+          "displayedFields": ["APP"],
+          "dataMappings": { "value": "SLO" },
+          "truncationMode": "middle",
+          "colorMode": "color-palette",
+          "colorPalette": "blue"
+        },
+        "histogram": {
+          "legend": "auto",
+          "yAxis": { "label": "Frequency", "scale": "linear" },
+          "colorPalette": "categorical",
+          "dataMappings": [
+            { "valueAxis": "SLO", "rangeAxis": "" },
+            { "valueAxis": "Budget", "rangeAxis": "" },
+            { "valueAxis": "threshold", "rangeAxis": "" }
+          ],
+          "variant": "single",
+          "truncationMode": "middle",
+          "displayedFields": ["APP"]
+        },
+        "autoSelectVisualization": false,
+        "recordView": { "fieldsWidth": 203.49 }
+      },
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      }
+    },
+    "3": {
+      "type": "data",
+      "title": "",
+      "query": "data record(string = decodeBase64ToString($Data))\n| parse string,\"JSON:json\"\n| fields zones = json[`results`]\n| fieldsAdd total = arraySize(zones)\n| fieldsAdd length = floor(total / 4), remainder = total % 4, i = 0\n| fieldsAdd start = i * length + if(i < remainder, i, else: remainder)\n| fieldsAdd end = start + length - 1 + if(i < remainder, 1, else: 0)\n| fields zones = arrayRemoveNulls(iCollectArray(if(iIndex() >= start and iIndex() <= end, zones[])))\n| expand zones\n| fieldsFlatten zones \n| fieldsRemove zones\n| sort zones.status asc\n| fieldsAdd zone = replaceString(zones.zone,\" \",\"+\"), sli_threshold = $SLI_Threshold, target = $Target, entry_point = $Entrypoint\n| fieldsAdd app = $Link\n| fieldsAdd app = replaceString(app,\"{{`{{ZONE}}`}}\",zone)\n| fieldsAdd app = replaceString(app,\"{{`{{SLI_THRESHOLD}}`}}\",sli_threshold)\n| fieldsAdd app = replaceString(app,\"{{`{{TARGET}}`}}\",target)\n| fieldsAdd app = replaceString(app,\"{{`{{ENTRY_POINT}}`}}\",entry_point)\n| fieldsAdd app = replaceString(app,\"{{`{{FROM}}`}}\",$dt_timeframe_from)\n| fieldsAdd app = replaceString(app,\"{{`{{TO}}`}}\",$dt_timeframe_to)\n| fieldsAdd threshold = if(zones.status >= toDouble($Target),1,else:0)\n| fields `APP` = app,\n`SLO`= zones.status,\n`Budget` = zones.budget,threshold\n",
+      "davis": {
+        "enabled": false,
+        "davisVisualization": { "isAvailable": true }
+      },
+      "visualization": "table",
+      "visualizationSettings": {
+        "thresholds": [
+          {
+            "id": 1,
+            "field": "threshold",
+            "title": "Test",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-13-default, #1c520a)"
+                },
+                "comparator": "=",
+                "label": "Good",
+                "value": 1
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-loglevel-emergency-default, #ae132d)"
+                },
+                "comparator": "=",
+                "label": "Bad",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "field": "Budget",
+            "title": "",
+            "isEnabled": true,
+            "rules": [
+              {
+                "id": 0,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 1
+              },
+              {
+                "id": 1,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "label": "",
+                "value": 0
+              },
+              {
+                "id": 2,
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "<",
+                "label": "",
+                "value": 0
+              }
+            ]
+          }
+        ],
+        "chartSettings": {
+          "xAxisScaling": "analyzedTimeframe",
+          "gapPolicy": "connect",
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "categoryOverrides": {},
+          "curve": "linear",
+          "pointsDisplay": "auto",
+          "categoricalBarChartSettings": {
+            "layout": "horizontal",
+            "categoryAxisTickLayout": "horizontal",
+            "scale": "absolute",
+            "groupMode": "stacked",
+            "colorPaletteMode": "multi-color",
+            "categoryAxis": ["APP"],
+            "categoryAxisLabel": "APP",
+            "valueAxis": ["SLO", "Budget", "threshold"],
+            "valueAxisLabel": "SLO,Budget,threshold",
+            "tooltipVariant": "single"
+          },
+          "colorPalette": "categorical",
+          "valueRepresentation": "absolute",
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisIsLabelVisible": false,
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "Service request response time",
+            "max": 150,
+            "scale": "linear"
+          },
+          "legend": { "hidden": true },
+          "tooltip": { "variant": "single" }
+        },
+        "singleValue": {
+          "showLabel": false,
+          "prefixIcon": "",
+          "autoscale": true,
+          "alignment": "center",
+          "trend": { "trendType": "auto", "isVisible": true },
+          "colorThresholdTarget": "background",
+          "recordField": "Status",
+          "label": "dt.entity.service"
+        },
+        "table": {
+          "rowDensity": "condensed",
+          "enableSparklines": false,
+          "hiddenColumns": [["threshold"]],
+          "linewrapEnabled": true,
+          "lineWrapIds": [["APP"], ["SLO"]],
+          "monospacedFontEnabled": false,
+          "monospacedFontColumns": [],
+          "columnWidths": {
+            "[\"APP\"]": 139.2552032470703,
+            "[\"SLO\"]": 84.70832824707031
+          },
+          "columnTypeOverrides": [
+            { "id": 1470735.1999999993, "fields": ["APP"], "value": "markdown" }
+          ],
+          "colorThresholdTarget": "background",
+          "enableThresholdInRow": true,
+          "selectedColumnForRowThreshold": "threshold"
+        },
+        "honeycomb": {
+          "shape": "hexagon",
+          "legend": { "hidden": false, "position": "auto" },
+          "displayedFields": ["APP"],
+          "dataMappings": { "value": "SLO" },
+          "truncationMode": "middle",
+          "colorMode": "color-palette",
+          "colorPalette": "blue"
+        },
+        "histogram": {
+          "legend": "auto",
+          "yAxis": { "label": "Frequency", "scale": "linear" },
+          "colorPalette": "categorical",
+          "dataMappings": [
+            { "valueAxis": "SLO", "rangeAxis": "" },
+            { "valueAxis": "Budget", "rangeAxis": "" },
+            { "valueAxis": "threshold", "rangeAxis": "" }
+          ],
+          "variant": "single",
+          "truncationMode": "middle",
+          "displayedFields": ["APP"]
+        },
+        "autoSelectVisualization": false,
+        "recordView": { "fieldsWidth": 203.49 }
+      },
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      }
+    }
+  },
+  "layouts": {
+    "0": { "x": 18, "y": 0, "w": 6, "h": 11 },
+    "1": { "x": 12, "y": 0, "w": 6, "h": 11 },
+    "2": { "x": 6, "y": 0, "w": 6, "h": 11 },
+    "3": { "x": 0, "y": 0, "w": 6, "h": 11 }
+  },
+  "importedWithCode": false,
+  "settings": { "gridLayout": { "mode": "responsive" } }
+}
