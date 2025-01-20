@@ -17,10 +17,10 @@ The Executive Service SLO Dashboard is a comprehensive set of dashboards aimed a
 - Replace the `DT_ENV_URL` in the config.yaml > executive-dashboard config.
 
 1. **Executive Overview Dashboard**: This dashboard aggregates SLO calculations by application, offering a high-level view of the overall performance and reliability of your services. It helps executives and stakeholders quickly understand how well the services are meeting their defined objectives.
-![Executive Dashboard](/images/executive_sre_overview.png?raw=true)
+![Executive Dashboard](/dashboards/images/executive_sre_overview.png?raw=true)
 
 2. **SLI Threshold Evaluation Dashboard**: This dashboard provides a more granular view of the SLO calculations, breaking down the performance and availability indicators for each service. It allows for a detailed analysis of how different SLI thresholds impact the overall SLO targets, helping teams identify areas for improvement and optimization.
-![SLI Dashboard](/images/sli_evaluator.png?raw=true)
+![SLI Dashboard](/dashboards/images/sli_evaluator.png?raw=true)
 
 By using these dashboards, you can effectively monitor and manage the performance and reliability of your services, ensuring that they meet the defined SLO targets and provide a high-quality experience for your users.
 
