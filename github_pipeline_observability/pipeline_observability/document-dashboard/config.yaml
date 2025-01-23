@@ -7,7 +7,7 @@ configs:
         type: value
         value:
           id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
-    template: workflow.json
+    template: github.workflow.json
     skip: false
     originObjectId: 0a635714-5545-4413-95e1-023333e8edac
   type:
@@ -17,7 +17,7 @@ configs:
 - id: f9847607-0c63-4f8a-99bd-92e7cf7d86db
   config:
     name: GitHub Pull Request v.0.2.2
-    template: pull_request.json
+    template: github.pull_request.json
     skip: false
     originObjectId: f9847607-0c63-4f8a-99bd-92e7cf7d86db
   type:
