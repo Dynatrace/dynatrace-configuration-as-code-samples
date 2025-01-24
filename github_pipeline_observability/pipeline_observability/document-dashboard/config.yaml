@@ -1,7 +1,7 @@
 configs:
 - id: 0a635714-5545-4413-95e1-023333e8edac
   config:
-    name: GitHub Workflow v.0.2.2
+    name: GitHub Workflow v.0.3.0
     parameters:
       extractedIDs:
         type: value
@@ -16,7 +16,7 @@ configs:
       private: true
 - id: f9847607-0c63-4f8a-99bd-92e7cf7d86db
   config:
-    name: GitHub Pull Request v.0.2.2
+    name: GitHub Pull Request v.0.3.0
     template: github.pull_request.json
     skip: false
     originObjectId: f9847607-0c63-4f8a-99bd-92e7cf7d86db

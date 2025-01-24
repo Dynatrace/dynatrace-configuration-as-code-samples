@@ -58,11 +58,11 @@ environmentGroups:
 ```mermaid
 flowchart TD
   A[Check your OpenPipeline SDLC scope] --> B{Is there a custom endpoint/pipeline?};
-  B -- No --> C[Deploy OpenPipeline configuration]
-  B -- Yes --> D[Merge configuration before deploying OpenPipeline configuration]
+  B -- No --> C[Run Monaco deploy]
+  B -- Yes --> D[Merge configuration before running Monaco]
 ```
 
-#### Deploy OpenPipeline configuratioon
+#### Run Monaco deploy
 
 Run the following command to apply the provided configuration. 
 
@@ -70,9 +70,20 @@ Run the following command to apply the provided configuration.
 monaco deploy manifest.yaml
 ```
 
-#### Merge configuration before deploying OpenPipeline configuration
+#### Merge configuration before running Monaco
 
-Describe how to MERGE first
+1. Download your OpenPipeline configuration:
+```
+monaco download
+```
+
+2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.github.json`
+
+3. Run the following command to apply the provided configuration. 
+
+```
+monaco deploy manifest.yaml
+```
 
 ## Configure GitHub to send Webhook events to Dynatrace
 
@@ -104,7 +115,6 @@ You can configure webhooks at either the organization level (affecting all repos
    - **Content Type**: `application/json`
    - **Which events would you like to trigger this webhook?**: Select *Let me select individual events* and enable:
      - Pull requests
-     - Statuses
      - Workflow runs
      - Workflow jobs
      - (disable "Pushes")
