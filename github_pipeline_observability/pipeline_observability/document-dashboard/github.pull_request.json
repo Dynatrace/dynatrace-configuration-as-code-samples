@@ -5,19 +5,19 @@
       "h": 3,
       "w": 4,
       "x": 0,
-      "y": 7
+      "y": 4
     },
     "1": {
       "h": 3,
       "w": 4,
       "x": 4,
-      "y": 7
+      "y": 4
     },
     "10": {
       "h": 3,
       "w": 4,
       "x": 0,
-      "y": 10
+      "y": 7
     },
     "11": {
       "h": 2,
@@ -29,97 +29,85 @@
       "h": 2,
       "w": 24,
       "x": 0,
-      "y": 18
+      "y": 15
     },
     "13": {
       "h": 2,
       "w": 24,
       "x": 0,
-      "y": 5
+      "y": 2
     },
     "15": {
       "h": 6,
       "w": 24,
       "x": 0,
-      "y": 32
+      "y": 29
     },
     "16": {
       "h": 1,
       "w": 24,
       "x": 0,
-      "y": 31
+      "y": 28
     },
     "17": {
       "h": 6,
       "w": 8,
       "x": 16,
-      "y": 20
+      "y": 17
     },
     "18": {
       "h": 6,
       "w": 8,
       "x": 16,
-      "y": 7
+      "y": 4
     },
     "19": {
       "h": 3,
       "w": 4,
       "x": 4,
-      "y": 10
+      "y": 7
     },
     "2": {
       "h": 5,
       "w": 24,
       "x": 0,
-      "y": 13
-    },
-    "20": {
-      "h": 3,
-      "w": 4,
-      "x": 0,
-      "y": 2
+      "y": 10
     },
     "3": {
       "h": 3,
       "w": 4,
       "x": 0,
-      "y": 20
+      "y": 17
     },
     "4": {
       "h": 3,
       "w": 4,
       "x": 4,
-      "y": 23
+      "y": 20
     },
     "5": {
       "h": 3,
       "w": 4,
       "x": 4,
-      "y": 20
+      "y": 17
     },
     "6": {
       "h": 5,
       "w": 24,
       "x": 0,
-      "y": 26
+      "y": 23
     },
     "7": {
       "h": 6,
       "w": 8,
       "x": 8,
-      "y": 7
+      "y": 4
     },
     "8": {
       "h": 6,
       "w": 8,
       "x": 8,
-      "y": 20
-    },
-    "9": {
-      "h": 3,
-      "w": 4,
-      "x": 0,
-      "y": 23
+      "y": 17
     }
   },
   "settings": {},
@@ -131,7 +119,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time, number, ext.task.repository.target.full_name, ext.task.repository.target.ref, ext.task.repository.source.full_name, ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time, number, vcs.repository.name, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -247,7 +235,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name, ext.task.repository.target.ref, ext.task.repository.source.full_name, ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize max(OpenedPrDuration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize max(OpenedPrDuration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -379,7 +367,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status), actions = collectArray(ext.task.action) },  by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name, ext.task.repository.target.ref, ext.task.repository.source.full_name, ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\", \"closed\")) \n| filter contains(toString(actions),\"reopened\")\n| filter in(ext.task.repository.target.full_name, $Repository) and in(ext.task.repository.target.ref, $Branch)\n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status), actions = collectArray(vcs.change.state) },  by: { task.id, task.name, start_time,number, vcs.repository.name, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"merged\", \"closed\")) \n| filter contains(toString(actions),\"reopened\")\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -510,7 +498,7 @@
       "type": "markdown"
     },
     "15": {
-      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.2.2",
+      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.3.0",
       "title": "",
       "type": "markdown"
     },
@@ -541,7 +529,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| summarize { statuses = collectArray(event.status) }, by: { task.id, task.name, start_time,number, ext.task.repository.target.full_name, ext.task.repository.target.ref, ext.task.repository.source.full_name, ext.task.repository.source.ref, ext.pr.url, vcs.repository.change.id } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fields \nIn_open_status = toTimestamp(now()) - toTimestamp(start_time),\nPR_number = number, \nPR_title = task.name,\nPR_url= ext.pr.url,\nSource_repo = ext.task.repository.source.full_name, \nSource_ref=ext.task.repository.source.ref, \nTarget_repo = ext.task.repository.target.full_name, \nTarget_ref=ext.task.repository.target.ref,\nCreated_at = start_time, GlobalId = vcs.repository.change.id \n| sort In_open_status desc",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) }, by: { task.id, task.name, start_time, ext.vcs.change.pull_request.number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url, vcs.change.id } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fields \nIn_open_status = toTimestamp(now()) - toTimestamp(start_time),\nPR = ext.vcs.change.pull_request.number, \nTitle = task.name,\nURL = ext.vcs.change.pull_request.url,\nHeadName = vcs.ref.head.name, \nHeadRevision = vcs.ref.head.revision, \nBaseName = vcs.ref.base.name, \nBaseRevision = vcs.ref.base.revision,\nCreatedAt = start_time, \nGlobalId = vcs.change.id \n| sort In_open_status desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -555,9 +543,9 @@
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
-            "categoryAxisLabel": "PR_title,PR_url,Source_repo,Source_ref,Target_repo,Target_ref",
+            "categoryAxisLabel": "PR_title,Source_repo,Source_ref,Target_repo,Target_ref",
             "tooltipVariant": "single",
-            "valueAxisLabel": "In_open_status,PR_number,GlobalId"
+            "valueAxisLabel": "In_open_status,GlobalId"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -674,11 +662,6 @@
         }
       }
     },
-    "20": {
-      "content": "**Merge Success Rate:** Shows the percentage of pull requests that have been successfully merged out of the total submitted, indicating the overall success rate of PR merges.",
-      "title": "",
-      "type": "markdown"
-    },
     "3": {
       "davis": {
         "davisVisualization": {
@@ -686,7 +669,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"github.com\"\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| dedup task.id\n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -806,7 +789,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\"  \n| filter event.provider == \"github.com\"\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| dedup task.id\n| summarize percentile(duration, 50)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\"  \n| filter event.provider == \"github.com\"\n| filter in(vcs.ref.base.name, $Repository) \n| filter in(vcs.ref.base.revision, $Branch)\n| dedup task.id\n| summarize percentile(duration, 50)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -846,22 +829,15 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "percentile(duration, 50)",
           "displayedFields": [
             "Count",
             "Median",
             "Avg"
           ],
-          "longitude": "percentile(duration, 50)",
           "value": "Count"
         },
         "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "percentile(duration, 50)"
-            }
-          ],
+          "dataMappings": [],
           "displayedFields": [],
           "variant": "single"
         },
@@ -927,7 +903,7 @@
         "enabled": false
       },
       "description": "Shows the average time taken to merge pull requests, providing insights into the efficiency of the review and merge process.",
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type==\"change\" \n| filter event.status == \"merged\" \n| filter event.provider==\"github.com\"\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| dedup task.id\n| summarize avg(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| summarize avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1047,7 +1023,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider ==\"github.com\" \n| sort timestamp asc\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| dedup task.id\n| fields \nMergetAt = end_time,\nDuration = duration, \nNumber = number, \nTitle = task.name,\nUrl= ext.pr.url,\nSourceRepository = ext.task.repository.source.full_name, \nSourceBranch=ext.task.repository.source.ref, \nTargetRepository = ext.task.repository.target.full_name, \nTargetBranch=ext.task.repository.target.ref, \nCreatedAt = start_time, \nGlobalId = vcs.repository.change.id \n| sort Duration desc",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider ==\"github.com\" \n| sort timestamp asc\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| fields \nMergedAt = end_time,\nDuration = duration, \nPR = ext.vcs.change.pull_request.number, \nTitle = task.name,\nURL = ext.vcs.change.pull_request.url,\nHeadName = vcs.ref.head.name, \nHeadRevision = vcs.ref.head.revision, \nBaseName = vcs.ref.base.name, \nBaseRevision = vcs.ref.base.revision, \nCreatedAt = start_time, \nGlobalId = vcs.change.id \n| sort Duration desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1063,20 +1039,20 @@
           "categoricalBarChartSettings": {
             "categoryAxis": [
               "Title",
-              "Url",
-              "SourceRepository",
-              "SourceBranch",
-              "TargetRepository",
-              "TargetBranch"
+              "HeadName",
+              "HeadRevision",
+              "BaseName",
+              "BaseRevision",
+              "URL"
             ],
-            "categoryAxisLabel": "Title,Url,SourceRepository,SourceBranch,TargetRepository,TargetBranch",
+            "categoryAxisLabel": "Title,HeadName,HeadRevision,BaseName,BaseRevision,URL",
             "tooltipVariant": "single",
             "valueAxis": [
               "Duration",
-              "Number",
-              "GlobalId"
+              "GlobalId",
+              "PR"
             ],
-            "valueAxisLabel": "Duration,Number,GlobalId"
+            "valueAxisLabel": "Duration,GlobalId,PR"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -1089,24 +1065,25 @@
             "leftAxisValues": [
               "Duration"
             ],
-            "timestamp": "MergetAt"
+            "timestamp": "MergedAt"
           },
           "gapPolicy": "connect",
           "hiddenLegendFields": [
             "Duration",
             "Number",
-            "GlobalId"
+            "GlobalId",
+            "PR"
           ],
           "leftYAxisSettings": {},
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
           "xAxisIsLabelVisible": false,
-          "xAxisLabel": "MergetAt",
+          "xAxisLabel": "MergedAt",
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "MergetAt",
+          "dimension": "MergedAt",
           "displayedFields": [
             "Duration",
             "Number",
@@ -1120,7 +1097,7 @@
             "MergetAt",
             "GlobalId"
           ],
-          "latitude": "Number",
+          "latitude": "GlobalId",
           "longitude": "Duration",
           "value": "Number"
         },
@@ -1132,18 +1109,15 @@
             },
             {
               "rangeAxis": "",
-              "valueAxis": "Number"
+              "valueAxis": "GlobalId"
             },
             {
               "rangeAxis": "",
-              "valueAxis": "GlobalId"
+              "valueAxis": "PR"
             }
           ],
           "displayedFields": [
-            "Title",
-            "Url",
-            "SourceRepository",
-            "TargetRepository"
+            "Title"
           ],
           "variant": "single"
         },
@@ -1155,11 +1129,11 @@
           },
           "displayedFields": [
             "Title",
-            "Url",
-            "SourceRepository",
-            "SourceBranch",
-            "TargetRepository",
-            "TargetBranch"
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision",
+            "URL"
           ],
           "legend": {
             "hidden": false,
@@ -1204,7 +1178,9 @@
           }
         },
         "thresholds": [],
-        "tooltip": {},
+        "tooltip": {
+          "showCustomFields": false
+        },
         "valueBoundaries": {
           "max": "auto",
           "min": "auto"
@@ -1218,7 +1194,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| summarize { statuses = collectArray(event.status) },  by:{ task.id, task.name, start_time, number, ext.task.repository.target.full_name, ext.task.repository.target.ref, ext.task.repository.source.full_name, ext.task.repository.source.ref, ext.pr.url } \n| filter not in(statuses[0],array(\"merged\", \"closed\")) \n| summarize count(), by:{ext.task.repository.target.full_name}",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by:{ task.id, task.name, start_time, number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"merged\", \"closed\")) \n| summarize count(), by:{vcs.ref.base.name}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1233,8 +1209,14 @@
         "autoSelectVisualization": false,
         "chartSettings": {
           "categoricalBarChartSettings": {
-            "categoryAxisLabel": "ext.task.repository.target.full_name",
+            "categoryAxis": [
+              "vcs.ref.base.name"
+            ],
+            "categoryAxisLabel": "vcs.ref.base.name",
             "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
             "valueAxisLabel": "count()"
           },
           "categoryOverrides": {},
@@ -1265,8 +1247,12 @@
         "honeycomb": {
           "colorMode": "color-palette",
           "colorPalette": "blue-moss",
-          "dataMappings": {},
-          "displayedFields": [],
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "vcs.ref.base.name"
+          ],
           "legend": {
             "hidden": false,
             "position": "auto"
@@ -1324,7 +1310,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\"  \n| filter event.provider ==\"github.com\" \n| sort timestamp asc\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| dedup task.id\n| summarize count = count(), by:{vcs.repository.ref.name}",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| sort timestamp asc\n| dedup task.id\n| summarize count = count(), by:{vcs.repository.name}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1339,9 +1325,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "vcs.repository.ref.name"
+              "vcs.repository.name"
             ],
-            "categoryAxisLabel": "vcs.repository.ref.name",
+            "categoryAxisLabel": "vcs.repository.name",
             "tooltipVariant": "single",
             "valueAxis": [
               "count"
@@ -1365,9 +1351,9 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "vcs.repository.ref.name",
+          "dimension": "vcs.repository.name",
           "displayedFields": [
-            "vcs.repository.ref.name",
+            "vcs.repository.name",
             "Count"
           ],
           "longitude": "count",
@@ -1381,7 +1367,7 @@
             }
           ],
           "displayedFields": [
-            "vcs.repository.ref.name"
+            "vcs.repository.name"
           ],
           "variant": "single"
         },
@@ -1392,7 +1378,7 @@
             "value": "count"
           },
           "displayedFields": [
-            "vcs.repository.ref.name"
+            "vcs.repository.name"
           ],
           "legend": {
             "hidden": false,
@@ -1441,138 +1427,11 @@
           "min": "auto"
         }
       }
-    },
-    "9": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\"\n| filter event.provider == \"github.com\"\n| filter in(ext.task.repository.target.full_name, $Repository) \n| filter in(ext.task.repository.target.ref, $Branch)\n| dedup task.id\n| summarize sum(ext.task.merge.commits)",
-      "querySettings": {
-        "defaultSamplingRatio": 10,
-        "defaultScanLimitGbytes": 500,
-        "enableSampling": false,
-        "maxResultMegaBytes": 1,
-        "maxResultRecords": 1000
-      },
-      "title": "Merged commits",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "sum(ext.task.merge.commits)"
-            ],
-            "categoryAxisLabel": "sum(ext.task.merge.commits)",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "sum(ext.task.merge.commits)"
-            ],
-            "valueAxisLabel": "sum(ext.task.merge.commits)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "longitude": "sum(ext.task.merge.commits)",
-          "value": "SumCommits"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "sum(ext.task.merge.commits)"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "SumCommits",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "SumCommits",
-          "prefixIcon": "",
-          "recordField": "sum(ext.task.merge.commits)",
-          "showLabel": false,
-          "sparklineSettings": {},
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "unitsOverrides": [
-          {
-            "added": 1737375708272,
-            "baseUnit": "none",
-            "decimals": 0,
-            "delimiter": false,
-            "displayUnit": null,
-            "identifier": "sum(ext.task.merge.commits)",
-            "suffix": "",
-            "unitCategory": "unspecified"
-          }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
-      }
     }
   },
   "variables": [
     {
-      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\" \n| summarize distinctTargetRepositories = collectDistinct(ext.task.repository.target.full_name)\n| expand distinctTargetRepositories\n| sort distinctTargetRepositories",
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\" \n| summarize distinctRepositories = collectDistinct(vcs.repository.name)\n| expand distinctRepositories\n| sort distinctRepositories",
       "key": "Repository",
       "multiple": false,
       "type": "query",
@@ -1582,7 +1441,7 @@
       "defaultValue": [
         "main"
       ],
-      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| summarize distinctTargetRef = collectDistinct(ext.task.repository.target.ref)\n| expand distinctTargetRef\n| sort distinctTargetRef",
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| summarize distinctBase = collectDistinct(vcs.ref.base.name)\n| expand distinctBase\n| sort distinctBase",
       "key": "Branch",
       "multiple": true,
       "type": "query",

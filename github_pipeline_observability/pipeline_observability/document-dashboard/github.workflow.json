@@ -185,7 +185,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize count(), by: {cicd.pipeline.run.outcome}",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count(), by: {cicd.pipeline.run.outcome}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -331,7 +331,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -459,7 +459,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger, duration\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize median(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger, duration\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize median(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -585,7 +585,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize count(), by: {ext.pipeline.run.trigger}",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count(), by: {cicd.pipeline.run.trigger}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -607,9 +607,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "ext.pipeline.run.trigger"
+              "cicd.pipeline.run.trigger"
             ],
-            "categoryAxisLabel": "ext.pipeline.run.trigger",
+            "categoryAxisLabel": "cicd.pipeline.run.trigger",
             "tooltipVariant": "single",
             "valueAxis": [
               "count()"
@@ -652,9 +652,9 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "ext.pipeline.run.trigger",
+          "dimension": "cicd.pipeline.run.trigger",
           "displayedFields": [
-            "ext.pipeline.run.trigger",
+            "cicd.pipeline.run.trigger",
             "count()"
           ],
           "longitude": "count()",
@@ -668,7 +668,7 @@
             }
           ],
           "displayedFields": [
-            "ext.pipeline.run.trigger"
+            "cicd.pipeline.run.trigger"
           ],
           "variant": "single"
         },
@@ -679,7 +679,7 @@
             "value": "count()"
           },
           "displayedFields": [
-            "ext.pipeline.run.trigger"
+            "cicd.pipeline.run.trigger"
           ],
           "legend": {
             "hidden": false,
@@ -736,7 +736,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter ext.pipeline.run.attempt \u003e 1 \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize count() ",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter cicd.pipeline.run.attempt \u003e 1 \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count() ",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -912,7 +912,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type== \"build\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fieldsAdd steps_array = toArray(ext.task.steps) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter  event.category == \"pipeline\"  \n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.ref.name, ext.pipeline.run.trigger \n  | filter in(vcs.repository.ref.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(ext.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| fieldsAdd step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \nstep.name = steps_data[name], \nstep.conclusion = steps_data[conclusion], \nstep.task.name = task.name\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(step.conclusion==\"failure\")) / toDouble(count())*100), by: {step.name, step.task.name} \n| filter failureRate \u003e 0 \n| sort  failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type== \"build\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fieldsAdd steps_array = toArray(task.steps) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter  event.category == \"pipeline\"  \n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| fieldsAdd step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \nstep.name = steps_data[name], \nstep.conclusion = steps_data[conclusion], \nstep.task.name = task.name\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(step.conclusion==\"failure\")) / toDouble(count())*100), by: {step.name, step.task.name} \n| filter failureRate \u003e 0 \n| sort  failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1013,7 +1013,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type== \"build\"\n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| join [\n    fetch events \n    | filter event.kind == \"SDLC_EVENT\" \n    | filter event.category == \"pipeline\"\n    | filter event.type == \"run\" \n    | filter event.status == \"finished\" \n    | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.ref.name, ext.pipeline.run.trigger \n    | filter in(vcs.repository.ref.name, $Repository) \n    | filter in(cicd.pipeline.name, $Workflow) \n    | filter in(ext.pipeline.run.trigger, $Trigger) ], \n    on:{cicd.pipeline.run.id}\n| fieldsAdd steps_array=toArray(ext.task.steps) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| fieldsAdd step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \nstep.name = steps_data[name], \nstep.task.name = task.name\n| summarize percentile(step.duration,50), alias:Median ,by:{step.name, alias: StepName, step.task.name, alias: TaskName} \n| filter isNotNull(Median) \n| sort Median desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type== \"build\"\n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| join [\n    fetch events \n    | filter event.kind == \"SDLC_EVENT\" \n    | filter event.category == \"pipeline\"\n    | filter event.type == \"run\" \n    | filter event.status == \"finished\" \n    | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n    | filter in(vcs.repository.name, $Repository) \n    | filter in(cicd.pipeline.name, $Workflow) \n    | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n    on:{cicd.pipeline.run.id}\n| fieldsAdd steps_array=toArray(task.steps) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| fieldsAdd step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \nstep.name = steps_data[name], \nstep.task.name = task.name\n| summarize percentile(step.duration,50), alias:Median ,by:{step.name, alias: StepName, step.task.name, alias: TaskName} \n| filter isNotNull(Median) \n| sort Median desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1150,7 +1150,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"\n| filter event.type == \"build\"\n| filter event.status == \"finished\"\n| filter event.provider == \"github.com\"\n| join [\n  fetch events \n  | filter event.category == \"pipeline\"  \n  | filter event.status == \"finished\" \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.type==\"run\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.ref.name, ext.pipeline.run.trigger \n  | filter in(vcs.repository.ref.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(ext.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize Count=count(), by:{ext.task.runner.name} \n| sort Count desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"\n| filter event.type == \"build\"\n| filter event.status == \"finished\"\n| filter event.provider == \"github.com\"\n| join [\n  fetch events \n  | filter event.category == \"pipeline\"  \n  | filter event.status == \"finished\" \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.type==\"run\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize Count=count(), by:{task.runner.name} \n| sort Count desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1165,9 +1165,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "ext.task.runner.name"
+              "task.runner.name"
             ],
-            "categoryAxisLabel": "ext.task.runner.name",
+            "categoryAxisLabel": "task.runner.name",
             "colorPaletteMode": "multi-color",
             "tooltipVariant": "single",
             "valueAxis": [
@@ -1192,9 +1192,9 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "ext.task.runner.name",
+          "dimension": "task.runner.name",
           "displayedFields": [
-            "ext.task.runner.name",
+            "task.runner.name",
             "Count"
           ],
           "longitude": "Count",
@@ -1208,7 +1208,7 @@
             }
           ],
           "displayedFields": [
-            "ext.task.runner.name"
+            "task.runner.name"
           ],
           "variant": "single"
         },
@@ -1219,7 +1219,7 @@
             "value": "Count"
           },
           "displayedFields": [
-            "ext.task.runner.name"
+            "task.runner.name"
           ],
           "legend": {
             "hidden": false,
@@ -1288,7 +1288,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\"  \n| filter event.type == \"run\" \n| filter event.status == \"started\" \n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)  \n| fields start_time, cicd.pipeline.run.id, ext.pipeline.run.attempt\n| joinNested jobs=[\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"task\" \n  | filter event.type ==\"build\" \n  | filter event.status == \"started\" \n  | filter event.provider==\"github.com\" \n  | fields cicd.pipeline.run.id, ext.task.run.attempt, start_time \n  | sort start_time asc ],\n  on: {cicd.pipeline.run.id,left[ext.pipeline.run.attempt] == right[ext.task.run.attempt]} \n| fieldsAdd queueTime = jobs[0][start_time] - start_time ",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\"  \n| filter event.type == \"run\" \n| filter event.status == \"started\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)  \n| fields start_time, cicd.pipeline.run.id, cicd.pipeline.run.attempt\n| joinNested jobs=[\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"task\" \n  | filter event.type ==\"build\" \n  | filter event.status == \"started\" \n  | filter event.provider==\"github.com\" \n  | fields cicd.pipeline.run.id, task.run.attempt, start_time \n  | sort start_time asc ],\n  on: {cicd.pipeline.run.id,left[cicd.pipeline.run.attempt] == right[task.run.attempt]} \n| fieldsAdd queueTime = jobs[0][start_time] - start_time ",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1305,10 +1305,10 @@
           "categoricalBarChartSettings": {
             "categoryAxis": [
               "cicd.pipeline.run.id",
-              "ext.pipeline.run.attempt",
+              "cicd.pipeline.run.attempt",
               "queueTime"
             ],
-            "categoryAxisLabel": "cicd.pipeline.run.id,ext.pipeline.run.attempt,queueTime",
+            "categoryAxisLabel": "cicd.pipeline.run.id,cicd.pipeline.run.attempt,queueTime",
             "categoryAxisTickLayout": "horizontal",
             "colorPaletteMode": "multi-color",
             "groupMode": "stacked",
@@ -1317,10 +1317,10 @@
             "tooltipVariant": "single",
             "valueAxis": [
               "cicd.pipeline.run.id",
-              "ext.pipeline.run.attempt",
+              "cicd.pipeline.run.attempt",
               "queueTime"
             ],
-            "valueAxisLabel": "cicd.pipeline.run.id,ext.pipeline.run.attempt,queueTime"
+            "valueAxisLabel": "cicd.pipeline.run.id,cicd.pipeline.run.attempt,queueTime"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -1339,7 +1339,7 @@
           "gapPolicy": "connect",
           "hiddenLegendFields": [
             "cicd.pipeline.run.id",
-            "ext.pipeline.run.attempt",
+            "cicd.pipeline.run.attempt",
             "timeToStart",
             "queueTime"
           ],
@@ -1363,10 +1363,10 @@
           "displayedFields": [
             "start_time",
             "cicd.pipeline.run.id",
-            "ext.pipeline.run.attempt",
+            "cicd.pipeline.run.attempt",
             "timeToStart"
           ],
-          "latitude": "ext.pipeline.run.attempt",
+          "latitude": "cicd.pipeline.run.attempt",
           "longitude": "cicd.pipeline.run.id",
           "value": "cicd.pipeline.run.id"
         },
@@ -1379,7 +1379,7 @@
             },
             {
               "rangeAxis": "",
-              "valueAxis": "ext.pipeline.run.attempt"
+              "valueAxis": "cicd.pipeline.run.attempt"
             },
             {
               "rangeAxis": "",
@@ -1454,7 +1454,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger, duration\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize avg(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger, duration\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1605,7 +1605,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.type == \"build\"\n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter task.outcome != \"skipped\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"pipeline\"\n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.ref.name, ext.pipeline.run.trigger \n  | filter in(vcs.repository.ref.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(ext.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize percentile(duration,50), alias:Median ,by:{task.name, alias: TaskName} \n| filter isNotNull(Median)  \n| sort Median desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.type == \"build\"\n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter task.outcome != \"skipped\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"pipeline\"\n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize percentile(duration,50), alias:Median ,by:{task.name, alias: TaskName} \n| filter isNotNull(Median)  \n| sort Median desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1733,7 +1733,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, duration\n| filter in(vcs.repository.ref.name, $Repository) \n| summarize avg(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, duration\n| filter in(vcs.repository.name, $Repository) \n| summarize avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1858,7 +1858,7 @@
       "type": "markdown"
     },
     "33": {
-      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.2.2",
+      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.3.0",
       "title": "",
       "type": "markdown"
     },
@@ -1869,7 +1869,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name\n| filter in(vcs.repository.ref.name, $Repository) \n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name\n| filter in(vcs.repository.name, $Repository) \n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1997,7 +1997,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize successful = countIf(cicd.pipeline.run.outcome == \"success\")",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize successful = countIf(cicd.pipeline.run.outcome == \"success\")",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2171,7 +2171,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize failed = countIf(cicd.pipeline.run.outcome == \"failure\")",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize failed = countIf(cicd.pipeline.run.outcome == \"failure\")",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2345,7 +2345,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize other = countIf(isNull(cicd.pipeline.run.outcome) or (cicd.pipeline.run.outcome != \"failure\" and cicd.pipeline.run.outcome != \"success\"))",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize other = countIf(isNull(cicd.pipeline.run.outcome) or (cicd.pipeline.run.outcome != \"failure\" and cicd.pipeline.run.outcome != \"success\"))",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2519,7 +2519,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.ref.name, cicd.pipeline.name, ext.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome\n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2692,7 +2692,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter cicd.pipeline.run.outcome != \"canceled\" \n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize percentile(duration,50), alias:Median ,by:{cicd.pipeline.name, alias: name} \n| sort Median desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter cicd.pipeline.run.outcome != \"canceled\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize percentile(duration,50), alias:Median ,by:{cicd.pipeline.name, alias: name} \n| sort Median desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2818,7 +2818,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100), by: {vcs.repository.ref.name,cicd.pipeline.name }\n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100), by: {vcs.repository.name,cicd.pipeline.name }\n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2833,10 +2833,10 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "vcs.repository.ref.name",
+              "vcs.repository.name",
               "cicd.pipeline.name"
             ],
-            "categoryAxisLabel": "vcs.repository.ref.name,cicd.pipeline.name",
+            "categoryAxisLabel": "vcs.repository.name,cicd.pipeline.name",
             "colorPaletteMode": "multi-color",
             "tooltipVariant": "single",
             "valueAxis": [
@@ -2862,7 +2862,7 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "vcs.repository.ref.name",
+          "dimension": "vcs.repository.name",
           "displayedFields": [],
           "longitude": "failureRate",
           "value": "failureRate"
@@ -2875,7 +2875,7 @@
             }
           ],
           "displayedFields": [
-            "vcs.repository.ref.name",
+            "vcs.repository.name",
             "cicd.pipeline.name"
           ],
           "variant": "single"
@@ -2887,7 +2887,7 @@
             "value": "failureRate"
           },
           "displayedFields": [
-            "vcs.repository.ref.name",
+            "vcs.repository.name",
             "cicd.pipeline.name"
           ],
           "legend": {
@@ -2957,7 +2957,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"pipeline\"  \n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.ref.name, ext.pipeline.run.trigger \n  | filter in(vcs.repository.ref.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(ext.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(task.outcome==\"failure\")) / toDouble(count())*100), by: task.name \n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"pipeline\"  \n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(task.outcome==\"failure\")) / toDouble(count())*100), by: task.name \n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -3068,7 +3068,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.ref.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(ext.pipeline.run.trigger, $Trigger)\n| fields \nDuration = duration,\nName = cicd.pipeline.name,\nStatus = cicd.pipeline.run.outcome,\nRun = cicd.pipeline.run.url.full,\nAttempts = ext.pipeline.run.attempt,\nTrigger = ext.pipeline.run.trigger,\nStart = start_time,\nEnd = end_time,\nRepository = vcs.repository.ref.name \n| sort Duration desc \n",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| fields \nDuration = duration,\nName = cicd.pipeline.name,\nStatus = cicd.pipeline.run.outcome,\nRun = cicd.pipeline.run.url.full,\nAttempts = cicd.pipeline.run.attempt,\nTrigger = cicd.pipeline.run.trigger,\nStart = start_time,\nEnd = end_time,\nRepository = vcs.repository.name \n| sort Duration desc \n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -3236,7 +3236,7 @@
       "defaultValue": [
         "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
       ],
-      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| summarize distinctRepositories = collectDistinct(vcs.repository.ref.name)\n| expand distinctRepositories\n| sort distinctRepositories",
+      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| summarize distinctRepositories = collectDistinct(vcs.repository.name)\n| expand distinctRepositories\n| sort distinctRepositories",
       "key": "Repository",
       "multiple": true,
       "type": "query",
@@ -3246,7 +3246,7 @@
       "defaultValue": [
         "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
       ],
-      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| filter in(vcs.repository.ref.name, $Repository)\n| summarize distinctWorkflows = collectDistinct(cicd.pipeline.name)\n| expand distinctWorkflows\n| sort distinctWorkflows",
+      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| filter in(vcs.repository.name, $Repository)\n| summarize distinctWorkflows = collectDistinct(cicd.pipeline.name)\n| expand distinctWorkflows\n| sort distinctWorkflows",
       "key": "Workflow",
       "multiple": true,
       "type": "query",
@@ -3256,7 +3256,7 @@
       "defaultValue": [
         "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
       ],
-      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| summarize distinctTriggers = collectDistinct(ext.pipeline.run.trigger)\n| expand distinctTriggers\n| sort distinctTriggers",
+      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| summarize distinctTriggers = collectDistinct(cicd.pipeline.run.trigger)\n| expand distinctTriggers\n| sort distinctTriggers",
       "key": "Trigger",
       "multiple": true,
       "type": "query",
