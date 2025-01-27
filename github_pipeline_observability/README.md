@@ -10,25 +10,25 @@ If you want to know how your GitHub workflows are performing in terms of task du
 
 1. [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
 
-2. [Create an API token](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/manage-configuration#prerequisites) and store it as an environment variable:
+2. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions and store it as an environment variables:
+    * Run apps `app-engine:apps:run`
+    * View OpenPipeline configurations `openpipeline:configurations:read`
+    * Edit OpenPipeline configurations `openpipeline:configurations:write`
+    * Create and edit documents `document:documents:write`
+    * View documents: `document:documents:read`
 ```
-$env:DT_ENV_TOKEN 
+$env:OAUTH_CLIENT_ID = <YOUR_CLIENT_ID>
+$env:OAUTH_CLIENT_SECRET = <YOUR_CLIENT_SECRET>
+$env:OAUTH_TOKEN_ENDPOINT = 'https://sso.dynatrace.com/sso/oauth2/token'
 ```
 
-3. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions and store it as an environment variables:
-    * "Scopes"
-```
-$env:OAUTH_CLIENT_ID
-$env:OAUTH_CLIENT_SECRET 
-```
-
-4. Download this repository and go to `github_pipeline_observability`
+3. Download this repository and go to `github_pipeline_observability`
 ```
 git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
 cd github_pipeline_observability
 ```
 
-5. Edit the `manifest.yaml` to configure your environment:
+4. Edit the `manifest.yaml` to configure your environment:
 ```
 manifestVersion: 1.0
 projects:
@@ -41,8 +41,6 @@ environmentGroups:
           type: value
           value: <YOUR-DT-ENV>
         auth:
-            token:
-              name: DT_ENV_TOKEN
             oAuth:
               clientId:
                 name: OAUTH_CLIENT_ID
