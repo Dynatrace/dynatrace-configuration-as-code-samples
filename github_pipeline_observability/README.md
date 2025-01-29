@@ -11,10 +11,10 @@ If you want to know how your GitHub workflows are performing in terms of task du
 1. [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
 
 2. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions and store it as an environment variables:
-    * Run apps `app-engine:apps:run`
-    * View OpenPipeline configurations `openpipeline:configurations:read`
-    * Edit OpenPipeline configurations `openpipeline:configurations:write`
-    * Create and edit documents `document:documents:write`
+    * Run apps: `app-engine:apps:run`
+    * View OpenPipeline configurations: `openpipeline:configurations:read`
+    * Edit OpenPipeline configurations: `openpipeline:configurations:write`
+    * Create and edit documents: `document:documents:write`
     * View documents: `document:documents:read`
 ```
 $env:OAUTH_CLIENT_ID = <YOUR_CLIENT_ID>
