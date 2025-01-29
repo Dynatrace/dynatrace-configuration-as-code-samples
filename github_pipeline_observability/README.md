@@ -1,4 +1,4 @@
-# Observe your GitHub Pull Requests and Workflows with Dashboards and normalized SLDC events through OpenPipeline
+# Observe your GitHub Pull Requests and Workflows with Dashboards and normalized SDLC events through OpenPipeline
 
 Enable Platform Engineering teams to grasp and analyze the efficiency of GitHub workflows and processes bound to GitHub pull requests to drive improvements and optimize the Internal Development Platform (IDP). By better understanding the integration of GitHub into your development routines or delivery processes, you can set actions in the following directions:
 
@@ -28,19 +28,26 @@ In this tutorial, you will learn how to forward GitHub webhook events to Dynatra
     * View documents: `document:documents:read`
 
 3. Store the retrieved client ID, secret, and token endpoint as an environment variable.
+<!-- windows version -->
 ```
-$env:OAUTH_CLIENT_ID = <YOUR_CLIENT_ID>
-$env:OAUTH_CLIENT_SECRET = <YOUR_CLIENT_SECRET>
-$env:OAUTH_TOKEN_ENDPOINT = 'https://sso.dynatrace.com/sso/oauth2/token'
+$env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
+$env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+$env:OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
+```
+<!-- linux / macOS version -->
+```
+export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
+export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
 ```
 
-4. Clone the *Dynatrace configuration as code sample* repository and go to `github_pipeline_observability`.
+4. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `github_pipeline_observability`.
 ```
 git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
 cd github_pipeline_observability
 ```
 
-5. Edit the `manifest.yaml` by exchanging `<YOUR-DT-ENV-ID>` with your Dynatrace environment ID.
+5. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID.
 ```
 manifestVersion: 1.0
 projects:
@@ -65,7 +72,7 @@ environmentGroups:
 
 ## Steps 
 
-### 1. Configure Dynatrace by leveraging Monaco
+### 1. Configure Dynatrace using Monaco
 
 In this section, you will upload two Dashboards and configure the ingest endpoint for GitHub Webhooks in Dynatrace. Before you continue, please check your OpenPipeline configuration for *Software development lifecycle events*.
 
@@ -121,9 +128,9 @@ You can configure webhooks at either the organization level (affecting all repos
 2. Go to **Settings** > **Webhooks**.
 3. Click **Add webhook**.
 4. Configure the following settings:
-   - **Payload URL**: 
+   - **Payload URL**: Please exchange the placeholders `<YOUR-DT-ENV-ID>` and `<YOUR-ACCESS-TOKEN>` with your Dynatrace environment ID and access token, respectively. 
      ```
-     https://{your-environment-id}.live.dynatrace.com/platform/ingest/custom/events.sdlc/github?api-token=<YOUR-ACCESS-TOKEN>
+     https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/github?api-token=<YOUR-ACCESS-TOKEN>
      ```
    - **Content Type**: `application/json`
    - **Which events would you like to trigger this webhook?**: Select *Let me select individual events* and enable:
@@ -141,10 +148,9 @@ You can configure webhooks at either the organization level (affecting all repos
 3. Open the **GitHub Pull Request** Dashboard to observe real-time activities of pull requests in your organization or seleced repositories.
 4. Open the **GitHub Workflow** Dashboard to observe and analyze workflow execution details, job insights, and step durations for all GitHub workflows in your organization or selected repositories.
 
-## Conclusion
+## Call to action
 
-**Provide feedback in community**
-
+We highly value your insights on GitHub pipeline observability. Your feedback is crucial in helping us enhance our tools and services. Please visit the Dynatrace Community page to share your experiences, suggestions, and ideas. Your contributions are instrumental in shaping the future of our platform. Join the discussion today and make a difference! 
 
 ## Further reading
 
