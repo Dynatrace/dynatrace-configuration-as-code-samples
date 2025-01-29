@@ -4,10 +4,10 @@ projects:
 environmentGroups:
   - name: group
     environments:
-      - name: <ENVIRONMENT-NAME>
+      - name: <YOUR-DT-ENV-ID>
         url:
           type: value
-          value: <YOUR-DT-ENV>
+          value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
         auth:
             oAuth:
               clientId:
