@@ -498,7 +498,7 @@
       "type": "markdown"
     },
     "15": {
-      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.3.0",
+      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.3.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
       "title": "",
       "type": "markdown"
     },
