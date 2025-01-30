@@ -16,6 +16,11 @@ While GitHub provides you *Insights* into [Actions Usage/Performance Metrics](ht
 
 In this tutorial, you will learn how to forward GitHub webhook events to Dynatrace, normalize the ingested event data, and use ready-made dashboards to analyze the data and derive improvements.
 
+> **Security Disclaimer**: This tutorial involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
+> * **Minimal Permissions**: Assign the least set of permissions necessary for the access token, as outlined in this tutorial.
+> * **Access Control**: Limit the ability to configure webhooks in GitHub to a small group of authorized personnel.
+> * **Token Security**: Never commit the access token to a Git repository.
+
 ## Prerequisites
 
 1. [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
@@ -109,7 +114,7 @@ monaco deploy manifest.yaml
 
 #### Create Dynatrace Access Token
 
-An access token with *openpipeline scopes* is needed for Dynatrace to receive GitHub webhook events processed via OpenPipeline. 
+An access token with *openpipeline scopes* is needed for Dynatrace to receive GitHub webhook events processed by OpenPipeline. 
 
 1. In Dynatrace, navigate to **Access Tokens**.
 2. Click **Generate new token**.
