@@ -174,3 +174,6 @@ We highly value your insights on GitHub pipeline observability. Your feedback is
 
 * Why have GitHub webhook events been changed into SDLC events?  
   * The main benefit is data normalization and the ability to become tool agnostic. As a result, Dynatrace Dashboards, Apps, and Automation can build on SDLC events with well-defined properties rather than tool-specific details. 
+
+* Why going with GitHub webhooks instead of REST API?
+  * Using webhooks has the following advantages over using the API: (1) Webhooks require less effort and less resources than polling an API. (2) Webhooks scale better than API calls. (3) Webhooks allow near real-time updates, since webhooks are triggered when an event happens. See [Choosing webhooks or the REST API](https://docs.github.com/en/webhooks/about-webhooks#choosing-webhooks-or-the-rest-api) for more details.
