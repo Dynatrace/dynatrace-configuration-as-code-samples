@@ -1,0 +1,422 @@
+{
+  "layouts": {
+    "0": {
+      "h": 7,
+      "w": 8,
+      "x": 0,
+      "y": 2
+    },
+    "1": {
+      "h": 7,
+      "w": 16,
+      "x": 8,
+      "y": 2
+    },
+    "2": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "3": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 9
+    },
+    "4": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 21
+    },
+    "5": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 15
+    },
+    "6": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 27
+    }
+  },
+  "tiles": {
+    "0": {
+      "davis": {
+        "enabled": false
+      },
+      "query": "timeseries max(workqueue_depth)",
+      "title": "Argo Workqueue Depth",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          }
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "label": "",
+          "prefixIcon": "",
+          "showLabel": true
+        },
+        "table": {
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "1": {
+      "davis": {
+        "enabled": false
+      },
+      "query": "timeseries max(argocd_git_request_total),by:{repo}",
+      "title": "Git Requests",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "label": "",
+          "prefixIcon": "",
+          "showLabel": true
+        },
+        "table": {
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "2": {
+      "content": "# ArgoCD Platform Observability\nObservability data based on Prometheus metrics exported by different Argo Components",
+      "title": "",
+      "type": "markdown"
+    },
+    "3": {
+      "davis": {
+        "enabled": false
+      },
+      "query": "timeseries max(argocd_app_sync_total),by:{name}\n| filter contains(name, \"simplenode\")",
+      "title": "Total Syncs of User Projects",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "label": "",
+          "prefixIcon": "",
+          "showLabel": true
+        },
+        "table": {
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "4": {
+      "davis": {
+        "enabled": false
+      },
+      "query": "fetch events\n| filter source == \"ArgoCD\"\n| fields timestamp, action, app_name, commit_url, revisions\n",
+      "title": "Argo Events from Notifications",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "action",
+            "categoryAxisLabel": "action",
+            "valueAxis": "dt.davis.timeout",
+            "valueAxisLabel": "dt.davis.timeout"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "fieldMapping": {
+            "fields": [
+              "action"
+            ],
+            "timestamp": "timestamp",
+            "values": [
+              "dt.davis.timeout"
+            ]
+          },
+          "gapPolicy": "connect"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "label": "",
+          "prefixIcon": "",
+          "showLabel": true
+        },
+        "table": {
+          "columnWidths": {
+            "[\"action\"]": 170.953125,
+            "[\"affected_entity_ids\"]": 242.203125,
+            "[\"affected_entity_types\"]": 188.359375,
+            "[\"app_name\"]": 259.828125,
+            "[\"bin(timestamp, 10m)\"]": 224.765625,
+            "[\"commit_url\"]": 600,
+            "[\"count\"]": 83.953125,
+            "[\"dt.davis.impact_level\"]": 183.96875,
+            "[\"dt.davis.is_frequent_event\"]": 218.953125,
+            "[\"dt.davis.is_frequent_issue_detection_allowed\"]": 342.125,
+            "[\"dt.davis.mute.status\"]": 179.09375,
+            "[\"dt.davis.timeout\"]": 151.78125,
+            "[\"dt.entity.environment\"]": 242.203125,
+            "[\"dt.entity.environment.name\"]": 225.359375,
+            "[\"event.category\"]": 142.5,
+            "[\"event.end\"]": 163.234375,
+            "[\"event.group_label\"]": 163.359375,
+            "[\"event.id\"]": 283.71875,
+            "[\"event.kind\"]": 114,
+            "[\"event.name\"]": 450,
+            "[\"event.provider\"]": 188.296875,
+            "[\"event.start\"]": 163.234375,
+            "[\"event.status\"]": 127.484375,
+            "[\"event.status_transition\"]": 197.40625,
+            "[\"event.type\"]": 114.703125,
+            "[\"maintenance.is_under_maintenance\"]": 281.046875,
+            "[\"repo_url\"]": 600,
+            "[\"revisions\"]": 324.28125,
+            "[\"source\"]": 90.484375,
+            "[\"sync_status\"]": 125.46875,
+            "[\"synced_at\"]": 160.6875,
+            "[\"target_url\"]": 413.375,
+            "[\"timestamp\"]": 163.234375
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch bizevents\n| filter event.provider == \"argocd\"\n| makeTimeseries count = count(), by:{event.type}, time:{timestamp}",
+      "title": "Argo Sync Lifecycle Events",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "event.provider",
+            "categoryAxisLabel": "event.provider",
+            "valueAxis": "eventsCount",
+            "valueAxisLabel": "eventsCount"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "isBackgroundThresholdActive": false,
+          "label": "",
+          "prefixIcon": "",
+          "showLabel": true
+        },
+        "table": {
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "6": {
+      "davis": {
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"DAVIS_EVENT\"\n| filter event.provider == \"KUBERNETES_EVENT\"\n| filter startsWith(event.group_label, \"App\")\n| fields timestamp, dt.kubernetes.event.reason, dt.entity.cloud_application_namespace.name, dt.kubernetes.event.involved_object.name\n// | makeTimeseries count(), by:{event.group_label, dt.entity.cloud_application_namespace.name}",
+      "title": "Keptn Events",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "action",
+            "categoryAxisLabel": "action",
+            "valueAxis": "dt.davis.timeout",
+            "valueAxisLabel": "dt.davis.timeout"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "fieldMapping": {
+            "fields": [
+              "action"
+            ],
+            "timestamp": "timestamp",
+            "values": [
+              "dt.davis.timeout"
+            ]
+          },
+          "gapPolicy": "connect"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "label": "",
+          "prefixIcon": "",
+          "showLabel": true
+        },
+        "table": {
+          "columnWidths": {
+            "[\"action\"]": 170.953125,
+            "[\"affected_entity_ids\"]": 242.203125,
+            "[\"affected_entity_types\"]": 188.359375,
+            "[\"app_name\"]": 259.828125,
+            "[\"argocd\"]": 91.453125,
+            "[\"bin(timestamp, 10m)\"]": 224.765625,
+            "[\"commit_url\"]": 600,
+            "[\"count\"]": 83.953125,
+            "[\"count()\"]": 600,
+            "[\"display_id\"]": 112.625,
+            "[\"dt.davis.disable_merging_reason\"]": 260.046875,
+            "[\"dt.davis.event_ids\"]": 283.71875,
+            "[\"dt.davis.impact_level\"]": 183.96875,
+            "[\"dt.davis.is_duplicate\"]": 179.25,
+            "[\"dt.davis.is_frequent_event\"]": 218.953125,
+            "[\"dt.davis.is_frequent_issue_detection_allowed\"]": 342.125,
+            "[\"dt.davis.is_merging_allowed\"]": 230.921875,
+            "[\"dt.davis.is_rootcause_relevant\"]": 244.515625,
+            "[\"dt.davis.last_reopen_timestamp\"]": 255.390625,
+            "[\"dt.davis.mute.status\"]": 179.09375,
+            "[\"dt.davis.timeout\"]": 151.78125,
+            "[\"dt.entity.cloud_application\"]": 287.03125,
+            "[\"dt.entity.cloud_application.name\"]": 257.609375,
+            "[\"dt.entity.cloud_application_instance\"]": 280.484375,
+            "[\"dt.entity.cloud_application_instance.name\"]": 319.875,
+            "[\"dt.entity.cloud_application_namespace\"]": 298.96875,
+            "[\"dt.entity.cloud_application_namespace.name\"]": 338.359375,
+            "[\"dt.entity.environment\"]": 242.203125,
+            "[\"dt.entity.environment.name\"]": 225.359375,
+            "[\"dt.entity.kubernetes_cluster\"]": 229.109375,
+            "[\"dt.entity.kubernetes_node\"]": 215.78125,
+            "[\"dt.entity.process_group_instance\"]": 261.109375,
+            "[\"dt.entity.process_group_instance.name\"]": 300.484375,
+            "[\"dt.entity.service\"]": 150,
+            "[\"dt.entity.service.name\"]": 189.375,
+            "[\"dt.kubernetes.cluster.app_enabled\"]": 269.453125,
+            "[\"dt.kubernetes.cluster.name\"]": 223.28125,
+            "[\"dt.kubernetes.event.count\"]": 215.109375,
+            "[\"dt.kubernetes.event.first_seen\"]": 244.40625,
+            "[\"dt.kubernetes.event.important\"]": 243.25,
+            "[\"dt.kubernetes.event.involved_object.kind\"]": 309.375,
+            "[\"dt.kubernetes.event.involved_object.name\"]": 318.21875,
+            "[\"dt.kubernetes.event.last_seen\"]": 241.546875,
+            "[\"dt.kubernetes.event.message\"]": 236.078125,
+            "[\"dt.kubernetes.event.reason\"]": 345.640625,
+            "[\"dt.kubernetes.event.uid\"]": 198.859375,
+            "[\"dt.kubernetes.node.name\"]": 210.625,
+            "[\"dt.kubernetes.workload.name\"]": 238.453125,
+            "[\"entity_tags\"]": 120.359375,
+            "[\"event.category\"]": 142.5,
+            "[\"event.description\"]": 420,
+            "[\"event.end\"]": 163.234375,
+            "[\"event.group_label\"]": 235.359375,
+            "[\"event.id\"]": 283.71875,
+            "[\"event.kind\"]": 211,
+            "[\"event.name\"]": 450,
+            "[\"event.provider\"]": 253.296875,
+            "[\"event.start\"]": 163.234375,
+            "[\"event.status\"]": 127.484375,
+            "[\"event.status_transition\"]": 197.40625,
+            "[\"event.title\"]": 113.0625,
+            "[\"event.type\"]": 114.703125,
+            "[\"git\"]": 64.90625,
+            "[\"k8s.namespace.name\"]": 186.046875,
+            "[\"k8s.pod.name\"]": 136.71875,
+            "[\"labels.alerting_profile\"]": 189.90625,
+            "[\"maintenance.is_under_maintenance\"]": 281.046875,
+            "[\"owner\"]": 87.578125,
+            "[\"repo_url\"]": 600,
+            "[\"resolved_problem_duration\"]": 225.28125,
+            "[\"revisions\"]": 324.28125,
+            "[\"source\"]": 90.484375,
+            "[\"status\"]": 88.53125,
+            "[\"syncFinishedEventId\"]": 180.015625,
+            "[\"syncFinishedTimestamp\"]": 202.40625,
+            "[\"sync_status\"]": 125.46875,
+            "[\"synced_at\"]": 160.6875,
+            "[\"target_url\"]": 413.375,
+            "[\"timestamp\"]": 163.234375
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    }
+  },
+  "variables": [],
+  "version": 11
+}

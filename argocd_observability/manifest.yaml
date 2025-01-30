@@ -1,6 +1,6 @@
 manifestVersion: 1.0
 projects:
-  - name: pipeline_observability
+  - name: argocd_observability
 environmentGroups:
   - name: group
     environments:
