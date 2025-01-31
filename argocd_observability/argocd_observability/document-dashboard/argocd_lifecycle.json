@@ -4,7 +4,7 @@
       "h": 5,
       "w": 8,
       "x": 4,
-      "y": 4
+      "y": 9
     },
     "17": {
       "h": 2,
@@ -16,13 +16,13 @@
       "h": 6,
       "w": 24,
       "x": 0,
-      "y": 20
+      "y": 32
     },
     "49": {
       "h": 1,
       "w": 24,
       "x": 0,
-      "y": 19
+      "y": 31
     },
     "51": {
       "h": 2,
@@ -34,19 +34,19 @@
       "h": 5,
       "w": 4,
       "x": 12,
-      "y": 4
+      "y": 9
     },
     "60": {
-      "h": 5,
+      "h": 3,
       "w": 4,
       "x": 0,
-      "y": 9
+      "y": 14
     },
     "62": {
       "h": 5,
       "w": 24,
       "x": 0,
-      "y": 14
+      "y": 20
     },
     "63": {
       "h": 5,
@@ -55,16 +55,40 @@
       "y": 4
     },
     "65": {
-      "h": 5,
+      "h": 6,
       "w": 20,
       "x": 4,
-      "y": 9
+      "y": 14
     },
     "66": {
       "h": 5,
       "w": 8,
       "x": 16,
+      "y": 9
+    },
+    "67": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 17
+    },
+    "68": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 25
+    },
+    "69": {
+      "h": 5,
+      "w": 20,
+      "x": 4,
       "y": 4
+    },
+    "70": {
+      "h": 5,
+      "w": 4,
+      "x": 0,
+      "y": 9
     }
   },
   "settings": {},
@@ -84,7 +108,7 @@
         "maxResultMegaBytes": 100,
         "maxResultRecords": 1000
       },
-      "title": "Sync Status",
+      "title": "Finished Sync Status",
       "type": "data",
       "visualization": "donutChart",
       "visualizationSettings": {
@@ -107,6 +131,7 @@
             "showTotalValue": true,
             "valueType": "relative"
           },
+          "colorPalette": "swamps",
           "gapPolicy": "connect",
           "hiddenLegendFields": [
             "deployment.service",
@@ -223,7 +248,7 @@
       "type": "markdown"
     },
     "51": {
-      "content": "### ArgoCD Sync Pulse\n\nThis dashboard provides a comprehensive view of the status of ArgoCD notifications related to the deployment of new applications. It is designed to help platform engineers and DevOps teams monitor and manage their deployment processes effectively.",
+      "content": "### ArgoCD Sync and Deployment Pulse\n\nThis dashboard provides a comprehensive view of the status of ArgoCD notifications related to the deployment of new applications. It is designed to help platform engineers and DevOps teams monitor and manage their deployment processes effectively.",
       "title": "",
       "type": "markdown"
     },
@@ -493,7 +518,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.service.name,\nStatus = argocd.sync.outcome,\nStart = start_time,\nEnd = end_time,\nRepository = deployment.source.repo.url\n| sort Duration desc \n",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.service.name,\nStatus = argocd.sync.outcome,\nStart = start_time,\nEnd = end_time,\nRepository = deployment.source.repo.url\n| sort End\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -501,7 +526,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "",
+      "title": "Finished Syncs",
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
@@ -621,7 +646,11 @@
           "linewrapEnabled": false,
           "monospacedFontColumns": [],
           "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
+          "rowDensity": "condensed",
+          "sortBy": {
+            "columnId": "[\"Duration\"]",
+            "direction": "ascending"
+          }
         },
         "thresholds": [],
         "tooltip": {
@@ -640,7 +669,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"started\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count()",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter in(deployment.service.name, $Application)\n| sort timestamp\n| summarize status = takeLast(event.status), by:deployment.service.uid\n| filter status == \"started\" \n| summarize countDistinct(deployment.service.uid)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -656,9 +685,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "count()"
+              "countDistinct(deployment.service.uid)"
             ],
-            "categoryAxisLabel": "count()",
+            "categoryAxisLabel": "countDistinct(deployment.service.uid)",
             "categoryAxisTickLayout": "horizontal",
             "colorPaletteMode": "multi-color",
             "groupMode": "stacked",
@@ -666,9 +695,9 @@
             "scale": "absolute",
             "tooltipVariant": "single",
             "valueAxis": [
-              "count()"
+              "countDistinct(deployment.service.uid)"
             ],
-            "valueAxisLabel": "count()"
+            "valueAxisLabel": "countDistinct(deployment.service.uid)"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -685,11 +714,11 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "count()",
+          "dimension": "countDistinct(deployment.service.uid)",
           "displayedFields": [
             "count()"
           ],
-          "longitude": "count()",
+          "longitude": "countDistinct(deployment.service.uid)",
           "value": "count()"
         },
         "histogram": {
@@ -697,7 +726,7 @@
           "dataMappings": [
             {
               "rangeAxis": "",
-              "valueAxis": "count()"
+              "valueAxis": "countDistinct(deployment.service.uid)"
             }
           ],
           "displayedFields": [],
@@ -736,7 +765,7 @@
           "colorThresholdTarget": "value",
           "label": "count()",
           "prefixIcon": "",
-          "recordField": "count()",
+          "recordField": "countDistinct(deployment.service.uid)",
           "showLabel": false,
           "sparklineSettings": {},
           "trend": {
@@ -772,7 +801,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| makeTimeseries avg(duration), by:deployment.service.name",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| makeTimeseries avg=avg(duration), by:deployment.service.name",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -812,7 +841,7 @@
           "curve": "linear",
           "fieldMapping": {
             "leftAxisValues": [
-              "avg(duration)"
+              "avg"
             ],
             "timestamp": "timeframe"
           },
@@ -822,7 +851,11 @@
             "duration",
             "count()"
           ],
-          "leftYAxisSettings": {},
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "min": null,
+            "scale": "linear"
+          },
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
@@ -830,11 +863,12 @@
           "xAxisLabel": "timeframe",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "colorModeType": {},
         "dataMapping": {
           "dimension": "interval",
           "displayedFields": [],
           "longitude": "interval",
-          "value": "avg(duration)"
+          "value": "interval"
         },
         "histogram": {
           "colorPalette": "categorical",
@@ -898,9 +932,9 @@
           "columnTypeOverrides": [
             {
               "fields": [
-                "avg(duration)"
+                "avg"
               ],
-              "id": 1738322013866,
+              "id": 1738334916086,
               "value": "sparkline"
             }
           ],
@@ -930,7 +964,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter in(deployment.service.name, $Application)\n| fields argocd.sync.state\n| summarize count(), by:{argocd.sync.state}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| fields argocd.sync.state\n| summarize count(), by:{argocd.sync.state}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -961,6 +995,7 @@
             "showTotalValue": true,
             "valueType": "relative"
           },
+          "colorPalette": "swamps",
           "gapPolicy": "connect",
           "hiddenLegendFields": [
             "deployment.service",
@@ -1060,13 +1095,570 @@
           "min": "auto"
         }
       }
+    },
+    "67": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| summarize median(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Median Sync Duration",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "median(duration)"
+            ],
+            "categoryAxisLabel": "median(duration)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "median(duration)"
+            ],
+            "valueAxisLabel": "median(duration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "median(duration)",
+          "displayedFields": [],
+          "longitude": "median(duration)",
+          "value": "avg(duration)"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "median(duration)"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "avg(duration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "avg(duration)",
+          "prefixIcon": "",
+          "recordField": "median(duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "68": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "\nfetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| maketimeseries eventsCount = count(), by:{event.status}, interval:5m",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Activities ",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "event.status"
+            ],
+            "categoryAxisLabel": "event.status",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "interval"
+            ],
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "eventsCount"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "interval",
+          "displayedFields": [],
+          "longitude": "interval",
+          "value": "interval"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "event.status"
+          ],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "event.status"
+          },
+          "displayedFields": [
+            "event.status"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "interval",
+          "showLabel": false
+        },
+        "legend": {
+          "ratio": 14
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "event.type",
+          "prefixIcon": "",
+          "recordField": "event.type",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "eventsCount"
+              ],
+              "id": 1738335782450,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "69": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter in(deployment.service.name, $Application)\n| sort timestamp\n| summarize SyncStatus = takeLast(event.status), by:{deployment.service.uid, deployment.service.name, deployment.service.namespace}\n| filter SyncStatus == \"started\" \n| fieldsAdd Application = deployment.service.name\n| fieldsAdd Namespace = deployment.service.namespace\n| fieldsRemove deployment.service.uid, deployment.service.name, deployment.service.namespace",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Running Syncs",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "SyncStatus",
+              "Application",
+              "Namespace"
+            ],
+            "categoryAxisLabel": "SyncStatus,Application,Namespace",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [],
+            "valueAxisLabel": ""
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "SyncStatus",
+          "displayedFields": [],
+          "value": "Duration"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [
+            "SyncStatus",
+            "Application",
+            "Namespace"
+          ],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "SyncStatus"
+          },
+          "displayedFields": [
+            "SyncStatus",
+            "Application",
+            "Namespace"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Duration",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed",
+          "sortBy": {
+            "columnId": "[\"Duration\"]",
+            "direction": "ascending"
+          }
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "70": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter in(deployment.service.name, $Application)\n| sort timestamp\n| summarize status = takeLast(event.status), by:deployment.service.uid\n| filter status == \"finished\" \n| summarize countDistinct(deployment.service.uid)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Finished Syncs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "countDistinct(deployment.service.uid)"
+            ],
+            "categoryAxisLabel": "countDistinct(deployment.service.uid)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "countDistinct(deployment.service.uid)"
+            ],
+            "valueAxisLabel": "countDistinct(deployment.service.uid)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "countDistinct(deployment.service.uid)",
+          "displayedFields": [
+            "count()"
+          ],
+          "longitude": "countDistinct(deployment.service.uid)",
+          "value": "count()"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "countDistinct(deployment.service.uid)"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "count()",
+          "prefixIcon": "",
+          "recordField": "countDistinct(deployment.service.uid)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
     }
   },
   "variables": [
     {
       "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.provider==\"argocd\" \n| summarize distinctApplications = collectDistinct(deployment.service.name)\n| expand distinctApplications\n| sort distinctApplications",
       "key": "Application",
-      "multiple": false,
+      "multiple": true,
       "type": "query",
       "visible": true
     }

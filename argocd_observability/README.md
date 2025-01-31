@@ -1,9 +1,21 @@
 # Observe your ArgoCD 
 
+Enable Platform Engineering teams to analyze the efficiency of ArgoCD deployments to drive improvements and optimize the Internal Development Platform (IDP).
+
+Observing ArgoCD sync activities is crucial for a platform engineer for several reasons:
+
+* **Early Issue Detection**: By keeping an eye on sync activities, you can quickly identify and address issues such as failed deployments, configuration errors, or resource conflicts. This proactive approach minimizes downtime and maintains system stability.
+
+* **Compliance and Auditing**: Monitoring sync activities provides a clear audit trail of changes and deployments. This is essential for compliance with industry regulations and internal policies, as it ensures that all changes are tracked and documented.
+
+* **Performance Optimization**: Observing sync activities allows you to analyze deployment performance metrics, such as sync duration and resource utilization. This data can be used to optimize the deployment process and improve overall system performance.
+
+* **Improved Collaboration**: Sync activity logs provide transparency and visibility into the deployment process, facilitating better communication and collaboration among team members. This ensures that everyone is aware of the current state and any ongoing issues.
+
 
 ## Target audience
 
-This article is intended for Platform Engineers managing the internal Development Platform (IDP), including ArgoCD for an entire organization.
+This tutorial is intended for Platform Engineers managing the internal Development Platform (IDP), including ArgoCD for managing your GitOps-based deployments. 
 
 ## Prerequisites
 
