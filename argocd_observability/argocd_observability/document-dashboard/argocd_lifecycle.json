@@ -1,246 +1,73 @@
 {
   "layouts": {
     "0": {
-      "h": 4,
-      "w": 7,
-      "x": 0,
-      "y": 2
-    },
-    "1": {
-      "h": 3,
-      "w": 7,
-      "x": 16,
-      "y": 9
-    },
-    "11": {
       "h": 5,
-      "w": 15,
+      "w": 8,
       "x": 4,
-      "y": 15
-    },
-    "12": {
-      "h": 2,
-      "w": 23,
-      "x": 0,
-      "y": 13
-    },
-    "13": {
-      "h": 2,
-      "w": 11,
-      "x": 0,
-      "y": 7
-    },
-    "14": {
-      "h": 3,
-      "w": 2,
-      "x": 0,
-      "y": 9
-    },
-    "15": {
-      "h": 3,
-      "w": 2,
-      "x": 2,
-      "y": 9
-    },
-    "16": {
-      "h": 3,
-      "w": 7,
-      "x": 4,
-      "y": 9
+      "y": 4
     },
     "17": {
       "h": 2,
-      "w": 11,
+      "w": 24,
       "x": 0,
-      "y": 0
-    },
-    "18": {
-      "h": 4,
-      "w": 7,
-      "x": 12,
       "y": 2
     },
-    "19": {
-      "h": 2,
-      "w": 11,
-      "x": 12,
-      "y": 0
-    },
-    "2": {
-      "h": 3,
-      "w": 2,
-      "x": 12,
-      "y": 9
-    },
-    "20": {
-      "h": 6,
-      "w": 19,
-      "x": 0,
-      "y": 44
-    },
-    "21": {
-      "h": 1,
-      "w": 15,
-      "x": 0,
-      "y": 23
-    },
-    "22": {
-      "h": 5,
-      "w": 15,
-      "x": 0,
-      "y": 26
-    },
-    "23": {
-      "h": 2,
-      "w": 4,
-      "x": 15,
-      "y": 24
-    },
-    "24": {
-      "h": 5,
-      "w": 8,
-      "x": 15,
-      "y": 26
-    },
-    "25": {
-      "h": 1,
-      "w": 8,
-      "x": 15,
-      "y": 23
-    },
-    "26": {
-      "h": 2,
-      "w": 23,
-      "x": 0,
-      "y": 21
-    },
-    "27": {
-      "h": 1,
-      "w": 23,
-      "x": 0,
-      "y": 41
-    },
-    "28": {
-      "h": 4,
-      "w": 15,
-      "x": 0,
-      "y": 36
-    },
-    "29": {
-      "h": 4,
-      "w": 8,
-      "x": 15,
-      "y": 36
-    },
-    "3": {
-      "h": 3,
-      "w": 2,
-      "x": 14,
-      "y": 9
-    },
-    "30": {
-      "h": 2,
-      "w": 3,
-      "x": 15,
-      "y": 34
-    },
-    "31": {
-      "h": 2,
-      "w": 11,
-      "x": 12,
-      "y": 7
-    },
-    "34": {
-      "h": 2,
-      "w": 4,
-      "x": 0,
-      "y": 42
-    },
-    "35": {
-      "h": 2,
-      "w": 4,
-      "x": 0,
-      "y": 24
-    },
-    "39": {
-      "h": 2,
-      "w": 15,
-      "x": 0,
-      "y": 32
-    },
-    "4": {
-      "h": 5,
-      "w": 4,
-      "x": 0,
-      "y": 15
-    },
-    "40": {
-      "h": 2,
-      "w": 4,
-      "x": 0,
-      "y": 34
-    },
-    "41": {
-      "h": 2,
-      "w": 7,
-      "x": 15,
-      "y": 32
-    },
-    "42": {
-      "h": 6,
-      "w": 5,
-      "x": 19,
-      "y": 44
-    },
-    "43": {
-      "h": 2,
-      "w": 15,
-      "x": 7,
-      "y": 42
-    },
-    "45": {
-      "h": 1,
-      "w": 23,
-      "x": 0,
-      "y": 31
-    },
     "46": {
-      "h": 1,
-      "w": 23,
-      "x": 0,
-      "y": 40
-    },
-    "47": {
-      "h": 1,
-      "w": 23,
-      "x": 0,
-      "y": 50
-    },
-    "48": {
-      "h": 1,
-      "w": 23,
+      "h": 6,
+      "w": 24,
       "x": 0,
       "y": 20
     },
     "49": {
       "h": 1,
-      "w": 23,
+      "w": 24,
       "x": 0,
-      "y": 12
+      "y": 19
     },
-    "5": {
+    "51": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "53": {
       "h": 5,
-      "w": 3,
-      "x": 19,
-      "y": 15
+      "w": 4,
+      "x": 12,
+      "y": 4
     },
-    "50": {
-      "h": 1,
-      "w": 23,
+    "60": {
+      "h": 5,
+      "w": 4,
       "x": 0,
-      "y": 6
+      "y": 9
+    },
+    "62": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 14
+    },
+    "63": {
+      "h": 5,
+      "w": 4,
+      "x": 0,
+      "y": 4
+    },
+    "65": {
+      "h": 5,
+      "w": 20,
+      "x": 4,
+      "y": 9
+    },
+    "66": {
+      "h": 5,
+      "w": 8,
+      "x": 16,
+      "y": 4
     }
   },
+  "settings": {},
   "tiles": {
     "0": {
       "davis": {
@@ -249,16 +76,28 @@
         },
         "enabled": false
       },
-      "query": "fetch bizevents\n| filter contains(event.type, \"sync\")\n| fields timestamp, event.type, app_name, owner, status\n| summarize count(), by:{event.type}",
-      "title": "Sync events by event-type",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count(), by:{argocd.sync.state}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 100,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Status",
       "type": "data",
       "visualization": "donutChart",
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
-            "categoryAxis": "event.type",
-            "categoryAxisLabel": "event.type",
-            "valueAxis": "count()",
+            "categoryAxis": [
+              "argocd.sync.state"
+            ],
+            "categoryAxisLabel": "argocd.sync.state",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
             "valueAxisLabel": "count()"
           },
           "categoryOverrides": {},
@@ -269,1304 +108,112 @@
             "valueType": "relative"
           },
           "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "deployment.service",
+            "task",
+            "duration"
+          ],
+          "leftYAxisSettings": {},
           "legend": {
             "hidden": false,
             "position": "right"
-          }
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "1": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"deployment\") and app_name == $application\n| fields timestamp, app_name, owner, status\n//| summarize count(), by:{status}\n",
-      "title": "Deployment events by status per selected application",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "status",
-            "categoryAxisLabel": "status",
-            "valueAxis": "count()",
-            "valueAxisLabel": "count()"
           },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "hideLabels": false,
-            "showTotalValue": true,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timestamp",
+          "xAxisScaling": "analyzedTimeframe"
         },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
+        "dataMapping": {
+          "dimension": "argocd.sync.state",
+          "displayedFields": [],
+          "longitude": "count()",
+          "value": "count()"
         },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "11": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizEvents\n| filter event.type == \"guardian.validation.finished\" \n| fields timestamp, Guardian=guardian.name, Descr=guardian.description,Status=validation.status, ObjectiveSummary=validation.summary, trigger=validation.workflow.trigger_type",
-      "title": "Guardian Validations",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {
-            "[\"Descr\"]": 162.015625,
-            "[\"Guardian\"]": 123,
-            "[\"ObjectiveSummary\"]": 347,
-            "[\"Status\"]": 91,
-            "[\"timestamp\"]": 148,
-            "[\"trigger\"]": 267.234375
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "12": {
-      "content": "---\n# Site-Reliability Guardian Validations",
-      "title": "",
-      "type": "markdown"
-    },
-    "13": {
-      "content": "---\n# All deployments\n",
-      "title": "",
-      "type": "markdown"
-    },
-    "14": {
-      "davis": {
-        "componentState": {
-          "inputData": {
-            "dt.statistics.ui.ForecastAnalyzer": {
-              "forecastHorizon": 100,
-              "generalParameters": {
-                "logVerbosity": "INFO",
-                "resolveDimensionalQueryData": true,
-                "timeframe": {
-                  "endTime": "2023-12-13T07:07:21.698Z",
-                  "startTime": "2023-12-12T07:07:21.698Z"
-                }
-              },
-              "query": {
-                "expression": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\" and app_name == $application and owner == $team\n| summarize count()"
-              }
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
             }
-          },
-          "selectedAnalyzerName": "dt.statistics.ui.ForecastAnalyzer"
-        },
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\"\n| summarize count()",
-      "title": "Successful deployments",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "app_name",
-            "categoryAxisLabel": "app_name",
-            "valueAxis": "syncFinishedTimestamp",
-            "valueAxisLabel": "syncFinishedTimestamp"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "fieldMapping": {
-            "fields": [
-              "app_name"
-            ],
-            "timestamp": "timestamp",
-            "values": [
-              "syncFinishedTimestamp"
-            ]
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "SuccessIcon",
-          "showLabel": false,
-          "trend": {
-            "isVisible": false
+          ],
+          "displayedFields": [
+            "argocd.sync.state"
+          ],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
           }
         },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": [
-          {
-            "field": "",
-            "id": 1,
-            "isEnabled": true,
-            "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-                },
-                "comparator": "≥",
-                "id": 0,
-                "label": "",
-                "value": 1
-              }
-            ],
-            "title": ""
-          }
-        ]
-      }
-    },
-    "15": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"failed\"\n| summarize count()\n",
-      "title": "Failed deployments",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
           },
-          "gapPolicy": "connect"
+          "displayedFields": [
+            "argocd.sync.state"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
         },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "WarningFailedIcon",
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
           "showLabel": false
         },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": [
-          {
-            "field": "",
-            "id": 1,
-            "isEnabled": true,
-            "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-security-risk-level-critical-default, #8a0012)"
-                },
-                "comparator": "≥",
-                "id": 0,
-                "label": "",
-                "value": 1
-              },
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-                },
-                "comparator": "\u003c",
-                "id": 1,
-                "label": "",
-                "value": 1
-              }
-            ],
-            "title": ""
-          }
-        ]
-      }
-    },
-    "16": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"deployment\") \n| fields timestamp, app_name, owner, status\n//| summarize count(), by:{status}\n",
-      "title": "Deployment events by status",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "status",
-            "categoryAxisLabel": "status",
-            "valueAxis": "count()",
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "hideLabels": false,
-            "showTotalValue": true,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
+        "legend": {
+          "ratio": 22
         },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
+          "label": "timestamp",
           "prefixIcon": "",
-          "showLabel": true
+          "recordField": "timestamp",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
         },
         "table": {
+          "columnTypeOverrides": [],
           "columnWidths": {},
           "enableSparklines": false,
           "hiddenColumns": [],
           "lineWrapIds": [],
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "17": {
-      "content": "---\n# Lifecycle sync events \n---",
-      "title": "",
-      "type": "markdown"
-    },
-    "18": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"sync\") and app_name == $application\n| fields timestamp, event.type, app_name, owner, status \n| summarize count(), by:{event.type}",
-      "title": "Sync events by event-type",
-      "type": "data",
-      "visualization": "donutChart",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "event.type",
-            "categoryAxisLabel": "event.type",
-            "valueAxis": "count()",
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "showTotalValue": true,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": false,
-            "position": "right"
-          }
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "19": {
-      "content": "---\n## Lifecycle  events per application\n* $application *selected*",
-      "title": "",
-      "type": "markdown"
-    },
-    "2": {
-      "davis": {
-        "componentState": {
-          "inputData": {
-            "dt.statistics.ui.ForecastAnalyzer": {
-              "forecastHorizon": 100,
-              "generalParameters": {
-                "logVerbosity": "INFO",
-                "resolveDimensionalQueryData": true,
-                "timeframe": {
-                  "endTime": "2023-12-13T07:07:21.698Z",
-                  "startTime": "2023-12-12T07:07:21.698Z"
-                }
-              },
-              "query": {
-                "expression": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\" and app_name == $application and owner == $team\n| summarize count()"
-              }
-            }
-          },
-          "selectedAnalyzerName": "dt.statistics.ui.ForecastAnalyzer"
-        },
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\" and app_name == $application\n| summarize count()",
-      "title": "Successful deployments",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "app_name",
-            "categoryAxisLabel": "app_name",
-            "valueAxis": "syncFinishedTimestamp",
-            "valueAxisLabel": "syncFinishedTimestamp"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "fieldMapping": {
-            "fields": [
-              "app_name"
-            ],
-            "timestamp": "timestamp",
-            "values": [
-              "syncFinishedTimestamp"
-            ]
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "SuccessIcon",
-          "showLabel": false,
-          "trend": {
-            "isVisible": false
-          }
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": [
-          {
-            "field": "",
-            "id": 1,
-            "isEnabled": true,
-            "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-                },
-                "comparator": "≥",
-                "id": 0,
-                "label": "",
-                "value": 1
-              }
-            ],
-            "title": ""
-          }
-        ]
-      }
-    },
-    "20": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group_instance  \n| fields Name=entity.name, Id=id, tags=tags, instanceOf = instance_of[dt.entity.process_group]\n//| filter matchesValue(tags, \"*release_build_version*\") \n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n\n| fieldsRemove tags, t  \n",
-      "title": "Release Information per PGIs",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "Product",
-            "categoryAxisLabel": "Product",
-            "valueAxis": "count()",
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {
-            "[\"Id\"]": 282.171875,
-            "[\"Name\"]": 275,
-            "[\"Owner\"]": 89.21875,
-            "[\"Product\"]": 207.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375,
-            "[\"instanceOf\"]": 260.90625
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "21": {
-      "content": "#### Release Inventory (based on Process Groups)",
-      "title": "",
-      "type": "markdown"
-    },
-    "22": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group\n//| filter matchesValue(tags, \"*release_build_version*\") \n//| fields Name = entity.name, Id = id, tags, Instances = instantiates[dt.entity.process_group_instance]\n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n| lookup [\n    fetch bizevents\n    | filter contains(event.type, \"deployment\") OR contains\n    | fields timestamp, event.type, status, entityId\n    ], sourceField:id, lookupField:entityId\n| fieldsRemove tags, t, lookup.entityId\n| fields Name = entity.name, Id = id, Version = Version, Stage = Stage, Product = Product, Owner=Owner, Instances=instantiates[dt.entity.process_group_instance], EventTimestamp = lookup.timestamp, EventType = lookup.event.type, EventStatus = lookup.status\n",
-      "title": "Release Information per PGs",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {
-            "[\"EventStatus\"]": 126.265625,
-            "[\"EventTimestamp\"]": 157,
-            "[\"EventType\"]": 147,
-            "[\"Id\"]": 260.265625,
-            "[\"Instances\"]": 394,
-            "[\"Name\"]": 424.765625,
-            "[\"Owner\"]": 89.21875,
-            "[\"Product\"]": 207.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "23": {
-      "davis": {
-        "componentState": {
-          "inputData": {
-            "dt.statistics.ui.ForecastAnalyzer": {
-              "forecastHorizon": 100,
-              "generalParameters": {
-                "logVerbosity": "INFO",
-                "resolveDimensionalQueryData": true,
-                "timeframe": {
-                  "endTime": "2023-12-13T07:07:21.698Z",
-                  "startTime": "2023-12-12T07:07:21.698Z"
-                }
-              },
-              "query": {
-                "expression": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\" and app_name == $application and owner == $team\n| summarize count()"
-              }
-            }
-          },
-          "selectedAnalyzerName": "dt.statistics.ui.ForecastAnalyzer"
-        },
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch events\n| filter event.type == \"CUSTOM_DEPLOYMENT\"\n| Summarize Deployments=count(), by:{event.type}",
-      "title": "Successful Deployment Events",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "app_name",
-            "categoryAxisLabel": "app_name",
-            "valueAxis": "syncFinishedTimestamp",
-            "valueAxisLabel": "syncFinishedTimestamp"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "fieldMapping": {
-            "fields": [
-              "app_name"
-            ],
-            "timestamp": "timestamp",
-            "values": [
-              "syncFinishedTimestamp"
-            ]
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "SuccessIcon",
-          "recordField": "Deployments",
-          "showLabel": false,
-          "trend": {
-            "isVisible": false
-          }
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": [
-          {
-            "field": "",
-            "id": 1,
-            "isEnabled": true,
-            "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-                },
-                "comparator": "≥",
-                "id": 0,
-                "label": "",
-                "value": 1
-              }
-            ],
-            "title": ""
-          }
-        ]
-      }
-    },
-    "24": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch events\n| filter event.type == \"CUSTOM_DEPLOYMENT\"\n| fields timestamp, event.name, dt.entity.process_group_instance.name, app_name, owner",
-      "title": "Single Deployment Events",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {
-            "[\"app_name\"]": 183.59375,
-            "[\"dt.entity.process_group_instance.name\"]": 600,
-            "[\"event.name\"]": 327.9375,
-            "[\"owner\"]": 87.578125,
-            "[\"timestamp\"]": 147.96875
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "25": {
-      "content": "#### Release Events",
-      "title": "",
-      "type": "markdown"
-    },
-    "26": {
-      "content": "---\n# Releases",
-      "title": "",
-      "type": "markdown"
-    },
-    "27": {
-      "content": "#### Release Inventory (based on Process Group Instances)",
-      "title": "",
-      "type": "markdown"
-    },
-    "28": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group\n//| filter matchesValue(tags, \"*release_build_version*\") \n//| fields Name = entity.name, Id = id, tags, Instances = instantiates[dt.entity.process_group_instance]\n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n| lookup [\n    fetch bizevents\n    | filter contains(event.type, \"deployment\") OR contains\n    | fields timestamp, event.type, status, entityId\n    ], sourceField:id, lookupField:entityId\n| fieldsRemove tags, t, lookup.entityId\n| fields Name = entity.name, Id = id, Version = Version, Stage = Stage, Product = Product, Owner=Owner, Instances=instantiates[dt.entity.process_group_instance], EventTimestamp = lookup.timestamp, EventType = lookup.event.type, EventStatus = lookup.status\n| filter Product == $application",
-      "title": "Release Information per PGs per application",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {
-            "[\"EventStatus\"]": 126.265625,
-            "[\"EventTimestamp\"]": 157,
-            "[\"EventType\"]": 147,
-            "[\"Id\"]": 260.265625,
-            "[\"Instances\"]": 168,
-            "[\"Name\"]": 424.765625,
-            "[\"Owner\"]": 161.21875,
-            "[\"Product\"]": 207.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "29": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch events\n| filter event.type == \"CUSTOM_DEPLOYMENT\"\n| fields timestamp, event.name, dt.entity.process_group_instance.name, app_name, owner\n| filter app_name == $application",
-      "title": "Single Deployment Events per application",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "3": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"failed\" and app_name == $application \n| summarize count()\n",
-      "title": "Failed deployments",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "WarningFailedIcon",
-          "showLabel": false
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": [
-          {
-            "field": "",
-            "id": 1,
-            "isEnabled": true,
-            "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-security-risk-level-critical-default, #8a0012)"
-                },
-                "comparator": "≥",
-                "id": 0,
-                "label": "",
-                "value": 1
-              },
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-                },
-                "comparator": "\u003c",
-                "id": 1,
-                "label": "",
-                "value": 1
-              }
-            ],
-            "title": ""
-          }
-        ]
-      }
-    },
-    "30": {
-      "davis": {
-        "componentState": {
-          "inputData": {
-            "dt.statistics.ui.ForecastAnalyzer": {
-              "forecastHorizon": 100,
-              "generalParameters": {
-                "logVerbosity": "INFO",
-                "resolveDimensionalQueryData": true,
-                "timeframe": {
-                  "endTime": "2023-12-13T07:07:21.698Z",
-                  "startTime": "2023-12-12T07:07:21.698Z"
-                }
-              },
-              "query": {
-                "expression": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\" and app_name == $application and owner == $team\n| summarize count()"
-              }
-            }
-          },
-          "selectedAnalyzerName": "dt.statistics.ui.ForecastAnalyzer"
-        },
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch events\n| filter event.type == \"CUSTOM_DEPLOYMENT\"\n| filter app_name == $application\n| Summarize Deployments=count(), by:{event.type}",
-      "title": "Successful Deployment Events per application",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "app_name",
-            "categoryAxisLabel": "app_name",
-            "valueAxis": "syncFinishedTimestamp",
-            "valueAxisLabel": "syncFinishedTimestamp"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "fieldMapping": {
-            "fields": [
-              "app_name"
-            ],
-            "timestamp": "timestamp",
-            "values": [
-              "syncFinishedTimestamp"
-            ]
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "SuccessIcon",
-          "recordField": "Deployments",
-          "showLabel": false,
-          "trend": {
-            "isVisible": false
-          }
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": [
-          {
-            "field": "",
-            "id": 1,
-            "isEnabled": true,
-            "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-                },
-                "comparator": "≥",
-                "id": 0,
-                "label": "",
-                "value": 1
-              }
-            ],
-            "title": ""
-          }
-        ]
-      }
-    },
-    "31": {
-      "content": "---\n## Deployments per application \n* $application *selected*",
-      "title": "",
-      "type": "markdown"
-    },
-    "34": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group_instance  \n| fields Name=entity.name, Id=id, tags=tags, instanceOf = instance_of[dt.entity.process_group]\n//| filter matchesValue(tags, \"*release_build_version*\") \n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n\n| fieldsRemove tags, t  \n| summarize releases=count()",
-      "title": "# Process Group Instances",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": false
-        },
-        "table": {
-          "columnWidths": {
-            "[\"Id\"]": 282.171875,
-            "[\"Name\"]": 271,
-            "[\"Owner\"]": 89.21875,
-            "[\"Product\"]": 207.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375,
-            "[\"instanceOf\"]": 260.90625
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "35": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group\n//| filter matchesValue(tags, \"*release_build_version*\") \n//| fields Name = entity.name, Id = id, tags, Instances = instantiates[dt.entity.process_group_instance]\n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n| lookup [\n    fetch bizevents\n    | filter contains(event.type, \"deployment\") OR contains\n    | fields timestamp, event.type, status, entityId\n    ], sourceField:id, lookupField:entityId\n| fieldsRemove tags, t, lookup.entityId\n| fields Name = entity.name, Id = id, Version = Version, Stage = Stage, Product = Product, Owner=Owner, Instances=instantiates[dt.entity.process_group_instance], EventTimestamp = lookup.timestamp, EventType = lookup.event.type, EventStatus = lookup.status\n|summarize releases=count()",
-      "title": "# Process Groups",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": false
-        },
-        "table": {
-          "columnWidths": {
-            "[\"EventStatus\"]": 126.265625,
-            "[\"EventTimestamp\"]": 157,
-            "[\"EventType\"]": 147,
-            "[\"Id\"]": 260.265625,
-            "[\"Instances\"]": 394,
-            "[\"Name\"]": 424.765625,
-            "[\"Owner\"]": 89.21875,
-            "[\"Product\"]": 207.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "39": {
-      "content": " #### Release Inventory (Process Groups) per application\n* $application *selected*",
-      "title": "",
-      "type": "markdown"
-    },
-    "4": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch bizEvents\n| filter event.type == \"guardian.validation.finished\"\n| summarize count(), by:{validation.status}",
-      "title": "Guardian Validation Results",
-      "type": "data",
-      "visualization": "donutChart",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "validation.status",
-            "categoryAxisLabel": "validation.status",
-            "valueAxis": "count()",
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {
-            "error": {
-              "added": 1702478740370,
-              "color": "var(--dt-colors-charts-security-risk-level-critical-default, #8a0012)"
-            },
-            "pass": {
-              "added": 1702478745186,
-              "color": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
-            }
-          },
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "showTotalValue": true,
-            "valueType": "relative"
-          },
-          "colorPalette": "categorical",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": false,
-            "position": "right"
-          }
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "40": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group\n//| filter matchesValue(tags, \"*release_build_version*\") \n//| fields Name = entity.name, Id = id, tags, Instances = instantiates[dt.entity.process_group_instance]\n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n| lookup [\n    fetch bizevents\n    | filter contains(event.type, \"deployment\") OR contains\n    | fields timestamp, event.type, status, entityId\n    ], sourceField:id, lookupField:entityId\n| fieldsRemove tags, t, lookup.entityId\n| fields Name = entity.name, Id = id, Version = Version, Stage = Stage, Product = Product, Owner=Owner, Instances=instantiates[dt.entity.process_group_instance], EventTimestamp = lookup.timestamp, EventType = lookup.event.type, EventStatus = lookup.status\n| filter Product == $application\n|summarize releases=count()",
-      "title": "# Process Groups per application",
-      "type": "data",
-      "visualization": "singleValue",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": false
-        },
-        "table": {
-          "columnWidths": {
-            "[\"EventStatus\"]": 126.265625,
-            "[\"EventTimestamp\"]": 157,
-            "[\"EventType\"]": 147,
-            "[\"Id\"]": 260.265625,
-            "[\"Instances\"]": 168,
-            "[\"Name\"]": 424.765625,
-            "[\"Owner\"]": 161.21875,
-            "[\"Product\"]": 207.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "41": {
-      "content": " #### Release Events per application\n* $application *selected*",
-      "title": "",
-      "type": "markdown"
-    },
-    "42": {
-      "davis": {
-        "davisVisualization": {
-          "isAvailable": true
-        },
-        "enabled": false
-      },
-      "query": "fetch dt.entity.process_group_instance  \n| fields Name=entity.name, Id=id, tags=tags, instanceOf = instance_of[dt.entity.process_group]\n//| filter matchesValue(tags, \"*release_build_version*\") \n| filter matchesValue(tags, \"*release*\") \n| fieldsAdd t = toString(tags)\n| parse t, \"LD '[Environment]DT_RELEASE_VERSION:' LD:Version '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_STAGE:' LD:Stage '\\\", ' LD \" \n//| parse t, \"LD '[Environment]DT_RELEASE_BUILD_VERSION:' LD:Build '\\\", ' LD \" \n| parse t, \"LD '[Environment]DT_RELEASE_PRODUCT:' LD:Product '\\\", ' LD \" \n| parse t, \"LD '[Environment]dt.owner:' LD:Owner '\\\", ' LD \"\n| filter isNotNull(Version)\n\n| fieldsRemove tags, t  \n| summarize PGIs=count(), by:{Product}",
-      "title": "# PGIs per application",
-      "type": "data",
-      "visualization": "table",
-      "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": "Product",
-            "categoryAxisLabel": "Product",
-            "valueAxis": "count()",
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "gapPolicy": "connect"
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
-          "prefixIcon": "",
-          "showLabel": true
-        },
-        "table": {
-          "columnWidths": {
-            "[\"Id\"]": 282.171875,
-            "[\"Name\"]": 275,
-            "[\"Owner\"]": 89.21875,
-            "[\"PGIs\"]": 77.71875,
-            "[\"Product\"]": 194.703125,
-            "[\"Stage\"]": 84.9375,
-            "[\"Version\"]": 96.234375,
-            "[\"instanceOf\"]": 260.90625
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "rowDensity": "condensed"
-        },
-        "thresholds": []
-      }
-    },
-    "43": {
-      "content": " ",
-      "title": "",
-      "type": "markdown"
-    },
-    "45": {
-      "content": " ",
+      "content": "### Application Sync Events \n\n---",
       "title": "",
       "type": "markdown"
     },
     "46": {
-      "content": " ",
-      "title": "",
-      "type": "markdown"
-    },
-    "47": {
-      "content": " ",
-      "title": "",
-      "type": "markdown"
-    },
-    "48": {
-      "content": " ",
+      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.1.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) ",
       "title": "",
       "type": "markdown"
     },
@@ -1575,51 +222,854 @@
       "title": "",
       "type": "markdown"
     },
-    "5": {
-      "input": "import { settingsObjectsClient } from \"@dynatrace-sdk/client-classic-environment-v2\";\n\n/*\n* This will run JavaScript in the DYNATRACE\n* serverless environment.\n* To generate variable options return string array.\n*/\nexport default async function () {\n    const data = await settingsObjectsClient.getEffectiveSettingsValues({\n    schemaIds: \"app:dynatrace.site.reliability.guardian:guardians\",\n    scope: \"environment\",\n    fields: \"objectId,value\",\n    pageSize: 50,\n  });\n\n  var teamNames = new Array(data.totalCount)\n  //teamNames[0] = \"No Team\"\n  for (var teamIx=0;teamIx\u003cdata.totalCount;teamIx++) {\n    teamNames[teamIx]=data.items[teamIx].value.name;\n  }\n\n  return teamNames;\n}",
-      "title": "Guardians Available",
-      "type": "code",
-      "visualization": "table",
+    "51": {
+      "content": "### ArgoCD Sync Pulse\n\nThis dashboard provides a comprehensive view of the status of ArgoCD notifications related to the deployment of new applications. It is designed to help platform engineers and DevOps teams monitor and manage their deployment processes effectively.",
+      "title": "",
+      "type": "markdown"
+    },
+    "53": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| summarize errorRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome == \"failure\")) / toDouble(count())*100)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Error Rate",
+      "type": "data",
+      "visualization": "singleValue",
       "visualizationSettings": {
+        "autoSelectVisualization": false,
         "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "errorRate"
+            ],
+            "categoryAxisLabel": "errorRate",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "errorRate"
+            ],
+            "valueAxisLabel": "errorRate"
+          },
           "categoryOverrides": {},
           "circleChartSettings": {
             "groupingThresholdType": "relative",
             "groupingThresholdValue": 0,
             "valueType": "relative"
           },
-          "gapPolicy": "connect"
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "errorRate",
+          "value": "errorRate"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "errorRate"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "errorRate",
+          "showLabel": false
         },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
-          "isBackgroundThresholdActive": false,
-          "label": "",
+          "colorThresholdTarget": "value",
+          "label": "error",
           "prefixIcon": "",
-          "showLabel": true
+          "recordField": "errorRate",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
         },
         "table": {
+          "columnTypeOverrides": [],
           "columnWidths": {},
           "enableSparklines": false,
           "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
-    "50": {
-      "content": " ",
+    "60": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| summarize avg(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Sync Duration",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "avg(duration)"
+            ],
+            "categoryAxisLabel": "avg(duration)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "avg(duration)"
+            ],
+            "valueAxisLabel": "avg(duration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "avg(duration)",
+          "displayedFields": [],
+          "longitude": "avg(duration)",
+          "value": "avg(duration)"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(duration)"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "avg(duration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "avg(duration)",
+          "prefixIcon": "",
+          "recordField": "avg(duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "62": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.service.name,\nStatus = argocd.sync.outcome,\nStart = start_time,\nEnd = end_time,\nRepository = deployment.source.repo.url\n| sort Duration desc \n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
       "title": "",
-      "type": "markdown"
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Application",
+              "Status",
+              "Start",
+              "End",
+              "Repository"
+            ],
+            "categoryAxisLabel": "Application,Status,Start,End,Repository",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Duration"
+            ],
+            "valueAxisLabel": "Duration"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "Duration",
+          "displayedFields": [],
+          "longitude": "Duration",
+          "value": "Duration"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Duration"
+            }
+          ],
+          "displayedFields": [
+            "Application",
+            "Status",
+            "Start",
+            "End",
+            "Repository"
+          ],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Duration"
+          },
+          "displayedFields": [
+            "Application",
+            "Status",
+            "Start",
+            "End",
+            "Repository"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Duration",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "63": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"started\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Running Syncs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "count()"
+            ],
+            "categoryAxisLabel": "count()",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [
+            "count()"
+          ],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "count()",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "65": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| makeTimeseries avg(duration), by:deployment.service.name",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Sync Duration",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "deployment.service.name"
+            ],
+            "categoryAxisLabel": "deployment.service.name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "interval"
+            ],
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "avg(duration)"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval",
+            "duration",
+            "count()"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "interval",
+          "displayedFields": [],
+          "longitude": "interval",
+          "value": "avg(duration)"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "deployment.service.name"
+          ],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "deployment.service.name"
+          },
+          "displayedFields": [
+            "deployment.service.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "avg(duration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "avg(duration)",
+          "prefixIcon": "",
+          "recordField": "avg(duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "avg(duration)"
+              ],
+              "id": 1738322013866,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "66": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter in(deployment.service.name, $Application)\n| fields argocd.sync.state\n| summarize count(), by:{argocd.sync.state}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 100,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "argocd.sync.state"
+            ],
+            "categoryAxisLabel": "argocd.sync.state",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": true,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "deployment.service",
+            "task",
+            "duration"
+          ],
+          "leftYAxisSettings": {},
+          "legend": {
+            "hidden": false,
+            "position": "right"
+          },
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timestamp",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "argocd.sync.state",
+          "displayedFields": [],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "argocd.sync.state"
+          ],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "argocd.sync.state"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "legend": {
+          "ratio": 23
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "label": "timestamp",
+          "prefixIcon": "",
+          "recordField": "timestamp",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
     }
   },
   "variables": [
     {
-      "input": "fetch bizevents\n| filter contains(event.type, \"deployment\")\n| filter status == \"succeeded\"\n| summarize nr=count(), by:{app_name}\n| fieldsRemove nr",
-      "key": "application",
+      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.provider==\"argocd\" \n| summarize distinctApplications = collectDistinct(deployment.service.name)\n| expand distinctApplications\n| sort distinctApplications",
+      "key": "Application",
       "multiple": false,
-      "type": "query"
+      "type": "query",
+      "visible": true
     }
   ],
-  "version": 11
+  "version": 17
 }

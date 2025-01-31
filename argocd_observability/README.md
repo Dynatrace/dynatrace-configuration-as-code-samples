@@ -166,7 +166,7 @@ data:
             }
   
   trigger.dynatrace-webhook-trigger: |
-    - when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+    - when: app.status.operationState != nil
       oncePer: app.status.operationState.syncResult.revision
       send: [dynatrace-webhook-template]
 

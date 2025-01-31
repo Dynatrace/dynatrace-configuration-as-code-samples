@@ -24,21 +24,10 @@
         {
           "builtin": false,
           "description": "Set default SDLC properties and type deployment",
-          "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{apiVersion, kind} \n| fieldsAdd \nevent.kind = \"SDLC_EVENT\", \nif(isNull(apiVersion), \"1.0.0\", else: apiVersion), alias: event.version, // todo: needs to be changed to current version\nif(isNull(kind), \"task\", else: lower(kind)), alias: event.category, \nevent.type = \"deployment\", \nevent.provider = \"argocd\"\n| fieldsRemove record_json, apiVersion, kind",
+          "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{apiVersion, kind} \n| fieldsAdd \nevent.kind = \"SDLC_EVENT\", \nevent.version = \"0.1.0\",\nevent.category = \"task\",\nevent.type = \"deployment\", \nevent.provider = \"argocd\"\n| fieldsRemove record_json, apiVersion, kind",
           "editable": true,
           "enabled": true,
           "id": "argocd:sets_application_properties_6951",
-          "matcher": "type == \"DeploySuccess\"",
-          "sampleData": "{\n    \"type\": \"DeploySuccess\",\n    \"app\": {\n        \"apiVersion\": \"argoproj.io/v1alpha1\",\n        \"kind\": \"Application\",\n        \"metadata\": {\n            \"creationTimestamp\": \"2024-08-30T13:40:55Z\",\n            \"finalizers\": [\n                \"resources-finalizer.argocd.argoproj.io\"\n            ],\n            \"generation\": 10481,\n            \"labels\": {\n                \"env\": \"prod\"\n            },\n            \"name\": \"application\",\n            \"namespace\": \"argocd\",\n            \"resourceVersion\": \"67435455\",\n            \"uid\": \"{{ .extractedIDs.id_9ecd9ce4_ad89_4aa8_af7b_ebb7daf55435 }}\"\n        }\n    }\n}",
-          "type": "dql"
-        },
-        {
-          "builtin": false,
-          "description": "Set task.(id|name)",
-          "dqlScript": "fieldsAdd \ntask.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM()))),\ntask.name = \"ArgoCD Deployment\"",
-          "editable": true,
-          "enabled": true,
-          "id": "argocd:sets_task_id_and_name_4198",
           "matcher": "type == \"DeploySuccess\"",
           "sampleData": "{\n    \"type\": \"DeploySuccess\",\n    \"app\": {\n        \"apiVersion\": \"argoproj.io/v1alpha1\",\n        \"kind\": \"Application\",\n        \"metadata\": {\n            \"creationTimestamp\": \"2024-08-30T13:40:55Z\",\n            \"finalizers\": [\n                \"resources-finalizer.argocd.argoproj.io\"\n            ],\n            \"generation\": 10481,\n            \"labels\": {\n                \"env\": \"prod\"\n            },\n            \"name\": \"application\",\n            \"namespace\": \"argocd\",\n            \"resourceVersion\": \"67435455\",\n            \"uid\": \"{{ .extractedIDs.id_9ecd9ce4_ad89_4aa8_af7b_ebb7daf55435 }}\"\n        }\n    }\n}",
           "type": "dql"
@@ -283,7 +272,18 @@
           },
           {
             "builtin": false,
-            "description": "deployment.service.(uid|name|namespace|resource_version|project|labels[])",
+            "description": "task.id | name | outcome",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsAdd task.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))\n| fieldsAdd task.name = \"ArgoCD Deployment\"\n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd task.outcome = if(contains(lower(status[operationState][message]), \"successfully\"), \"success\", else: \"failure\")",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.id___name___outcome_9312",
+            "matcher": "true",
+            "sampleData": "{\n    \"event.status\":\"finished\",\n    \"type\": \"DeploySuccess\",\n    \"app\": {\n        \"apiVersion\": \"argoproj.io/v1alpha1\",\n        \"kind\": \"Application\",\n        \"status\": {\n            \"controllerNamespace\": \"argocd\",\n            \"health\": {\n                \"status\": \"Healthy\"\n            },\n            \"operationState\": {\n                \"finishedAt\": \"2024-09-19T08:34:37Z\",\n                \"message\": \"successfully synced (no more tasks)\",\n                \"phase\": \"Succeeded\",\n                \"startedAt\": \"2024-09-19T08:34:12Z\"\n            },\n            \"reconciledAt\": \"2024-09-19T08:34:37Z\",\n            \"sync\": {\n                \"comparedTo\": {\n                    \"destination\": {\n                        \"namespace\": \"guestbook-ui-sourcecode\",\n                        \"server\": \"https://kubernetes.default.svc\"\n                    },\n                    \"source\": {\n                        \"path\": \"deployment-1\",\n                        \"repoURL\": \"https://github.com/github-org/GitOpsRepo\",\n                        \"targetRevision\": \"main\"\n                    }\n                },\n                \"revision\": \"51854c92619be51512e3070825125eea4aea83f5\",\n                \"status\": \"Synced\"\n            }\n        }\n    },\n    \"commit.message\": \"Standard message DT:c121c61542886c959e3dea9117a7a77a66d988d9:DT\"\n}",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "deployment.service.uid | name | namespace | resource_version | project | labels[]",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{metadata}\n| fieldsAdd deployment.service.uid = metadata[uid]\n| fieldsAdd deployment.service.name = metadata[name]\n| fieldsAdd deployment.service.namespace = metadata[namespace]\n| fieldsAdd deployment.service.resource_version = metadata[resourceVersion]\n| fieldsAdd deployment.service.labels = metadata[labels]\n| fieldsRemove record_json, metadata",
             "editable": true,
             "enabled": true,
@@ -294,8 +294,8 @@
           },
           {
             "builtin": false,
-            "description": "deployment.service.(revision)",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n//| fieldsAdd deployment.service.revision = status[sync][revision]\n| fieldsAdd deployment.service.revision = status[operationState][syncResult][revision]\n| fieldsRemove record_json, status",
+            "description": "deployment.service.revision",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd deployment.service.revision = status[operationState][syncResult][revision]\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:ext.application.sync.status_revision_2886",
@@ -305,8 +305,8 @@
           },
           {
             "builtin": false,
-            "description": "deployment.source.(path|repo.url|target_revision)",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n//| fieldsAdd deployment.source.path = spec[source][path]\n//| fieldsAdd deployment.source.repo.url = spec[source][repoURL]\n//| fieldsAdd deployment.source.target_revision = spec[source][targetRevision]\n| fieldsAdd deployment.source.repo.url = status[sync][comparedTo][source][repoURL]\n| fieldsAdd deployment.source.revision = status[sync][comparedTo][source][targetRevision]\n| fieldsRemove record_json, status",
+            "description": "deployment.source.revision| repo.url",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd deployment.source.repo.url = status[sync][comparedTo][source][repoURL]\n| fieldsAdd deployment.source.revision = status[sync][comparedTo][source][targetRevision]\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:ext.application.source._path_repo.url_target_revision_project_4441",
@@ -316,7 +316,7 @@
           },
           {
             "builtin": false,
-            "description": "deployment.(project)",
+            "description": "deployment.project",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{spec}\n| fieldsAdd deployment.project = spec[project]\n| fieldsRemove record_json, spec",
             "editable": true,
             "enabled": true,
@@ -327,8 +327,8 @@
           },
           {
             "builtin": false,
-            "description": "deployment.target.(namespace|server.url)",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n//| fieldsAdd deployment.target.namespace = spec[destination][namespace]\n//| fieldsAdd deployment.target.server.url = spec[destination][server]\n| fieldsAdd deployment.target.namespace = status[sync][comparedTo][destination][namespace]\n| fieldsAdd deployment.target.server.url = status[sync][comparedTo][destination][server]\n| fieldsRemove record_json, status",
+            "description": "deployment.target.namespace | server.url",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd deployment.target.namespace = status[sync][comparedTo][destination][namespace]\n| fieldsAdd deployment.target.server.url = status[sync][comparedTo][destination][server]\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:application.target.namespace.server.url_1851",
@@ -371,7 +371,7 @@
           },
           {
             "builtin": false,
-            "description": "deployment.(sync.status|health.status|reconciliation_time)",
+            "description": "deployment.sync.status | health.status | reconciliation_time",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd deployment.reconciliation_time = toTimestamp(status[reconciledAt])\n| fieldsAdd deployment.sync.status = lower(status[sync][status])\n| fieldsAdd deployment.health.status = lower(status[health][status])\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
@@ -382,7 +382,7 @@
           },
           {
             "builtin": false,
-            "description": "argocd.(sync.status|health.status|reconciliation_time)",
+            "description": "argocd.sync.status | health.status | reconciliation_time",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.reconciliation_time = toTimestamp(status[reconciledAt])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.health.status = lower(status[health][status])\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
@@ -393,7 +393,7 @@
           },
           {
             "builtin": false,
-            "description": "argocd.sync.(state|revision)",
+            "description": "argocd.sync.state | revision",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.sync.state = lower(status[operationState][phase])\n| fieldsAdd argocd.sync.previous_revision = lower(status[history][-2][revision])\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
@@ -415,10 +415,10 @@
           },
           {
             "builtin": false,
-            "description": "Clean up",
+            "description": "Cleanup",
             "dqlScript": "fieldsRemove type, app, apiVersion, kind, metadata, spec, status, commit.message",
             "editable": true,
-            "enabled": false,
+            "enabled": true,
             "id": "argocd:application:remove_fields_2091",
             "matcher": "type == \"DeploySuccess\"",
             "sampleData": null,
@@ -473,7 +473,6 @@
       "pipelineId": "default"
     },
     "editable": true,
-    "entries": [
-    ]
+    "entries": []
   }
 }
