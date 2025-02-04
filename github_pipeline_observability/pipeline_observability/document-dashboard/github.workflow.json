@@ -85,18 +85,6 @@
       "x": 0,
       "y": 22
     },
-    "27": {
-      "h": 3,
-      "w": 4,
-      "x": 4,
-      "y": 24
-    },
-    "28": {
-      "h": 3,
-      "w": 4,
-      "x": 8,
-      "y": 24
-    },
     "3": {
       "h": 6,
       "w": 16,
@@ -116,7 +104,7 @@
       "y": 46
     },
     "33": {
-      "h": 6,
+      "h": 9,
       "w": 24,
       "x": 0,
       "y": 47
@@ -144,6 +132,18 @@
       "w": 4,
       "x": 16,
       "y": 8
+    },
+    "38": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 24
+    },
+    "39": {
+      "h": 3,
+      "w": 4,
+      "x": 8,
+      "y": 24
     },
     "4": {
       "h": 6,
@@ -195,7 +195,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -341,7 +341,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -469,7 +469,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -595,7 +595,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -746,7 +746,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -926,11 +926,18 @@
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "step.name",
+              "step.task.name"
+            ],
             "categoryAxisLabel": "step.name,step.task.name",
             "colorPaletteMode": "multi-color",
             "groupMode": "grouped",
             "layout": "horizontal",
             "tooltipVariant": "grouped",
+            "valueAxis": [
+              "failureRate"
+            ],
             "valueAxisLabel": "failureRate"
           },
           "categoryOverrides": {},
@@ -957,8 +964,13 @@
         "honeycomb": {
           "colorMode": "color-palette",
           "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
+          "dataMappings": {
+            "value": "failureRate"
+          },
+          "displayedFields": [
+            "step.name",
+            "step.task.name"
+          ],
           "legend": {
             "hidden": false,
             "position": "auto"
@@ -1464,7 +1476,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1585,16 +1597,6 @@
     },
     "25": {
       "content": "### Job Details\n\nThis section will give you a comprehensive view of the detailed performance and status of individual jobs within your GitHub workflows, enabling you to monitor, analyze, and optimize your CI/CD processes effectively. \n\n-----",
-      "title": "",
-      "type": "markdown"
-    },
-    "27": {
-      "content": "Successful Jobs",
-      "title": "",
-      "type": "markdown"
-    },
-    "28": {
-      "content": "Failed Jobs",
       "title": "",
       "type": "markdown"
     },
@@ -1743,7 +1745,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1858,7 +1860,7 @@
       "type": "markdown"
     },
     "33": {
-      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.3.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
       "title": "",
       "type": "markdown"
     },
@@ -1879,12 +1881,12 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
       },
-      "title": "Total Workflow Executions",
+      "title": "Total Job Executions",
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
@@ -2007,7 +2009,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2109,7 +2111,7 @@
         },
         "thresholds": [
           {
-            "field": "failureRate",
+            "field": "successful",
             "id": 1,
             "isEnabled": true,
             "rules": [
@@ -2117,25 +2119,8 @@
                 "color": {
                   "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
                 },
-                "comparator": "≤",
+                "comparator": "\u003e",
                 "id": 0,
-                "label": "",
-                "value": 0
-              },
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
-                },
-                "comparator": "≥",
-                "id": 1,
-                "label": ""
-              },
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
-                },
-                "comparator": "≥",
-                "id": 2,
                 "label": "",
                 "value": 0
               }
@@ -2181,7 +2166,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2283,27 +2268,10 @@
         },
         "thresholds": [
           {
-            "field": "failureRate",
+            "field": "failed",
             "id": 1,
             "isEnabled": true,
             "rules": [
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
-                },
-                "comparator": "≤",
-                "id": 0,
-                "label": "",
-                "value": 0
-              },
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
-                },
-                "comparator": "≥",
-                "id": 1,
-                "label": ""
-              },
               {
                 "color": {
                   "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
@@ -2311,7 +2279,7 @@
                 "comparator": "≥",
                 "id": 2,
                 "label": "",
-                "value": 0
+                "value": 1
               }
             ],
             "title": ""
@@ -2355,7 +2323,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2457,7 +2425,164 @@
         },
         "thresholds": [
           {
-            "field": "failureRate",
+            "field": "other",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": "",
+                "value": 1
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "38": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"build\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, task.outcome\n| filter in(vcs.repository.name, $Repository) \n| summarize successful = countIf(task.outcome == \"success\")",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Successful Job Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "successful"
+            ],
+            "categoryAxisLabel": "successful",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "successful"
+            ],
+            "valueAxisLabel": "successful"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "successful",
+          "displayedFields": [],
+          "longitude": "successful",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "successful"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "successful",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "successful",
             "id": 1,
             "isEnabled": true,
             "rules": [
@@ -2465,27 +2590,167 @@
                 "color": {
                   "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
                 },
-                "comparator": "≤",
+                "comparator": "\u003e",
                 "id": 0,
                 "label": "",
                 "value": 0
-              },
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "39": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"build\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fields vcs.repository.name, cicd.pipeline.name, task.outcome\n| filter in(vcs.repository.name, $Repository) \n| summarize failure = countIf(task.outcome == \"failure\")",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Failed Job Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "failure"
+            ],
+            "categoryAxisLabel": "failure",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "failure"
+            ],
+            "valueAxisLabel": "failure"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "failure",
+          "displayedFields": [],
+          "longitude": "failure",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failure"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "failure",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "failure",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
               {
                 "color": {
-                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                  "Default": "var(--dt-colors-charts-categorical-color-12-default, #cd3741)"
                 },
                 "comparator": "≥",
-                "id": 1,
-                "label": ""
-              },
-              {
-                "color": {
-                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
-                },
-                "comparator": "≥",
-                "id": 2,
+                "id": 0,
                 "label": "",
-                "value": 0
+                "value": 1
               }
             ],
             "title": ""
@@ -2529,7 +2794,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "now()-7d",
+          "from": "-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2862,22 +3127,12 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "vcs.repository.name",
           "displayedFields": [],
-          "longitude": "failureRate",
           "value": "failureRate"
         },
         "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "failureRate"
-            }
-          ],
-          "displayedFields": [
-            "vcs.repository.name",
-            "cicd.pipeline.name"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "variant": "single"
         },
         "honeycomb": {
@@ -2971,9 +3226,15 @@
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "task.name"
+            ],
             "categoryAxisLabel": "task.name",
             "colorPaletteMode": "multi-color",
             "tooltipVariant": "single",
+            "valueAxis": [
+              "failureRate"
+            ],
             "valueAxisLabel": "failureRate"
           },
           "categoryOverrides": {},
@@ -3000,8 +3261,12 @@
         "honeycomb": {
           "colorMode": "color-palette",
           "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
+          "dataMappings": {
+            "value": "failureRate"
+          },
+          "displayedFields": [
+            "task.name"
+          ],
           "legend": {
             "hidden": false,
             "position": "auto"

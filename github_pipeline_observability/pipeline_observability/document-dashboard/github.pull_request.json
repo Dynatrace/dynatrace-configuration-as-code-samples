@@ -11,7 +11,7 @@
       "h": 3,
       "w": 4,
       "x": 4,
-      "y": 4
+      "y": 7
     },
     "10": {
       "h": 3,
@@ -38,7 +38,7 @@
       "y": 2
     },
     "15": {
-      "h": 6,
+      "h": 8,
       "w": 24,
       "x": 0,
       "y": 29
@@ -61,17 +61,17 @@
       "x": 16,
       "y": 4
     },
-    "19": {
-      "h": 3,
-      "w": 4,
-      "x": 4,
-      "y": 7
-    },
     "2": {
       "h": 5,
       "w": 24,
       "x": 0,
       "y": 10
+    },
+    "20": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 4
     },
     "3": {
       "h": 3,
@@ -498,7 +498,7 @@
       "type": "markdown"
     },
     "15": {
-      "content": "#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.3.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
       "title": "",
       "type": "markdown"
     },
@@ -514,11 +514,6 @@
     },
     "18": {
       "content": "Open PRs by Author",
-      "title": "",
-      "type": "markdown"
-    },
-    "19": {
-      "content": "Average Time Open",
       "title": "",
       "type": "markdown"
     },
@@ -543,9 +538,22 @@
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
-            "categoryAxisLabel": "PR_title,Source_repo,Source_ref,Target_repo,Target_ref",
+            "categoryAxis": [
+              "Title",
+              "URL",
+              "HeadName",
+              "HeadRevision",
+              "BaseName",
+              "BaseRevision"
+            ],
+            "categoryAxisLabel": "Title,URL,HeadName,HeadRevision,BaseName,BaseRevision",
             "tooltipVariant": "single",
-            "valueAxisLabel": "In_open_status,GlobalId"
+            "valueAxis": [
+              "In_open_status",
+              "PR",
+              "GlobalId"
+            ],
+            "valueAxisLabel": "In_open_status,PR,GlobalId"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -554,18 +562,25 @@
             "valueType": "relative"
           },
           "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "In_open_status"
+            ],
+            "timestamp": "CreatedAt"
+          },
           "gapPolicy": "connect",
           "hiddenLegendFields": [
             "In_open_status",
             "PR_number",
-            "GlobalId"
+            "GlobalId",
+            "PR"
           ],
           "leftYAxisSettings": {},
           "pointsDisplay": "auto",
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
           "xAxisIsLabelVisible": false,
-          "xAxisLabel": "Created_at",
+          "xAxisLabel": "CreatedAt",
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
@@ -580,8 +595,17 @@
         "honeycomb": {
           "colorMode": "color-palette",
           "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
+          "dataMappings": {
+            "value": "In_open_status"
+          },
+          "displayedFields": [
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision"
+          ],
           "legend": {
             "hidden": false,
             "position": "auto"
@@ -660,6 +684,113 @@
           "max": "auto",
           "min": "auto"
         }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize avg(OpenedPrDuration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Time Open",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "avg(OpenedPrDuration)"
+            ],
+            "categoryAxisLabel": "avg(OpenedPrDuration)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "avg(OpenedPrDuration)"
+            ],
+            "valueAxisLabel": "avg(OpenedPrDuration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(OpenedPrDuration)"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "avg(OpenedPrDuration)",
+          "prefixIcon": "",
+          "recordField": "avg(OpenedPrDuration)",
+          "showLabel": false,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
       }
     },
     "3": {
@@ -789,7 +920,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\"  \n| filter event.provider == \"github.com\"\n| filter in(vcs.ref.base.name, $Repository) \n| filter in(vcs.ref.base.revision, $Branch)\n| dedup task.id\n| summarize percentile(duration, 50)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| summarize percentile(duration, 50)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -837,7 +968,12 @@
           "value": "Count"
         },
         "histogram": {
-          "dataMappings": [],
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "percentile(duration, 50)"
+            }
+          ],
           "displayedFields": [],
           "variant": "single"
         },
@@ -1109,15 +1245,20 @@
             },
             {
               "rangeAxis": "",
-              "valueAxis": "GlobalId"
+              "valueAxis": "PR"
             },
             {
               "rangeAxis": "",
-              "valueAxis": "PR"
+              "valueAxis": "GlobalId"
             }
           ],
           "displayedFields": [
-            "Title"
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision"
           ],
           "variant": "single"
         },
