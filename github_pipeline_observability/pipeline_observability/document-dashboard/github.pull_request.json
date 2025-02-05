@@ -1343,7 +1343,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": " Open PRs by Repository",
+      "title": "Open PRs by Branch",
       "type": "data",
       "visualization": "pieChart",
       "visualizationSettings": {
