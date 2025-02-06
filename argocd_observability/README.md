@@ -173,14 +173,18 @@ data:
         path: /platform/ingest/custom/events.sdlc/argocd
         body: |
             {
-             "type":"DeploySuccess",
-             "app": {{toJson .app}}             
+              "app": {{toJson .app}},
+              "context": {{toJson .context}},
+              "service_type": {{toJson .serviceType}},
+              "recipient": {{toJson .recipient}},
+              "commit_metadata": {{toJson (call .repo.GetCommitMetadata .app.status.operationState.syncResult.revision)}}
             }
   
   trigger.dynatrace-webhook-trigger: |
-    - when: app.status.operationState != nil
-      oncePer: app.status.operationState.syncResult.revision
+    - when: app.status.operationState.phase in ['Succeeded', 'Failed', 'Error'] and app.status.health.status in ['Healthy', 'Degraded']
       send: [dynatrace-webhook-template]
+    - when: app.status.operationState.phase == 'Running' and app.status.health.status in ['Healthy', 'Degraded']
+      send: [dynatrace-webhook-template] 
 
 ```
 **Notes:**
@@ -210,9 +214,10 @@ metadata:
 **Notes:**
 * The notifications annotation `notifications.argoproj.io` subscribes the ArgoCD application to the notification setup created above.
 
-### 3. Deploy a new App version
+### 3. Update Application to trigger ArgoCD
 
-
+Continue working developing your applications and trigger a deployment by changing manifests. ArgoCD will continuously monitors the Git repository for any changes in the configuration files. When changes are detected, ArgoCD automatically pulls the latest configuration and deploys it to the Kubernetes cluster. 
+All sync operations will then be reported to Dynatrace.
 
 ## Call to action
 

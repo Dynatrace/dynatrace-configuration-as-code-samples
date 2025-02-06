@@ -10,29 +10,28 @@
 | event.provider = "argocd" | |  x
 | event.status | |  x
 | duration | |  x
-| start_time |   |
-| end_time |   |
-| timestamp |   |
-| task.id |   |
-| task.name |   |
-| task.outcome | |  x
-| deployment.service.uid | |  x
-| deployment.service.name | |  x
-| deployment.service.namespace | |  x
-| deployment.service.revision | |  -
-| deployment.source.revision | |  -
-| deployment.source.repo.url | |  x
-| deployment.project | |  -
-| deployment.target.namespace | |  -
-| deployment.target.server.url | |  -
-| deployment.history | |  -
-| deployment.images | |  -
-| deployment.labels | |  -
-| deployment.health.status | |  -
-| deployment.sync.status |  | x
-| deployment.reconciliation_time | |  -
-| argocd.health.status | |  -
+| start_time | |  x
+| end_time | |  x
+| timestamp | |  x
+|---|---|---|
+| task.id | |
+| task.name | |
+| task.outcome | | x
+|---|---|---|
+| deployment.service.uid | | x
+| deployment.service.name | | x
+| deployment.service.namespace | | -
+| deployment.service.resource_version | | -
+| deployment.service.labels | | -
+| deployment.target.namespace | | x
+| deployment.target.server.url | | x
+| deployment.images | | -
+|---|---|---|
+| vcs.repository.name | | x
+| vcs.ref.base.name | | -
+| vcs.ref.base.revision | | x
+|---|---|---|
+| argocd.app.health.status | | x
 | argocd.sync.status | |  x
-| argocd.reconciliation_time | |  -
-| argocd.sync.previous_revision | |  -
-| argocd.sync.outcome | |  x
+| argocd.sync.operationState.phase | | x
+| argocd.sync.operationState.outcome | | -
