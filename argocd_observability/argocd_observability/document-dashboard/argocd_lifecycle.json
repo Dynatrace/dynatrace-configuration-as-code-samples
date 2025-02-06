@@ -562,7 +562,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.service.name,\nStatus = argocd.sync.status,\nStart = start_time,\nEnd = end_time,\nRepository = vcs.repository.name\n| sort End\n",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.service.name,\nStatus = argocd.sync.status,\nStart = start_time,\nEnd = end_time,\nRepository = vcs.repository.url.full\n| sort End\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1436,7 +1436,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| sort timestamp\n| summarize sync_status = takeLast(event.status), by:{vcs.ref.base.revision, vcs.repository.name, deployment.service.uid, deployment.service.name, deployment.target.namespace, deployment.target.server.url}\n| filter sync_status == \"started\" \n| fieldsAdd Application = deployment.service.name\n| fieldsAdd Namespace = deployment.target.namespace\n| fieldsAdd Server = deployment.target.server.url \n| fieldsAdd Repository = vcs.repository.name\n| fieldsRemove sync_status, vcs.ref.base.revision, deployment.service.uid, deployment.service.name, deployment.target.namespace, deployment.target.server.url, vcs.repository.name",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| sort timestamp\n| summarize sync_status = takeLast(event.status), by:{vcs.ref.base.revision, vcs.repository.url.full, deployment.service.uid, deployment.service.name, deployment.target.namespace, deployment.target.server.url}\n| filter sync_status == \"started\" \n| fieldsAdd Application = deployment.service.name\n| fieldsAdd Namespace = deployment.target.namespace\n| fieldsAdd Server = deployment.target.server.url \n| fieldsAdd Repository = vcs.repository.url.full\n| fieldsRemove sync_status, vcs.ref.base.revision, deployment.service.uid, deployment.service.name, deployment.target.namespace, deployment.target.server.url, vcs.repository.url.full",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1706,7 +1706,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count(), by:{argocd.sync.operationState.phase}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count(), by:{argocd.sync.operation_state.phase}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1721,9 +1721,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "argocd.sync.operationState.phase"
+              "argocd.sync.operation_state.phase"
             ],
-            "categoryAxisLabel": "argocd.sync.operationState.phase",
+            "categoryAxisLabel": "argocd.sync.operation_state.phase",
             "tooltipVariant": "single",
             "valueAxis": [
               "count()"
@@ -1757,7 +1757,7 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "argocd.sync.operationState.phase",
+          "dimension": "argocd.sync.operation_state.phase",
           "displayedFields": [],
           "longitude": "count()",
           "value": "count()"
@@ -1771,7 +1771,7 @@
             }
           ],
           "displayedFields": [
-            "argocd.sync.operationState.phase"
+            "argocd.sync.operation_state.phase"
           ],
           "legend": "auto",
           "truncationMode": "middle",
@@ -1788,7 +1788,7 @@
             "value": "count()"
           },
           "displayedFields": [
-            "argocd.sync.operationState.phase"
+            "argocd.sync.operation_state.phase"
           ],
           "legend": {
             "hidden": false,
@@ -1913,8 +1913,8 @@
             "timestamp",
             "app",
             "argocd.app.health.status",
-            "argocd.sync.operationState.outcome",
-            "argocd.sync.operationState.phase",
+            "argocd.sync.operation_state.outcome",
+            "argocd.sync.operation_state.phase",
             "argocd.sync.status",
             "commit_metadata",
             "context",
@@ -1943,7 +1943,7 @@
             "type",
             "vcs.ref.base.name",
             "vcs.ref.base.revision",
-            "vcs.repository.name"
+            "vcs.repository.url.full"
           ],
           "longitude": "deploymentFrequency",
           "value": "duration"
@@ -2095,8 +2095,8 @@
             "timestamp",
             "app",
             "argocd.app.health.status",
-            "argocd.sync.operationState.outcome",
-            "argocd.sync.operationState.phase",
+            "argocd.sync.operation_state.outcome",
+            "argocd.sync.operation_state.phase",
             "argocd.sync.status",
             "commit_metadata",
             "context",
@@ -2125,7 +2125,7 @@
             "type",
             "vcs.ref.base.name",
             "vcs.ref.base.revision",
-            "vcs.repository.name"
+            "vcs.repository.url.full"
           ],
           "longitude": "deploymentDuration",
           "value": "duration"

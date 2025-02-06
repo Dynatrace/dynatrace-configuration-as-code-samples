@@ -283,8 +283,8 @@
           },
           {
             "builtin": false,
-            "description": "vcs.repository.name | ref.base.revision",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.repository.name = status[operationState][syncResult][source][repoURL]\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][syncResult][revision]\n| fieldsRemove record_json, status",
+            "description": "vcs.repository.url.full | ref.base.revision",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.repository.url.full = status[operationState][syncResult][source][repoURL]\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][syncResult][revision]\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:ext.application.source._path_repo.url_target_revision_project_4441",
@@ -328,7 +328,7 @@
           {
             "builtin": false,
             "description": "argocd.sync.status | operationState.phase | operationState.outcome | app.health.status",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.app.health.status = lower(status[health][status])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.sync.operationState.phase = lower(status[operationState][phase])\n| fieldsAdd argocd.sync.operationState.outcome = lower(status[operationState][message])\n| fieldsRemove record_json, status",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.app.health.status = lower(status[health][status])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.sync.operation_state.phase = lower(status[operationState][phase])\n| fieldsAdd argocd.sync.operation_state.outcome = lower(status[operationState][message])\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:argocd.reconciliation.time_sync.status_health.status_9056",
