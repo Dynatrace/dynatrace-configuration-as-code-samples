@@ -124,7 +124,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count(), by:{argocd.sync.status}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize count(), by:{argocd.sync.status}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -176,22 +176,13 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "argocd.sync.status",
           "displayedFields": [],
-          "longitude": "count()",
           "value": "count()"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [
-            "argocd.sync.status"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -285,7 +276,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| summarize errorRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome == \"failure\")) / toDouble(count())*100)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize errorRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome == \"failure\")) / toDouble(count())*100)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -330,6 +321,7 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
+          "dimension": "errorRate",
           "displayedFields": [],
           "longitude": "errorRate",
           "value": "errorRate"
@@ -432,7 +424,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| summarize avg(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize avg(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -477,19 +469,12 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "avg(duration)",
           "displayedFields": [],
-          "longitude": "avg(duration)",
           "value": "avg(duration)"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "avg(duration)"
-            }
-          ],
+          "dataMappings": [],
           "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
@@ -562,7 +547,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.service.name,\nStatus = argocd.sync.status,\nStart = start_time,\nEnd = end_time,\nRepository = vcs.repository.url.full\n| sort End\n",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| fields \nDuration = duration,\nApplication = deployment.name,\nStatus = argocd.sync.status,\nStart = start_time,\nEnd = end_time,\nRepository = vcs.repository.url.full\n| sort End\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -611,24 +596,13 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "Duration",
           "displayedFields": [],
-          "longitude": "Duration",
           "value": "Duration"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "Duration"
-            }
-          ],
-          "displayedFields": [
-            "Application",
-            "Start",
-            "End"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -711,7 +685,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter in(deployment.service.name, $Application)\n| sort timestamp\n| summarize status = takeLast(event.status), by:vcs.ref.base.revision\n| filter status == \"started\" \n| summarize countDistinct(vcs.ref.base.revision)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| sort timestamp\n| summarize status = takeLast(event.status), by:{vcs.ref.base.revision}\n| filter status == \"started\" \n| summarize countDistinct(vcs.ref.base.revision)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -843,7 +817,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| makeTimeseries avg=avg(duration), by:deployment.service.name",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.name, $Application)\n| makeTimeseries {\n    avg = avg(asDuration(duration))\n    //p50 = median(duration),\n    //p90 = percentile(duration, 90)\n  }, by:{deployment.service.name}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -898,7 +872,8 @@
             "min": null,
             "scale": "linear"
           },
-          "pointsDisplay": "auto",
+          "pointsDisplay": "always",
+          "seriesOverrides": [],
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
           "xAxisIsLabelVisible": false,
@@ -907,22 +882,13 @@
         },
         "colorModeType": {},
         "dataMapping": {
-          "dimension": "interval",
           "displayedFields": [],
-          "longitude": "interval",
           "value": "interval"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "interval"
-            }
-          ],
-          "displayedFields": [
-            "deployment.service.name"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -974,15 +940,7 @@
           }
         },
         "table": {
-          "columnTypeOverrides": [
-            {
-              "fields": [
-                "avg"
-              ],
-              "id": 1738822959423,
-              "value": "sparkline"
-            }
-          ],
+          "columnTypeOverrides": [],
           "columnWidths": {},
           "enableSparklines": false,
           "hiddenColumns": [],
@@ -1009,7 +967,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count(), by:{argocd.app.health.status}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize count(), by:{argocd.app.health.status}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1060,22 +1018,13 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "argocd.app.health.status",
           "displayedFields": [],
-          "longitude": "count()",
           "value": "count()"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [
-            "argocd.app.health.status"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -1148,7 +1097,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.service.name, $Application)\n| summarize median(duration)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\" \n| filter in(deployment.name, $Application)\n| summarize median(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1193,19 +1142,12 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "median(duration)",
           "displayedFields": [],
-          "longitude": "median(duration)",
           "value": "avg(duration)"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "median(duration)"
-            }
-          ],
+          "dataMappings": [],
           "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
@@ -1278,7 +1220,7 @@
         },
         "enabled": false
       },
-      "query": "\nfetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| maketimeseries eventsCount = count(), by:{event.status}, interval:5m",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| maketimeseries eventsCount = count(), by:{event.status}, interval:5m",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1406,7 +1348,7 @@
               "fields": [
                 "eventsCount"
               ],
-              "id": 1738335782450,
+              "id": 1738923998740,
               "value": "sparkline"
             }
           ],
@@ -1436,7 +1378,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| sort timestamp\n| summarize sync_status = takeLast(event.status), by:{vcs.ref.base.revision, vcs.repository.url.full, deployment.service.uid, deployment.service.name, deployment.target.namespace, deployment.target.server.url}\n| filter sync_status == \"started\" \n| fieldsAdd Application = deployment.service.name\n| fieldsAdd Namespace = deployment.target.namespace\n| fieldsAdd Server = deployment.target.server.url \n| fieldsAdd Repository = vcs.repository.url.full\n| fieldsRemove sync_status, vcs.ref.base.revision, deployment.service.uid, deployment.service.name, deployment.target.namespace, deployment.target.server.url, vcs.repository.url.full",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| sort timestamp\n| summarize sync_status = takeLast(event.status), by:{vcs.ref.base.revision, vcs.repository.url.full, deployment.service.uid, deployment.name, deployment.namespace, deployment.server.url}\n| filter sync_status == \"started\" \n| fieldsAdd Application = deployment.name\n| fieldsAdd Namespace = deployment.namespace\n| fieldsAdd Server = deployment.server.url \n| fieldsAdd Repository = vcs.repository.url.full\n| fieldsRemove sync_status, vcs.ref.base.revision, deployment.service.uid, deployment.name, deployment.namespace, deployment.server.url, vcs.repository.url.full",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1491,7 +1433,9 @@
           "dataMappings": [],
           "displayedFields": [
             "Application",
-            "Namespace"
+            "Namespace",
+            "Server",
+            "Repository"
           ],
           "legend": "auto",
           "truncationMode": "middle",
@@ -1574,7 +1518,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter in(deployment.service.name, $Application)\n| sort timestamp\n| summarize status = takeLast(event.status), by:vcs.ref.base.revision\n| filter status == \"finished\" \n| summarize countDistinct(vcs.ref.base.revision)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| sort timestamp\n| summarize status = takeLast(event.status), by:{vcs.ref.base.revision}\n| filter status == \"finished\" \n| summarize countDistinct(vcs.ref.base.revision)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1706,7 +1650,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize count(), by:{argocd.sync.operation_state.phase}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize count(), by:{argocd.sync.operation_state.phase}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1757,22 +1701,13 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "argocd.sync.operation_state.phase",
           "displayedFields": [],
-          "longitude": "count()",
           "value": "count()"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [
-            "argocd.sync.operation_state.phase"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -1840,7 +1775,7 @@
       }
     },
     "72": {
-      "content": "### Deployment overview \n\nThis section provides a comprehensive view of the deployment status across different servers.\n\n---",
+      "content": "### Deployment overview \n\nThis section provides a comprehensive view of the deployment status across different applications and servers.\n\n---",
       "title": "",
       "type": "markdown"
     },
@@ -1851,7 +1786,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize deploymentFrequency = count(), by: deployment.service.name\n| sort deploymentFrequency\n| limit 5",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize deploymentFrequency = count(), by: deployment.name\n| sort deploymentFrequency\n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1867,9 +1802,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "deployment.service.name"
+              "deployment.name"
             ],
-            "categoryAxisLabel": "deployment.service.name",
+            "categoryAxisLabel": "deployment.name",
             "categoryAxisTickLayout": "horizontal",
             "colorPaletteMode": "multi-color",
             "groupMode": "stacked",
@@ -1908,7 +1843,6 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "deployment.service.name",
           "displayedFields": [
             "timestamp",
             "app",
@@ -1945,20 +1879,12 @@
             "vcs.ref.base.revision",
             "vcs.repository.url.full"
           ],
-          "longitude": "deploymentFrequency",
           "value": "duration"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "deploymentFrequency"
-            }
-          ],
-          "displayedFields": [
-            "deployment.service.name"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -1974,7 +1900,7 @@
             "value": "deploymentFrequency"
           },
           "displayedFields": [
-            "deployment.service.name"
+            "deployment.name"
           ],
           "legend": {
             "hidden": false,
@@ -2033,7 +1959,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.service.name, $Application)\n| summarize deploymentDuration = avg(duration), by: deployment.target.server.url\n| sort deploymentDuration\n| limit 5",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| summarize deploymentDuration = avg(duration), by: deployment.server.url\n| sort deploymentDuration\n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2049,9 +1975,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "deployment.target.server.url"
+              "deployment.server.url"
             ],
-            "categoryAxisLabel": "deployment.target.server.url",
+            "categoryAxisLabel": "deployment.server.url",
             "categoryAxisTickLayout": "horizontal",
             "colorPaletteMode": "multi-color",
             "groupMode": "stacked",
@@ -2090,7 +2016,6 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "deployment.target.server.url",
           "displayedFields": [
             "timestamp",
             "app",
@@ -2127,20 +2052,12 @@
             "vcs.ref.base.revision",
             "vcs.repository.url.full"
           ],
-          "longitude": "deploymentDuration",
           "value": "duration"
         },
         "histogram": {
           "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "deploymentDuration"
-            }
-          ],
-          "displayedFields": [
-            "deployment.target.server.url"
-          ],
+          "dataMappings": [],
+          "displayedFields": [],
           "legend": "auto",
           "truncationMode": "middle",
           "variant": "single",
@@ -2156,7 +2073,7 @@
             "value": "deploymentDuration"
           },
           "displayedFields": [
-            "deployment.target.server.url"
+            "deployment.server.url"
           ],
           "legend": {
             "hidden": false,
@@ -2211,7 +2128,7 @@
   },
   "variables": [
     {
-      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.provider==\"argocd\" \n| summarize distinctApplications = collectDistinct(deployment.service.name)\n| expand distinctApplications\n| sort distinctApplications",
+      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.provider==\"argocd\" \n| summarize distinctApplications = collectDistinct(deployment.name)\n| expand distinctApplications\n| sort distinctApplications",
       "key": "Application",
       "multiple": true,
       "type": "query",
