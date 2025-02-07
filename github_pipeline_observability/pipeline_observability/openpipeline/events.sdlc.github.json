@@ -283,7 +283,7 @@
           {
             "builtin": false,
             "description": "start_time",
-            "dqlScript": "parse workflow_run, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{created_at} \n| fieldsAdd start_time = toTimestamp(created_at)\n| fieldsRemove record_json, created_at",
+            "dqlScript": "parse workflow_run, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{run_started_at} \n| fieldsAdd start_time = toTimestamp(run_started_at)\n| fieldsRemove record_json, run_started_at",
             "editable": true,
             "enabled": true,
             "id": "github:workflow:start_time_8369",

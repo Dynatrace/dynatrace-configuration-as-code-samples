@@ -737,6 +737,11 @@
           "valueRepresentation": "absolute",
           "xAxisScaling": "analyzedTimeframe"
         },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "avg(OpenedPrDuration)",
+          "value": "avg(OpenedPrDuration)"
+        },
         "histogram": {
           "colorPalette": "categorical",
           "dataMappings": [
@@ -766,6 +771,14 @@
           "shape": "hexagon",
           "truncationMode": "middle"
         },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "avg(OpenedPrDuration)",
+          "showLabel": false
+        },
         "singleValue": {
           "alignment": "center",
           "autoscale": true,
@@ -790,7 +803,14 @@
           "monospacedFontEnabled": false,
           "rowDensity": "condensed"
         },
-        "thresholds": []
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
       }
     },
     "3": {
@@ -960,11 +980,13 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
+          "dimension": "percentile(duration, 50)",
           "displayedFields": [
             "Count",
             "Median",
             "Avg"
           ],
+          "longitude": "percentile(duration, 50)",
           "value": "Count"
         },
         "histogram": {
@@ -1245,11 +1267,11 @@
             },
             {
               "rangeAxis": "",
-              "valueAxis": "PR"
+              "valueAxis": "GlobalId"
             },
             {
               "rangeAxis": "",
-              "valueAxis": "GlobalId"
+              "valueAxis": "PR"
             }
           ],
           "displayedFields": [

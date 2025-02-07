@@ -1,3 +1,2 @@
-environment_variables.txt
-manifest_local.yaml
-manifest_khd45734.yaml
+environment_*
+manifest_*

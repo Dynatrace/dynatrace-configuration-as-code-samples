@@ -912,7 +912,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type== \"build\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| fieldsAdd steps_array = toArray(task.steps) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter  event.category == \"pipeline\"  \n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| fieldsAdd step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \nstep.name = steps_data[name], \nstep.conclusion = steps_data[conclusion], \nstep.task.name = task.name\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(step.conclusion==\"failure\")) / toDouble(count())*100), by: {step.name, step.task.name} \n| filter failureRate \u003e 0 \n| sort  failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"github.com\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.name, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, task.steps), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0\n| fieldsAdd steps_array=toArray(tasks[task.steps]) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| fieldsAdd \n  step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \n  step.name = steps_data[name], \n  step.conclusion = steps_data[conclusion], \n  step.task.name = tasks[task.name]\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(step.conclusion==\"failure\")) / toDouble(count())*100), by: {step.name, step.task.name} \n| filter failureRate \u003e 0 \n| sort  failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -926,18 +926,11 @@
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "step.name",
-              "step.task.name"
-            ],
             "categoryAxisLabel": "step.name,step.task.name",
             "colorPaletteMode": "multi-color",
             "groupMode": "grouped",
             "layout": "horizontal",
             "tooltipVariant": "grouped",
-            "valueAxis": [
-              "failureRate"
-            ],
             "valueAxisLabel": "failureRate"
           },
           "categoryOverrides": {},
@@ -954,7 +947,8 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "displayedFields": []
+          "displayedFields": [],
+          "value": "failureRate"
         },
         "histogram": {
           "dataMappings": [],
@@ -964,13 +958,8 @@
         "honeycomb": {
           "colorMode": "color-palette",
           "colorPalette": "blue",
-          "dataMappings": {
-            "value": "failureRate"
-          },
-          "displayedFields": [
-            "step.name",
-            "step.task.name"
-          ],
+          "dataMappings": {},
+          "displayedFields": [],
           "legend": {
             "hidden": false,
             "position": "auto"
@@ -982,6 +971,7 @@
           "showIcon": false
         },
         "label": {
+          "label": "failureRate",
           "showLabel": false
         },
         "singleValue": {
@@ -1025,7 +1015,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type== \"build\"\n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| join [\n    fetch events \n    | filter event.kind == \"SDLC_EVENT\" \n    | filter event.category == \"pipeline\"\n    | filter event.type == \"run\" \n    | filter event.status == \"finished\" \n    | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n    | filter in(vcs.repository.name, $Repository) \n    | filter in(cicd.pipeline.name, $Workflow) \n    | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n    on:{cicd.pipeline.run.id}\n| fieldsAdd steps_array=toArray(task.steps) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| fieldsAdd step.duration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \nstep.name = steps_data[name], \nstep.task.name = task.name\n| summarize percentile(step.duration,50), alias:Median ,by:{step.name, alias: StepName, step.task.name, alias: TaskName} \n| filter isNotNull(Median) \n| sort Median desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter (event.category == \"task\" and event.status == \"finished\" and event.provider == \"github.com\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.name, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, task.steps), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0\n| fieldsAdd steps_array=toArray(tasks[task.steps]) \n| expand steps_array \n| parse steps_array,\"JSON:steps_data\" \n| fieldsAdd \n  StepDuration = toTimestamp(steps_data[completed_at]) - toTimestamp(steps_data[started_at]), \n  StepName = steps_data[name], \n  TaskName = tasks[task.name]\n| summarize percentile(StepDuration, 50), alias:Median ,by:{StepName, TaskName} \n| filter isNotNull(Median) \n| sort Median desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1162,7 +1152,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"\n| filter event.type == \"build\"\n| filter event.status == \"finished\"\n| filter event.provider == \"github.com\"\n| join [\n  fetch events \n  | filter event.category == \"pipeline\"  \n  | filter event.status == \"finished\" \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.type==\"run\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize Count=count(), by:{task.runner.name} \n| sort Count desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"github.com\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.name, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, task.runner.name), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize Count=count(), by:{tasks[task.runner.name]} \n| sort Count desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1177,9 +1167,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "task.runner.name"
+              "tasks[task.runner.name]"
             ],
-            "categoryAxisLabel": "task.runner.name",
+            "categoryAxisLabel": "tasks[task.runner.name]",
             "colorPaletteMode": "multi-color",
             "tooltipVariant": "single",
             "valueAxis": [
@@ -1204,7 +1194,7 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "task.runner.name",
+          "dimension": "tasks[task.runner.name]",
           "displayedFields": [
             "task.runner.name",
             "Count"
@@ -1220,7 +1210,7 @@
             }
           ],
           "displayedFields": [
-            "task.runner.name"
+            "tasks[task.runner.name]"
           ],
           "variant": "single"
         },
@@ -1231,7 +1221,7 @@
             "value": "Count"
           },
           "displayedFields": [
-            "task.runner.name"
+            "tasks[task.runner.name]"
           ],
           "legend": {
             "hidden": false,
@@ -1300,7 +1290,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\"  \n| filter event.type == \"run\" \n| filter event.status == \"started\" \n| filter in(vcs.repository.name, $Repository) \n| filter in(cicd.pipeline.name, $Workflow) \n| filter in(cicd.pipeline.run.trigger, $Trigger)  \n| fields start_time, cicd.pipeline.run.id, cicd.pipeline.run.attempt\n| joinNested jobs=[\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"task\" \n  | filter event.type ==\"build\" \n  | filter event.status == \"started\" \n  | filter event.provider==\"github.com\" \n  | fields cicd.pipeline.run.id, task.run.attempt, start_time \n  | sort start_time asc ],\n  on: {cicd.pipeline.run.id,left[cicd.pipeline.run.attempt] == right[task.run.attempt]} \n| fieldsAdd queueTime = jobs[0][start_time] - start_time ",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"github.com\"\n| filter (event.category == \"task\" and event.status == \"started\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"started\" \n    and in(vcs.repository.name, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, start_time, task.run.attempt), else: null))),\n  pipeline_run = arrayRemoveNulls(collectArray(if(event.category == \"pipeline\", record(pipeline.name, start_time, cicd.pipeline.run.attempt), else: null))),\n  has_matching_pipeline = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| expand pipeline_run\n| filterOut has_matching_pipeline == 0\n| filterOut tasks[task.run.attempt] != pipeline_run[cicd.pipeline.run.attempt]\n| fieldsAdd queueTime = tasks[start_time] - pipeline_run[start_time], startTime = pipeline_run[start_time]\n| sort queueTime",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1317,10 +1307,10 @@
           "categoricalBarChartSettings": {
             "categoryAxis": [
               "cicd.pipeline.run.id",
-              "cicd.pipeline.run.attempt",
+              "has_matching_pipeline",
               "queueTime"
             ],
-            "categoryAxisLabel": "cicd.pipeline.run.id,cicd.pipeline.run.attempt,queueTime",
+            "categoryAxisLabel": "cicd.pipeline.run.id,has_matching_pipeline,queueTime",
             "categoryAxisTickLayout": "horizontal",
             "colorPaletteMode": "multi-color",
             "groupMode": "stacked",
@@ -1329,10 +1319,10 @@
             "tooltipVariant": "single",
             "valueAxis": [
               "cicd.pipeline.run.id",
-              "cicd.pipeline.run.attempt",
+              "has_matching_pipeline",
               "queueTime"
             ],
-            "valueAxisLabel": "cicd.pipeline.run.id,cicd.pipeline.run.attempt,queueTime"
+            "valueAxisLabel": "cicd.pipeline.run.id,has_matching_pipeline,queueTime"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -1346,14 +1336,15 @@
             "leftAxisValues": [
               "queueTime"
             ],
-            "timestamp": "start_time"
+            "timestamp": "startTime"
           },
           "gapPolicy": "connect",
           "hiddenLegendFields": [
             "cicd.pipeline.run.id",
             "cicd.pipeline.run.attempt",
             "timeToStart",
-            "queueTime"
+            "queueTime",
+            "has_matching_pipeline"
           ],
           "leftYAxisSettings": {
             "isLabelVisible": true,
@@ -1367,18 +1358,18 @@
           "truncationMode": "middle",
           "valueRepresentation": "absolute",
           "xAxisIsLabelVisible": false,
-          "xAxisLabel": "start_time",
+          "xAxisLabel": "startTime",
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "start_time",
+          "dimension": "cicd.pipeline.run.id",
           "displayedFields": [
             "start_time",
             "cicd.pipeline.run.id",
             "cicd.pipeline.run.attempt",
             "timeToStart"
           ],
-          "latitude": "cicd.pipeline.run.attempt",
+          "latitude": "has_matching_pipeline",
           "longitude": "cicd.pipeline.run.id",
           "value": "cicd.pipeline.run.id"
         },
@@ -1391,7 +1382,7 @@
             },
             {
               "rangeAxis": "",
-              "valueAxis": "cicd.pipeline.run.attempt"
+              "valueAxis": "has_matching_pipeline"
             },
             {
               "rangeAxis": "",
@@ -1607,7 +1598,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\"  \n| filter event.type == \"build\"\n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| filter task.outcome != \"skipped\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"pipeline\"\n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize percentile(duration,50), alias:Median ,by:{task.name, alias: TaskName} \n| filter isNotNull(Median)  \n| sort Median desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"github.com\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.name, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, duration), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  duration = percentile(tasks[duration], 50)\n}, by: { task.name = tasks[task.name] }\n| sort duration desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1623,15 +1614,15 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "TaskName"
+              "task.name"
             ],
-            "categoryAxisLabel": "TaskName",
+            "categoryAxisLabel": "task.name",
             "colorPaletteMode": "multi-color",
             "tooltipVariant": "single",
             "valueAxis": [
-              "Median"
+              "duration"
             ],
-            "valueAxisLabel": "Median"
+            "valueAxisLabel": "duration"
           },
           "categoryOverrides": {},
           "circleChartSettings": {
@@ -1651,23 +1642,23 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "TaskName",
+          "dimension": "task.name",
           "displayedFields": [
             "TaskName",
             "Median"
           ],
-          "longitude": "Median",
+          "longitude": "duration",
           "value": "Median"
         },
         "histogram": {
           "dataMappings": [
             {
               "rangeAxis": "",
-              "valueAxis": "Median"
+              "valueAxis": "duration"
             }
           ],
           "displayedFields": [
-            "TaskName"
+            "task.name"
           ],
           "variant": "single"
         },
@@ -1675,10 +1666,10 @@
           "colorMode": "color-palette",
           "colorPalette": "blue",
           "dataMappings": {
-            "value": "Median"
+            "value": "duration"
           },
           "displayedFields": [
-            "TaskName"
+            "task.name"
           ],
           "legend": {
             "hidden": false,
@@ -3127,12 +3118,22 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
+          "dimension": "vcs.repository.name",
           "displayedFields": [],
+          "longitude": "failureRate",
           "value": "failureRate"
         },
         "histogram": {
-          "dataMappings": [],
-          "displayedFields": [],
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failureRate"
+            }
+          ],
+          "displayedFields": [
+            "vcs.repository.name",
+            "cicd.pipeline.name"
+          ],
           "variant": "single"
         },
         "honeycomb": {
@@ -3212,7 +3213,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\" \n| join [\n  fetch events \n  | filter event.kind == \"SDLC_EVENT\" \n  | filter event.category == \"pipeline\"  \n  | filter event.type == \"run\" \n  | filter event.status == \"finished\" \n  | fields cicd.pipeline.run.id, cicd.pipeline.name, vcs.repository.name, cicd.pipeline.run.trigger \n  | filter in(vcs.repository.name, $Repository) \n  | filter in(cicd.pipeline.name, $Workflow) \n  | filter in(cicd.pipeline.run.trigger, $Trigger) ], \n  on:{cicd.pipeline.run.id}\n| summarize failureRate=if(count() == 0, 0, else: toDouble(countIf(task.outcome==\"failure\")) / toDouble(count())*100), by: task.name \n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"github.com\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.name, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, failure = if(task.outcome==\"failure\",1)), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  failureRate = 100 * sum(tasks[failure]) / count() \n}, by: {task.name = tasks[task.name] }\n| filter failureRate \u003e 0 \n| sort failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -3226,15 +3227,9 @@
       "visualizationSettings": {
         "chartSettings": {
           "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "task.name"
-            ],
             "categoryAxisLabel": "task.name",
             "colorPaletteMode": "multi-color",
             "tooltipVariant": "single",
-            "valueAxis": [
-              "failureRate"
-            ],
             "valueAxisLabel": "failureRate"
           },
           "categoryOverrides": {},
@@ -3251,7 +3246,8 @@
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "displayedFields": []
+          "displayedFields": [],
+          "value": "failureRate"
         },
         "histogram": {
           "dataMappings": [],
@@ -3261,12 +3257,8 @@
         "honeycomb": {
           "colorMode": "color-palette",
           "colorPalette": "blue",
-          "dataMappings": {
-            "value": "failureRate"
-          },
-          "displayedFields": [
-            "task.name"
-          ],
+          "dataMappings": {},
+          "displayedFields": [],
           "legend": {
             "hidden": false,
             "position": "auto"
@@ -3278,6 +3270,7 @@
           "showIcon": false
         },
         "label": {
+          "label": "failureRate",
           "showLabel": false
         },
         "singleValue": {
