@@ -1,0 +1,65 @@
+{
+  "defaultSegments": [],
+  "defaultTimeframe": {
+    "from": "now()-2h",
+    "to": "now()"
+  },
+  "sections": [
+    {
+      "id": "{{ .extractedIDs.id_06b61cc2_9236_4668_be1d_84c4886e9937 }}",
+      "markdown": "# 🚀 AzureDevOps Releases \u0026 Builds Integration\nThe purpose is to help you integrate your AzureDevops Releases and Builds with Dynatrace in order to visualize statistics, execution logs and alerts.",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_986a6763_e91a_4c41_bd29_e18503a6cfed }}",
+      "markdown": "### 📋 Step 1 - Pre-requisites\n\n- Access to your Dynatrace Tenant and permission to create tokens\n- Your tenant ID. Which can be found on your environment URL. https://\u003cYOUR_TENANT_ID\u003e.live.dynatrace.com/\n- A token with **Ingest Logs v2** scope\n- A token with **Write Settings** scope",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_7a1f1d61_e07d_43ba_9d29_06f2b906bb8e }}",
+      "markdown": "### 🪝 Step 2 - Creating Webhooks in AzureDevops\n\n - First, we need to create two Service Hooks Subscriptions on Azure. One for **Builds** Completed and one for **Release Deployment** Completed. \n\t - You can create it on `https://{orgName}/{project_name}/_settings/serviceHooks`\n\t - [AzureDevOps Webhooks](https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?toc=%2Fazure%2Fdevops%2Fmarketplace-extensibility%2Ftoc.json\u0026view=azure-devops)\n - During the configuration, do not apply any filter\n - In the settings page of the Subscription, you need to fill the following fields accordantly\n\t - URL: `https://\u003cYOUR_TENANT_ID\u003e.live.dynatrace.com/api/v2/logs/ingest`\n\t - HTTP Headers:\n\t\t - `\"Authorization: Api-token \u003cYOUR_LOG_INGEST_TOKEN\u003e\"`\n\t\t - **The text above must be written exactly like that. Copy and paste and just change the token**\n\t - Change \"Messages to send\" and \"Detailed Messages to send\" to **Text**\nThat's all you need in AzureDevops!",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_a08bf42c_a438_4fb5_8bc2_579f6564bae8 }}",
+      "markdown": "### 🪣 Step 3 - Configuring new Dynatrace Log Bucket\n\n#### Follow the below steps to create a new logs bucket:\n* Open the **Storage Management** app in your tenant\n  - https://\u003cYOUR_TENANT_ID\u003e.apps.dynatrace.com/ui/apps/dynatrace.storage.management/\n* Create a new bucket using the + sign on the top right corner\n  - Setup the bucket name = **azure_devops_logs**\n  - Set the retention time as desired\n  - Set bucket type as logs",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_b431d856_edce_49a2_a6b9_42fda0f7073c }}",
+      "markdown": "### 🧑‍💻 Step 4 - Configuring OpenPipeline - Log Processing Rules\n\n#### \n* Go to OpenPipeline \u003e Logs \u003e Pipelines\n* Create a new pipeline, and name it \"AzureDevOps\"\n* Go to Dynamic Routing and create the following new rule\n  * `matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") OR matchesPhrase(eventType,\"build.complete\")`\n* Set the Pipeline dropdown to \"AzureDevOps\"\n* Return back to your pipelines, and open AzureDevOps\n* Under Storage section, add a new processor \u003e Bucket assignment and set the storage to **azure_devops_logs** bucket.\n* Go to Processing section:\n  * Create a new rule for Rename Fields - \"Rename Build Fields\"\n    * Add Name \u0026 Value pairs\n      * buildNumber:`resource.buildNumber`\n      * result:`resource.result`\n  * Create a new rule for Rename Fields - \"Rename Release Fields\"\n    * Add Name \u0026 Value pairs\n      * stageName:`resource.stageName`\n      * projectName:`resource.project.name`\n      * releaseName:`resource.deployment.release.name`\n      * releaseStatus:`resource.environment.status`\n  * Add sample data to each of the new rules from logs to verify the rule is working as exepected",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_3e64dc55_fcec_499e_9db0_70a69060018a }}",
+      "markdown": "### 🖥️ Step 5 - Dashboard Template (on Logs)\n* Go to [AzureDevOps Git Repository](https://github.com/rohanshah-sre/AzureDevOps/tree/main), and download `AzureDevOps Dashboard (on Logs).json` file.\n* Within Dynatrace, open the new Dashboards app, and press **Upload** button at the top left corner.\n* Upload the json file to start visualizing your Azure DevOps data.",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_5e390a52_447a_495f_bb15_da1861ac3240 }}",
+      "markdown": "## 🧮 Advanced Mode\n\n\u003e Taking this a step further, we can convert log data to events for each release and build, and discard the logs after to reduce the amount of unnecessary logs retained. ",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_95ef8860_b68d_4c6b_991f_745924e01488 }}",
+      "markdown": "### 💼 Step 6 - Configuring OpenPipeline - Business Events Extraction\n\n* Go to OpenPipeline \u003e Logs \u003e Pipelines \u003e AzureDevOps\n* Go to Data Extraction section:\n  * Create a new rule Business Event Processor - \"Build result\"\n    * Matching condition: `matchesPhrase(eventType,\"build.complete\")`\n    * Event type: `eventType`\n    * Event provider (change to Static String): `AzureDevOps`\n    * Select *Fields to extract*\n      * `result`\n      * `buildNumber`\n      * `resource.reason`\n  * Create a new rule Business Event Processor - \"Release result\"\n    * Matching condition: `matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\")`\n    * Event type: `eventType`\n    * Event provider (change to Static String): `AzureDevOps`\n    * Select *Fields to extract*\n      * `stageName`\n      * `projectName`\n      * `releaseName`\n      * `releaseStatus`\n      * `resource.deployment.startedOn`\n      * `resource.deployment.completedOn`\n      \n##### ⚠️ (Optional) - Davis Events Extraction\n* Go to Data Extraction section:\n  * Create a new rule *Davis* Event Processor - \"Build complete failed\"\n    * Matching condition: `matchesPhrase(eventType,\"build.complete\") AND result==\"failed\"` \n    * Event Name: `Build Complete Failed`\n    * Event Description: `Unable to generate build {buildNumber}`\n    * *event.type* can be changed from CUSTOM_ALERT to increase the severity level. (listed below)\n  * Create a new rule *Davis* Event Processor - \"Release Rejected\"\n    * Matching condition: `matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"rejected\"` \n    * Event Name: `Release deployment rejected`\n    * Event Description: `Unable to deploy release {releaseName}`\n    * *event.type* can be changed from CUSTOM_ALERT to increase the severity level. (listed below)\n  * Available event types:\n    * `AVAILABILITY_EVENT`\n    * `CUSTOM_ALERT`\n    * `CUSTOM_ANNOTATION`\n    * `CUSTOM_CONFIGURATION`\n    * `CUSTOM_DEPLOYMENT`\n    * `CUSTOM_INFO`\n    * `ERROR_EVENT`\n    * `MARKED_FOR_TERMINATION`\n    * `PERFORMANCE_EVENT`\n    * `RESOURCE_CONTENTION_EVENT`\n\n##### ⛓️‍💥 (Optional) - Discarding logs storage\nOnce the logs have been converted to Business and Davis events to extract the information required, we can go ahead and disable the storage assignment rule in the pipeline. \n* Go to OpenPipeline \u003e Logs \u003e Pipelines \u003e AzureDevOps\n* Under Storage \u003e Bucket assignment Rule \u003e Change the following rule:\n  * Matching condition: `false`",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_58e8df9e_c675_4d0c_8282_6e268d4087ca }}",
+      "markdown": "### 🖥️ Step 7 - Dashboard Template (on Events)\n\n* Go to [AzureDevOps Git Repository](https://github.com/rohanshah-sre/AzureDevOps/tree/main)﻿, and download `AzureDevOps Dashboard (on BizEvents).json` file.\n* Within Dynatrace, open the new Dashboards app, and press Upload button at the top left corner.\n* Upload the json file to start visualizing your Azure DevOps data.",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_576418f6_ed60_4e09_ba9d_0ce7524f1b13 }}",
+      "markdown": "### 📦 Step 8 - Segments\nSegments are typically modeled to allow filtering monitored entities, logs, metrics, events, and other types of data. \n\nWe will use it to filter *AzureDevOps* data\n* Go to Segments App \u003e Create a new segment using + sign on the top right corner\n* Rename it to `AzureDevOps`\n* Add Business events data type\n  * Input `event.provider = AzureDevOps`\n* Add Logs data type\n  * Input `dt.system.bucket = azure_devops_logs`\n* Press Save",
+      "type": "markdown"
+    },
+    {
+      "id": "{{ .extractedIDs.id_b49db776_ccaa_4e7f_9cad_c6b4828a2615 }}",
+      "markdown": "## 🎉 You're all set, enjoy Dynatrace integration\n\n - Keep in mind, you might need to request a Log Content Length (MaxContentLength_Bytes) increase depending on how many steps your Release Events have.\n - The integration consumes DDUs for Log Ingest and Log Metrics and will depend on how many build/release events you have. For comparison purposes, a customer with 400 events was consuming around 1 DDU per week",
+      "type": "markdown"
+    }
+  ],
+  "version": "6"
+}

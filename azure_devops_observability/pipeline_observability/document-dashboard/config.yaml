@@ -1,0 +1,31 @@
+configs:
+- id: 732038cc-8827-4315-9a6c-0b7383b67800
+  config:
+    name: AzureDevOps Dashboard (on Logs)
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
+    template: azure_devops_logs.json
+    skip: false
+    originObjectId: 732038cc-8827-4315-9a6c-0b7383b67800
+  type:
+    document:
+      kind: dashboard
+      private: true
+- id: fcc1fd2e-dc71-4110-a1e0-2795cff6906e
+  config:
+    name: AzureDevOps Dashboard (on BizEvents)
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
+    template: azure_devops_bizevents.json
+    skip: false
+    originObjectId: fcc1fd2e-dc71-4110-a1e0-2795cff6906e
+  type:
+    document:
+      kind: dashboard
+      private: true
