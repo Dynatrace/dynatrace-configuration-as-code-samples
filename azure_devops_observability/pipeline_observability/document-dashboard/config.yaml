@@ -16,7 +16,7 @@ configs:
       private: true
 - id: fcc1fd2e-dc71-4110-a1e0-2795cff6906e
   config:
-    name: AzureDevOps Dashboard (on BizEvents)
+    name: AzureDevOps Dashboard (on Events)
     parameters:
       extractedIDs:
         type: value
