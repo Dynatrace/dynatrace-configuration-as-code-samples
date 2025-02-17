@@ -1,0 +1,26 @@
+configs:
+- id: 5f0e108f-9bd7-47d0-a201-c61e3d887b9b
+  config:
+    name: AzureDevOps - Dynatrace Integration
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_3e64dc55_fcec_499e_9db0_70a69060018a: 3e64dc55-fcec-499e-9db0-70a69060018a
+          id_58e8df9e_c675_4d0c_8282_6e268d4087ca: 58e8df9e-c675-4d0c-8282-6e268d4087ca
+          id_986a6763_e91a_4c41_bd29_e18503a6cfed: 986a6763-e91a-4c41-bd29-e18503a6cfed
+          id_576418f6_ed60_4e09_ba9d_0ce7524f1b13: 576418f6-ed60-4e09-ba9d-0ce7524f1b13
+          id_5e390a52_447a_495f_bb15_da1861ac3240: 5e390a52-447a-495f-bb15-da1861ac3240
+          id_06b61cc2_9236_4668_be1d_84c4886e9937: 06b61cc2-9236-4668-be1d-84c4886e9937
+          id_7a1f1d61_e07d_43ba_9d29_06f2b906bb8e: 7a1f1d61-e07d-43ba-9d29-06f2b906bb8e
+          id_95ef8860_b68d_4c6b_991f_745924e01488: 95ef8860-b68d-4c6b-991f-745924e01488
+          id_a08bf42c_a438_4fb5_8bc2_579f6564bae8: a08bf42c-a438-4fb5-8bc2-579f6564bae8
+          id_b49db776_ccaa_4e7f_9cad_c6b4828a2615: b49db776-ccaa-4e7f-9cad-c6b4828a2615
+          id_b431d856_edce_49a2_a6b9_42fda0f7073c: b431d856-edce-49a2-a6b9-42fda0f7073c
+    template: azure_devops_dynatrace_integration.json
+    skip: false
+    originObjectId: 5f0e108f-9bd7-47d0-a201-c61e3d887b9b
+  type:
+    document:
+      kind: notebook
+      private: true
