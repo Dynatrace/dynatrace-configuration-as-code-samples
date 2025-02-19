@@ -249,8 +249,7 @@
         "dataMapping": {
           "dimension": "cicd.pipeline.run.outcome",
           "displayedFields": [
-            "cicd.pipeline.run.outcome",
-            "count()"
+            "cicd.pipeline.run.outcome"
           ],
           "longitude": "count()",
           "value": "count()"
@@ -298,6 +297,7 @@
           "prefixIcon": "",
           "recordField": "cicd.pipeline.run.outcome",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -379,9 +379,7 @@
         },
         "dataMapping": {
           "dimension": "count()",
-          "displayedFields": [
-            "count()"
-          ],
+          "displayedFields": [],
           "longitude": "count()",
           "value": "count()"
         },
@@ -422,9 +420,7 @@
           "prefixIcon": "",
           "recordField": "count()",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -507,9 +503,7 @@
         },
         "dataMapping": {
           "dimension": "median(duration)",
-          "displayedFields": [
-            "avg(duration)"
-          ],
+          "displayedFields": [],
           "longitude": "median(duration)",
           "value": "avg(duration)"
         },
@@ -654,8 +648,7 @@
         "dataMapping": {
           "dimension": "cicd.pipeline.run.trigger",
           "displayedFields": [
-            "cicd.pipeline.run.trigger",
-            "count()"
+            "cicd.pipeline.run.trigger"
           ],
           "longitude": "count()",
           "value": "count()"
@@ -703,6 +696,7 @@
           "prefixIcon": "",
           "recordField": "cicd.pipeline.run.outcome",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -784,9 +778,7 @@
         },
         "dataMapping": {
           "dimension": "count()",
-          "displayedFields": [
-            "count()"
-          ],
+          "displayedFields": [],
           "longitude": "count()",
           "value": "count()"
         },
@@ -828,9 +820,7 @@
           "prefixIcon": "",
           "recordField": "count()",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -1063,8 +1053,7 @@
           "dimension": "StepName",
           "displayedFields": [
             "StepName",
-            "TaskName",
-            "Median"
+            "TaskName"
           ],
           "longitude": "Median",
           "value": "Median"
@@ -1114,6 +1103,7 @@
           "prefixIcon": "",
           "recordField": "error",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -1196,8 +1186,7 @@
         "dataMapping": {
           "dimension": "tasks[task.runner.name]",
           "displayedFields": [
-            "task.runner.name",
-            "Count"
+            "tasks[task.runner.name]"
           ],
           "longitude": "Count",
           "value": "Count"
@@ -1245,6 +1234,7 @@
           "prefixIcon": "",
           "recordField": "error",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -1364,10 +1354,9 @@
         "dataMapping": {
           "dimension": "cicd.pipeline.run.id",
           "displayedFields": [
-            "start_time",
-            "cicd.pipeline.run.id",
-            "cicd.pipeline.run.attempt",
-            "timeToStart"
+            "tasks",
+            "pipeline_run",
+            "startTime"
           ],
           "latitude": "has_matching_pipeline",
           "longitude": "cicd.pipeline.run.id",
@@ -1426,6 +1415,7 @@
           "prefixIcon": "",
           "recordField": "start_time",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -1505,9 +1495,7 @@
         },
         "dataMapping": {
           "dimension": "avg(duration)",
-          "displayedFields": [
-            "median(duration)"
-          ],
+          "displayedFields": [],
           "longitude": "avg(duration)",
           "value": "median(duration)"
         },
@@ -1644,8 +1632,7 @@
         "dataMapping": {
           "dimension": "task.name",
           "displayedFields": [
-            "TaskName",
-            "Median"
+            "task.name"
           ],
           "longitude": "duration",
           "value": "Median"
@@ -1693,6 +1680,7 @@
           "prefixIcon": "",
           "recordField": "error",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -1774,9 +1762,7 @@
         },
         "dataMapping": {
           "dimension": "avg(duration)",
-          "displayedFields": [
-            "median(duration)"
-          ],
+          "displayedFields": [],
           "longitude": "avg(duration)",
           "value": "median(duration)"
         },
@@ -1851,7 +1837,7 @@
       "type": "markdown"
     },
     "33": {
-      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
       "title": "",
       "type": "markdown"
     },
@@ -1910,9 +1896,7 @@
         },
         "dataMapping": {
           "dimension": "count()",
-          "displayedFields": [
-            "count()"
-          ],
+          "displayedFields": [],
           "longitude": "count()",
           "value": "count()"
         },
@@ -1953,9 +1937,7 @@
           "prefixIcon": "",
           "recordField": "count()",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2080,9 +2062,7 @@
           "prefixIcon": "SuccessIcon",
           "recordField": "successful",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2237,9 +2217,7 @@
           "prefixIcon": "CriticalFailedIcon",
           "recordField": "failed",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2394,9 +2372,7 @@
           "prefixIcon": "WarningIcon",
           "recordField": "other",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2551,9 +2527,7 @@
           "prefixIcon": "SuccessIcon",
           "recordField": "successful",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2708,9 +2682,7 @@
           "prefixIcon": "SuccessIcon",
           "recordField": "failure",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2864,9 +2836,7 @@
           "prefixIcon": "",
           "recordField": "failureRate",
           "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
+          "sparklineSettings": {},
           "trend": {
             "isLabelVisible": false,
             "isVisible": true,
@@ -2992,8 +2962,7 @@
         "dataMapping": {
           "dimension": "name",
           "displayedFields": [
-            "name",
-            "Median"
+            "name"
           ],
           "longitude": "Median",
           "value": "Median"
@@ -3041,6 +3010,7 @@
           "prefixIcon": "",
           "recordField": "error",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -3119,7 +3089,10 @@
         },
         "dataMapping": {
           "dimension": "vcs.repository.name",
-          "displayedFields": [],
+          "displayedFields": [
+            "vcs.repository.name",
+            "cicd.pipeline.name"
+          ],
           "longitude": "failureRate",
           "value": "failureRate"
         },
@@ -3168,6 +3141,7 @@
           "prefixIcon": "",
           "recordField": "error",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
@@ -3386,15 +3360,13 @@
         "dataMapping": {
           "dimension": "Duration",
           "displayedFields": [
-            "Duration",
             "Name",
-            "Status",
             "Run",
-            "Attempts",
             "Trigger",
             "Start",
             "End",
-            "Repository"
+            "Repository",
+            "Status"
           ],
           "latitude": "Attempts",
           "longitude": "Duration",
@@ -3455,6 +3427,7 @@
           "prefixIcon": "",
           "recordField": "error",
           "showLabel": true,
+          "sparklineSettings": {},
           "trend": {
             "isVisible": true,
             "trendType": "auto"
