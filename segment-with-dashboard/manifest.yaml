@@ -1,0 +1,18 @@
+manifestVersion: 1.0
+
+projects:
+- name: segments
+
+environmentGroups:
+- name: default
+  environments:
+  - name: kci
+    url:
+      type: environment
+      value: ENVIRONMENT_URL
+    auth:
+      oAuth:
+        clientId:
+          name: OAUTH_CLIENT_ID
+        clientSecret:
+          name: OAUTH_CLIENT_SECRET
