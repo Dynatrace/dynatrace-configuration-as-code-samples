@@ -137,6 +137,8 @@ Follow the below steps to create a new logs bucket:
 * In Dynatrace, go to Dashboards.
 * Open: **AzureDevOps Dashboard (on Logs)** 
 
+<img width="1480" alt="DT ADO Logs Dashboard" src="https://github.com/user-attachments/assets/da3229a5-c268-4d0e-8ff3-080f00f8a38e" />
+
 ---
 
 ## Advanced Mode
@@ -200,6 +202,9 @@ Taking this a step further, we can convert log data to events for each release a
 
 * In Dynatrace, go to Dashboards.
 * Open: **AzureDevOps Dashboard (on Events)** 
+
+<img width="1480" alt="DT ADO BizEvents Dashboard" src="https://github.com/user-attachments/assets/23b6ec2d-661f-48ab-9ed8-d32106be96b1" />
+
 
 ##### (Optional) - Discarding logs storage
 
