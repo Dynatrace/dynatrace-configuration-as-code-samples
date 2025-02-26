@@ -1,0 +1,61 @@
+{
+  "version": 17,
+  "variables": [],
+  "tiles": {
+    "0": {
+      "davis": {},
+      "query": "fetch logs\n| limit 20",
+      "queryConfig": {
+        "globalCommands": {
+          "limit": 20
+        },
+        "subQueries": [
+          {
+            "datatype": "logs",
+            "id": "A",
+            "isEnabled": true
+          }
+        ],
+        "version": "12.5.1"
+      },
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      },
+      "subType": "dql-builder-logs",
+      "title": "",
+      "type": "data",
+      "visualization": "table"
+    }
+  },
+  "layouts": {
+    "0": {
+      "x": 0,
+      "y": 0,
+      "w": 24,
+      "h": 8
+    }
+  },
+  "importedWithCode": false,
+  "settings": {
+    "defaultSegments": {
+      "value": [
+        {
+          "id": "{{.segment_id}}",
+          "variables": [
+            {
+              "name": "entity.name",
+              "values": [
+                "kube-system"
+              ]
+            }
+          ]
+        }
+      ],
+      "enabled": true
+    }
+  }
+}
