@@ -94,7 +94,7 @@ monaco deploy manifest.yaml
 monaco download
 ```
 
-2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.github.json`.
+2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.gitlab.json`.
 
 3. Run the following command to apply the provided configuration. 
 ```
