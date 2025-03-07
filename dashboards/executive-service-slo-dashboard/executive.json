@@ -12,7 +12,7 @@
       "key": "Link",
       "type": "query",
       "visible": false,
-      "input": "data record(link=\"[{{`{{ZONE}}`}}](https://{{`{{TENANT}}`}}.sprint.apps.dynatracelabs.com/ui/apps/dynatrace.dashboards/dashboard/{{ .slidashboard }}#vfilter_App={{`{{ZONE}}`}}&vfilter_MZ_Override=true&vfilter_SLI_Threshold={{`{{SLI_THRESHOLD}}`}}&vfilter_Target={{`{{TARGET}}`}}&vfilter_Entrypoint={{`{{ENTRY_POINT}}`}}&from={{`{{FROM}}`}}&to={{`{{TO}}`}})\")\n| fieldsAdd link = replaceString(link,\"{{`{{TENANT}}`}}\",$Tenant)",
+      "input": "data record(link=\"[{{`{{ZONE}}`}}](https://{{`{{TENANT}}`}}.apps.dynatrace.com/ui/apps/dynatrace.dashboards/dashboard/{{ .slidashboard }}#vfilter_App={{`{{ZONE}}`}}&vfilter_MZ_Override=true&vfilter_SLI_Threshold={{`{{SLI_THRESHOLD}}`}}&vfilter_Target={{`{{TARGET}}`}}&vfilter_Entrypoint={{`{{ENTRY_POINT}}`}}&from={{`{{FROM}}`}}&to={{`{{TO}}`}})\")\n| fieldsAdd link = replaceString(link,\"{{`{{TENANT}}`}}\",$Tenant)",
       "multiple": false
     },
     {
