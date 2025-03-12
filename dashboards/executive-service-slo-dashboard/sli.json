@@ -6,28 +6,32 @@
       "type": "query",
       "visible": true,
       "input": "fetch dt.entity.service\n| fields managementZones\n| expand managementZones\n| dedup managementZones",
-      "multiple": false
+      "multiple": false,
+      "version": 1
     },
     {
       "key": "MZ_Override",
       "type": "csv",
       "visible": true,
       "input": "true,false",
-      "multiple": false
+      "multiple": false,
+      "version": 1
     },
-    { "key": "Service", "type": "text", "visible": true },
-    { "key": "Endpoint", "type": "text", "visible": true },
+    { "key": "Service", "type": "text", "visible": true, "version": 1 },
+    { "key": "Endpoint", "type": "text", "visible": true, "version": 1 },
     {
       "key": "SLI_Threshold",
       "type": "text",
       "visible": true,
-      "defaultValue": "50"
+      "defaultValue": "50",
+      "version": 1
     },
     {
       "key": "Target",
       "type": "text",
       "visible": true,
-      "defaultValue": "99.0"
+      "defaultValue": "99.0",
+      "version": 1
     },
     {
       "key": "Entrypoint",
@@ -35,21 +39,24 @@
       "visible": true,
       "input": "true,false",
       "multiple": false,
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "version": 1
     },
     {
       "key": "MDA",
       "type": "query",
       "visible": false,
       "input": "data record(link=\"https://{{`{{TENANT}}`}}.apps.dynatrace.com/ui/apps/dynatrace.classic.mda/ui/services/{{`{{SERVICE_ID}}`}}/mda?metric={{`{{METRIC}}`}}&dimension=%7BRequest%3AName%7D&gtf={{`{{FROM}}`}}+to+{{`{{TO}}`}}\")\n| fields link = replaceString(link,\"{{`{{TENANT}}`}}\",$Tenant)",
-      "multiple": false
+      "multiple": false,
+      "version": 1
     },
     {
       "key": "Tenant",
       "type": "query",
       "visible": false,
       "input": "fetch dt.system.events \n| fields dt.system.environment \n| limit 1",
-      "multiple": false
+      "multiple": false,
+      "version": 1
     },
     {
       "key": "ExactMatch",
@@ -57,7 +64,28 @@
       "visible": true,
       "input": "true,false",
       "multiple": false,
-      "defaultValue": "false"
+      "defaultValue": "false",
+      "version": 1
+    },
+    {
+      "key": "Endpoints",
+      "visible": false,
+      "type": "query",
+      "version": 1,
+      "editable": true,
+      "input": "fetch dt.entity.service_method\n| filter isNotNull(belongs_to[`dt.entity.service`])\n| fields id, entity.name, dt.entity.service = belongs_to[`dt.entity.service`]\n| filter {\n  if(toBoolean($MZ_Override), \n    if(stringLength($Endpoint) > 0,\n      if(toBoolean($Entrypoint), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean($ExactMatch),entity.name == $Endpoint,else:matchesPhrase(entity.name, $Endpoint)), \n      else:\n        if(toBoolean($ExactMatch),entity.name == $Endpoint,else:matchesPhrase(entity.name, $Endpoint))\n      ), \n    else: \n      if(toBoolean($Entrypoint), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), $App), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), $App)\n      )\n    ), \n  else: \n    if(stringLength($Endpoint) > 0, \n      if(toBoolean($Entrypoint), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean($ExactMatch),entity.name == $Endpoint,else:matchesPhrase(entity.name, $Endpoint)),\n      else: \n        if(toBoolean($ExactMatch),entity.name == $Endpoint,else:matchesPhrase(entity.name, $Endpoint))\n      ), \n    else: \n      if(toBoolean($Entrypoint), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean($ExactMatch),entityName(dt.entity.service) == $Service,else:matchesPhrase(entityName(dt.entity.service), $Service)), \n      else: \n        if(toBoolean($ExactMatch),entityName(dt.entity.service) == $Service,else:matchesPhrase(entityName(dt.entity.service), $Service))\n      )\n    )\n  )\n}\n| fields entity.name",
+      "multiple": true,
+      "defaultValue": ["3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"]
+    },
+    {
+      "key": "Services",
+      "visible": false,
+      "type": "query",
+      "version": 1,
+      "editable": true,
+      "input": "fetch dt.entity.service\n| filter {\n  if(toBoolean($MZ_Override), \n      if(toBoolean($Entrypoint), \n        isNull(called_by)\n        and isNotNull(calls)\n        and isNull(databaseHostNames) \n        and not(in(serviceType, \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(managementZones, $App), \n      else: \n        in(managementZones, $App)\n      ), \n  else: \n      if(toBoolean($Entrypoint), \n        isNull(called_by) \n        and isNotNull(calls)\n        and isNull(databaseHostNames) \n        and not(in(serviceType, \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean($ExactMatch),entity.name == $Service,else:matchesPhrase(entity.name, $Service)), \n      else: \n        if(toBoolean($ExactMatch),entity.name == $Service,else:matchesPhrase(entity.name, $Service))\n      )\n  )\n}\n| fields id",
+      "multiple": true,
+      "defaultValue": ["3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05*"]
     }
   ],
   "tiles": {
@@ -133,7 +161,8 @@
           "sparklineSettings": {
             "showTicks": true,
             "lineType": "linear",
-            "variant": "line"
+            "variant": "line",
+            "record": "good"
           }
         },
         "table": {
@@ -163,16 +192,16 @@
           "yAxis": { "label": "Frequency", "scale": "linear" },
           "colorPalette": "categorical",
           "dataMappings": [
-            { "valueAxis": "interval", "rangeAxis": "" },
-            { "valueAxis": "value", "rangeAxis": "" }
+            { "valueAxis": "value", "rangeAxis": "" },
+            { "valueAxis": "interval", "rangeAxis": "" }
           ],
           "variant": "single",
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "value" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "unitsOverrides": [],
         "dataMapping": {
@@ -408,7 +437,8 @@
           "sparklineSettings": {
             "showTicks": true,
             "lineType": "linear",
-            "variant": "line"
+            "variant": "line",
+            "record": "metric"
           }
         },
         "table": {
@@ -438,16 +468,16 @@
           "yAxis": { "label": "Frequency", "scale": "linear" },
           "colorPalette": "categorical",
           "dataMappings": [
-            { "valueAxis": "interval", "rangeAxis": "" },
-            { "valueAxis": "value", "rangeAxis": "" }
+            { "valueAxis": "value", "rangeAxis": "" },
+            { "valueAxis": "interval", "rangeAxis": "" }
           ],
           "variant": "single",
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "value" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "unitsOverrides": [
           {
@@ -562,7 +592,8 @@
           "sparklineSettings": {
             "showTicks": true,
             "lineType": "linear",
-            "variant": "line"
+            "variant": "line",
+            "record": "metric"
           }
         },
         "table": {
@@ -592,16 +623,16 @@
           "yAxis": { "label": "Frequency", "scale": "linear" },
           "colorPalette": "categorical",
           "dataMappings": [
-            { "valueAxis": "interval", "rangeAxis": "" },
-            { "valueAxis": "value", "rangeAxis": "" }
+            { "valueAxis": "value", "rangeAxis": "" },
+            { "valueAxis": "interval", "rangeAxis": "" }
           ],
           "variant": "single",
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "value" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "unitsOverrides": [
           {
@@ -715,7 +746,8 @@
           "sparklineSettings": {
             "showTicks": true,
             "lineType": "linear",
-            "variant": "line"
+            "variant": "line",
+            "record": "metric"
           }
         },
         "table": {
@@ -745,16 +777,16 @@
           "yAxis": { "label": "Frequency", "scale": "linear" },
           "colorPalette": "categorical",
           "dataMappings": [
-            { "valueAxis": "interval", "rangeAxis": "" },
-            { "valueAxis": "value", "rangeAxis": "" }
+            { "valueAxis": "value", "rangeAxis": "" },
+            { "valueAxis": "interval", "rangeAxis": "" }
           ],
           "variant": "single",
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "value" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "unitsOverrides": [
           {
@@ -868,7 +900,8 @@
           "sparklineSettings": {
             "showTicks": true,
             "lineType": "linear",
-            "variant": "line"
+            "variant": "line",
+            "record": "metric"
           }
         },
         "table": {
@@ -898,16 +931,16 @@
           "yAxis": { "label": "Frequency", "scale": "linear" },
           "colorPalette": "categorical",
           "dataMappings": [
-            { "valueAxis": "interval", "rangeAxis": "" },
-            { "valueAxis": "value", "rangeAxis": "" }
+            { "valueAxis": "value", "rangeAxis": "" },
+            { "valueAxis": "interval", "rangeAxis": "" }
           ],
           "variant": "single",
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "value" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "unitsOverrides": [
           {
@@ -1021,7 +1054,8 @@
           "sparklineSettings": {
             "showTicks": true,
             "lineType": "linear",
-            "variant": "line"
+            "variant": "line",
+            "record": "failures"
           }
         },
         "table": {
@@ -1055,16 +1089,16 @@
           "yAxis": { "label": "Frequency", "scale": "linear" },
           "colorPalette": "categorical",
           "dataMappings": [
-            { "valueAxis": "interval", "rangeAxis": "" },
-            { "valueAxis": "value", "rangeAxis": "" }
+            { "valueAxis": "value", "rangeAxis": "" },
+            { "valueAxis": "interval", "rangeAxis": "" }
           ],
           "variant": "single",
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "value" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "unitsOverrides": [],
         "dataMapping": {
@@ -2421,8 +2455,8 @@
             "dt.statistics.ui.anomaly_detection.AutoAdaptiveAnomalyDetectionAnalyzer": {
               "generalParameters": {
                 "timeframe": {
-                  "startTime": "2025-02-20T21:41:51.655Z",
-                  "endTime": "2025-02-21T21:42:51.655Z"
+                  "startTime": "2025-03-10T23:48:12.822Z",
+                  "endTime": "2025-03-11T23:48:12.822Z"
                 },
                 "resolveDimensionalQueryData": true,
                 "logVerbosity": "INFO"
@@ -2433,7 +2467,7 @@
               "violatingSamples": 3,
               "slidingWindow": 5,
               "dealertingSamples": 5,
-              "query": "timeseries {avg = avg(dt.service.request.response_time)}\n, by:{dt.entity.service}\n, filter: {if(toBoolean(\"false\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| fieldsAdd name = entityName(dt.entity.service)"
+              "query": "timeseries {avg = avg(dt.service.request.response_time)}\n, by:{dt.entity.service}\n, filter: {if(toBoolean(\"true\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| fieldsAdd name = entityName(dt.entity.service)"
             }
           }
         },
@@ -2557,6 +2591,7 @@
       },
       "visualization": "davis",
       "visualizationSettings": {
+        "autoSelectVisualization": false,
         "thresholds": [
           {
             "id": 1,
@@ -2736,10 +2771,9 @@
           "truncationMode": "middle",
           "displayedFields": ["dt.entity.service"]
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
-        "autoSelectVisualization": false,
         "unitsOverrides": [
           {
             "identifier": "AVG",
@@ -2774,8 +2808,8 @@
             "dt.statistics.ui.anomaly_detection.AutoAdaptiveAnomalyDetectionAnalyzer": {
               "generalParameters": {
                 "timeframe": {
-                  "startTime": "2025-02-20T21:41:51.655Z",
-                  "endTime": "2025-02-21T21:42:51.655Z"
+                  "startTime": "2025-03-10T23:48:12.824Z",
+                  "endTime": "2025-03-11T23:48:12.824Z"
                 },
                 "resolveDimensionalQueryData": true,
                 "logVerbosity": "INFO"
@@ -2786,7 +2820,7 @@
               "violatingSamples": 3,
               "slidingWindow": 5,
               "dealertingSamples": 5,
-              "query": "timeseries \ntotal = sum(dt.service.request.count)\n,failures=sum(dt.service.request.failure_count)\n, by:{dt.entity.service}\n, filter: {if(toBoolean(\"false\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| summarize total = sum(total[]), failures = sum(failures[])\n,by:{timeframe,interval,dt.entity.service} \n//Availability SLI\n| fieldsAdd availability_good = total[]-failures[]\n| fieldsAdd availability = ((availability_good[])/total[])*(100)\n| fieldsAdd name = entityName(dt.entity.service)\n| fields name, dt.entity.service, availability, interval, timeframe"
+              "query": "timeseries \ntotal = sum(dt.service.request.count)\n,failures=sum(dt.service.request.failure_count)\n, by:{dt.entity.service}\n, filter: {if(toBoolean(\"true\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| summarize total = sum(total[]), failures = sum(failures[])\n,by:{timeframe,interval,dt.entity.service} \n//Availability SLI\n| fieldsAdd availability_good = total[]-failures[]\n| fieldsAdd availability = ((availability_good[])/total[])*(100)\n| fieldsAdd name = entityName(dt.entity.service)\n| fields name, dt.entity.service, availability, interval, timeframe"
             }
           }
         },
@@ -2797,6 +2831,7 @@
       },
       "visualization": "davis",
       "visualizationSettings": {
+        "autoSelectVisualization": false,
         "thresholds": [
           {
             "id": 4,
@@ -2976,10 +3011,9 @@
           "truncationMode": "middle",
           "displayedFields": ["name"]
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
-        "autoSelectVisualization": false,
         "unitsOverrides": [
           {
             "identifier": "AVG",
@@ -3014,8 +3048,8 @@
             "dt.statistics.ui.anomaly_detection.AutoAdaptiveAnomalyDetectionAnalyzer": {
               "generalParameters": {
                 "timeframe": {
-                  "startTime": "2025-02-20T21:41:51.655Z",
-                  "endTime": "2025-02-21T21:42:51.655Z"
+                  "startTime": "2025-03-10T23:48:12.825Z",
+                  "endTime": "2025-03-11T23:48:12.825Z"
                 },
                 "resolveDimensionalQueryData": true,
                 "logVerbosity": "INFO"
@@ -3026,7 +3060,7 @@
               "violatingSamples": 3,
               "slidingWindow": 5,
               "dealertingSamples": 5,
-              "query": "timeseries avg = avg(dt.service.request.response_time)\n, by:{dt.entity.service,endpoint.name}\n, filter: {if(toBoolean(\"false\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| fieldsAdd name = entityName(dt.entity.service)"
+              "query": "timeseries avg = avg(dt.service.request.response_time)\n, by:{dt.entity.service,endpoint.name}\n, filter: {if(toBoolean(\"true\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| fieldsAdd name = entityName(dt.entity.service)"
             }
           }
         },
@@ -3151,6 +3185,7 @@
       },
       "visualization": "davis",
       "visualizationSettings": {
+        "autoSelectVisualization": false,
         "thresholds": [
           {
             "id": 3,
@@ -3323,10 +3358,9 @@
           "truncationMode": "middle",
           "displayedFields": ["dt.entity.service"]
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
-        "autoSelectVisualization": false,
         "unitsOverrides": [
           {
             "identifier": "AVG",
@@ -3361,8 +3395,8 @@
             "dt.statistics.ui.anomaly_detection.AutoAdaptiveAnomalyDetectionAnalyzer": {
               "generalParameters": {
                 "timeframe": {
-                  "startTime": "2025-02-20T21:41:51.655Z",
-                  "endTime": "2025-02-21T21:42:51.655Z"
+                  "startTime": "2025-03-10T23:48:12.827Z",
+                  "endTime": "2025-03-11T23:48:12.827Z"
                 },
                 "resolveDimensionalQueryData": true,
                 "logVerbosity": "INFO"
@@ -3373,7 +3407,7 @@
               "violatingSamples": 3,
               "slidingWindow": 5,
               "dealertingSamples": 5,
-              "query": "timeseries \ntotal = sum(dt.service.request.count)\n,failures=sum(dt.service.request.failure_count)\n, by:{dt.entity.service,endpoint.name}\n, filter: {if(toBoolean(\"false\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| summarize total = sum(total[]), failures = sum(failures[])\n,by:{timeframe,interval,endpoint.name,dt.entity.service} \n//Availability SLI\n| fieldsAdd availability_good = total[]-failures[]\n| fieldsAdd availability = ((availability_good[])/total[])*(100)\n| fieldsAdd name = entityName(dt.entity.service)\n| fields endpoint.name, name, dt.entity.service, availability, interval, timeframe"
+              "query": "timeseries \ntotal = sum(dt.service.request.count)\n,failures=sum(dt.service.request.failure_count)\n, by:{dt.entity.service,endpoint.name}\n, filter: {if(toBoolean(\"true\"), \n    if(stringLength(\"\") > 0,\n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")), \n      else:\n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\"), \n      else: \n        in(entityAttr(dt.entity.service, \"managementZones\"), \"Appfabric Test\")\n      )\n    ), \n  else: \n    if(stringLength(\"\") > 0, \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\")),\n      else: \n        if(toBoolean(\"false\"),endpoint.name == \"\",else:matchesPhrase(endpoint.name, \"\"))\n      ), \n    else: \n      if(toBoolean(\"false\"), \n        isNull(entityAttr(dt.entity.service, \"called_by\")) \n        and isNotNull(entityAttr(dt.entity.service, \"calls\")) \n        and isNull(entityAttr(dt.entity.service, \"databaseHostNames\")) \n        and not(in(entityAttr(dt.entity.service, \"serviceType\"), \"RMI_SERVICE\",\"BACKGROUND_ACTIVITY\", \"QUEUE_LISTENER_SERVICE\", \"RPC_SERVICE\")) \n        and if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\")), \n      else: \n        if(toBoolean(\"false\"),entityName(dt.entity.service) == \"\",else:matchesPhrase(entityName(dt.entity.service), \"\"))\n      )\n    )\n  )\n}\n| summarize total = sum(total[]), failures = sum(failures[])\n,by:{timeframe,interval,endpoint.name,dt.entity.service} \n//Availability SLI\n| fieldsAdd availability_good = total[]-failures[]\n| fieldsAdd availability = ((availability_good[])/total[])*(100)\n| fieldsAdd name = entityName(dt.entity.service)\n| fields endpoint.name, name, dt.entity.service, availability, interval, timeframe"
             }
           }
         },
@@ -3498,6 +3532,7 @@
       },
       "visualization": "davis",
       "visualizationSettings": {
+        "autoSelectVisualization": false,
         "thresholds": [
           {
             "id": 4,
@@ -3673,10 +3708,9 @@
           "truncationMode": "middle",
           "displayedFields": ["dt.entity.service"]
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
-        "autoSelectVisualization": false,
         "unitsOverrides": [
           {
             "identifier": "AVG",
@@ -3894,9 +3928,9 @@
           "truncationMode": "middle",
           "displayedFields": []
         },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
         "label": { "showLabel": false, "label": "status" },
         "icon": { "showIcon": false, "icon": "" },
-        "valueBoundaries": { "min": "auto", "max": "auto" },
         "autoSelectVisualization": false,
         "recordView": { "fieldsWidth": 203.49 },
         "dataMapping": {
@@ -4355,6 +4389,188 @@
         "defaultSamplingRatio": 10,
         "enableSampling": false
       }
+    },
+    "38": {
+      "type": "data",
+      "title": "Endpoint DQL",
+      "query": "data record(endpoints = \"\"\"$Endpoints\"\"\")\n| fieldsAdd performance_dql = concat(\"timeseries total=avg(dt.service.request.response_time, default:0)\n, by: { endpoint.name }, filter: { in (endpoint.name, {\",endpoints, \"}) }\n| fieldsAdd high=iCollectArray(if(total[]> (1000 * \",$SLI_Threshold,\"), total[]))\n| fieldsAdd low=iCollectArray(if(total[]<= (1000 * \",$SLI_Threshold,\"), total[]))\n| fieldsAdd highRespTimes=iCollectArray(if(isNull(high[]),0,else:1))\n| fieldsAdd lowRespTimes=iCollectArray(if(isNull(low[]),0,else:1))\n| fieldsAdd sli=100*(lowRespTimes[]/(lowRespTimes[]+highRespTimes[]))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, high, low, highRespTimes, lowRespTimes\")\n| fieldsadd availability_dql = concat(\"timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }\n  , by: { endpoint.name }\n  , filter: { in (dt.entity.service, {\", endpoints,\"}) }\n| fieldsAdd sli=(((total[]-failures[])/total[])*(100))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, failures\")\n| fields performance_dql, availability_dql",
+      "davis": {
+        "enabled": false,
+        "davisVisualization": { "isAvailable": true }
+      },
+      "visualizationSettings": {
+        "thresholds": [],
+        "chartSettings": {
+          "xAxisScaling": "analyzedTimeframe",
+          "gapPolicy": "gap",
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "categoryOverrides": {},
+          "curve": "linear",
+          "pointsDisplay": "auto",
+          "categoricalBarChartSettings": {
+            "layout": "horizontal",
+            "categoryAxisTickLayout": "horizontal",
+            "scale": "absolute",
+            "groupMode": "stacked",
+            "colorPaletteMode": "multi-color",
+            "categoryAxis": ["performance_dql", "availability_dql"],
+            "categoryAxisLabel": "performance_dql,availability_dql",
+            "valueAxis": [],
+            "valueAxisLabel": "",
+            "tooltipVariant": "single"
+          },
+          "colorPalette": "categorical",
+          "valueRepresentation": "absolute",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "showLabel": true,
+          "label": "\"SERVICE-078009E25343A7ED\"",
+          "prefixIcon": "",
+          "recordField": "\"SERVICE-078009E25343A7ED\"",
+          "autoscale": true,
+          "sparklineSettings": {},
+          "alignment": "center",
+          "trend": { "trendType": "auto", "isVisible": true },
+          "colorThresholdTarget": "value"
+        },
+        "table": {
+          "rowDensity": "condensed",
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "linewrapEnabled": true,
+          "lineWrapIds": [["performance_dql"], ["availability_dql"]],
+          "monospacedFontEnabled": false,
+          "monospacedFontColumns": [],
+          "columnWidths": { "[\"performance_dql\"]": 391 },
+          "columnTypeOverrides": []
+        },
+        "honeycomb": {
+          "shape": "hexagon",
+          "legend": { "hidden": false, "position": "auto", "ratio": "auto" },
+          "dataMappings": { "value": "performance_dql" },
+          "displayedFields": ["performance_dql", "availability_dql"],
+          "truncationMode": "middle",
+          "colorMode": "color-palette",
+          "colorPalette": "categorical"
+        },
+        "histogram": {
+          "legend": "auto",
+          "yAxis": { "label": "Frequency", "scale": "linear" },
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "variant": "single",
+          "truncationMode": "middle",
+          "displayedFields": ["performance_dql", "availability_dql"]
+        },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
+        "autoSelectVisualization": false,
+        "dataMapping": {},
+        "label": { "showLabel": false }
+      },
+      "visualization": "table",
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      }
+    },
+    "39": {
+      "type": "data",
+      "title": "Service DQL",
+      "query": "data record(services = \"\"\"$Services\"\"\")\n| fieldsAdd performance_dql = concat(\"timeseries total=avg(dt.service.request.response_time, default:0)\n, by: { dt.entity.service }, filter: { in (dt.entity.service, {\",services, \"}) }\n| fieldsAdd high=iCollectArray(if(total[]> (1000 * \",$SLI_Threshold,\"), total[]))\n| fieldsAdd low=iCollectArray(if(total[]<= (1000 * \",$SLI_Threshold,\"), total[]))\n| fieldsAdd highRespTimes=iCollectArray(if(isNull(high[]),0,else:1))\n| fieldsAdd lowRespTimes=iCollectArray(if(isNull(low[]),0,else:1))\n| fieldsAdd sli=100*(lowRespTimes[]/(lowRespTimes[]+highRespTimes[]))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, high, low, highRespTimes, lowRespTimes\")\n| fieldsadd availability_dql = concat(\"timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }\n  , by: { dt.entity.service }\n  , filter: { in (dt.entity.service, {\", services,\"}) }\n| fieldsAdd sli=(((total[]-failures[])/total[])*(100))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, failures\")\n| fields performance_dql, availability_dql",
+      "davis": {
+        "enabled": false,
+        "davisVisualization": { "isAvailable": true }
+      },
+      "visualizationSettings": {
+        "thresholds": [],
+        "chartSettings": {
+          "xAxisScaling": "analyzedTimeframe",
+          "gapPolicy": "gap",
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "categoryOverrides": {},
+          "curve": "linear",
+          "pointsDisplay": "auto",
+          "categoricalBarChartSettings": {
+            "layout": "horizontal",
+            "categoryAxisTickLayout": "horizontal",
+            "scale": "absolute",
+            "groupMode": "stacked",
+            "colorPaletteMode": "multi-color",
+            "categoryAxis": ["performance_dql", "availability_dql"],
+            "categoryAxisLabel": "performance_dql,availability_dql",
+            "valueAxis": [],
+            "valueAxisLabel": "",
+            "tooltipVariant": "single"
+          },
+          "colorPalette": "categorical",
+          "valueRepresentation": "absolute",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "showLabel": true,
+          "label": "\"SERVICE-078009E25343A7ED\"",
+          "prefixIcon": "",
+          "recordField": "\"SERVICE-078009E25343A7ED\"",
+          "autoscale": true,
+          "sparklineSettings": {},
+          "alignment": "center",
+          "trend": { "trendType": "auto", "isVisible": true },
+          "colorThresholdTarget": "value"
+        },
+        "table": {
+          "rowDensity": "condensed",
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "linewrapEnabled": true,
+          "lineWrapIds": [["performance_dql"], ["availability_dql"]],
+          "monospacedFontEnabled": false,
+          "monospacedFontColumns": [],
+          "columnWidths": { "[\"performance_dql\"]": 398 },
+          "columnTypeOverrides": []
+        },
+        "honeycomb": {
+          "shape": "hexagon",
+          "legend": { "hidden": false, "position": "auto", "ratio": "auto" },
+          "dataMappings": { "value": "performance_dql" },
+          "displayedFields": ["performance_dql", "availability_dql"],
+          "truncationMode": "middle",
+          "colorMode": "color-palette",
+          "colorPalette": "categorical"
+        },
+        "histogram": {
+          "legend": "auto",
+          "yAxis": { "label": "Frequency", "scale": "linear" },
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "variant": "single",
+          "truncationMode": "middle",
+          "displayedFields": ["performance_dql", "availability_dql"]
+        },
+        "valueBoundaries": { "min": "auto", "max": "auto" },
+        "autoSelectVisualization": false,
+        "dataMapping": {},
+        "label": { "showLabel": false }
+      },
+      "visualization": "table",
+      "querySettings": {
+        "maxResultRecords": 1000,
+        "defaultScanLimitGbytes": 500,
+        "maxResultMegaBytes": 1,
+        "defaultSamplingRatio": 10,
+        "enableSampling": false
+      }
     }
   },
   "layouts": {
@@ -4376,7 +4592,9 @@
     "34": { "x": 18, "y": 11, "w": 6, "h": 6 },
     "35": { "x": 11, "y": 0, "w": 5, "h": 3 },
     "36": { "x": 6, "y": 0, "w": 5, "h": 3 },
-    "37": { "x": 0, "y": 0, "w": 6, "h": 3 }
+    "37": { "x": 0, "y": 0, "w": 6, "h": 3 },
+    "38": { "x": 12, "y": 17, "w": 12, "h": 5 },
+    "39": { "x": 0, "y": 17, "w": 12, "h": 5 }
   },
   "importedWithCode": false,
   "settings": { "gridLayout": { "mode": "responsive" } }

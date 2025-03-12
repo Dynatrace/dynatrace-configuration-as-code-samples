@@ -5,3 +5,4 @@ request.log
 response.log
 .logs/
 .logs
+_manifest.yaml

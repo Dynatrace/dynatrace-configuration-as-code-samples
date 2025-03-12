@@ -1,5 +1,5 @@
 configs:
-  - id: executive-dashboardv1
+  - id: executive-dashboard
     type:
       document:
         kind: dashboard
@@ -9,10 +9,10 @@ configs:
       template: executive.json
       parameters:
         slidashboard:
-          configId: sli-dashboardv1
+          configId: sli-dashboard
           property: id
           type: reference
-  - id: sli-dashboardv1
+  - id: sli-dashboard
     type:
       document:
         kind: dashboard
