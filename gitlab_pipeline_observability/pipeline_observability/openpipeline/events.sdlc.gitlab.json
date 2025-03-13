@@ -1,0 +1,800 @@
+{
+  "customBasePath": "/platform/ingest/custom/events.sdlc",
+  "editable": true,
+  "endpoints": [
+    {
+      "basePath": "/platform/ingest/custom/events.sdlc",
+      "builtin": false,
+      "defaultBucket": "default_events",
+      "displayName": "GitLab",
+      "editable": true,
+      "enabled": true,
+      "processors": [
+        {
+          "builtin": false,
+          "description": "Sets event.id to a unique identifier",
+          "dqlScript": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Sets_event.id_to_a_unique_identifier_6103",
+          "matcher": "isNull(event.id)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set default SDLC and pipeline properties",
+          "dqlScript": "fieldsAdd \nevent.kind = \"SDLC_EVENT\", \nevent.version = \"0.1.0\",\nevent.provider = \"gitlab\",\nevent.category = \"pipeline\",\nevent.type = \"run\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_pipeline_category_properties_7623",
+          "matcher": "object_kind == \"pipeline\"",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set default SDLC and task properties",
+          "dqlScript": "fieldsAdd \nevent.kind = \"SDLC_EVENT\", \nevent.version = \"0.1.0\",\nevent.provider = \"gitlab\",\nevent.category = \"task\",\nevent.type = \"build\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_task_category_properties_8577",
+          "matcher": "object_kind == \"build\"",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set default SDLC properties and type to change",
+          "dqlScript": "fieldsAdd \nevent.kind = \"SDLC_EVENT\", \nevent.version = \"0.1.0\",\nevent.provider = \"gitlab\",\nevent.category = \"task\",\nevent.type = \"change\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_change_category_properties_1957",
+          "matcher": "object_kind == \"merge_request\"",
+          "sampleData": "",
+          "type": "dql"
+        }
+      ],
+      "routing": {
+        "type": "dynamic"
+      },
+      "segment": "gitlab"
+    },
+    {
+      "basePath": "/platform/ingest/v1/events.sdlc",
+      "builtin": true,
+      "defaultBucket": "default_events",
+      "displayName": "Endpoint for Software Development Lifecycle events",
+      "editable": false,
+      "enabled": true,
+      "processors": [
+        {
+          "builtin": true,
+          "description": "sdlc event default fields",
+          "editable": false,
+          "enabled": true,
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            }
+          ],
+          "id": "sdlc:ingest_enrichment_map",
+          "matcher": "true",
+          "sampleData": "",
+          "type": "fieldsAdd"
+        },
+        {
+          "builtin": true,
+          "description": "Sets start_time to end_time",
+          "dqlScript": "fieldsAdd start_time = end_time",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:start_time_to_end_time_processor",
+          "matcher": "isNull(start_time) AND isNotNull(end_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets start_time to current timestamp",
+          "dqlScript": "fieldsAdd start_time = now()",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:start_time_processor",
+          "matcher": "isNull(start_time) AND isNull(end_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets end_time to start_time",
+          "dqlScript": "fieldsAdd end_time = start_time",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:end_time_to_start_time_processor",
+          "matcher": "isNull(end_time) AND isNotNull(start_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.id to a unique identifier",
+          "dqlScript": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_id_processor",
+          "matcher": "isNull(event.id)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.category to pipeline if conditions match",
+          "dqlScript": "fieldsAdd event.category = \"pipeline\"",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_category_pipeline_processor",
+          "matcher": "isNull(event.category) AND (isNotNull(pipeline.id) AND isNull(task.id))",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.category to task if conditions match",
+          "dqlScript": "fieldsAdd event.category = \"task\"",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_category_task_processor",
+          "matcher": "isNull(event.category) AND (isNotNull(task.id) OR (isNull(task.id) AND isNull(pipeline.id)))",
+          "sampleData": "",
+          "type": "dql"
+        }
+      ],
+      "routing": {
+        "type": "dynamic"
+      },
+      "segment": ""
+    }
+  ],
+  "id": "events.sdlc",
+  "pipelines": [
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "gitlab-pipeline",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_gitlab-pipeline_7874",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd if(isNotNull(object_attributes[finished_at]),toDuration(toTimestamp(object_attributes[finished_at])-toTimestamp(object_attributes[created_at])), else: toDuration(0)), alias: duration",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_4524",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd start_time = if(isNotNull(object_attributes[created_at]),toTimestamp(object_attributes[created_at]))",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_5283",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd end_time = if (isNotNull(object_attributes[finished_at]) and object_attributes[status]!=\"running\",toTimestamp(object_attributes[finished_at]) )",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_end_time_3323",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd event.status = if(isNotNull(object_attributes[finished_at]) and object_attributes[status] != \"running\", \"finished\", else:obj_attr_j[status] )",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_4715",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "pipeline.queued.duration",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd if(isNotNull(object_attributes[queued_duration]),toDuration(object_attributes[queued_duration]*1000000000), else: toDuration(0)), alias: pipeline.queued.duration",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_queued_duration_6724",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.id",
+            "dqlScript": "parse project, \"JSON:project\" \n| fieldsAdd cicd.pipeline.id = project[id]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.id_2565",
+            "matcher": "isNotNull(project)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.name",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd cicd.pipeline.name = if(isNotNull(object_attributes[name]) ,object_attributes[name], else: \"unknown\" )",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.name_3907",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": " cicd.upstream_pipeline.id | run.id",
+            "dqlScript": "parse source_pipeline, \"JSON:source_pipeline\" \n| fieldsAdd cicd.upstream_pipeline.id = source_pipeline[project][id]\n| fieldsAdd cicd.upstream_pipeline.run.id = source_pipeline[pipeline_id]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor__cicd.upstream_pipeline.id__cicd.upstream_pipeline.run.id_4689",
+            "matcher": "isNotNull(source_pipeline)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.run.id | url.full | trigger | variables | outcome",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd cicd.pipeline.run.id = object_attributes[id]\n| fieldsAdd cicd.pipeline.run.url.full = object_attributes[url]\n| fieldsAdd cicd.pipeline.run.trigger = object_attributes[source]\n| fieldsAdd cicd.pipeline.run.variable = object_attributes[variables]\n| fieldsAdd outcome = if (isNotNull(object_attributes[finished_at]) and object_attributes[status] != \"running\", object_attributes[status] )\n| fieldsAdd cicd.pipeline.run.outcome = if(outcome == \"failed\",\"failure\", else:outcome)\n| fieldsRemove outcome",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.run.id_1185",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.change.id",
+            "dqlScript": "parse merge_request, \"JSON:merge_request\" \n| fieldsAdd vcs.change.id = merge_request[iid]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.run.merge_request.info_7872",
+            "matcher": "isNotNull(merge_request)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.head.name | revision",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd vcs.ref.head.name = object_attributes[ref]\n| fieldsAdd vcs.ref.head.revision = object_attributes[sha]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.head_branch__ext.pipeline.head_sha_1031",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name | url.full",
+            "dqlScript": "parse project, \"JSON:project\" \n| fieldsAdd vcs.repository.name = project[name]\n| fieldsAdd vcs.repository.url.full = project[web_url]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.ref.name_4998",
+            "matcher": "isNotNull(project)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.upstream_pipeline.run.job.id",
+            "dqlScript": "parse source_pipeline, \"JSON:source_pipeline\" \n| fieldsAdd ext.upstream_pipeline.run.job.id = source_pipeline[job_id]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.upstream_pipeline.run.job.id_8424",
+            "matcher": "isNotNull(source_pipeline)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.project.name | namespace",
+            "dqlScript": "parse project, \"JSON:project\" \n| fieldsAdd ext.pipeline.project.name = project[name]\n| fieldsAdd ext.pipeline.project.namespace = project[namespace]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.project.name__ext.pipeline.project.namespace_9993",
+            "matcher": "isNotNull(project)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "editable": true,
+            "enabled": true,
+            "fields": [
+              "object_kind",
+              "object_attributes",
+              "merge_request",
+              "user",
+              "project",
+              "commit",
+              "source_pipeline",
+              "builds"
+            ],
+            "id": "processor_Clean_5224",
+            "matcher": "true",
+            "sampleData": "",
+            "type": "fieldsRemove"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "gitlab-job",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_gitlab-job_3338",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "fieldsAdd event.status = if (isNotNull(build_finished_at) and build_status != \"running\", \"finished\", else:build_status )",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_9538",
+            "matcher": "object_kind == \"build\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "fieldsAdd start_time = toTimestamp(build_started_at)",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_4728",
+            "matcher": "object_kind == \"build\" and build_status == \"running\" and isNotNull(build_started_at)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "fieldsAdd end_time = toTimestamp(build_finished_at)",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_end_time_5297",
+            "matcher": "object_kind == \"build\" and build_status != \"running\" and isNotNull(build_finished_at)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "fieldsAdd if(isNotNull(build_duration), toDuration(build_duration*1000000000), else: toDuration(0)), alias: duration",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_2800",
+            "matcher": "object_kind == \"build\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.run.id",
+            "dqlScript": "fieldsAdd cicd.pipeline.run.id = pipeline_id",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.run.id_7865",
+            "matcher": "object_kind == \"build\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.id | name | outcome | retry",
+            "dqlScript": "fieldsAdd task.id = build_id\n| fieldsAdd task.name = build_name\n| fieldsAdd task.retry = retries_count\n| fieldsAdd outcome = if (isNotNull(build_finished_at) and build_status != \"running\", build_status )\n| fieldsAdd task.outcome = if(outcome == \"failed\", \"failure\", else:outcome)\n| fieldsRemove outcome",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.run.id__task.id__task.name_4548",
+            "matcher": "object_kind == \"build\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.queued.duration",
+            "dqlScript": "fieldsAdd if(isNotNull(build_queued_duration), toDuration(build_queued_duration*1000000000), else: toDuration(0)), alias: task.queued.duration",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.queued.duration_5168",
+            "matcher": "object_kind == \"build\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.runner.name",
+            "dqlScript": "parse runner, \"JSON:runner\" \n| fieldsAdd task.runner.name = runner[description]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.runner_1335",
+            "matcher": "isNotNull(runner)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.outcome.failure.reason",
+            "dqlScript": "fieldsAdd task.outcome.failure.reason = build_failure_reason",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.failure.reason_6425",
+            "matcher": "object_kind == \"build\" and build_status == \"failed\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name",
+            "dqlScript": "parse project, \"JSON:project\" \n| fieldsAdd vcs.repository.name = project[name]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.ref.name_9873",
+            "matcher": "isNotNull(project)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.task.build.environment",
+            "dqlScript": "fieldsAdd ext.task.build.environment=environment",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.build.environment_2769",
+            "matcher": "object_kind == \"build\" and isNotNull(environment)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "editable": true,
+            "enabled": true,
+            "fields": [
+              "runner",
+              "project_id",
+              "project_name",
+              "user",
+              "commit",
+              "repository",
+              "project",
+              "environment",
+              "object_kind",
+              "ref",
+              "tag",
+              "before_sha",
+              "sha",
+              "retries_count",
+              "build_id",
+              "build_name",
+              "build_stage",
+              "build_status",
+              "build_created_at",
+              "build_started_at",
+              "build_finished_at",
+              "build_duration",
+              "build_queued_duration",
+              "build_allow_failure",
+              "build_failure_reason",
+              "pipeline_id"
+            ],
+            "id": "processor_Clean_5972",
+            "matcher": "object_kind == \"build\"",
+            "sampleData": "",
+            "type": "fieldsRemove"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "gitlab-mr",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_GitLab_-_MR_8761",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd event.status = object_attributes[state]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_1859",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd if(object_attributes[state] ==\"merged\" and object_attributes[action]==\"merge\", toDuration(toTimestamp(object_attributes[updated_at]) - toTimestamp(object_attributes[created_at])), else: toDuration(0)), alias: duration",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_7161",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd start_time = toTimestamp(object_attributes[created_at])",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_3095",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd if( in(object_attributes[state] ,{\"merged\",\"closed\"}) and in(object_attributes[action],{\"close\",\"merge\"}),toTimestamp(object_attributes[updated_at])), alias: end_time",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_end_time_3064",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.id",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd task.id = object_attributes[id]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.id__task.name_2672",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.change.id | title | url.full",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd vcs.change.id = object_attributes[iid]\n| fieldsAdd vcs.change.title = object_attributes[title]\n| fieldsAdd vcs.change.url.full = object_attributes[url]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.change.id__vcs.repository.change.title_5270",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name",
+            "dqlScript": "parse project, \"JSON:project\" \n| fieldsAdd vcs.repository.name = project[name]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.ref.name_9325",
+            "matcher": "isNotNull(project)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.ref.revision",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd vcs.repository.ref.revision = object_attributes[merge_commit_sha]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.ref.revision_9535",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.url.full",
+            "dqlScript": "parse project, \"JSON:project\" \n| fieldsAdd vcs.repository.url.full = project[web_url]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.url.full_1621",
+            "matcher": "isNotNull(project)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.head.revision | name",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd vcs.ref.head.name = object_attributes[source_branch]\n| fieldsAdd vcs.ref.head.revision = object_attributes[last_commit][id]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.repository.source._full_name_name_ref__7149",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.base.name",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd vcs.ref.base.name = object_attributes[target_branch]",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.repository.target._id_name_ref__1381",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.task.action | action.made_at",
+            "dqlScript": "parse object_attributes, \"JSON:object_attributes\" \n| fieldsAdd ext.task.action = object_attributes[action]\n| fieldsAdd ext.task.action.made_at = toTimestamp(object_attributes[updated_at])",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task._action_number__7049",
+            "matcher": "isNotNull(object_attributes)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "editable": true,
+            "enabled": true,
+            "fields": [
+              "object_kind",
+              "event_type",
+              "user",
+              "project",
+              "object_attributes",
+              "labels",
+              "changes",
+              "repository"
+            ],
+            "id": "processor_Remove_fields_6152",
+            "matcher": "true",
+            "sampleData": "",
+            "type": "fieldsRemove"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": true,
+      "dataExtraction": {
+        "editable": false,
+        "processors": []
+      },
+      "displayName": "events.sdlc",
+      "editable": false,
+      "enabled": true,
+      "id": "default",
+      "metricExtraction": {
+        "editable": false,
+        "processors": []
+      },
+      "processing": {
+        "editable": false,
+        "processors": []
+      },
+      "securityContext": {
+        "editable": false,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": false,
+        "processors": []
+      },
+      "type": "default"
+    }
+  ],
+  "routing": {
+    "catchAllPipeline": {
+      "editable": false,
+      "pipelineId": "default"
+    },
+    "editable": true,
+    "entries": [
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "object_kind == \"pipeline\"",
+        "note": "Route all GitLab events into workflow pipeline",
+        "pipelineId": "pipeline_gitlab-pipeline_7874"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "object_kind==\"build\"",
+        "note": "Route all GitLab events to job pipeline",
+        "pipelineId": "pipeline_gitlab-job_3338"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "object_kind==\"merge_request\"",
+        "note": "Route all GitLab events into MR pipeline",
+        "pipelineId": "pipeline_GitLab_-_MR_8761"
+      }
+    ]
+  }
+}
