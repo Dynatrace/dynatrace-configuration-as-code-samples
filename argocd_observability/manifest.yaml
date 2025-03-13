@@ -1,0 +1,20 @@
+manifestVersion: 1.0
+projects:
+  - name: argocd_observability
+environmentGroups:
+  - name: group
+    environments:
+      - name: <YOUR-DT-ENV-ID>
+        url:
+          type: value
+          value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
+        auth:
+            oAuth:
+              clientId:
+                name: OAUTH_CLIENT_ID
+              clientSecret:
+                name: OAUTH_CLIENT_SECRET
+              tokenEndpoint:
+                type: environment
+                value: OAUTH_TOKEN_ENDPOINT
+                

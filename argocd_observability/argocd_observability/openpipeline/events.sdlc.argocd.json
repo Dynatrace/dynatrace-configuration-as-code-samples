@@ -1,0 +1,390 @@
+{
+  "customBasePath": "/platform/ingest/custom/events.sdlc",
+  "editable": true,
+  "endpoints": [
+    {
+      "basePath": "/platform/ingest/custom/events.sdlc",
+      "builtin": false,
+      "defaultBucket": "default_events",
+      "displayName": "ArgoCD",
+      "editable": true,
+      "enabled": true,
+      "processors": [
+        {
+          "builtin": false,
+          "description": "Set event.id to a unique identifier",
+          "dqlScript": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))",
+          "editable": true,
+          "enabled": true,
+          "id": "argocd:sets_event_id_to_a_unique_identifier_9364",
+          "matcher": "isNull(event.id)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set default SDLC properties and type deployment",
+          "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{apiVersion, kind} \n| fieldsAdd event.kind = \"SDLC_EVENT\"\n| fieldsAdd event.version = \"0.1.0\"\n| fieldsAdd event.category = \"task\"\n| fieldsAdd event.type = \"deployment\" \n| fieldsAdd event.provider = \"argocd\"\n| fieldsRemove record_json, apiVersion, kind",
+          "editable": true,
+          "enabled": true,
+          "id": "argocd:sets_application_properties_6951",
+          "matcher": "true",
+          "sampleData": "",
+          "type": "dql"
+        }
+      ],
+      "routing": {
+        "pipelineId": "argocd:application_1194",
+        "type": "static"
+      },
+      "segment": "argocd"
+    },
+    {
+      "basePath": "/platform/ingest/v1/events.sdlc",
+      "builtin": true,
+      "defaultBucket": "default_events",
+      "displayName": "Endpoint for Software Development Lifecycle events",
+      "editable": false,
+      "enabled": true,
+      "processors": [
+        {
+          "builtin": true,
+          "description": "sdlc event default fields",
+          "editable": false,
+          "enabled": true,
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            }
+          ],
+          "id": "sdlc:ingest_enrichment_map",
+          "matcher": "true",
+          "sampleData": "",
+          "type": "fieldsAdd"
+        },
+        {
+          "builtin": true,
+          "description": "Sets start_time to end_time",
+          "dqlScript": "fieldsAdd start_time = end_time",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:start_time_to_end_time_processor",
+          "matcher": "isNull(start_time) AND isNotNull(end_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets start_time to current timestamp",
+          "dqlScript": "fieldsAdd start_time = now()",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:start_time_processor",
+          "matcher": "isNull(start_time) AND isNull(end_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets end_time to start_time",
+          "dqlScript": "fieldsAdd end_time = start_time",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:end_time_to_start_time_processor",
+          "matcher": "isNull(end_time) AND isNotNull(start_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.id to a unique identifier",
+          "dqlScript": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_id_processor",
+          "matcher": "isNull(event.id)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.category to pipeline if conditions match",
+          "dqlScript": "fieldsAdd event.category = \"pipeline\"",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_category_pipeline_processor",
+          "matcher": "isNull(event.category) AND (isNotNull(pipeline.id) AND isNull(task.id))",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.category to task if conditions match",
+          "dqlScript": "fieldsAdd event.category = \"task\"",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_category_task_processor",
+          "matcher": "isNull(event.category) AND (isNotNull(task.id) OR (isNull(task.id) AND isNull(pipeline.id)))",
+          "sampleData": "",
+          "type": "dql"
+        }
+      ],
+      "routing": {
+        "type": "dynamic"
+      },
+      "segment": ""
+    }
+  ],
+  "id": "events.sdlc",
+  "pipelines": [
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "argocd-deployment",
+      "editable": true,
+      "enabled": true,
+      "id": "argocd:application_1194",
+      "metricExtraction": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "Number of finished SDLC tasks",
+            "dimensions": [
+              "event.category",
+              "event.type",
+              "event.provider",
+              "event.status",
+              "vcs.repository.ref.name",
+              "cicd.pipeline.name"
+            ],
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:number_of_finished_SDLC_tasks_3453",
+            "matcher": "event.status == \"finished\"",
+            "metricKey": "events.sdlc.finished_tasks",
+            "sampleData": "",
+            "type": "counterMetric"
+          },
+          {
+            "builtin": false,
+            "description": "Number of SDLC tasks",
+            "dimensions": [
+              "event.category",
+              "event.type",
+              "event.provider",
+              "event.status",
+              "vcs.repository.ref.name",
+              "cicd.pipeline.name",
+              "actor.geo.country.name"
+            ],
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:number_of_SDLC_tasks_2369",
+            "matcher": "true",
+            "metricKey": "events.sdlc.tasks",
+            "sampleData": "",
+            "type": "counterMetric"
+          },
+          {
+            "builtin": false,
+            "description": "Duration of finished SDLC tasks",
+            "dimensions": [
+              "event.type",
+              "event.category",
+              "event.provider",
+              "event.status",
+              "cicd.pipeline.name",
+              "vcs.repository.ref.name"
+            ],
+            "editable": true,
+            "enabled": true,
+            "field": "duration",
+            "id": "argocd:application:duration_of_finished_SDLC_tasks_3839",
+            "matcher": "event.status == \"finished\"",
+            "metricKey": "events.sdlc.task_duration",
+            "sampleData": "",
+            "type": "valueMetric"
+          }
+        ]
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status} \n| fieldsAdd if(lower(status[operationState][phase]) == \"running\", \"started\", else: \"finished\"), alias: event.status\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:event.status_7232",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd if((status[operationState][finishedAt] \u003e status[operationState][startedAt]) and lower(status[sync][status]) == \"synced\", toTimestamp(status[operationState][finishedAt]) - toTimestamp(status[operationState][startedAt]), else: toDuration(0)), alias: duration\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:duration_3411",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd start_time = status[operationState][startedAt]\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:start_time_3797",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd end_time = status[operationState][finishedAt]\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:end_time_5325",
+            "matcher": "isNotNull(app) and event.status == \"finished\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "timestamp",
+            "dqlScript": "fieldsAdd dif2h = toLong(7200000000000)\n| fieldsAdd nt = toLong(toTimestamp(now()))\n| fieldsAdd if(nt - toLong(toTimestamp(start_time)) \u003c dif2h, start_time, else: toTimestamp(nt)), alias: st\n| fieldsAdd if(nt - toLong(toTimestamp(end_time)) \u003c dif2h, end_time, else: toTimestamp(nt)), alias: et\n| fieldsAdd if(event.status == \"started\", st, else: if(event.status == \"finished\", et, else: toTimestamp(nt))), alias: timestamp\n| fieldsRemove st, et, nt, dif2h",
+            "editable": true,
+            "enabled": false,
+            "id": "argocd:application:timestamp_3312",
+            "matcher": "type == \"DeploySuccess\" and event.status == \"finished\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.id | name | outcome",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsAdd task.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))\n| fieldsAdd task.name = \"ArgoCD Deployment\"\n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd task.outcome = lower(status[operationState][phase])\n| fieldsRemove record_json",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.id___name___outcome_9312",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.url.full | ref.base.revision | ref.base.name",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.repository.url.full = status[operationState][syncResult][source][repoURL]\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][syncResult][revision]\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:ext.application.source._path_repo.url_target_revision_project_4441",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "deployment.service.uid | name | namespace | resource_version | labels",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{metadata}\n| fieldsAdd deployment.service.uid = metadata[uid]\n| fieldsAdd deployment.service.name = metadata[name]\n| fieldsAdd deployment.service.namespace = metadata[namespace]\n| fieldsAdd deployment.service.resource_version = metadata[resourceVersion]\n| fieldsAdd deployment.service.labels = metadata[labels]\n| fieldsRemove record_json, metadata",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:task.id_task.name_5968",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "deployment.id | name | namespace | environment.name | server.url | images",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status, metadata}\n| fieldsAdd deployment.id = status[sync][revision]\n| fieldsAdd deployment.name = metadata[name]\n| fieldsAdd deployment.namespace = status[sync][comparedTo][destination][namespace]\n| fieldsAdd deployment.environment.name = \"undefined\"\n| fieldsAdd deployment.server.url = status[sync][comparedTo][destination][server]\n| fieldsAdd deployment.images = status[summary][images]\n| fieldsRemove record_json, status, metadata, sync",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:deployment.images_3636",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "argocd.sync.status | operationState.phase | operationState.outcome | app.health.status",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.app.health.status = lower(status[health][status])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.sync.operation_state.phase = lower(status[operationState][phase])\n| fieldsAdd argocd.sync.operation_state.outcome = lower(status[operationState][message])\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "argocd:application:argocd.reconciliation.time_sync.status_health.status_9056",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Cleanup",
+            "dqlScript": "fieldsRemove type, app, apiVersion, kind, metadata, spec, status, commit.message",
+            "editable": true,
+            "enabled": false,
+            "id": "argocd:application:remove_fields_2091",
+            "matcher": "isNotNull(app)",
+            "sampleData": "",
+            "type": "dql"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": true,
+      "dataExtraction": {
+        "editable": false,
+        "processors": []
+      },
+      "displayName": "events.sdlc",
+      "editable": false,
+      "enabled": true,
+      "id": "default",
+      "metricExtraction": {
+        "editable": false,
+        "processors": []
+      },
+      "processing": {
+        "editable": false,
+        "processors": []
+      },
+      "securityContext": {
+        "editable": false,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": false,
+        "processors": []
+      },
+      "type": "default"
+    }
+  ],
+  "routing": {
+    "catchAllPipeline": {
+      "editable": false,
+      "pipelineId": "default"
+    },
+    "editable": true,
+    "entries": []
+  }
+}
