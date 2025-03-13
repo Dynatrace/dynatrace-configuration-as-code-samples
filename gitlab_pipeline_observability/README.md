@@ -40,7 +40,7 @@ export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
 4. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `gitlab_pipeline_observability`.
 ```
 git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
-cd gitlab_pipeline_observability
+cd dynatrace-configuration-as-code-samples/gitlab_pipeline_observability
 ```
 
 5. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID.
@@ -91,10 +91,10 @@ monaco deploy manifest.yaml
 
 1. Download your OpenPipeline configuration.
 ```
-monaco download
+monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
 ```
 
-2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.github.json`.
+2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.gitlab.json`.
 
 3. Run the following command to apply the provided configuration. 
 ```
