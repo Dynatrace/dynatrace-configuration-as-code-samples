@@ -1,0 +1,26 @@
+configs:
+- id: 5a2319c6-228d-4d03-a424-acd22c7b6814
+  config:
+    name: GitHub Workflow v.0.3.1
+    parameters:
+      extractedIDs:
+        type: value
+        value:
+          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
+    template: github.workflow.json
+    skip: false
+    originObjectId: 5a2319c6-228d-4d03-a424-acd22c7b6814
+  type:
+    document:
+      kind: dashboard
+      private: true
+- id: 6098c0a5-2a3a-405f-90d2-2cbd9342aeae
+  config:
+    name: GitHub Pull Request v.0.3.1
+    template: github.pull_request.json
+    skip: false
+    originObjectId: 6098c0a5-2a3a-405f-90d2-2cbd9342aeae
+  type:
+    document:
+      kind: dashboard
+      private: true
