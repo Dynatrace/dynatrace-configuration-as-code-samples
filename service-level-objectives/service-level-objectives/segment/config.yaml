@@ -1,0 +1,5 @@
+configs:
+- id: segment-id
+  config:
+    template: segment.json
+  type: segment

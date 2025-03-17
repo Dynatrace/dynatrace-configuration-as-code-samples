@@ -1,0 +1,15 @@
+# generated using `monaco generate deletefile manifest.yaml`
+
+delete:
+- project: service-level-objectives
+  type: segment
+  id: segment-id
+- project: service-level-objectives
+  type: slo-v2
+  id: custom-sli
+- project: service-level-objectives
+  type: slo-v2
+  id: sli-reference
+- project: service-level-objectives
+  type: slo-v2
+  id: custom-sli-with-segment
