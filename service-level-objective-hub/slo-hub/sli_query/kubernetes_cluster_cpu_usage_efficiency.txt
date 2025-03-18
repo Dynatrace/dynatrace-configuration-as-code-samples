@@ -1,0 +1,8 @@
+timeseries {
+  requests_cpu = sum(dt.kubernetes.container.requests_cpu, rollup:avg),
+  cpu_allocatable = sum(dt.kubernetes.node.cpu_allocatable, rollup:avg)
+}, by:{dt.entity.kubernetes_cluster}
+, filter: {k8s.cluster.name == "{{.clusterName}}"}
+| fieldsAdd sli = (requests_cpu[] / cpu_allocatable[]) * 100
+| fieldsAdd entityName(dt.entity.kubernetes_cluster)
+| fieldsRemove requests_cpu, cpu_allocatable
