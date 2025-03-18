@@ -1,0 +1,22 @@
+configs:
+  - id: custom-sli
+    type: slo-v2
+    config:
+      name: custom-sli
+      template: './custom-sli.json'
+  - id: sli-reference
+    type: slo-v2
+    config:
+      name: sli-reference
+      template: './sli-reference.json'
+  - id: custom-sli-with-segment
+    type: slo-v2
+    config:
+      name: "custom-sli-with-segments"
+      template: './custom-sli-with-segments.json'
+      parameters:
+        segment_id:
+          configId: segment-id
+          configType: segment
+          property: id
+          type: reference
