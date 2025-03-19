@@ -1,0 +1,8 @@
+timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }
+, by: { dt.entity.service }
+, filter: { in(entityAttr(dt.entity.service,"tags"), "app:{{.app}}") 
+and in(entityAttr(dt.entity.service,"tags"), "env:{{.env}}")
+and in(entityAttr(dt.entity.service,"tags"), "function:{{.function}}")}
+| fieldsAdd sli=(((total[]-failures[])/total[])*(100))
+| fieldsAdd entityName(dt.entity.service)
+| fieldsRemove total, failures

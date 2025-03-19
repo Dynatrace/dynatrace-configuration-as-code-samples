@@ -1,0 +1,12 @@
+timeseries total = avg(dt.synthetic.browser.duration,default:0)
+, by:{dt.entity.synthetic_test}
+, filter: { in(entityAttr(dt.entity.service,"tags"), "app:{{.app}}") 
+and in(entityAttr(dt.entity.service,"tags"), "env:{{.env}}")
+and in(entityAttr(dt.entity.service,"tags"), "function:{{.function}}")}
+| fieldsAdd high=iCollectArray(if(total[]> ({{ .sliThreshold }}), total[]))
+| fieldsAdd low=iCollectArray(if(total[]<= ({{ .sliThreshold }}), total[]))
+| fieldsAdd highRespTimes=iCollectArray(if(isNull(high[]),0,else:1))
+| fieldsAdd lowRespTimes=iCollectArray(if(isNull(low[]),0,else:1))
+| fieldsAdd sli=100*(lowRespTimes[]/(lowRespTimes[]+highRespTimes[]))
+| fieldsAdd entityName(dt.entity.synthetic_test)
+| fieldsRemove total, high, low, highRespTimes, lowRespTimes
