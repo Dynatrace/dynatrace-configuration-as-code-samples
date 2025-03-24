@@ -8,7 +8,7 @@
 | event.category = "task" | |  x
 | event.type = "deployment" | |  x
 | event.provider = "argocd" | |  x
-| event.status = started/finsihed | |  x
+| event.status = started/finished | |  x
 | duration | |  x
 | start_time | |  x
 | end_time | |  x
@@ -16,7 +16,7 @@
 | | | |
 | task.id | | -
 | task.name | | -
-| task.outcome | | x
+| task.outcome | must be mapped from argocd.sync.status | x
 | | | |
 | deployment.service.uid | app.metadata.uid | x
 | deployment.service.name | app.metadata.name | -
@@ -27,9 +27,9 @@
 | deployment.id | app.status.sync.revision | -
 | deployment.name | app.metadata.name | x
 | deployment.namespace | app.status.sync.comparedTo.destination.namespace | x
-| deployment.server.url | app.status.sync.comparedTo.destination.server | x
+| deployment.server.url.full | app.status.sync.comparedTo.destination.server | x
 | deployment.environment.name | `undefined` | x
-| deployment.images | app.status.summary.images, Note: This is a list of images. Should be `expanded` to create `artifact.*` properties. Currently, expand operation is not supported by OpenPipeline. | -
+<!--| deployment.images | app.status.summary.images, Note: This is a list of images. Should be `expanded` to create `artifact.*` properties. Currently, expand operation is not supported by OpenPipeline. | - -->
 | | | |
 | vcs.repository.url.full | | x
 | vcs.ref.base.name | | -
@@ -40,7 +40,7 @@
 | argocd.sync.operation_state.phase | app.status.operationState.phase | x
 | argocd.sync.operation_state.outcome | app.status.operationState.message | -
 
-## Semantic Dictionary: `artifact.md`
+### Semantic Dictionary: `artifact.md`
 
 - artifact.filename
 - artifact.id
@@ -51,6 +51,8 @@
 
 ### Deployment
 #### Semantic Dictionary: `deployment.md`
+
+> Note: Leave as is. Mark as internal to be considered as deprecated.
 
 - deployment.release_build_version	
 - deployment.release_product
