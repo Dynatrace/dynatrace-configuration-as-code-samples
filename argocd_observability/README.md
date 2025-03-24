@@ -45,7 +45,7 @@ export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
 4. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `argocd_observability`.
 ```
 git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
-cd argocd_observability
+cd dynatrace-configuration-as-code-samples/argocd_observability
 ```
 
 5. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID.
@@ -96,7 +96,7 @@ monaco deploy manifest.yaml
 
 1. Download your OpenPipeline configuration.
 ```
-monaco download
+monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
 ```
 
 2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.argocd.json`.
