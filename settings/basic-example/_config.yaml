@@ -1,0 +1,8 @@
+configs:
+- id: tag-setting
+  type:
+    settings:
+      schema: builtin:tags.auto-tagging
+      scope: environment
+  config:
+    template: application-tagging-setting.json

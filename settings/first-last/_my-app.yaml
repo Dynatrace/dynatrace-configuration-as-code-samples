@@ -1,0 +1,23 @@
+configs:
+
+- id: my-app
+  type: application-web
+  config:
+    name: "My application"
+    template: "application.json"
+
+- id: my-app-rule
+  type:
+    settings:
+      schema: builtin:rum.web.app-detection
+      scope: environment
+      insertAfter: front
+  config:
+    template: "rule.json"
+    parameters:
+      applicationId:
+        type: reference
+        configType: application-web
+        configId: my-app
+        property: id
+      pattern: "my.app.dynatrace"
