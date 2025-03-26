@@ -1,0 +1,19 @@
+manifestVersion: 1.0
+
+projects:
+- name: basic-example
+- name: first-last
+
+environmentGroups:
+- name: default
+  environments:
+  - name: demo-environment
+    url:
+      type: environment
+      value: ENVIRONMENT_URL
+    auth:
+      oAuth:
+        clientId:
+          name: OAUTH_CLIENT_ID
+        clientSecret:
+          name: OAUTH_CLIENT_SECRET
