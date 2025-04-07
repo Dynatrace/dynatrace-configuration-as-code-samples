@@ -30,7 +30,7 @@ export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
 4. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `github_pipeline_observability`.
 ```
 git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
-cd github_pipeline_observability
+cd dynatrace-configuration-as-code-samples/azure_devops_observability
 ```
 
 5. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID.

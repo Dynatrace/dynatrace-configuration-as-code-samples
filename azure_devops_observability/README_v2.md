@@ -136,7 +136,6 @@ You can configure webhooks at the project level.
     Add entry: `Authorization: Api-Token <YOUR-ACCESS-TOKEN>`, replace the placeholder `<YOUR-ACCESS-TOKEN>` with the generated access token 
 7.  Click **Finish** to save the webhook configuration.
 
-
 Repeat creation of webhook subscriptions for triggers:
    -  `Run job state changed`
    -  `Run state changed`
