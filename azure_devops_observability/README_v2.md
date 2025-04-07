@@ -1,18 +1,18 @@
 
 
-# Observe your Azure DevOps Merge Requests and Pipelines with Dashboards and normalized SDLC events through OpenPipeline
+# Observe your Azure DevOps Pipelines and Pull Requests with Dashboards and normalized SDLC events through OpenPipeline
 
-Enable Platform Engineering teams to grasp and analyze the efficiency of Azure DevOps workflows and processes bound to Azure DevOps merge requests to drive improvements and optimize the Internal Development Platform (IDP). By better understanding the integration of Azure DevOps into your development routines or delivery processes, you can set actions in the following directions:
+Enable Platform Engineering teams to grasp and analyze the efficiency of Azure DevOps pipelines and processes bound to Git pull requests to drive improvements and optimize the Internal Development Platform (IDP). By better understanding the integration of Azure DevOps into your development routines or delivery processes, you can set actions in the following directions:
 
-* *Streamlining CI/CD Pipelines*: Observing workflow executions allows you to identify bottlenecks and inefficiencies in your CI/CD pipelines. This helps in optimizing build and deployment processes, leading to faster and more reliable releases.
+* *Streamlining CI/CD Pipelines*: Observing pipeline executions allows you to identify bottlenecks and inefficiencies in your CI/CD pipelines. This helps in optimizing build and deployment processes, leading to faster and more reliable releases.
 
-* *Improving Developer Productivity*: Automated workflows reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards. This allows developers to focus more on writing code and less on administrative tasks.
+* *Improving Developer Productivity*: Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards. This allows developers to focus more on writing code and less on administrative tasks.
 
-* *Data-Driven Insights*: Analyzing telemetry data from merge requests and workflows provides valuable insights into the development process. This data can be used to make informed decisions and continuously improve the development flows.
+* *Data-Driven Insights*: Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process. This data can be used to make informed decisions and continuously improve the development flows.
 
 ## Target audience
 
-This article is intended for Platform Engineers managing the internal Development Platform (IDP), including Azure DevOps for an entire organization.
+This article is intended for Platform Engineers managing the Internal Development Platform (IDP), including Azure DevOps for an entire organization.
 
 ## Prerequisites
 
@@ -96,7 +96,7 @@ monaco deploy manifest.yaml
 monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
 ```
 
-2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.github.json`.
+2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.azdo.json`.
 
 3. Run the following command to apply the provided configuration. 
 ```
