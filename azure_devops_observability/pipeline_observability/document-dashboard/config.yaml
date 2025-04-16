@@ -1,20 +1,20 @@
 configs:
-- id: fa1580ed-4c8f-4c58-a91d-52b79bff5261
+- id: 59fc26b8-07fa-482a-a990-256f4f35b761
   config:
-    name: Azure DevOps Pipelines
-    template: fa1580ed-4c8f-4c58-a91d-52b79bff5261.json
+    name: Azure DevOps Pull Request
+    template: azure_devops_pull_request.json
     skip: false
-    originObjectId: fa1580ed-4c8f-4c58-a91d-52b79bff5261
+    originObjectId: 59fc26b8-07fa-482a-a990-256f4f35b761
   type:
     document:
       kind: dashboard
       private: true
-- id: bed15155-a6fe-4bd7-b80b-8f3bc060dc92
+- id: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
   config:
-    name: Azure DevOps Pull Request
-    template: bed15155-a6fe-4bd7-b80b-8f3bc060dc92.json
+    name: Azure DevOps Pipelines
+    template: azure_devops_pipelines.json
     skip: false
-    originObjectId: bed15155-a6fe-4bd7-b80b-8f3bc060dc92
+    originObjectId: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
   type:
     document:
       kind: dashboard
