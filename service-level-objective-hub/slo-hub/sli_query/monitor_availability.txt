@@ -1,0 +1,6 @@
+timeseries sli = avg(dt.synthetic.browser.availability,default:0)
+, by:{dt.entity.synthetic_test}
+, filter: { in(entityAttr(dt.entity.synthetic_test,"tags"), "app:{{.app}}") 
+and in(entityAttr(dt.entity.synthetic_test,"tags"), "env:{{.env}}")
+and in(entityAttr(dt.entity.synthetic_test,"tags"), "function:{{.function}}")}
+| fieldsAdd entityName(dt.entity.synthetic_test)
