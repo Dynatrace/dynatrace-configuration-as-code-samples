@@ -1,6 +1,4 @@
-If you followed this blog post: [Insights into your Azure DevOps pipelines](https://www.dynatrace.com/news/blog/insights-into-your-azure-devops-pipelines/), then please follow the link to: [AzureDevOps Releases & Builds Integration](./AZDO_pipelines_insights_based_on_log_ingest.md)
-
-Otherwise, continue reading at this page, which is the best practice for Azure DevOps Pipeline Observability.
+If you come this blog post: [Insights into your Azure DevOps pipelines](https://www.dynatrace.com/news/blog/insights-into-your-azure-devops-pipelines/), then please follow the link to: [AzureDevOps Releases & Builds Integration](./AZDO_pipelines_insights_based_on_log_ingest.md). Otherwise, continue reading on this page, which is the best practice for Azure DevOps Pipeline Observability.
 
 # Observe your Azure DevOps Pipelines and Pull Requests with Dashboards and normalized SDLC events through OpenPipeline
 
@@ -67,7 +65,7 @@ In this tutorial, you'll learn how to
     cd dynatrace-configuration-as-code-samples/azure_devops_observability
     ```
 
-4. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID at the name property and within the URL of the value property.
+4. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID at the *name* property and within the URL of the *value* property.
     ```
     manifestVersion: 1.0
     projects:
@@ -126,8 +124,8 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Az
 2. Click **Generate new token**.
 3. Provide a descriptive name for your token.
 4. Select the following scopes:
-    * OpenPipeline - Ingest Software Development Lifecycle Events (Built-in)(`openpipeline.events_sdlc.custom`)
-    * OpenPipeline - Ingest Software Development Lifecycle Events (Custom)(`openpipeline.events_sdlc`)
+    * OpenPipeline - Ingest Software Development Lifecycle Events (Built-in)(`openpipeline.events_sdlc`)
+    * OpenPipeline - Ingest Software Development Lifecycle Events (Custom)(`openpipeline.events_sdlc.custom`)
 5. Click **Generate token**
 6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
 ​
@@ -157,7 +155,7 @@ Repeat creation of webhook subscriptions for the following triggers:
    
 ## Work with Azure DevOps and observe organization-wide activities in Dashboards
 
-Now that you've successfully configured Azure DevOps and Dynatrace, you can use Dashboards and [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) to observe your Azure DevOps pipelines and pull requests.
+Now that you've successfully configured Azure DevOps and Dynatrace, you can use Dashboards and SDLC events to observe your Azure DevOps pipelines and pull requests.
 
 Open the **Azure DevOps Pipelines** and the **Azure DevOps Pull Request** dashboards to observe and analyze:
 
