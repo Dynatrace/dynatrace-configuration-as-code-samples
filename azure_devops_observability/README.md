@@ -183,7 +183,8 @@ Leverage those insights for the following improvement areas of your internal dev
 
 ## Call to action
 
-We highly value your insights on Azure DevOps pipeline observability. Your feedback is crucial in helping us enhance our tools and services. Visit the Dynatrace Community page to share your experiences, suggestions, and ideas. Your contributions are instrumental in shaping the future of our platform. Join the discussion today and make a difference. For more information, see [Observe your Pipelines and Merge Requests with Dashboards and normalized SDLC events through OpenPipeline](https://dt-url.net/ul03wva). 
+We highly value your insights on GitLab pipeline observability. Your feedback is crucial in helping us enhance our tools and services. Visit the Dynatrace Community page to share your experiences, suggestions, and ideas directly on [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193). 
+
 
 ## Further reading
 
