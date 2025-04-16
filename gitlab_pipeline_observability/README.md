@@ -167,10 +167,9 @@ Open the **GitLab Pipeline Pulse** and the **GitLab Merge Request** dashboards t
 * Job insights
 * Step durations for workflows in your organization or selected GitLab repositories.
 
-|  |  |  |
+| Pipeline details: | Job insights: | Merge request insights: |
 |------------|-----|-------------|
 | ![image](images/pipeline_dashboard_pipeline_details.png)   | ![image](images/pipeline_dashboard_job_details.png) | ![image](images/merge_request_dashboard.png) |
-|  |  |  |
 
 Leverage those insights for the following improvement areas of your internal development platform (IDP):
 
