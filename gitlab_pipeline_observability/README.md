@@ -114,9 +114,9 @@ If your OpenPipeline configuration contains only default/built-in values, you ca
 4. Apply the Monaco configuration.
   Run this command to apply the provided Monaco configuration.
   The configuration consists of (1) Dashboards to analyze GitLab activities and (2) OpenPipeline configuration to normalize [GitLab events](https://docs.gitlab.com/user/project/integrations/webhook_events/) into [SDLC events](pipeline-observability-ingest-sdlc-events).
-  ```
-  monaco deploy manifest.yaml
-  ```
+    ```
+    monaco deploy manifest.yaml
+    ```
 
 #### 3. Create a Dynatrace access token
 
@@ -126,8 +126,8 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Gi
 2. Click **Generate new token**.
 3. Provide a descriptive name for your token.
 4. Select the following scopes:
-    * `openpipeline.events_sdlc.custom` 
-    * `openpipeline.events_sdlc`
+    * OpenPipeline - Ingest Software Development Lifecycle Events (Built-in)(`openpipeline.events_sdlc.custom`)
+    * OpenPipeline - Ingest Software Development Lifecycle Events (Custom)(`openpipeline.events_sdlc`)
 5. Click **Generate token**
 6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
 ​
