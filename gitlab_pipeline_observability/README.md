@@ -38,14 +38,14 @@ In this tutorial, you'll learn how to
 
 #### 1. Prepare the Monaco configuration.
 
-* [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
-  * Run apps: `app-engine:apps:run`
-  * View OpenPipeline configurations: `openpipeline:configurations:read`
-  * Edit OpenPipeline configurations: `openpipeline:configurations:write`
-  * Create and edit documents: `document:documents:write`
-  * View documents: `document:documents:read`
+1. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
+    * Run apps: `app-engine:apps:run`
+    * View OpenPipeline configurations: `openpipeline:configurations:read`
+    * Edit OpenPipeline configurations: `openpipeline:configurations:write`
+    * Create and edit documents: `document:documents:write`
+    * View documents: `document:documents:read`
 
-* Store the retrieved client ID, secret, and token endpoint as separate environment variables.
+2. Store the retrieved client ID, secret, and token endpoint as separate environment variables.
     <!-- windows version -->
     Windows:
     ```
@@ -61,13 +61,13 @@ In this tutorial, you'll learn how to
     export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
     ```
 
-* Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository using the following commands and move to the `gitlab_pipeline_observability` directory.
+3. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository using the following commands and move to the `gitlab_pipeline_observability` directory.
     ```
     git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
     cd dynatrace-configuration-as-code-samples/gitlab_pipeline_observability
     ```
 
-* Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID at the name property and within the URL of the value property.
+4. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID at the name property and within the URL of the value property.
     ```
     manifestVersion: 1.0
     projects:
@@ -93,37 +93,27 @@ In this tutorial, you'll learn how to
 #### 2. Check the OpenPipeline configuration for SDLC events
 
 > These steps modify the OpenPipeline configuration for SDLC events.
-If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration.
-If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
+If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration. If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
 
 > Step 3 will indicate if a configuration merge is needed or if you can apply the provided configuration directly.
 
-* Go to **OpenPipeline** > **Events** > **Software development lifecycle**.
-
-*  Check the **Ingest sources**, **Dynamic routing**, and **Pipelines**.
-  * Under **Ingest sources**, are there any other sources than **Endpoint for Software Development Lifecycle events**?
-  * Under **Dynamic routing**, are there any other routes than **Default route**?
-  * Under **Pipelines**, are there any other pipelines than **events.sdlc**?
-
-* If the answer to one of those questions is "yes", follow the steps below. Otherwise, skip ahead to step 4.
-
-  * Download your OpenPipeline configuration
-
-    ```
-    monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
-    ```
-
-  * Open the following files:
-    * Your downloaded configuration file, `download_<DATE>_<NUMBER>/project/openpipline/events.sdlc.json`.
-    * The provided configuration file, `pipeline_observability/openpipline/events.sdlc.github.json`.
-
-  * Merge the contents of events.sdlc.json into events.sdlc.github.json, and then save the file.
-
-* Apply the Monaco configuration.
-
+1. Go to **OpenPipeline** > **Events** > **Software development lifecycle**.
+2.  Check the **Ingest sources**, **Dynamic routing**, and **Pipelines**.
+    * Under **Ingest sources**, are there any other sources than **Endpoint for Software Development Lifecycle events**?
+    * Under **Dynamic routing**, are there any other routes than **Default route**?
+    * Under **Pipelines**, are there any other pipelines than **events.sdlc**?
+3. If the answer to one of those questions is "yes", follow the steps below. Otherwise, skip ahead to step 4.
+    * Download your OpenPipeline configuration
+      ```
+      monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
+      ```
+    * Open the following files:
+      * Your downloaded configuration file, `download_<DATE>_<NUMBER>/project/openpipline/events.sdlc.json`.
+      * The provided configuration file, `pipeline_observability/openpipline/events.sdlc.github.json`.
+    * Merge the contents of events.sdlc.json into events.sdlc.github.json, and then save the file.
+4. Apply the Monaco configuration.
   Run this command to apply the provided Monaco configuration.
-  The configuration consists of (1) Dashboards to analyze GitLab activities and (2) OpenPipeline configuration to normalize GitLab events into [SDLC events](pipeline-observability-ingest-sdlc-events).
-
+  The configuration consists of (1) Dashboards to analyze GitLab activities and (2) OpenPipeline configuration to normalize [GitLab events](https://docs.gitlab.com/user/project/integrations/webhook_events/) into [SDLC events](pipeline-observability-ingest-sdlc-events).
   ```
   monaco deploy manifest.yaml
   ```
@@ -132,27 +122,27 @@ If you have any custom ingest sources, dynamic routes, or pipelines, you'll firs
 
 An access token with *openpipeline scopes* is needed for Dynatrace to receive GitLab webhook events processed by OpenPipeline. 
 
-  * In Dynatrace, navigate to **Access Tokens**.
-  * Click **Generate new token**.
-  * Provide a descriptive name for your token.
-  * Select the following scopes:
-    - `openpipeline.events_sdlc.custom` 
-    - `openpipeline.events_sdlc`
-  * Click **Generate token**
-  * Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
+1. In Dynatrace, navigate to **Access Tokens**.
+2. Click **Generate new token**.
+3. Provide a descriptive name for your token.
+4. Select the following scopes:
+    * `openpipeline.events_sdlc.custom` 
+    * `openpipeline.events_sdlc`
+5. Click **Generate token**
+6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
 ​
 #### 4. Create the GitLab webhook 
 
 1. [Create the GitLab webhook](https://dt-url.net/yt23w6x) with the following settings
-  * **URL**: enter your placeholders for your Dynatrace environment ID `<YOUR-DT-ENV-ID>` and access token `<YOUR-ACCESS-TOKEN>`.
-    ```
-    https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/gitlab
-    ```
-  * You can enter an optional webhook name and description, but skip the **Secret token** setting since a custom header manages request validation.
-  * In the **Trigger** section, select the following events to trigger the webhook.
-    * **Merge request events**
-    * **Job events**
-    * **Pipeline events**
+    * **URL**: enter your placeholders for your Dynatrace environment ID `<YOUR-DT-ENV-ID>` and access token `<YOUR-ACCESS-TOKEN>`.
+      ```
+      https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/gitlab
+      ```
+    * You can enter an optional webhook name and description, but skip the **Secret token** setting since a custom header manages request validation.
+    * In the **Trigger** section, select the following events to trigger the webhook.
+      * **Merge request events**
+      * **Job events**
+      * **Pipeline events**
 
 2. [Add custom header](https://dt-url.net/5203zv5) to your webhook with the name `Authorization` and value `Api-Token <YOUR-ACCESS-TOKEN>`.
 
