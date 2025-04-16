@@ -34,7 +34,7 @@ In this tutorial, you'll learn how to
 
 ## Setup
 
-### 1. Prepare the Monaco configuration.
+### Prepare the Monaco configuration.
 
 1. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
     * Run apps: `app-engine:apps:run`
@@ -88,7 +88,7 @@ In this tutorial, you'll learn how to
                     value: OAUTH_TOKEN_ENDPOINT
     ```
 
-### 2. Check the OpenPipeline configuration for SDLC events
+### Check the OpenPipeline configuration for SDLC events
 
 > These steps modify the OpenPipeline configuration for SDLC events.
 If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration. If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
@@ -116,7 +116,7 @@ If your OpenPipeline configuration contains only default/built-in values, you ca
     monaco deploy manifest.yaml
     ```
 
-### 3. Create a Dynatrace access token
+### Create a Dynatrace access token
 
 An access token with *openpipeline scopes* is needed for Dynatrace to receive GitLab webhook events processed by OpenPipeline. 
 
@@ -129,7 +129,7 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Gi
 5. Click **Generate token**
 6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
 ​
-### 4. Create the GitLab webhook 
+### Create the GitLab webhook 
 
 1. [Create the GitLab webhook](https://dt-url.net/yt23w6x) with the following settings
     * **URL**: enter your placeholders for your Dynatrace environment ID `<YOUR-DT-ENV-ID>` and access token `<YOUR-ACCESS-TOKEN>`.
