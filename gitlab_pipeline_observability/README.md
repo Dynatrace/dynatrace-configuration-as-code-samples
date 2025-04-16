@@ -1,156 +1,197 @@
-# Observe your GiLab Merge Requests and Pipelines with Dashboards and normalized SDLC events through OpenPipeline
+# Observe your GiLab pipelines and merge requests with Dashboards and normalized SDLC events through OpenPipeline
 
-Enable Platform Engineering teams to grasp and analyze the efficiency of GitLab pipelines and processes bound to GitLab merge requests to drive improvements and optimize the Internal Development Platform (IDP). By better understanding the integration of GitLab into your development routines or delivery processes, you can set actions in the following directions:
+Excited to dive into your GitLab pipeline performance and uncover the secrets behind your merge request timings? For this use case, you'll
 
-* *Streamlining CI/CD Pipelines*: Observing pipeline executions allows you to identify bottlenecks and inefficiencies in your CI/CD pipelines. This helps in optimizing build and deployment processes, leading to faster and more reliable releases.
+* Integrate GitLab and Dynatrace.
+* Use Dashboards to observe GitLab pipelines and Workflows.
+* Use this information to make decisions about streamlining CI/CD pipelines, improving productivity, and getting data-driven insights.
 
-* *Improving Developer Productivity*: Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards. This allows developers to focus more on writing code and less on administrative tasks.
+## Concepts
 
-* *Data-Driven Insights*: Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process. This data can be used to make informed decisions and continuously improve the development flows.
+
+Name       | Age |
+|------------|-----|
+| Software Development Lifecycle (SDLC) events   | [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events. |
+| Why were GitLab webhook events changed into SDLC events? | The main benefit is data normalization and becoming tool agnostic. As a result, Dynatrace Dashboards, Apps, and Workflows can build on SDLC events with well-defined properties rather than tool-specific details. |
+| Why going with GitLab webhooks instead of REST API?  | Using webhooks has the following advantages over using the API: (1) Webhooks require less effort and less resources than polling an API. (2) Webhooks scale better than API calls. (3) Webhooks allow near real-time updates, since webhooks are triggered when an event happens. See [Choosing webhooks or the REST API](https://docs.github.com/en/webhooks/about-webhooks#choosing-webhooks-or-the-rest-api) for more details. |
+
 
 ## Target audience
 
-This article is intended for Platform Engineers managing the internal Development Platform (IDP), including GitLab for an entire organization.
+This information is intended for platform engineers who use GitLab in their Internal Development Platform (IDP).
+
+## What will you learn
+
+In this tutorial, you'll learn how to
+
+* Forward GitLab webhook events to Dynatrace.
+* Normalize the ingested event data.
+* Use Dashboards to analyze the data and derive improvements.
 
 ## Prerequisites
 
-1. [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
+* [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
 
-2. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
-    * Run apps: `app-engine:apps:run`
-    * View OpenPipeline configurations: `openpipeline:configurations:read`
-    * Edit OpenPipeline configurations: `openpipeline:configurations:write`
-    * Create and edit documents: `document:documents:write`
-    * View documents: `document:documents:read`
+## Steps
 
-3. Store the retrieved client ID, secret, and token endpoint as an environment variable.
-<!-- windows version -->
-```
-$env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-$env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
-$env:OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
-```
-<!-- linux / macOS version -->
-```
-export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
-export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
-```
+### Setup
 
-4. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `gitlab_pipeline_observability`.
-```
-git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
-cd dynatrace-configuration-as-code-samples/gitlab_pipeline_observability
-```
+#### 1. Prepare the Monaco configuration.
 
-5. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID.
-```
-manifestVersion: 1.0
-projects:
-  - name: pipeline_observability
-environmentGroups:
-  - name: group
-    environments:
-      - name: <YOUR-DT-ENV-ID>
-        url:
-          type: value
-          value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
-        auth:
-            oAuth:
-              clientId:
-                name: OAUTH_CLIENT_ID
-              clientSecret:
-                name: OAUTH_CLIENT_SECRET
-              tokenEndpoint:
-                type: environment
-                value: OAUTH_TOKEN_ENDPOINT
-```
+* [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
+  * Run apps: `app-engine:apps:run`
+  * View OpenPipeline configurations: `openpipeline:configurations:read`
+  * Edit OpenPipeline configurations: `openpipeline:configurations:write`
+  * Create and edit documents: `document:documents:write`
+  * View documents: `document:documents:read`
 
-## Steps 
+* Store the retrieved client ID, secret, and token endpoint as separate environment variables.
+    <!-- windows version -->
+    Windows:
+    ```
+    $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
+    $env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    $env:OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
+    ```
+    <!-- linux / macOS version -->
+    Linux / macOS:
+    ```
+    export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
+    export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
+    ```
 
-### 1. Configure Dynatrace using Monaco
+* Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository using the following commands and move to the `gitlab_pipeline_observability` directory.
+    ```
+    git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
+    cd dynatrace-configuration-as-code-samples/gitlab_pipeline_observability
+    ```
 
-In this section, you will upload two Dashboards and configure the ingest endpoint for GitLab Webhooks in Dynatrace. Before you continue, please check your OpenPipeline configuration for *Software development lifecycle events*.
+* Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID at the name property and within the URL of the value property.
+    ```
+    manifestVersion: 1.0
+    projects:
+      - name: pipeline_observability
+    environmentGroups:
+      - name: group
+        environments:
+          - name: <YOUR-DT-ENV-ID>
+            url:
+              type: value
+              value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
+            auth:
+                oAuth:
+                  clientId:
+                    name: OAUTH_CLIENT_ID
+                  clientSecret:
+                    name: OAUTH_CLIENT_SECRET
+                  tokenEndpoint:
+                    type: environment
+                    value: OAUTH_TOKEN_ENDPOINT
+    ```
 
-1. In Dynatrace, navigate to **OpenPipeline**.
-2. Expand **Events** and click **Software development lifecycle**.
-3. Open **Ingest source** and check if another ingest source exists except the built-in *Endpoint for Software Development*.
-4. Open **Dynamic routing** and check if another route exists excpet the *Default route*.
-5. Open **Pipelines** and check if another pipeline exists except the built-in *events.sdlc*. 
-6. If you  have the default and built-in configuration, you can run Monaco to deploy the provided configuration; otherwise, you must merge the configuration file before updating it. 
+#### 2. Check the OpenPipeline configuration for SDLC events
 
-#### Run Monaco deploy
+> These steps modify the OpenPipeline configuration for SDLC events.
+If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration.
+If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
 
-Run the following command to apply the provided configuration. 
+> Step 3 will indicate if a configuration merge is needed or if you can apply the provided configuration directly.
 
-```
-monaco deploy manifest.yaml
-```
+* Go to **OpenPipeline** > **Events** > **Software development lifecycle**.
 
-#### Merge configuration before running Monaco deploy
+*  Check the **Ingest sources**, **Dynamic routing**, and **Pipelines**.
+  * Under **Ingest sources**, are there any other sources than **Endpoint for Software Development Lifecycle events**?
+  * Under **Dynamic routing**, are there any other routes than **Default route**?
+  * Under **Pipelines**, are there any other pipelines than **events.sdlc**?
 
-1. Download your OpenPipeline configuration.
-```
-monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
-```
+* If the answer to one of those questions is "yes", follow the steps below. Otherwise, skip ahead to step 4.
 
-2. Merge the content of `download_<DATE>_<NUMBER>\project\openpipline\events.sdlc.json` into the file `events.sdlc.gitlab.json`.
+  * Download your OpenPipeline configuration
 
-3. Run the following command to apply the provided configuration. 
-```
-monaco deploy manifest.yaml
-```
+    ```
+    monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
+    ```
 
-### 2. Configure GitLab to send Webhook events to Dynatrace
+  * Open the following files:
+    * Your downloaded configuration file, `download_<DATE>_<NUMBER>/project/openpipline/events.sdlc.json`.
+    * The provided configuration file, `pipeline_observability/openpipline/events.sdlc.github.json`.
 
-#### Create Dynatrace Access Token
+  * Merge the contents of events.sdlc.json into events.sdlc.github.json, and then save the file.
+
+* Apply the Monaco configuration.
+
+  Run this command to apply the provided Monaco configuration.
+  The configuration consists of (1) Dashboards to analyze GitLab activities and (2) OpenPipeline configuration to normalize GitLab events into [SDLC events](pipeline-observability-ingest-sdlc-events).
+
+  ```
+  monaco deploy manifest.yaml
+  ```
+
+#### 3. Create a Dynatrace access token
 
 An access token with *openpipeline scopes* is needed for Dynatrace to receive GitLab webhook events processed by OpenPipeline. 
 
-1. In Dynatrace, navigate to **Access Tokens**.
-2. Click **Generate new token**.
-3. Provide a descriptive name for your token.
-4. Select the following scopes:
-   - `openpipeline.events_sdlc.custom` 
-   - `openpipeline.events_sdlc`
-5. Click **Generate token**
-6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
+  * In Dynatrace, navigate to **Access Tokens**.
+  * Click **Generate new token**.
+  * Provide a descriptive name for your token.
+  * Select the following scopes:
+    - `openpipeline.events_sdlc.custom` 
+    - `openpipeline.events_sdlc`
+  * Click **Generate token**
+  * Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
 ​
-#### Configure GitLab Webhook
+#### 4. Create the GitLab webhook 
 
-You can configure webhooks at either the group level (affecting all repositories in a given group) or the repository level. 
-
-1. In GitLab, select your group or repository.
-2. Go to **Settings** > **Webhooks**.
-3. Click **Add new webhook**.
-4. Configure the following settings:
-   - **URL**: Please exchange the placeholder `<YOUR-DT-ENV-ID>`  with your Dynatrace environment ID , respectively.<br><br>
-     
+1. [Create the GitLab webhook](https://dt-url.net/yt23w6x) with the following settings
+  * **URL**: enter your placeholders for your Dynatrace environment ID `<YOUR-DT-ENV-ID>` and access token `<YOUR-ACCESS-TOKEN>`.
     ```
     https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/gitlab
-     ```
-   - **Custom headers**
-     - Click **Add custom header**
-     - Set the **Header name** to `Authorization`
-     - Set the **Header value** to `Api-Token <YOUR-ACCESS-TOKEN>` , replace the placeholder `<YOUR-ACCESS-TOKEN>` with the generated access token
-   
-   - **Trigger** - select :
-     - Merge request events
-     - Job events
-     - Pipeline events
-    
-5.  Click **Add webhook** to save the webhook.
+    ```
+  * You can enter an optional webhook name and description, but skip the **Secret token** setting since a custom header manages request validation.
+  * In the **Trigger** section, select the following events to trigger the webhook.
+    * **Merge request events**
+    * **Job events**
+    * **Pipeline events**
 
-### 3. Work with GitLab and observe organization-wide activities in Dashboards
+2. [Add custom header](https://dt-url.net/5203zv5) to your webhook with the name `Authorization` and value `Api-Token <YOUR-ACCESS-TOKEN>`.
 
-1. In GitLab, let your developers create merge requests and execute pipelines. Each interaction will be sent to Dynatrace. 
-2. In Dynatrace, navigate to **Dashboards**.
-3. Open the **GitLab Pull Request** Dashboard to observe real-time activities of merge requests in your organization or seleced repositories.
-4. Open the **GitLab Pipeline** Dashboard to observe and analyze pipeline execution details, job insights, and step durations for all GitLab pipelines in your organization or selected repositories.
+### Work with GitLab and observe organization-wide activities in Dashboards
+
+Now that you've successfully configured GitLab and Dynatrace, you can use Dashboards and [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) to observe your GitLab pipelines and merge requests.
+
+Open the **GitLab Pipeline Pulse** and the **GitLab Merge Request** dashboards to observe and analyze:
+
+* Real-time activities of all merge requests in your organization or selected GitLab repositories.
+* Workflow execution details
+* Job insights
+* Step durations for workflows in your organization or selected GitLab repositories.
+
+|  |  |  |
+|------------|-----|-------------|
+| ![image](images/pipeline_dashboard_pipeline_details.png)   | ![image](images/pipeline_dashboard_job_details.png) | ![image](images/merge_request_dashboard.png) |
+|  |  |  |
+
+Leverage those insights for the following improvement areas of your internal development platform (IDP):
+
+* Streamline CI/CD pipeline
+
+  Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
+  Knowing about these bottlenecks and inefficiencies helps optimize build and deployment processes, leading to faster and more reliable releases.
+
+* Improve developer productivity
+
+  Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
+  This automation allows developers to focus more on writing code and less on administrative tasks.
+
+* Get data-driven job insights
+
+  Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process.
+  You can use the telemetry data to make informed decisions and continuously improve the development flows.
 
 ## Call to action
 
-We highly value your insights on GitLab pipeline observability. Your feedback is crucial in helping us enhance our tools and services. Please visit the Dynatrace Community page to share your experiences, suggestions, and ideas. Your contributions are instrumental in shaping the future of our platform. Join the discussion today and make a difference! 
+We highly value your insights on GitLab pipeline observability. Your feedback is crucial in helping us enhance our tools and services. Visit the Dynatrace Community page to share your experiences, suggestions, and ideas. Your contributions are instrumental in shaping the future of our platform. Join the discussion today and make a difference. For more information, see [Observe your GitLab Merge Requests and Pipelines with Dashboards and normalized SDLC events through OpenPipeline](https://dt-url.net/ul03wva). 
 
 ## Further reading
 
@@ -160,16 +201,6 @@ We highly value your insights on GitLab pipeline observability. Your feedback is
 * [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)
 
 **Software Development Lifecycle Events**
+
 * [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)
 * [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) (docs)
-
-## FAQ
-
-* What are Software Development Lifecycle (SDLC) events?
-  * SDLC events are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events and will be extended based on the covered use cases. 
-
-* Why have GitLab webhook events been changed into SDLC events?  
-  * The main benefit is data normalization and the ability to become tool agnostic. As a result, Dynatrace Dashboards, Apps, and Automation can build on SDLC events with well-defined properties rather than tool-specific details. 
-
-* Why going with GitLab webhooks instead of REST API?
-  * Using webhooks has the following advantages over using the API: (1) Webhooks require less effort and less resources than polling an API. (2) Webhooks scale better than API calls. (3) Webhooks allow near real-time updates, since webhooks are triggered when an event happens. See [Choosing webhooks or the REST API](https://docs.github.com/en/webhooks/about-webhooks#choosing-webhooks-or-the-rest-api) for more details.
