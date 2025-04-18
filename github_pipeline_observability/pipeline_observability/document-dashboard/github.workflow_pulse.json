@@ -1564,7 +1564,7 @@
       }
     },
     "20": {
-      "content": "### GitHub Workflow Pulse\n\nThis dashboard offers a detailed overview of your GitHub workflow executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
+      "content": "### GitHub Workflow Pulse\n\nThis dashboard offers a detailed overview of your GitHub workflow executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines.",
       "type": "markdown"
     },
     "24": {

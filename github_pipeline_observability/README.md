@@ -133,21 +133,22 @@ Currently, sending GitHub webhook events to Dynatrace necessitates an additional
 
 <details>
 
-<summary>**Proxy the GitHub Dynatrace connection**</summary>
+<summary>Proxy the GitHub Dynatrace connection</summary>
 
-Proxying the GitHub webhook event through an AWS Lambda function to check the signature and to append the authentication header before forwarding it to Dynatrace.
+Create a proxy to verify the signature of the GitHub event and to append the authentication header before forwarding the event to Dynatrace. Consider adding the following steps:
 
 * Retrieve secrets and access token from secrets manager
 * Extract the signature from the headers
 * Verify the signature
 * Forward the webhook event with an authentication header
-* Use the public URL of the Lambda when configuring the **Paylod URL** in GitHub Webhooks settings below.
+* Use the public URL of the serverless function to configuring the **Paylod URL** in GitHub Webhooks settings below.
 
     <details>
 
-    <summary>*Example of an AWS Lambda function in Python*</summary>
+    <summary>Example of an AWS Lambda function in Python</summary>
 
-    * Store a shared secret and `<YOUR-ACCESS-TOKEN>` in AWS Secrets Manager.
+    * Store a **Secret**, which is configured in GitHub Webhook seetings below in an AWS Secrets Manager
+    * Store your Dynatrace **Access Token** in AWS Secrets Manager.
     * Exchange the placeholders `<YOUR-DT-ENV-ID>` with your Dynatrace environment ID in the below function code.
 
     ```python
@@ -212,7 +213,7 @@ Proxying the GitHub webhook event through an AWS Lambda function to check the si
 
 <summary>Insecure: Token in query parameter</summary>
 
-> **Security Disclaimer**: Use this approach only in a sandbox environment, not in production. :exclamation: This step involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
+> **Security Disclaimer** :exclamation: Use this approach only in a sandbox environment, not in production. This approach involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
 > * **Minimal Permissions**: Assign the least set of permissions necessary for the access token, as outlined in this tutorial.
 > * **Access Control**: Limit the ability to configure webhooks in GitHub to a small group of authorized personnel.
 > * **Token Security**: Never commit the access token to a Git repository.

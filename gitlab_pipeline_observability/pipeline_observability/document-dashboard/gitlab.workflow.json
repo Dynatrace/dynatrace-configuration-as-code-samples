@@ -982,7 +982,7 @@
       }
     },
     "20": {
-      "content": "### GitLab Pipeline Pulse\n\nThis dashboard offers a detailed overview of your GitLab pipeline executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
+      "content": "### GitLab Pipeline Pulse\n\nThis dashboard offers a detailed overview of your GitLab pipeline executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines.",
       "title": "",
       "type": "markdown"
     },
