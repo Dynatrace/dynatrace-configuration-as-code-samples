@@ -129,85 +129,90 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Gi
 ​
 ### Create the GitHub webhook 
 
+Currently, sending GitHub webhook events to Dynatrace necessitates an additional step because Dynatrace does not support HMAC-SHA256 signature verification, and GitHub does not offer custom headers for request authentication. Therefore, setting up a proxy, such as a serverless function, is required as an interim solution.
 
 <details>
 
-<summary>Lambda to proxy the GitHub Dynatrace connection</summary>
+<summary>**Proxy the GitHub Dynatrace connection**</summary>
 
-* Retrieve secrets from AWS Secrets Manager
+Proxying the GitHub webhook event through an AWS Lambda function to check the signature and to append the authentication header before forwarding it to Dynatrace.
+
+* Retrieve secrets and access token from secrets manager
 * Extract the signature from the headers
 * Verify the signature
 * Forward the webhook event with an authentication header
-* Use the public URL of the Lambda when configuring the **Paylod URL** in GitHub Webhooks settings.
+* Use the public URL of the Lambda when configuring the **Paylod URL** in GitHub Webhooks settings below.
 
-<details>
+    <details>
 
-<summary>Example</summary>
+    <summary>*Example of an AWS Lambda function in Python*</summary>
 
-```
-import json
-import hmac
-import hashlib
-import requests
-import boto3
+    * Store a shared secret and `<YOUR-ACCESS-TOKEN>` in AWS Secrets Manager.
+    * Exchange the placeholders `<YOUR-DT-ENV-ID>` with your Dynatrace environment ID in the below function code.
 
-def lambda_handler(event, context):
-    # Initialize the Secrets Manager client
-    client = boto3.client('secretsmanager')
-    
-    # Retrieve secrets from AWS Secrets Manager
-    secret_name = 'your_secret_name'
-    secret_response = client.get_secret_value(SecretId=secret_name)
-    secrets = json.loads(secret_response['SecretString'])
-    
-    # Extract the GitHub webhook secret and authentication token
-    github_secret = secrets['github_secret']
-    api_token = secrets['api_token']
-    
-    # Endpoint to forward the webhook event
-    forward_url = 'https://your-forward-endpoint.com/webhook'
-    
-    # Extract the signature from the headers
-    signature = event['headers'].get('X-Hub-Signature-256')
-    
-    if not signature:
-        return {
-            'statusCode': 400,
-            'body': json.dumps({'message': 'Signature missing'})
+    ```python
+    import json
+    import hmac
+    import hashlib
+    import requests
+    import boto3
+
+    def lambda_handler(event, context):
+        # Initialize the Secrets Manager client
+        client = boto3.client('secretsmanager')
+        
+        # Retrieve secrets from AWS Secrets Manager
+        secret_name = 'your_secret_name'
+        secret_response = client.get_secret_value(SecretId=secret_name)
+        secrets = json.loads(secret_response['SecretString'])
+        
+        # Extract the GitHub webhook secret and authentication token
+        github_secret = secrets['github_secret']
+        api_token = secrets['api_token']
+        
+        # Endpoint to forward the webhook event
+        forward_url = 'https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/github'
+        
+        # Extract the signature from the headers
+        signature = event['headers'].get('X-Hub-Signature-256')
+        
+        if not signature:
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'message': 'Signature missing'})
+            }
+        
+        # Compute the HMAC SHA256 hash
+        computed_signature = 'sha256=' + hmac.new(github_secret.encode(), event['body'].encode(), hashlib.sha256).hexdigest()
+        
+        # Verify the signature
+        if not hmac.compare_digest(computed_signature, signature):
+            return {
+                'statusCode': 403,
+                'body': json.dumps({'message': 'Invalid signature'})
+            }
+        
+        # Forward the webhook event with an authentication header
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Api-Token {api_token}'
         }
-    
-    # Compute the HMAC SHA256 hash
-    computed_signature = 'sha256=' + hmac.new(github_secret.encode(), event['body'].encode(), hashlib.sha256).hexdigest()
-    
-    # Verify the signature
-    if not hmac.compare_digest(computed_signature, signature):
+        response = requests.post(forward_url, headers=headers, data=event['body'])
+        
         return {
-            'statusCode': 403,
-            'body': json.dumps({'message': 'Invalid signature'})
+            'statusCode': response.status_code,
+            'body': response.text
         }
-    
-    # Forward the webhook event with an authentication header
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Api-Token {api_token}'
-    }
-    response = requests.post(forward_url, headers=headers, data=event['body'])
-    
-    return {
-        'statusCode': response.status_code,
-        'body': response.text
-    }
-```
+    ```
+    </details>
 
 </details>
 
-</details>
-
 <details>
 
-<summary>Unsecure</summary>
+<summary>Insecure: Token in query parameter</summary>
 
-> **Security Disclaimer**: Use this approach in a sandbox environment only. This step involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
+> **Security Disclaimer**: Use this approach only in a sandbox environment, not in production. :exclamation: This step involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
 > * **Minimal Permissions**: Assign the least set of permissions necessary for the access token, as outlined in this tutorial.
 > * **Access Control**: Limit the ability to configure webhooks in GitHub to a small group of authorized personnel.
 > * **Token Security**: Never commit the access token to a Git repository.
@@ -216,7 +221,7 @@ def lambda_handler(event, context):
 ```
 https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/github?api-token=<YOUR-ACCESS-TOKEN>
 ```
-* Use this URL when configuring the **Paylod URL** in GitHub Webhooks settings.
+* Use this URL when configuring the **Paylod URL** in GitHub Webhooks settings below.
 
 </details>
 
@@ -239,7 +244,7 @@ https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/g
 
 Now that you've successfully configured GitHub and Dynatrace, you can use Dashboards and [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) to observe your GitHub workflows and pull requests.
 
-Open the **GitHub Workflow Pulse** and the **GitHub Pull Request** dashboards to observe and analyze:
+Open the **GitHub Workflow Pulse** and the **GitHub Pull Requests** dashboards to observe and analyze:
 
 * Real-time activities of all pull requests in your organization or selected GitHub repositories.
 * Workflow execution details
