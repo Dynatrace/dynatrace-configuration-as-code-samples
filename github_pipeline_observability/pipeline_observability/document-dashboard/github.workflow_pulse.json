@@ -195,7 +195,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -341,7 +341,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -465,7 +465,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -589,7 +589,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -740,7 +740,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1132,7 +1132,6 @@
     },
     "17": {
       "content": "### Step Details\n\nThese tiles will give you a comprehensive view of the detailed performance and status of individual steps within your GitHub jobs\n\n-----\n",
-      "title": "",
       "type": "markdown"
     },
     "18": {
@@ -1457,7 +1456,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1566,17 +1565,14 @@
     },
     "20": {
       "content": "### GitHub Workflow Pulse\n\nThis dashboard offers a detailed overview of your GitHub workflow executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
-      "title": "",
       "type": "markdown"
     },
     "24": {
       "content": "### Workflow Details\n\nThis section provides a clear and detailed view of the current state of GitHub workflow executions, enabling you to manage and improve them effectively. \n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "25": {
       "content": "### Job Details\n\nThis section will give you a comprehensive view of the detailed performance and status of individual jobs within your GitHub workflows, enabling you to monitor, analyze, and optimize your CI/CD processes effectively. \n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "3": {
@@ -1724,7 +1720,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1833,12 +1829,10 @@
     },
     "32": {
       "content": " ",
-      "title": "",
       "type": "markdown"
     },
     "33": {
       "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
-      "title": "",
       "type": "markdown"
     },
     "34": {
@@ -1858,7 +1852,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1982,7 +1976,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2137,7 +2131,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2292,7 +2286,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2447,7 +2441,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2602,7 +2596,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2757,7 +2751,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -3464,35 +3458,32 @@
   },
   "variables": [
     {
-      "defaultValue": [
-        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
-      ],
+      "defaultValue": [],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| summarize distinctRepositories = collectDistinct(vcs.repository.name)\n| expand distinctRepositories\n| sort distinctRepositories",
       "key": "Repository",
       "multiple": true,
       "type": "query",
+      "version": 1,
       "visible": true
     },
     {
-      "defaultValue": [
-        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
-      ],
+      "defaultValue": [],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| filter in(vcs.repository.name, $Repository)\n| summarize distinctWorkflows = collectDistinct(cicd.pipeline.name)\n| expand distinctWorkflows\n| sort distinctWorkflows",
       "key": "Workflow",
       "multiple": true,
       "type": "query",
+      "version": 1,
       "visible": true
     },
     {
-      "defaultValue": [
-        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
-      ],
+      "defaultValue": [],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"github.com\" and event.type == \"run\"\n| summarize distinctTriggers = collectDistinct(cicd.pipeline.run.trigger)\n| expand distinctTriggers\n| sort distinctTriggers",
       "key": "Trigger",
       "multiple": true,
       "type": "query",
+      "version": 1,
       "visible": true
     }
   ],
-  "version": 17
+  "version": 18
 }

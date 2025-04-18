@@ -470,27 +470,22 @@
     },
     "11": {
       "content": "### GitHub Pull Request Pulse: Open \u0026 Merged Insights\nThis dashboard provides a comprehensive overview of the status of pull requests (PRs) in your GitHub repositories. Track open and merged PRs in real-time, analyze trends, and gain insights into your team's development workflow. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
-      "title": "",
       "type": "markdown"
     },
     "12": {
       "content": "### Merged \u0026 Closed Pull Requests\n\nThis section provides a clear and detailed view of the merged pull requests, helping you to understand the efficiency and effectiveness of your code integration process.\n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "13": {
       "content": "### Open Pull Requests\n\nThis section provides a clear and detailed view of the current state of open pull requests, enabling you to manage and prioritize them effectively. \n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "15": {
       "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
-      "title": "",
       "type": "markdown"
     },
     "16": {
       "content": " ",
-      "title": "",
       "type": "markdown"
     },
     "2": {
@@ -1590,6 +1585,7 @@
       "key": "Repository",
       "multiple": false,
       "type": "query",
+      "version": 1,
       "visible": true
     },
     {
@@ -1600,8 +1596,9 @@
       "key": "Branch",
       "multiple": true,
       "type": "query",
+      "version": 1,
       "visible": true
     }
   ],
-  "version": 17
+  "version": 18
 }
