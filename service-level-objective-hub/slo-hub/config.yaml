@@ -1,0 +1,251 @@
+configs:
+  - id: service_perf_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        function: frontend
+        app: easytravel
+        objective: performance
+        type: service
+        title:
+          type: compound
+          format: "[{{.env}}] {{.app}} - {{.type}} {{.objective}} - {{.function}}"
+          references:
+            - env
+            - app
+            - type
+            - objective
+            - function
+        timeframeFrom: now-7d
+        timeframeTo: now
+        sliThreshold: 2200 ## milliseconds
+        target: 99
+        warning: 99.5
+        description: "Measures the proportion of service requests served faster than a defined response time."
+        indicator:
+          type: file
+          path: "/sli_query/service_performance.txt"
+          references:
+            - sliThreshold
+            - env
+            - app
+            - function
+  - id: service_avail_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        function: frontend
+        app: easytravel
+        objective: availability
+        type: service
+        title:
+          type: compound
+          format: "[{{.env}}] {{.app}} - {{.type}} {{.objective}} - {{.function}}"
+          references:
+            - env
+            - app
+            - type
+            - objective
+            - function
+        timeframeFrom: now-7d
+        timeframeTo: now
+        target: 99
+        warning: 99.5
+        description: "Measures the proportion of successful service requests over time."
+        indicator:
+          type: file
+          path: "/sli_query/service_availability.txt"
+          references:
+            - env
+            - app
+            - function
+  - id: http_avail_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        function: frontend
+        app: easytravel
+        objective: availability
+        type: http
+        title:
+          type: compound
+          format: "[{{.env}}] {{.app}} - {{.type}} {{.objective}} - {{.function}}"
+          references:
+            - env
+            - app
+            - type
+            - objective
+            - function
+        timeframeFrom: now-7d
+        timeframeTo: now
+        target: 99
+        warning: 99.5
+        description: "Measures the proportion of successful http requests over time."
+        indicator:
+          type: file
+          path: "/sli_query/http_availability.txt"
+          references:
+            - env
+            - app
+            - function
+  - id: http_perf_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        function: frontend
+        app: easytravel
+        objective: performance
+        type: http
+        title:
+          type: compound
+          format: "[{{.env}}] {{.app}} - {{.type}} {{.objective}} - {{.function}}"
+          references:
+            - env
+            - app
+            - type
+            - objective
+            - function
+        timeframeFrom: now-7d
+        timeframeTo: now
+        sliThreshold: 2200 ## milliseconds
+        target: 99
+        warning: 99.5
+        description: "Measures the proportion of http requests served faster than a defined response time."
+        indicator:
+          type: file
+          path: "/sli_query/http_performance.txt"
+          references:
+            - env
+            - app
+            - function
+            - sliThreshold
+  - id: monitor_avail_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        function: auth
+        app: easytravel
+        objective: availability
+        type: monitor
+        title:
+          type: compound
+          format: "[{{.env}}] {{.app}} - {{.type}} {{.objective}} - {{.function}}"
+          references:
+            - env
+            - app
+            - type
+            - objective
+            - function
+        timeframeFrom: now-7d
+        timeframeTo: now
+        target: 99
+        warning: 99.5
+        description: "Measures the proportion of successful monitor requests over time."
+        indicator:
+          type: file
+          path: "/sli_query/monitor_availability.txt"
+          references:
+            - env
+            - app
+            - function
+  - id: monitor_perf_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        function: auth
+        app: easytravel
+        objective: performance
+        type: monitor
+        title:
+          type: compound
+          format: "[{{.env}}] {{.app}} - {{.type}} {{.objective}} - {{.function}}"
+          references:
+            - env
+            - app
+            - type
+            - objective
+            - function
+        timeframeFrom: now-7d
+        timeframeTo: now
+        sliThreshold: 2200 ## milliseconds
+        target: 99
+        warning: 99.5
+        description: "Measures the proportion of monitor requests served faster than a defined response time."
+        indicator:
+          type: file
+          path: "/sli_query/monitor_performance.txt"
+          references:
+            - env
+            - app
+            - function
+            - sliThreshold
+  - id: k8s_cluster_cpu_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        app: "-"
+        function: "-"
+        clusterName: d1-eks-demo
+        objective: cpu_usage_efficiency
+        type: k8s_cluster
+        title:
+          type: compound
+          format: "[{{.env}}] {{.clusterName}} - {{.type}} {{.objective}}"
+          references:
+            - env
+            - clusterName
+            - type
+            - objective
+        timeframeFrom: now-7d
+        timeframeTo: now
+        target: 99
+        warning: 99.5
+        description: "Measures the ratio of requested CPU relative to allocatable CPU per Kubernetes cluster. 100% means that the allocatable CPU meets the requested demand."
+        indicator:
+          type: file
+          path: "/sli_query/kubernetes_cluster_cpu_usage_efficiency.txt"
+          references:
+            - clusterName
+  - id: k8s_cluster_memory_sli
+    type: slo-v2
+    config:
+      template: "./slo.json"
+      parameters:
+        env: prod
+        app: "-"
+        function: "-"
+        clusterName: d1-eks-demo
+        objective: memory_usage_efficiency
+        type: k8s_cluster
+        title:
+          type: compound
+          format: "[{{.env}}] {{.clusterName}} - {{.type}} {{.objective}}"
+          references:
+            - env
+            - clusterName
+            - type
+            - objective
+        timeframeFrom: now-7d
+        timeframeTo: now
+        target: 99
+        warning: 99.5
+        description: "Measures the ratio of requested memory relative to allocatable memory per Kubernetes cluster. 100% means that the allocatable memory meets the requested demand."
+        indicator:
+          type: file
+          path: "/sli_query/kubernetes_cluster_memory_usage_efficiency.txt"
+          references:
+            - clusterName

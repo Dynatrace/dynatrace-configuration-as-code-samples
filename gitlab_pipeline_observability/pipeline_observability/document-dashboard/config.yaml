@@ -1,0 +1,21 @@
+configs:
+- id: da563d0c-7dfa-40b6-8abe-1abe4837ba18
+  config:
+    name: GitLab Merge Requests
+    template: gitlab.merge_request.json
+    skip: false
+    originObjectId: da563d0c-7dfa-40b6-8abe-1abe4837ba18
+  type:
+    document:
+      kind: dashboard
+      private: true
+- id: 6251b16a-c92a-43bd-a454-6a6dfc649879
+  config:
+    name: GitLab Pipeline Pulse
+    template: gitlab.workflow.json
+    skip: false
+    originObjectId: 6251b16a-c92a-43bd-a454-6a6dfc649879
+  type:
+    document:
+      kind: dashboard
+      private: true

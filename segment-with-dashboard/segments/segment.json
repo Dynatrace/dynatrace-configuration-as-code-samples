@@ -1,0 +1,22 @@
+{
+  "name": "Logs - Kubernetes Namespace name",
+  "description": "Filter logs for Kubernetes namespace names",
+  "isPublic": true,
+  "variables": {
+    "type": "query",
+    "value": "fetch dt.entity.cloud_application_namespace\n| fields entity.name"
+  },
+  "includes": [
+    {
+      "filter": "{\"type\":\"Group\",\"range\":{\"from\":0,\"to\":36},\"logicalOperator\":\"AND\",\"explicit\":false,\"children\":[{\"type\":\"Statement\",\"range\":{\"from\":0,\"to\":35},\"key\":{\"type\":\"Key\",\"textValue\":\"k8s.namespace.name\",\"value\":\"k8s.namespace.name\",\"range\":{\"from\":0,\"to\":18}},\"operator\":{\"type\":\"ComparisonOperator\",\"textValue\":\"=\",\"value\":\"=\",\"range\":{\"from\":19,\"to\":20}},\"value\":{\"type\":\"String\",\"textValue\":\"\\\"$entity.name\\\"\",\"value\":\"$entity.name\",\"range\":{\"from\":21,\"to\":35},\"isEscaped\":true}}]}",
+      "dataObject": "logs",
+      "applyTo": []
+    }
+  ],
+  "allowedOperations": [
+    "READ",
+    "WRITE",
+    "DELETE",
+    "SHARE"
+  ]
+}

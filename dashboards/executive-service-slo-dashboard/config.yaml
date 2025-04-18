@@ -1,0 +1,22 @@
+configs:
+  - id: executive-dashboard
+    type:
+      document:
+        kind: dashboard
+        #private: true
+    config:
+      name: Executive Service SLO Overview
+      template: executive.json
+      parameters:
+        slidashboard:
+          configId: sli-dashboard
+          property: id
+          type: reference
+  - id: sli-dashboard
+    type:
+      document:
+        kind: dashboard
+        #private: true
+    config:
+      name: Service SLI Evaluator
+      template: sli.json

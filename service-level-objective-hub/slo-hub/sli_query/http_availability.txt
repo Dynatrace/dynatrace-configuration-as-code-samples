@@ -1,0 +1,6 @@
+timeseries sli = avg(dt.synthetic.http.availability,default:0)
+, by:{dt.entity.http_check}
+, filter: { in(entityAttr(dt.entity.http_check,"tags"), "app:{{.app}}") 
+and in(entityAttr(dt.entity.http_check,"tags"), "env:{{.env}}")
+and in(entityAttr(dt.entity.http_check,"tags"), "function:{{.function}}")}
+| fieldsAdd entityName(dt.entity.http_check)
