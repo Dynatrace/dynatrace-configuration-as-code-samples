@@ -1,4 +1,4 @@
-If you come this blog post: [Insights into your Azure DevOps pipelines](https://www.dynatrace.com/news/blog/insights-into-your-azure-devops-pipelines/), then please follow the link to: [AzureDevOps Releases & Builds Integration](./AZDO_pipelines_insights_based_on_log_ingest.md). Otherwise, continue reading on this page, which is the best practice for Azure DevOps Pipeline Observability.
+If this blog post [Insights into your Azure DevOps pipelines](https://www.dynatrace.com/news/blog/insights-into-your-azure-devops-pipelines/) brought you here, then please follow the link to: [AzureDevOps Releases & Builds Integration](./AZDO_pipelines_insights_based_on_log_ingest.md). Otherwise, continue reading on this page, which is the **best practice** for Azure DevOps Pipeline Observability.
 
 # Observe your Azure DevOps Pipelines and Pull Requests with Dashboards and normalized SDLC events through OpenPipeline
 
