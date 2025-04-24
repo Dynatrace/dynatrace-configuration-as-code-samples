@@ -1,220 +1,199 @@
-# AzureDevOps Releases & Builds Integration
+If this blog post [Insights into your Azure DevOps pipelines](https://www.dynatrace.com/news/blog/insights-into-your-azure-devops-pipelines/) brought you here, then please follow the link to: [AzureDevOps Releases & Builds Integration](./AZDO_pipelines_insights_based_on_log_ingest.md). Otherwise, continue reading on this page, which is the **best practice** for Azure DevOps Pipeline Observability.
 
-The purpose is to help you integrate your AzureDevops Releases and Builds with Dynatrace in order to visualize statistics, execution logs and alerts.
+# Observe your Azure DevOps Pipelines and Pull Requests with Dashboards and normalized SDLC events through OpenPipeline
+
+Excited to dive into your Azure DevOps Pipeline performance and uncover the secrets behind your Pull Requests timings? For this use case, you'll
+
+* Integrate Azure DevOps and Dynatrace.
+* Use Dashboards to observe Azure DevOps pipelines and pull requests.
+* Use this information to make decisions about streamlining CI/CD pipelines, improving productivity, and getting data-driven insights.
+
+## Concepts
+
+| Concept        | Description |
+|------------|-----|
+| Software Development Lifecycle (SDLC) events   | [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events. |
+| Why were [Azure DevOps webhook events](https://learn.microsoft.com/en-us/azure/devops/service-hooks/events?view=azure-devops) changed into SDLC events? | The main benefit is data normalization and becoming tool agnostic. As a result, Dynatrace Dashboards, Apps, and Workflows can build on SDLC events with well-defined properties rather than tool-specific details. |
+| Why going with Azure DevOps webhooks instead of REST API?  | Using webhooks has the following advantages over using the API: (1) Webhooks require less effort and less resources than polling an API. (2) Webhooks scale better than API calls. (3) Webhooks allow near real-time updates, since webhooks are triggered when an event happens. See [Choosing webhooks or the REST API](https://docs.github.com/en/webhooks/about-webhooks#choosing-webhooks-or-the-rest-api) for more details. |
+
+## Target audience
+
+This information is intended for platform engineers who use Azure DevOps in their Internal Development Platform (IDP).
+
+## What will you learn
+
+In this tutorial, you'll learn how to
+
+* Forward Azure DevOps webhook events to Dynatrace.
+* Normalize the ingested event data.
+* Use Dashboards to analyze the data and derive improvements.
 
 ## Prerequisites
 
-1. [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
+* [Install Dynatrace Configuration as Code via Monaco](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/installation)
 
-2. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
+## Setup
+
+### Prepare the Monaco configuration.
+
+1. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
     * Run apps: `app-engine:apps:run`
     * View OpenPipeline configurations: `openpipeline:configurations:read`
     * Edit OpenPipeline configurations: `openpipeline:configurations:write`
     * Create and edit documents: `document:documents:write`
     * View documents: `document:documents:read`
 
-3. Store the retrieved client ID, secret, and token endpoint as an environment variable.
-<!-- windows version -->
-```
-$env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-$env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
-$env:OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
-```
-<!-- linux / macOS version -->
-```
-export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
-export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
-```
+2. Store the retrieved client ID, secret, and token endpoint as separate environment variables.
+    <!-- windows version -->
+    Windows:
+    ```
+    $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
+    $env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    $env:OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
+    ```
+    <!-- linux / macOS version -->
+    Linux / macOS:
+    ```
+    export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
+    export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
+    ```
 
-4. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `github_pipeline_observability`.
-```
-git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
-cd github_pipeline_observability
-```
+3. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository using the following commands and move to the `azure_devops_observability` directory.
+    ```
+    git clone https://github.com/Dynatrace/dynatrace-configuration-as-code-samples.git
+    cd dynatrace-configuration-as-code-samples/azure_devops_observability
+    ```
 
-5. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID.
-```
-manifestVersion: 1.0
-projects:
-  - name: pipeline_observability
-environmentGroups:
-  - name: group
-    environments:
-      - name: <YOUR-DT-ENV-ID>
-        url:
-          type: value
-          value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
-        auth:
-            oAuth:
-              clientId:
-                name: OAUTH_CLIENT_ID
-              clientSecret:
-                name: OAUTH_CLIENT_SECRET
-              tokenEndpoint:
-                type: environment
-                value: OAUTH_TOKEN_ENDPOINT
-```
+4. Edit the `manifest.yaml` by exchanging the `<YOUR-DT-ENV-ID>` placeholder with your Dynatrace environment ID at the *name* property and within the URL of the *value* property.
+    ```
+    manifestVersion: 1.0
+    projects:
+      - name: pipeline_observability
+    environmentGroups:
+      - name: group
+        environments:
+          - name: <YOUR-DT-ENV-ID>
+            url:
+              type: value
+              value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
+            auth:
+                oAuth:
+                  clientId:
+                    name: OAUTH_CLIENT_ID
+                  clientSecret:
+                    name: OAUTH_CLIENT_SECRET
+                  tokenEndpoint:
+                    type: environment
+                    value: OAUTH_TOKEN_ENDPOINT
+    ```
 
-## Steps 
+### Check the OpenPipeline configuration for SDLC events
 
-### 1. Configure Dynatrace using Monaco
+> These steps modify the OpenPipeline configuration for SDLC events.
+If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration. If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
 
-In this section, you will upload two Dashboards:
-* AzureDevOps Dashboard (on Logs): Dashboard to observe release and build activities via logs.
-* AzureDevOps Dashboard (on Events): Dashboard to observe release and build activities via events.
+> Step 3 will indicate if a configuration merge is needed or if you can apply the provided configuration directly.
 
-Run the following command to apply the provided configuration. 
+1. Go to **OpenPipeline** > **Events** > **Software development lifecycle**.
+2.  Check the **Ingest sources**, **Dynamic routing**, and **Pipelines**.
+    * Under **Ingest sources**, are there any other sources than **Endpoint for Software Development Lifecycle events**?
+    * Under **Dynamic routing**, are there any other routes than **Default route**?
+    * Under **Pipelines**, are there any other pipelines than **events.sdlc**?
+3. If the answer to one of those questions is "yes", follow the steps below. Otherwise, skip ahead to step 4.
+    * Download your OpenPipeline configuration
+      ```
+      monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
+      ```
+    * Open the following files:
+      * Your downloaded configuration file, `download_<DATE>_<NUMBER>/project/openpipline/events.sdlc.json`.
+      * The provided configuration file, `pipeline_observability/openpipline/events.sdlc.azdo.json`.
+    * Merge the contents of events.sdlc.json into events.sdlc.azdo.json, and then save the file.
+4. Apply the Monaco configuration.
+  Run this command to apply the provided Monaco configuration.
+  The configuration consists of (1) Dashboards to analyze Azure DevOps activities and (2) OpenPipeline configuration to normalize [Azure DevOps webhook events](https://learn.microsoft.com/en-us/azure/devops/service-hooks/events?view=azure-devops) into [SDLC events](pipeline-observability-ingest-sdlc-events).
+    ```
+    monaco deploy manifest.yaml
+    ```
 
-```
-monaco deploy manifest.yaml
-```
+### Create a Dynatrace access token
 
-### 2. Configure AzureDevOps
-
-### Create Dynatrace Access Token
-
-An access token is needed for Dynatrace to receive AzureDevOps Logs.
+An access token with *openpipeline scopes* is needed for Dynatrace to receive Azure DevOps hook events processed by OpenPipeline. 
 
 1. In Dynatrace, navigate to **Access Tokens**.
 2. Click **Generate new token**.
 3. Provide a descriptive name for your token.
 4. Select the following scopes:
-   - **Ingest Logs v2**
-   - **Write Settings**
+    * OpenPipeline - Ingest Software Development Lifecycle Events (Built-in)(`openpipeline.events_sdlc`)
+    * OpenPipeline - Ingest Software Development Lifecycle Events (Custom)(`openpipeline.events_sdlc.custom`)
 5. Click **Generate token**
 6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
+​
+### Create the Azure DevOps hooks
 
-### Create Webhooks in AzureDevops
+You can configure [Azure DevOps Webhooks](https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=azure-devops) at the project level.
 
-First, we need to create two Service Hooks Subscriptions on Azure. One for **Builds** Completed and one for **Release Deployment** Completed. 
+1. In Azure DevOps, select your project.
+2. Go to **Project Settings** > **Service Hooks**.
+3. Click **+** - "Create new subscription".
+4. Select **Web Hooks** from the list of services and click Next.
+5. From the list of triggers, select `Build completed` and click Next.
+6. Configure the following settings:
+   - **URL**: Please exchange the placeholder `<YOUR-DT-ENV-ID>`  with your Dynatrace environment ID , respectively.<br><br>
+    ```
+    https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/azuredevops
+    ```
+   - **HTTP headers**
+    Add entry: `Authorization: Api-Token <YOUR-ACCESS-TOKEN>`, replace the placeholder `<YOUR-ACCESS-TOKEN>` with the generated access token 
+7.  Click **Finish** to save the webhook configuration.
 
-* You can create it on: `https://{orgName}/{project_name}/_settings/serviceHooks`
-* [AzureDevOps Webhooks](https://learn.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?toc=%2Fazure%2Fdevops%2Fmarketplace-extensibility%2Ftoc.json&view=azure-devops)
-* During the configuration, do not apply any filter
-* In the settings page of the Subscription, you need to fill the following fields accordantly
-  - URL: `https://<YOUR_TENANT_ID>.live.dynatrace.com/api/v2/logs/ingest`
-  - HTTP Headers:
-    - `"Authorization: Api-token <YOUR_LOG_INGEST_TOKEN>"`
-    - **The text above must be written exactly like that. Copy and paste and just change the token**
-  - Change "Messages to send" and "Detailed Messages to send" to **Text**
+Repeat creation of webhook subscriptions for the following triggers:
+   -  `Run job state changed`
+   -  `Run state changed`
+   -  `Pull request created`
+   -  `Pull request updated`
+   
+## Work with Azure DevOps and observe organization-wide activities in Dashboards
 
-### 3. Configuring new Dynatrace Log Bucket
+Now that you've successfully configured Azure DevOps and Dynatrace, you can use Dashboards and SDLC events to observe your Azure DevOps pipelines and pull requests.
 
-Follow the below steps to create a new logs bucket:
+Open the **Azure DevOps Pipelines** and the **Azure DevOps Pull Request** dashboards to observe and analyze:
 
-* Open the **Storage Management** app in your tenant
-  - https://<YOUR_TENANT_ID>.apps.dynatrace.com/ui/apps/dynatrace.storage.management/
-* Create a new bucket using the + sign on the top right corner
-  - Setup the bucket name = **azure_devops_logs**
-  - Set the retention time as desired
-  - Set bucket type as logs
+* Real-time activities of all pull requests in your organization or selected Git repositories.
+* Workflow execution details
+* Job insights
+* Step durations for pipelines in your organization or selected Git repositories.
 
-### 4. Configuring OpenPipeline - Log Processing Rules
+Leverage those insights for the following improvement areas of your internal development platform (IDP):
 
-* In Dynatrace, go to OpenPipeline > Logs > Pipelines
-* Create a new pipeline, and name it "AzureDevOps"
-* Go to Dynamic Routing and create the following new rule
-  * `matchesPhrase(eventType,"ms.vss-release.deployment-completed-event") OR matchesPhrase(eventType,"build.complete")`
-* Set the Pipeline dropdown to "AzureDevOps"
-* Return back to your pipelines, and open AzureDevOps
-* Under Storage section, add a new processor > Bucket assignment and set the storage to **azure_devops_logs** bucket.
-* Go to Processing section:
-  * Create a new rule for Rename Fields - "Rename Build Fields"
-    * Add Name & Value pairs
-      * buildNumber:`resource.buildNumber`
-      * result:`resource.result`
-  * Create a new rule for Rename Fields - "Rename Release Fields"
-    * Add Name & Value pairs
-      * stageName:`resource.stageName`
-      * projectName:`resource.project.name`
-      * releaseName:`resource.deployment.release.name`
-      * releaseStatus:`resource.environment.status`
-  * Add sample data to each of the new rules from logs to verify the rule is working as exepected.
+* Streamline CI/CD pipeline
 
-### 5. Explore your Release and Build activities using the provided Dashboard
+  Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
+  Knowing about these bottlenecks and inefficiencies helps optimize build and deployment processes, leading to faster and more reliable releases.
 
-* In Dynatrace, go to Dashboards.
-* Open: **AzureDevOps Dashboard (on Logs)** 
+* Improve developer productivity
 
-<img width="1480" alt="DT ADO Logs Dashboard" src="https://github.com/user-attachments/assets/da3229a5-c268-4d0e-8ff3-080f00f8a38e" />
+  Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
+  This automation allows developers to focus more on writing code and less on administrative tasks.
 
----
+* Get data-driven job insights
 
-## Advanced Mode
+  Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process.
+  You can use the telemetry data to make informed decisions and continuously improve the development flows.
 
-Taking this a step further, we can convert log data to events for each release and build, and discard the logs after to reduce the amount of unnecessary logs retained. 
+## Call to action
 
-### 6. Configuring OpenPipeline - Events Extraction
-
-> **Disclaimer:** This how-to guide extracts [Business events](https://docs.dynatrace.com/docs/observe/business-analytics/ba-events-capturing#logs) from log lines. Currently, this is not possible for Software Development Lifecycle Events [(SDLC events)](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events), which are the preferred way of storing the extract information. SDLC events are designed to 
-> * Derive engineering KPIs to observe the health of the development pipelines.
-> * Automate development and delivery processes such as test execution, release validation, or progressive delivery.
-> * Fulfill compliance requirements by providing a complete end-to-end overview of the delivery process.
-
-* Go to OpenPipeline > Logs > Pipelines > AzureDevOps
-* Go to Data Extraction section:
-  * Create a new rule Business Event Processor - "Build result"
-    * Matching condition: `matchesPhrase(eventType,"build.complete")`
-    * Event type: `eventType`
-    * Event provider (change to Static String): `AzureDevOps`
-    * Select *Fields to extract*
-      * `result`
-      * `buildNumber`
-      * `resource.reason`
-  * Create a new rule Business Event Processor - "Release result"
-    * Matching condition: `matchesPhrase(eventType,"ms.vss-release.deployment-completed-event")`
-    * Event type: `eventType`
-    * Event provider (change to Static String): `AzureDevOps`
-    * Select *Fields to extract*
-      * `stageName`
-      * `projectName`
-      * `releaseName`
-      * `releaseStatus`
-      * `resource.deployment.startedOn`
-      * `resource.deployment.completedOn`
-      
-##### (Optional) - Davis Events Extraction
-* Go to Data Extraction section:
-  * Create a new rule *Davis* Event Processor - "Build complete failed"
-    * Matching condition: `matchesPhrase(eventType,"build.complete") AND result=="failed"` 
-    * Event Name: `Build Complete Failed`
-    * Event Description: `Unable to generate build {buildNumber}`
-    * *event.type* can be changed from CUSTOM_ALERT to increase the severity level. (listed below)
-  * Create a new rule *Davis* Event Processor - "Release Rejected"
-    * Matching condition: `matchesPhrase(eventType,"ms.vss-release.deployment-completed-event") and releaseStatus == "rejected"` 
-    * Event Name: `Release deployment rejected`
-    * Event Description: `Unable to deploy release {releaseName}`
-    * *event.type* can be changed from CUSTOM_ALERT to increase the severity level. (listed below)
-  * Available event types:
-    * `AVAILABILITY_EVENT`
-    * `CUSTOM_ALERT`
-    * `CUSTOM_ANNOTATION`
-    * `CUSTOM_CONFIGURATION`
-    * `CUSTOM_DEPLOYMENT`
-    * `CUSTOM_INFO`
-    * `ERROR_EVENT`
-    * `MARKED_FOR_TERMINATION`
-    * `PERFORMANCE_EVENT`
-    * `RESOURCE_CONTENTION_EVENT`
-
-### 7. Explore your Release and Build activities using the provided Dashboard
-
-* In Dynatrace, go to Dashboards.
-* Open: **AzureDevOps Dashboard (on Events)** 
-
-<img width="1480" alt="DT ADO BizEvents Dashboard" src="https://github.com/user-attachments/assets/23b6ec2d-661f-48ab-9ed8-d32106be96b1" />
+We highly value your insights on Azure DevOps pipeline observability. Your feedback is crucial in helping us enhance our tools and services. Visit the Dynatrace Community page to share your experiences, suggestions, and ideas directly on [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193). 
 
 
-##### (Optional) - Discarding logs storage
+## Further reading
 
-Once the logs have been converted to Business and Davis events to extract the information required, we can go ahead and disable the storage assignment rule in the pipeline. 
-* Go to OpenPipeline > Logs > Pipelines > AzureDevOps
-* Under Storage > Bucket assignment Rule > Change the following rule:
-  * Matching condition: `false`
+**Pipeline Observability**
 
-## 🎉 You're all set, enjoy Dynatrace integration
+* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)
+* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)
 
-- Keep in mind, you might need to request a Log Content Length (MaxContentLength_Bytes) increase depending on how many steps your Release Events have.
+**Software Development Lifecycle Events**
 
-- The integration consumes DDUs for Log Ingest and Log Metrics and will depend on how many build/release events you have. For comparison purposes, a customer with 400 events was consuming around 1 DDU per week
+* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)
+* [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) (docs)

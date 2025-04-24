@@ -1,0 +1,3075 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 4
+    },
+    "1": {
+      "h": 4,
+      "w": 4,
+      "x": 0,
+      "y": 4
+    },
+    "10": {
+      "h": 4,
+      "w": 4,
+      "x": 0,
+      "y": 12
+    },
+    "11": {
+      "h": 6,
+      "w": 4,
+      "x": 20,
+      "y": 4
+    },
+    "2": {
+      "h": 4,
+      "w": 4,
+      "x": 0,
+      "y": 8
+    },
+    "20": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "24": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 2
+    },
+    "25": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 28
+    },
+    "3": {
+      "h": 6,
+      "w": 16,
+      "x": 8,
+      "y": 33
+    },
+    "30": {
+      "h": 3,
+      "w": 4,
+      "x": 12,
+      "y": 30
+    },
+    "32": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 45
+    },
+    "33": {
+      "h": 9,
+      "w": 24,
+      "x": 0,
+      "y": 46
+    },
+    "34": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 30
+    },
+    "35": {
+      "h": 2,
+      "w": 4,
+      "x": 16,
+      "y": 4
+    },
+    "36": {
+      "h": 2,
+      "w": 4,
+      "x": 16,
+      "y": 6
+    },
+    "37": {
+      "h": 2,
+      "w": 4,
+      "x": 16,
+      "y": 8
+    },
+    "38": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 30
+    },
+    "39": {
+      "h": 3,
+      "w": 4,
+      "x": 8,
+      "y": 30
+    },
+    "4": {
+      "h": 6,
+      "w": 4,
+      "x": 4,
+      "y": 4
+    },
+    "46": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 39
+    },
+    "47": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 22
+    },
+    "5": {
+      "h": 6,
+      "w": 12,
+      "x": 4,
+      "y": 10
+    },
+    "6": {
+      "h": 6,
+      "w": 8,
+      "x": 16,
+      "y": 10
+    },
+    "7": {
+      "h": 6,
+      "w": 8,
+      "x": 0,
+      "y": 33
+    },
+    "8": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 16
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count(), by: {cicd.pipeline.run.outcome}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Pipeline Completion Status",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "cicd.pipeline.run.outcome"
+            ],
+            "categoryAxisLabel": "cicd.pipeline.run.outcome",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {
+            "": {
+              "added": 1726836121804,
+              "color": "#805100"
+            },
+            "failure": {
+              "added": 1726836109108,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "success": {
+              "added": 1726836111136,
+              "color": "#2F6863"
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "cicd.pipeline.run.outcome",
+          "displayedFields": [
+            "cicd.pipeline.run.outcome",
+            "count()"
+          ],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "cicd.pipeline.run.outcome"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "cicd.pipeline.run.outcome"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "cicd.pipeline.run.outcome",
+          "prefixIcon": "",
+          "recordField": "cicd.pipeline.run.outcome",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger,ext.pipeline.project.name\n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Total Pipeline Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "count()"
+            ],
+            "categoryAxisLabel": "count()",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [
+            "count()"
+          ],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Count",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger, duration,ext.pipeline.project.name\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize median(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Median Execution Time",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "median(duration)"
+            ],
+            "categoryAxisLabel": "median(duration)",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "median(duration)"
+            ],
+            "valueAxisLabel": "median(duration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "median(duration)",
+          "displayedFields": [
+            "avg(duration)"
+          ],
+          "longitude": "median(duration)",
+          "value": "avg(duration)"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "median(duration)"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "avg(duration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "avg(duration)",
+          "prefixIcon": "",
+          "recordField": "median(duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize count(), by: {cicd.pipeline.run.trigger}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Pipeline triggers",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "cicd.pipeline.run.trigger"
+            ],
+            "categoryAxisLabel": "cicd.pipeline.run.trigger",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {
+            "": {
+              "added": 1726836121804,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-11-default, #627cfe)"
+              }
+            },
+            "failure": {
+              "added": 1726836109108,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "success": {
+              "added": 1726836111136,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "cicd.pipeline.run.trigger",
+          "displayedFields": [
+            "cicd.pipeline.run.trigger",
+            "count()"
+          ],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "cicd.pipeline.run.trigger"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "cicd.pipeline.run.trigger"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "cicd.pipeline.run.outcome",
+          "prefixIcon": "",
+          "recordField": "cicd.pipeline.run.outcome",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger, duration,ext.pipeline.project.name\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize avg(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Average Execution Time",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "avg(duration)"
+            ],
+            "categoryAxisLabel": "avg(duration)",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "avg(duration)"
+            ],
+            "valueAxisLabel": "avg(duration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "avg(duration)",
+          "displayedFields": [
+            "median(duration)"
+          ],
+          "longitude": "avg(duration)",
+          "value": "median(duration)"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(duration)"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "median(duration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "median(duration)",
+          "prefixIcon": "",
+          "recordField": "avg(duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "20": {
+      "content": "### Azure DevOps Pipeline Pulse\n\nThis dashboard offers a detailed overview of your Azure DevOps Pipeline executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines. ",
+      "type": "markdown"
+    },
+    "24": {
+      "content": "### Pipeline Details\n\nThis section provides a clear and detailed view of the current state of Azure Pipeline executions, enabling you to manage and improve them effectively. \n\n-----",
+      "type": "markdown"
+    },
+    "25": {
+      "content": "### Job Details\n\nThis section will give you a comprehensive view of the detailed performance and status of individual jobs within your Azure pipelines, enabling you to monitor, analyze, and optimize your CI/CD processes effectively. \n\n-----",
+      "type": "markdown"
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"azure.devops\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and  in(ext.pipeline.project.name,$Project)\n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, duration), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id,ext.pipeline.project.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  duration = percentile(tasks[duration], 50)\n}, by: { task.name = tasks[task.name] }\n| sort duration desc \n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Job Duration (p50) | Top 5",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "task.name"
+            ],
+            "categoryAxisLabel": "task.name",
+            "colorPaletteMode": "multi-color",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "duration"
+            ],
+            "valueAxisLabel": "duration"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [],
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "task.name",
+          "displayedFields": [
+            "TaskName",
+            "Median"
+          ],
+          "longitude": "duration",
+          "value": "Median"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "duration"
+            }
+          ],
+          "displayedFields": [
+            "task.name"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "duration"
+          },
+          "displayedFields": [
+            "task.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Median",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "30": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"azure.devops\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and  in(ext.pipeline.project.name,$Project)\n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name,duration), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id, ext.pipeline.project.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize avg(tasks[duration])",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Average Job Duration",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "avg(tasks[duration])",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "avg(tasks[duration])"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "avg(duration)",
+          "displayedFields": [
+            "median(duration)"
+          ],
+          "longitude": "avg(duration)",
+          "value": "median(duration)"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(tasks[duration])"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "median(duration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "median(duration)",
+          "prefixIcon": "",
+          "recordField": "avg(tasks[duration])",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "32": {
+      "content": " ",
+      "type": "markdown"
+    },
+    "33": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.1.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "type": "markdown"
+    },
+    "34": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"azure.devops\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and  in(ext.pipeline.project.name,$Project)\n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id, ext.pipeline.project.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  count() \n}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Total Job Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "count()",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [
+            "count()"
+          ],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Count",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "35": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome,ext.pipeline.project.name\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| filter in(cicd.pipeline.name,$Workflow)\n| summarize successful = countIf(cicd.pipeline.run.outcome == \"success\")",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Successful Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "successful"
+            ],
+            "categoryAxisLabel": "successful",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "successful"
+            ],
+            "valueAxisLabel": "successful"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "successful",
+          "displayedFields": [],
+          "longitude": "successful",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "successful"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "successful",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "successful",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "\u003e",
+                "id": 0,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "36": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome,ext.pipeline.project.name\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository)\n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize failed = countIf(cicd.pipeline.run.outcome == \"failure\")",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Failed Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "failed"
+            ],
+            "categoryAxisLabel": "failed",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "failed"
+            ],
+            "valueAxisLabel": "failed"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "failed",
+          "displayedFields": [],
+          "longitude": "failed",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failed"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "CriticalFailedIcon",
+          "recordField": "failed",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "failed",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": "",
+                "value": 1
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "37": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome,ext.pipeline.project.name\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize other = countIf(isNull(cicd.pipeline.run.outcome) or (cicd.pipeline.run.outcome != \"failure\" and cicd.pipeline.run.outcome != \"success\"))",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Other Execution States",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "other"
+            ],
+            "categoryAxisLabel": "other",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "other"
+            ],
+            "valueAxisLabel": "other"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "other",
+          "displayedFields": [],
+          "longitude": "other",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "other"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "WarningIcon",
+          "recordField": "other",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "other",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": "",
+                "value": 1
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "38": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"azure.devops\"\n| filter (event.category == \"task\" and event.status == \"finished\" and task.outcome == \"success\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(ext.pipeline.project.name,$Project)\n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id, ext.pipeline.project.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize successful=count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Successful Job Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "successful",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "successful"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "successful",
+          "displayedFields": [],
+          "longitude": "successful",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "successful"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "successful",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "successful",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "\u003e",
+                "id": 0,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "39": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"azure.devops\"\n| filter (event.category == \"task\" and event.status == \"finished\" and in(task.outcome,{\"failure\",\"rejected\"})) \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n  and  in(ext.pipeline.project.name,$Project)\n  //  and in(vcs.repository.url.full, $Repository) \n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id, ext.pipeline.project.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize failure=count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Failed Job Executions",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "failure",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "failure"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "failure",
+          "displayedFields": [],
+          "longitude": "failure",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failure"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "failureRate",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "failure",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "failure",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-12-default, #cd3741)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 1
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| fields vcs.repository.url.full, cicd.pipeline.name, cicd.pipeline.run.trigger, cicd.pipeline.run.outcome, ext.pipeline.project.name\n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Error Rate",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "failureRate"
+            ],
+            "categoryAxisLabel": "failureRate",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "failureRate"
+            ],
+            "valueAxisLabel": "failureRate"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "failureRate",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failureRate"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "failureRate",
+          "prefixIcon": "",
+          "recordField": "failureRate",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true
+          },
+          "trend": {
+            "isLabelVisible": false,
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "failureRate",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≤",
+                "id": 0,
+                "label": "",
+                "value": 0
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727678780356,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "46": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter cicd.pipeline.run.outcome != \"canceled\" \n| filter in(ext.pipeline.project.name,$Project)\n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| fields end_time, pipeline.queued.duration\n\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Pipeline - time to start",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "end_time",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "pipeline.queued.duration"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "absolute"
+          },
+          "colorPalette": "categorical",
+          "curve": "smooth",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "pipeline.queued.duration"
+            ],
+            "timestamp": "end_time"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "cicd.pipeline.run.id",
+            "cicd.pipeline.run.attempt",
+            "timeToStart",
+            "queueTime",
+            "has_matching_pipeline",
+            "avg(task.queued.duration)",
+            "task.queued.duration",
+            "has_matching_runs",
+            "queued",
+            "cicd.pipeline.id",
+            "duration",
+            "pipeline.queued.duration",
+            "task.retry",
+            "vcs.change.id"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "queued"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "end_time",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "cicd.pipeline.run.id",
+          "displayedFields": [
+            "start_time",
+            "cicd.pipeline.run.id",
+            "cicd.pipeline.run.attempt",
+            "timeToStart"
+          ],
+          "latitude": "has_matching_pipeline",
+          "longitude": "cicd.pipeline.run.id",
+          "value": "cicd.pipeline.run.id"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "pipeline.queued.duration"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "cicd.pipeline.run.id",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "start_time",
+          "prefixIcon": "",
+          "recordField": "avg(task.queued.duration)",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {},
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "47": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter cicd.pipeline.run.outcome==\"failure\"\n| filter in(ext.pipeline.project.name,$Project)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| filter in(cicd.pipeline.name,$Workflow)\n| fieldsAdd Reason= if(pipeline.outcome.failure.reason ==\"\", \"unknown\", else: pipeline.outcome.failure.reason ) \n| summarize AffectedRuns=count(), by: { AffectedPipeline=concat(ext.pipeline.project.name,\"/\",cicd.pipeline.name), Reason }\n| fields AffectedRuns,AffectedPipeline, Reason\n| sort  AffectedRuns desc\n\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Reasons for pipeline failures",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "Reason",
+            "colorPaletteMode": "multi-color",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "number-of-slices",
+            "groupingThresholdValue": 0,
+            "valueType": "absolute"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "vcs.repository.name",
+          "displayedFields": [],
+          "longitude": "failureRate",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Count"
+            }
+          ],
+          "displayedFields": [
+            "Reason"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Count"
+          },
+          "displayedFields": [
+            "Reason"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "value",
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "AffectedRuns"
+              ],
+              "id": 17597781.200000003,
+              "value": "meterbar"
+            }
+          ],
+          "columnWidths": {
+            "[\"AffectedRuns\"]": 298,
+            "[\"Reason\"]": 813.921875
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [
+            [
+              "Reason"
+            ]
+          ],
+          "monospacedFontEnabled": false,
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727680127964,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter cicd.pipeline.run.outcome != \"canceled\" \n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(ext.pipeline.project.name,$Project)\n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| summarize percentile(duration,50), alias:Median ,by:{cicd.pipeline.name, alias: name} \n| sort Median desc \n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Pipeline Duration (p50) | Top 5",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "name"
+            ],
+            "categoryAxisLabel": "name",
+            "colorPaletteMode": "multi-color",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Median"
+            ],
+            "valueAxisLabel": "Median"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [],
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "name",
+          "displayedFields": [
+            "name",
+            "Median"
+          ],
+          "longitude": "Median",
+          "value": "Median"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Median"
+            }
+          ],
+          "displayedFields": [
+            "name"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Median"
+          },
+          "displayedFields": [
+            "name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Median",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| filter in(cicd.pipeline.name,$Workflow)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100), by: {vcs.repository.name,cicd.pipeline.name }\n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Error-prune pipelines | Top 5",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "vcs.repository.name",
+              "cicd.pipeline.name"
+            ],
+            "categoryAxisLabel": "vcs.repository.name,cicd.pipeline.name",
+            "colorPaletteMode": "multi-color",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "failureRate"
+            ],
+            "valueAxisLabel": "failureRate"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "number-of-slices",
+            "groupingThresholdValue": 0,
+            "valueType": "absolute"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "vcs.repository.name",
+          "displayedFields": [],
+          "longitude": "failureRate",
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failureRate"
+            }
+          ],
+          "displayedFields": [
+            "cicd.pipeline.name"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "failureRate"
+          },
+          "displayedFields": [
+            "cicd.pipeline.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "legend": {
+          "position": "auto",
+          "ratio": 28,
+          "showLegend": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727680127964,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"azure.devops\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and  in(ext.pipeline.project.name,$Project)\n    and in(cicd.pipeline.name, $Workflow) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, failure = if(in(task.outcome,{\"failure\",\"rejected\"}),1)), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id, ext.pipeline.project.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  failureRate = 100 * sum(tasks[failure]) / count() \n}, by: {task.name = tasks[task.name] }\n| filter failureRate \u003e 0 \n| sort failureRate desc \n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Error-prone Jobs | Top 5",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "task.name"
+            ],
+            "categoryAxisLabel": "task.name",
+            "colorPaletteMode": "multi-color",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "failureRate"
+            ],
+            "valueAxisLabel": "failureRate"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "absolute",
+            "groupingThresholdValue": 0,
+            "valueType": "absolute"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [],
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "value": "failureRate"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "failureRate"
+            }
+          ],
+          "displayedFields": [
+            "task.name"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "failureRate"
+          },
+          "displayedFields": [
+            "task.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "failureRate",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727680127964,
+            "baseUnit": "percent",
+            "decimals": 0,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"azure.devops\" \n| filter in(ext.pipeline.project.name,$Project)\n//| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.name,$Workflow)\n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| fields \nDuration = duration,\nName = cicd.pipeline.name,\nStatus = cicd.pipeline.run.outcome,\nRun = cicd.pipeline.run.url.full,\nTrigger = cicd.pipeline.run.trigger,\nStart = start_time,\nEnd = end_time,\nProject = ext.pipeline.project.name,\nRepository = vcs.repository.name ,\nBranch = vcs.ref.head.name\n| sort Duration desc \n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Pipeline Execution Details",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "Name,Status,Run,Trigger,Start,End,Project,Repository",
+            "colorPaletteMode": "multi-color",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "Duration"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "Duration"
+            ],
+            "timestamp": "Start"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "Duration",
+            "Run_attempt",
+            "Attempts"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "Start",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "Duration",
+          "displayedFields": [
+            "Duration",
+            "Name",
+            "Status",
+            "Run",
+            "Attempts",
+            "Trigger",
+            "Start",
+            "End",
+            "Repository"
+          ],
+          "latitude": "Attempts",
+          "longitude": "Duration",
+          "value": "Attempts"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Duration"
+            }
+          ],
+          "displayedFields": [
+            "Name",
+            "Status",
+            "Run",
+            "Trigger"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Duration"
+          },
+          "displayedFields": [
+            "Name",
+            "Status",
+            "Run",
+            "Trigger",
+            "Project",
+            "Repository"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Attempts",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Repository\"]": 273.09375,
+            "[\"RunUrl\"]": 346.84375
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [
+            [
+              "RunUrl"
+            ]
+          ],
+          "linewrapEnabled": true,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    }
+  },
+  "variables": [
+    {
+      "defaultValue": [
+        "{{`{{`}} .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 {{`}}`}}*"
+      ],
+      "editable": true,
+      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"azure.devops\" and event.type == \"run\"\n| summarize distinctRepositories = collectDistinct(ext.pipeline.project.name)\n| expand distinctRepositories\n| sort distinctRepositories",
+      "key": "Project",
+      "multiple": true,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    },
+    {
+      "defaultValue": [
+        "{{`{{`}} .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 {{`}}`}}*"
+      ],
+      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"azure.devops\" and event.type == \"run\"\n//| filter in(vcs.repository.url.full, $Project)\n| summarize distinctWorkflows = collectDistinct(cicd.pipeline.name)\n| expand distinctWorkflows\n| sort distinctWorkflows",
+      "key": "Workflow",
+      "multiple": true,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    },
+    {
+      "defaultValue": [
+        "{{`{{`}} .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 {{`}}`}}*"
+      ],
+      "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"azure.devops\" and event.type == \"run\"\n| summarize distinctTriggers = collectDistinct(cicd.pipeline.run.trigger)\n| expand distinctTriggers\n| sort distinctTriggers",
+      "key": "Trigger",
+      "multiple": true,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    }
+  ],
+  "version": 18
+}

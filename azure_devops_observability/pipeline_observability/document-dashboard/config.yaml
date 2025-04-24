@@ -1,30 +1,20 @@
 configs:
-- id: 732038cc-8827-4315-9a6c-0b7383b67800
+- id: 59fc26b8-07fa-482a-a990-256f4f35b761
   config:
-    name: AzureDevOps Dashboard (on Logs)
-    parameters:
-      extractedIDs:
-        type: value
-        value:
-          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
-    template: azure_devops_logs.json
+    name: Azure DevOps Pull Request
+    template: azure_devops_pull_request.json
     skip: false
-    originObjectId: 732038cc-8827-4315-9a6c-0b7383b67800
+    originObjectId: 59fc26b8-07fa-482a-a990-256f4f35b761
   type:
     document:
       kind: dashboard
       private: true
-- id: fcc1fd2e-dc71-4110-a1e0-2795cff6906e
+- id: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
   config:
-    name: AzureDevOps Dashboard (on Events)
-    parameters:
-      extractedIDs:
-        type: value
-        value:
-          id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05: 3420b2ac-f1cf-4b24-b62d-61ba1ba8ed05
-    template: azure_devops_bizevents.json
+    name: Azure DevOps Pipelines
+    template: azure_devops_pipelines.json
     skip: false
-    originObjectId: fcc1fd2e-dc71-4110-a1e0-2795cff6906e
+    originObjectId: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
   type:
     document:
       kind: dashboard

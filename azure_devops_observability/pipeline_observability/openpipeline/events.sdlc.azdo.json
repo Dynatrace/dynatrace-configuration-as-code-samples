@@ -1,0 +1,935 @@
+{
+  "customBasePath": "/platform/ingest/custom/events.sdlc",
+  "editable": true,
+  "endpoints": [
+    {
+      "basePath": "/platform/ingest/custom/events.sdlc",
+      "builtin": false,
+      "defaultBucket": "default_events",
+      "displayName": "Azure DevOps",
+      "editable": true,
+      "enabled": true,
+      "processors": [
+        {
+          "builtin": false,
+          "description": "Sets event.id to a unique identifier",
+          "dqlScript": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Sets_event.id_to_a_unique_identifier_6971",
+          "matcher": "isNull(event.id)",
+          "sampleData": null,
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set event.kind",
+          "dqlScript": "fieldsAdd event.kind = \"SDLC_EVENT\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_event.kind_8416",
+          "matcher": "isNull(event.kind)",
+          "sampleData": null,
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set pipeline category properties",
+          "dqlScript": "fieldsAdd \nevent.version = \"0.1.0\",\nevent.provider = \"azure.devops\",\nevent.category = \"pipeline\",\nevent.type = \"run\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_pipeline_category_properties_1421",
+          "matcher": "eventType == \"ms.vss-pipelines.run-state-changed-event\" or eventType == \"build.complete\"",
+          "sampleData": null,
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set task category properties",
+          "dqlScript": "fieldsAdd \nevent.version = \"0.1.0\",\nevent.provider = \"azure.devops\",\nevent.category = \"task\",\nevent.type = \"build\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_task_category_properties_5074",
+          "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+          "sampleData": null,
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set change category properties",
+          "dqlScript": "fieldsAdd \nevent.version = \"0.1.0\",\nevent.provider = \"azure.devops\",\nevent.category = \"task\",\nevent.type = \"change\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_change_category_properties_9177",
+          "matcher": "eventType == \"git.pullrequest.updated\" or eventType == \"git.pullrequest.created\"",
+          "sampleData": null,
+          "type": "dql"
+        }
+      ],
+      "routing": {
+        "type": "dynamic"
+      },
+      "segment": "azuredevops"
+    },
+    {
+      "basePath": "/platform/ingest/v1/events.sdlc",
+      "builtin": true,
+      "defaultBucket": "default_events",
+      "displayName": "Endpoint for Software Development Lifecycle events",
+      "editable": false,
+      "enabled": true,
+      "processors": [
+        {
+          "builtin": true,
+          "description": "sdlc event default fields",
+          "editable": false,
+          "enabled": true,
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            }
+          ],
+          "id": "sdlc:ingest_enrichment_map",
+          "matcher": "true",
+          "sampleData": "",
+          "type": "fieldsAdd"
+        },
+        {
+          "builtin": true,
+          "description": "Sets start_time to end_time",
+          "dqlScript": "fieldsAdd start_time = end_time",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:start_time_to_end_time_processor",
+          "matcher": "isNull(start_time) AND isNotNull(end_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets start_time to current timestamp",
+          "dqlScript": "fieldsAdd start_time = now()",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:start_time_processor",
+          "matcher": "isNull(start_time) AND isNull(end_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets end_time to start_time",
+          "dqlScript": "fieldsAdd end_time = start_time",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:end_time_to_start_time_processor",
+          "matcher": "isNull(end_time) AND isNotNull(start_time)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.id to a unique identifier",
+          "dqlScript": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_id_processor",
+          "matcher": "isNull(event.id)",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.category to pipeline if conditions match",
+          "dqlScript": "fieldsAdd event.category = \"pipeline\"",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_category_pipeline_processor",
+          "matcher": "isNull(event.category) AND (isNotNull(pipeline.id) AND isNull(task.id))",
+          "sampleData": "",
+          "type": "dql"
+        },
+        {
+          "builtin": true,
+          "description": "Sets event.category to task if conditions match",
+          "dqlScript": "fieldsAdd event.category = \"task\"",
+          "editable": false,
+          "enabled": true,
+          "id": "sdlc:event_category_task_processor",
+          "matcher": "isNull(event.category) AND (isNotNull(task.id) OR (isNull(task.id) AND isNull(pipeline.id)))",
+          "sampleData": "",
+          "type": "dql"
+        }
+      ],
+      "routing": {
+        "type": "dynamic"
+      },
+      "segment": ""
+    }
+  ],
+  "id": "events.sdlc",
+  "pipelines": [
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - pipeline",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_azure_devops_pipeline_9114",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "Check source for finished event",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd finishedRunChangeStateEvent = if (resource_j[run][state]==\"completed\" ,true, else:false )\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_Check_source_for_finished_event_2403",
+            "matcher": "eventType == \"ms.vss-pipelines.run-state-changed-event\"",
+            "sampleData": "",
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "finishedRunChangeStateEvent",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_finishedRunChangeStateEvent_7562",
+            "matcher": "finishedRunChangeStateEvent == true ",
+            "sampleData": null,
+            "type": "drop"
+          },
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd event.status = resource_j[run][state]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_7635",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd start_time = if(isNotNull(resource_j[run][createdDate]),toTimestamp(resource_j[run][createdDate]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_6672",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": " fieldsAdd duration = toDuration(0)",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_3240",
+            "matcher": "eventType==\"ms.vss-pipelines.run-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.id | name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd cicd.pipeline.id = resource_j[pipeline][id]\n| fieldsAdd cicd.pipeline.name = resource_j[pipeline][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.id_1430",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.run.id | url.full | variable",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd cicd.pipeline.run.id = resource_j[run][id]\n| fieldsAdd cicd.pipeline.run.url.full = resource_j[run][_links][web][href]\n| fieldsAdd cicd.pipeline.run.variable = resource_j[run][templateParameters]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.run.id_3250",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.head.name | revision",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.ref.head.name = resource_j[run][resources][repositories][self][refName]\n| fieldsAdd vcs.ref.head.revision = resource_j[run][resources][repositories][self][version]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.ref.head.name_8795",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.repository.name = if(isNotNull(resource_j[run][resources][repositories][self][repository][fullName]),resource_j[run][resources][repositories][self][repository][fullName],else:arrayLast(splitString(resource_j[repositories][0][url],\"/\")))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.name_6895",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.run.trigger.user",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.run.trigger.user = resource_j[requestedBy][displayName]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.run.trigger.user_4384",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.build.name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.build.name = resource_j[run][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.build.name_7277",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.project.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.project.id = resource_j[projectId]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.project.id_9818",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "dqlScript": "fieldsRemove subscriptionId,notificationId,id,eventType,publisherId,message,detailedMessage,resource,resourceVersion,createdDate,resourceContainers,triggeredByBuild,repository,retainedByRelease,lastChangedBy,orchestrationPlan,logs,appendCommitMessageToRunName,lastChangedDate,finishedRunChangeStateEvent",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_Clean_data_2821",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - job",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_azure_devops_-job_8201",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd event.status = resource_j[job][state]\n| fieldsAdd event.status = if(event.status == \"completed\", \"finished\", else:event.status)\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_9577",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd start_time = if(isNotNull(resource_j[job][startTime]),toTimestamp(resource_j[job][startTime]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_9727",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd end_time = if(isNotNull(resource_j[job][finishTime]),toTimestamp(resource_j[job][finishTime]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_end_time_1398",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd if(isNotNull(resource_j[job][finishTime]),toDuration(toTimestamp(resource_j[job][finishTime])-toTimestamp(resource_j[job][startTime])), else: toDuration(0)), alias: duration\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_8811",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.run.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd cicd.pipeline.run.id=resource_j[run][id]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.run.id__task.id__task.name_8652",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.id | name | outcome | retry",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd task.name = resource_j[job][name]\n| fieldsAdd task.id = resource_j[job][id]\n| fieldsAdd task.retry = resource_j[job][attempt]-1\n| fieldsAdd task.outcome = if(resource_j[job][state] == \"completed\", resource_j[job][result])\n| fieldsAdd task.outcome = if(task.outcome == \"succeeded\", \"success\", else:task.outcome)\n| fieldsAdd task.outcome = if(task.outcome == \"failed\", \"failure\", else:task.outcome)\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.outcome_8307",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.repository.name=if(isNotNull(resource_j[run][resources][repositories][self][repository][fullName]),resource_j[run][resources][repositories][self][repository][fullName],else:arrayLast(splitString(resource_j[repositories][0][url],\"/\")))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.name_5526",
+            "matcher": "eventType == \"ms.vss-pipelines.job-state-changed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.task.stage.name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.task.stage.name=resource_j[stage][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.task.stage.name_8407",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.project.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.project.id=resource_j[projectId]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.project.id_3396",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "dqlScript": "fieldsRemove subscriptionId, notificationId, id, eventType, publisherId, message, detailedMessage, resource, resourceVersion, resourceContainers, createdDate",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_Clean_data_3818",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - pipeline finished",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_azure_devops_-_pipeline_finished_9349",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "fieldsAdd event.status = \"finished\"",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_4351",
+            "matcher": "eventType == \"build.complete\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd start_time = if(isNotNull(resource_j[queueTime]), toTimestamp(resource_j[queueTime]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_2313",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time - type 2",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd start_time = if(isNotNull(resource_j[startTime]), toTimestamp(resource_j[startTime]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": false,
+            "id": "processor_start_time_-_type_2_7831",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd end_time = if(isNotNull(resource_j[finishTime]), toTimestamp(resource_j[finishTime]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_end_time_2410",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse resource, \"JSON:resource_j\"\n| fieldsAdd if(isNotNull(resource_j[finishTime]),toDuration(toTimestamp(resource_j[finishTime])-toTimestamp(resource_j[queueTime])), else: toDuration(0)), alias: duration\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_7046",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration - type 2",
+            "dqlScript": "parse resource, \"JSON:resource_j\"\n| fieldsAdd if(isNotNull(resource_j[finishTime]),toDuration(toTimestamp(resource_j[finishTime])-toTimestamp(resource_j[startTime])), else: toDuration(0)), alias: duration\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": false,
+            "id": "processor_duration_-_type_2_5970",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.id | name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd cicd.pipeline.id = resource_j[definition][id]\n| fieldsAdd cicd.pipeline.name = resource_j[definition][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.id_2453",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.pipeline.run.id | outcome | url.full | trigger | variable",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd cicd.pipeline.run.id = resource_j[id]\n| fieldsAdd cicd.pipeline.run.url.full=resource_j[_links][web][href]\n| fieldsAdd cicd.pipeline.run.trigger=resource_j[reason]\n| fieldsAdd cicd.pipeline.run.variable=resource_j[templateParameters]\n| fieldsAdd cicd.pipeline.run.outcome=resource_j[result]\n| fieldsAdd cicd.pipeline.run.outcome = if(cicd.pipeline.run.outcome == \"succeeded\",\"success\", else:cicd.pipeline.run.outcome)\n| fieldsAdd cicd.pipeline.run.outcome = if(cicd.pipeline.run.outcome == \"failed\",\"failure\", else:cicd.pipeline.run.outcome)\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.pipeline.run.id_2379",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "cicd.upstream_pipeline.run.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd if(resource_j[reason]==\"resourceTrigger\" and isNotNull(resource_j[triggerInfo][pipelineId]) and resource_j[triggerInfo][artifactType]==\"Pipeline\",resource_j[triggerInfo][pipelineId]), alias: cicd.upstream_pipeline.run.id\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.upstream_pipeline.id_2081",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.repository.name=if(isNotNull(resource_j[repository][name]),resource_j[repository][name],else:resource_j[repository][id])\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.name_5036",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.head.name | revision",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.ref.head.name=resource_j[sourceBranch]\n| fieldsAdd vcs.ref.head.revision=resource_j[sourceVersion]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.ref.head.name_5801",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "pipeline.queued.duration",
+            "dqlScript": "parse resource, \"JSON:resource_j\"\n| fieldsAdd if(isNotNull(resource_j[startTime]),toDuration(toTimestamp(resource_j[startTime])-toTimestamp(resource_j[queueTime])), else: toDuration(0)), alias: pipeline.queued.duration\n| fieldsRemove resource_j\n",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_pipeline.queued.duration_3516",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.project.id | name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.project.id = resource_j[project][id]\n| fieldsAdd ext.pipeline.project.name = resource_j[project][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.project.id_7317",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "pipeline.outcome.failure.reason",
+            "dqlScript": "parse message, \"JSON:message_j\" | parse detailedMessage,\"JSON:detailedMessage_j\"\n| fieldsAdd pipeline.outcome.failure.reason = trim(replaceString(detailedMessage_j[text],message_j[text],\"\"))\n| fieldsRemove detailedMessage_j,message_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.failure.reason_9709",
+            "matcher": "isNotNull(message) and isNotNull(detailedMessage)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.upstream_pipeline.project.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd if(resource_j[reason]==\"resourceTrigger\" and resource_j[triggerInfo][artifactType]==\"Pipeline\",resource_j[triggerInfo][projectId]), alias: cicd.upstream_pipeline.project.id\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_cicd.upstream_pipeline.id_-_Copy_5089",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.build.name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.build.name=resource_j[buildNumber]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.build.name_3726",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.pipeline.run.trigger.user",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.pipeline.run.trigger.user=resource_j[requestedBy][displayName]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.pipeline.run.trigger.user_1568",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "dqlScript": "fieldsRemove subscriptionId, notificationId, id, eventType, publisherId, message, detailedMessage, resource, resourceVersion, createdDate, resourceContainers, triggeredByBuild, repository, retainedByRelease, lastChangedBy, orchestrationPlan, logs, appendCommitMessageToRunName, lastChangedDate, parameters",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_Clean_data_9183",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - pull request",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_azure_devops_-_mr_3333",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd event.status=resource_j[status]\n| fieldsAdd event.status=if(event.status == \"completed\", \"merged\", else:event.status)\n| fieldsAdd event.status=if(event.status == \"abandoned\", \"closed\", else:event.status)\n| fieldsAdd event.status=if(event.status == \"active\", \"open\", else:event.status)\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_8135",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd start_time = if(isNotNull(resource_j[creationDate]),toTimestamp(resource_j[creationDate]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_9423",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd end_time = if((isNotNull(resource_j[closedDate]) and resource_j[status]==\"completed\"),toTimestamp(resource_j[closedDate]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_-_Copy_4898",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd if((resource_j[status]==\"completed\" and isNotNull(resource_j[closedDate])),toDuration(toTimestamp(resource_j[closedDate])-toTimestamp(resource_j[creationDate])), else: toDuration(0)), alias: duration\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_6929",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd task.id=resource_j[mergeId]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.id_9819",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.change.id | title | url.full",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.change.id = resource_j[pullRequestId]\n| fieldsAdd vcs.change.title = resource_j[title]\n| fieldsAdd vcs.change.url.full = resource_j[_links][web][href]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.change.id_5941",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.repository.name | url.full",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.repository.name = resource_j[repository][name]\n| fieldsAdd vcs.repository.url.full = resource_j[repository][webUrl]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.repository.name_2871",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.base.name | revision",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.ref.base.name = resource_j[targetRefName]\n| fieldsAdd vcs.ref.base.revision = resource_j[lastMergeTargetCommit][commitId]\n| fieldsRemove resource_j  ",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.ref.base.name_2832",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "vcs.ref.head.name | revision",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd vcs.ref.head.name = resource_j[sourceRefName]\n| fieldsAdd vcs.ref.head.revision = resource_j[lastMergeSourceCommit][commitId]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_vcs.ref.head.name_8357",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.vcs.merge.commit.revision",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.vcs.merge.commit.revision = if((isNotNull(resource_j[closedDate]) and resource_j[status]==\"completed\"),resource_j[lastMergeCommit][commitId])\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.vcs.merge.commit.revision_3317",
+            "matcher": "isNotNull(resource)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "dqlScript": "fieldsRemove subscriptionId,notificationId,id,eventType,publisherId,message,detailedMessage,resource,resourceVersion,resourceContainers,createdDate",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_Clean_data_2285",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          }
+        ]
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": true,
+      "dataExtraction": {
+        "editable": false,
+        "processors": []
+      },
+      "displayName": "events.sdlc",
+      "editable": false,
+      "enabled": true,
+      "id": "default",
+      "metricExtraction": {
+        "editable": false,
+        "processors": []
+      },
+      "processing": {
+        "editable": false,
+        "processors": []
+      },
+      "securityContext": {
+        "editable": false,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": false,
+        "processors": []
+      },
+      "type": "default"
+    }
+  ],
+  "routing": {
+    "catchAllPipeline": {
+      "editable": false,
+      "pipelineId": "default"
+    },
+    "editable": true,
+    "entries": [
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType==\"ms.vss-pipelines.run-state-changed-event\"",
+        "note": "Route all Azure DevOps  events into workflow pipeline",
+        "pipelineId": "pipeline_azure_devops_pipeline_9114"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType==\"ms.vss-pipelines.job-state-changed-event\"",
+        "note": "Route all Azure DevOps events to job pipeline",
+        "pipelineId": "pipeline_azure_devops_-job_8201"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType==\"build.complete\"",
+        "note": "Route all Azure DevOps events into workflow pipeline finished",
+        "pipelineId": "pipeline_azure_devops_-_pipeline_finished_9349"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType==\"git.pullrequest.created\" or eventType==\"git.pullrequest.updated\"",
+        "note": "Route all Azure DevOps events into pull request pipeline",
+        "pipelineId": "pipeline_azure_devops_-_mr_3333"
+      }
+    ]
+  }
+}
