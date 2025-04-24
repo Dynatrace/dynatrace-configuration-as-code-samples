@@ -176,7 +176,7 @@
         },
         "tileTimeframeEnabled": false
       },
-      "title": "Workflow Completion Status",
+      "title": "Pipeline Completion Status",
       "type": "data",
       "visualization": "pieChart",
       "visualizationSettings": {
@@ -323,7 +323,7 @@
         },
         "tileTimeframeEnabled": false
       },
-      "title": "Total Workflow Executions",
+      "title": "Total Pipeline Executions",
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
@@ -838,7 +838,7 @@
       "type": "markdown"
     },
     "24": {
-      "content": "### Workflow Details\n\nThis section provides a clear and detailed view of the current state of Azure Pipeline executions, enabling you to manage and improve them effectively. \n\n-----",
+      "content": "### Pipeline Details\n\nThis section provides a clear and detailed view of the current state of Azure Pipeline executions, enabling you to manage and improve them effectively. \n\n-----",
       "type": "markdown"
     },
     "25": {
@@ -2185,7 +2185,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Workflow - time to start",
+      "title": "Pipeline - time to start",
       "type": "data",
       "visualization": "areaChart",
       "visualizationSettings": {
@@ -2344,7 +2344,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Reasons for workflow failures",
+      "title": "Reasons for pipeline failures",
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
@@ -2493,7 +2493,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Workflow Duration (p50) | Top 5",
+      "title": "Pipeline Duration (p50) | Top 5",
       "type": "data",
       "visualization": "categoricalBarChart",
       "visualizationSettings": {
@@ -2620,7 +2620,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Error-prune Workflows | Top 5",
+      "title": "Error-prune pipelines | Top 5",
       "type": "data",
       "visualization": "pieChart",
       "visualizationSettings": {
@@ -2894,7 +2894,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Workflow Execution Details",
+      "title": "Pipeline Execution Details",
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
