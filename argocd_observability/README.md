@@ -226,7 +226,9 @@ Now that you've successfully configured ArgoCD and Dynatrace, you can use Dashbo
 
 In Dynatrace, open the **ArgoCD Lifecycle Dashboard** to:
 
-* ...
+* Investigate running syncs and hotspots of many sync operations
+* Analyze duration of sync operations
+* See snyc status and application health
 
 | ArgoCD Sync overview: | ArgoCD Sync details: |
 |------------|-----|
