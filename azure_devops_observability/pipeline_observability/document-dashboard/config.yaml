@@ -1,0 +1,21 @@
+configs:
+- id: 59fc26b8-07fa-482a-a990-256f4f35b761
+  config:
+    name: Azure DevOps Pull Request
+    template: azure_devops_pull_request.json
+    skip: false
+    originObjectId: 59fc26b8-07fa-482a-a990-256f4f35b761
+  type:
+    document:
+      kind: dashboard
+      private: true
+- id: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
+  config:
+    name: Azure DevOps Pipelines
+    template: azure_devops_pipelines.json
+    skip: false
+    originObjectId: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
+  type:
+    document:
+      kind: dashboard
+      private: true

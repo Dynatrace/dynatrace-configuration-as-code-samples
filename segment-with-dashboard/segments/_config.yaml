@@ -1,0 +1,22 @@
+configs:
+
+- id: segment
+  type: segment
+  config:
+    template: segment.json
+
+
+- id: dashboard
+  type:
+    document:
+      kind: dashboard
+      private: true
+  config:
+    name: Log Dashboard with Dynatrace Segment
+    parameters:
+      segment_id:
+        configId: segment
+        configType: segment
+        property: id
+        type: reference
+    template: dashboard.json

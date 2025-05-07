@@ -1,0 +1,8 @@
+timeseries {
+  requests_memory = sum(dt.kubernetes.container.requests_memory, rollup:avg),
+  memory_allocatable = sum(dt.kubernetes.node.memory_allocatable, rollup:avg)
+}, by:{dt.entity.kubernetes_cluster}
+, filter: {k8s.cluster.name == "{{.clusterName}}"}
+| fieldsAdd sli = (requests_memory[] / memory_allocatable[]) * 100
+| fieldsAdd entityName(dt.entity.kubernetes_cluster)
+| fieldsRemove requests_memory, memory_allocatable

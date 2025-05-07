@@ -1,0 +1,3103 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 19
+    },
+    "1": {
+      "h": 4,
+      "w": 3,
+      "x": 12,
+      "y": 19
+    },
+    "10": {
+      "h": 1,
+      "w": 12,
+      "x": 0,
+      "y": 23
+    },
+    "11": {
+      "h": 1,
+      "w": 12,
+      "x": 12,
+      "y": 18
+    },
+    "12": {
+      "h": 4,
+      "w": 5,
+      "x": 3,
+      "y": 24
+    },
+    "13": {
+      "h": 4,
+      "w": 4,
+      "x": 8,
+      "y": 24
+    },
+    "14": {
+      "h": 4,
+      "w": 5,
+      "x": 15,
+      "y": 24
+    },
+    "15": {
+      "h": 4,
+      "w": 4,
+      "x": 20,
+      "y": 24
+    },
+    "16": {
+      "h": 1,
+      "w": 12,
+      "x": 0,
+      "y": 7
+    },
+    "17": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 8
+    },
+    "18": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 17
+    },
+    "19": {
+      "h": 4,
+      "w": 9,
+      "x": 3,
+      "y": 8
+    },
+    "2": {
+      "h": 4,
+      "w": 3,
+      "x": 12,
+      "y": 24
+    },
+    "20": {
+      "h": 5,
+      "w": 7,
+      "x": 0,
+      "y": 12
+    },
+    "21": {
+      "h": 1,
+      "w": 12,
+      "x": 12,
+      "y": 7
+    },
+    "22": {
+      "h": 5,
+      "w": 5,
+      "x": 7,
+      "y": 12
+    },
+    "23": {
+      "h": 4,
+      "w": 3,
+      "x": 12,
+      "y": 8
+    },
+    "24": {
+      "h": 5,
+      "w": 7,
+      "x": 12,
+      "y": 12
+    },
+    "25": {
+      "h": 4,
+      "w": 9,
+      "x": 15,
+      "y": 8
+    },
+    "26": {
+      "h": 5,
+      "w": 5,
+      "x": 19,
+      "y": 12
+    },
+    "3": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 24
+    },
+    "30": {
+      "h": 2,
+      "w": 3,
+      "x": 0,
+      "y": 4
+    },
+    "31": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 6
+    },
+    "32": {
+      "h": 6,
+      "w": 10,
+      "x": 3,
+      "y": 0
+    },
+    "33": {
+      "h": 6,
+      "w": 11,
+      "x": 13,
+      "y": 0
+    },
+    "34": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 0
+    },
+    "4": {
+      "h": 4,
+      "w": 5,
+      "x": 3,
+      "y": 19
+    },
+    "5": {
+      "h": 4,
+      "w": 4,
+      "x": 8,
+      "y": 19
+    },
+    "6": {
+      "h": 4,
+      "w": 5,
+      "x": 15,
+      "y": 19
+    },
+    "7": {
+      "h": 1,
+      "w": 12,
+      "x": 0,
+      "y": 18
+    },
+    "8": {
+      "h": 1,
+      "w": 12,
+      "x": 12,
+      "y": 23
+    },
+    "9": {
+      "h": 4,
+      "w": 4,
+      "x": 20,
+      "y": 19
+    }
+  },
+  "settings": {
+    "gridLayout": {
+      "mode": "responsive"
+    }
+  },
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\")\n| filter result == \"succeeded\"\n| summarize count(), by: {result}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "result"
+            ],
+            "categoryAxisLabel": "result",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "result"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "result"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Builds Succeeded",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728585599897,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "count()",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 0
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\")\n| filter result == \"failed\"\n| summarize count(), by: {result}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "result",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Builds Failed",
+          "prefixIcon": "DeclineIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728585599897,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "count()",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "content": "# Builds partiallySucceeded",
+      "title": "",
+      "type": "markdown"
+    },
+    "11": {
+      "content": "# Builds Failed",
+      "title": "",
+      "type": "markdown"
+    },
+    "12": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"partiallySucceeded\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "Build Number",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "Build Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "buildnumber",
+          "prefixIcon": "",
+          "recordField": "buildnumber",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Build Number\"]": 136.671875
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "13": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"partiallySucceeded\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Build Reason",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "reason",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {
+            "manual": {
+              "added": 1728590965910,
+              "color": "#FFD877"
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "14": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"canceled\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "Build Number",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "Build Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "buildnumber",
+          "prefixIcon": "",
+          "recordField": "buildnumber",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Build Number\"]": 135.671875
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "15": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"canceled\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Build Reason",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "reason",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {
+            "manual": {
+              "added": 1728590983362,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "apdex",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "16": {
+      "content": "# Releases Succeeded",
+      "title": "",
+      "type": "markdown"
+    },
+    "17": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"succeeded\"\n| summarize count(), by: {releaseStatus}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "releaseStatus"
+            ],
+            "categoryAxisLabel": "releaseStatus",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "releaseStatus"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "releaseStatus"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Builds Succeeded",
+          "prefixIcon": "SuccessIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728585599897,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "count()",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 0
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "18": {
+      "content": "     ",
+      "title": "",
+      "type": "markdown"
+    },
+    "19": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"succeeded\"\n| summarize `Release Count`=count(), by: {releaseName}\n| filter in(releaseName, array($ReleaseName))\n| fieldsRename `Release Name`= releaseName\n| sort `Release Count` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Release Name"
+            ],
+            "categoryAxisLabel": "Release Name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Release Count"
+            ],
+            "valueAxisLabel": "Release Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Release Count"
+            }
+          ],
+          "displayedFields": [
+            "Release Name"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Release Count"
+          },
+          "displayedFields": [
+            "Release Name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "buildnumber",
+          "prefixIcon": "",
+          "recordField": "buildnumber",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "value",
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Build Number\"]": 135.671875,
+            "[\"Release Name\"]": 270.640625
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\")\n| filter result == \"canceled\"\n| summarize count(), by: {result}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "result",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Builds Canceled",
+          "prefixIcon": "BlockIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728585599897,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "count()",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": "",
+                "value": 0
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n//| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"succeeded\"\n| summarize count=count(), by:{stageName}\n| filter in(stageName,array($ReleaseStage))\n| sort count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Stage",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "stageName"
+            ],
+            "categoryAxisLabel": "stageName",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count"
+            ],
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false,
+            "position": "right"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count"
+          },
+          "displayedFields": [
+            "stageName"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "21": {
+      "content": "# Releases Failed",
+      "title": "",
+      "type": "markdown"
+    },
+    "22": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"succeeded\"\n| summarize count(), by:{projectName}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Project",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "projectName"
+            ],
+            "categoryAxisLabel": "projectName",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false,
+            "position": "bottom"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "projectName"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "projectName"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "23": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"rejected\"\n| summarize count(), by:{releaseStatus}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "releaseStatus"
+            ],
+            "categoryAxisLabel": "releaseStatus",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "releaseStatus"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "releaseStatus"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Builds Failed",
+          "prefixIcon": "DeclineIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728585599897,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "count()",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "24": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"rejected\"\n| filter in(stageName,array($ReleaseStage))\n| summarize count(), by:{stageName}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Stage",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "stageName"
+            ],
+            "categoryAxisLabel": "stageName",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "fireplace",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false,
+            "position": "right"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "stageName"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "stageName"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "25": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"rejected\"\n| summarize `Release Count`=count(), by: {releaseName}\n| filter in(releaseName, array($ReleaseName))\n| fieldsRename `Release Name`=releaseName\n| sort `Release Count` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Release Name"
+            ],
+            "categoryAxisLabel": "Release Name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Release Count"
+            ],
+            "valueAxisLabel": "Release Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Release Count"
+            }
+          ],
+          "displayedFields": [
+            "Release Name"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Release Count"
+          },
+          "displayedFields": [
+            "Release Name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "buildnumber",
+          "prefixIcon": "",
+          "recordField": "buildnumber",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "value",
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728596155580,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {
+            "[\"Build Number\"]": 135.671875,
+            "[\"Release Name\"]": 291.640625
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "26": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"rejected\"\n| summarize count(), by:{projectName}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Project",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "projectName"
+            ],
+            "categoryAxisLabel": "projectName",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "log-status",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false,
+            "position": "bottom"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "projectName"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "projectName"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\")\n| filter result == \"partiallySucceeded\"\n| summarize count(), by: {result}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "result",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Builds partiallySucceeded",
+          "prefixIcon": "WarningIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1728585599897,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "count()",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": "#FFD877",
+                "comparator": "≥",
+                "id": 1,
+                "label": "",
+                "value": 0
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "30": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\")\n| parse `resource.deployment.startedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.S'):DeployStartTime LD\"\n| parse `resource.deployment.completedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.S'):DeployEndTime LD\"\n| fields DeployDuration=DeployEndTime-DeployStartTime\n| filterOut isNull(DeployDuration)\n| summarize avg(DeployDuration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "avg(DeployDuration)"
+            ],
+            "categoryAxisLabel": "avg(DeployDuration)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "avg(DeployDuration)"
+            ],
+            "valueAxisLabel": "avg(DeployDuration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "avg(DeployDuration)",
+          "value": "avg(DeployDuration)"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(DeployDuration)"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "label": {
+          "label": "avg(DeployDuration)",
+          "showLabel": true
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "Avg Release Duration",
+          "prefixIcon": "ClockIcon",
+          "recordField": "avg(DeployDuration)",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1728598026021,
+            "baseUnit": "nanosecond",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": "hour",
+            "identifier": "avg(DeployDuration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "31": {
+      "content": "   ",
+      "title": "",
+      "type": "markdown"
+    },
+    "32": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\")\n| parse `resource.deployment.startedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployStartTime LD\"\n| parse `resource.deployment.completedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployEndTime LD\"\n| fields DeployDuration=DeployEndTime-DeployStartTime, releaseName\n| filterOut isNull(DeployDuration)\n| filter in(releaseName, array($ReleaseName))\n| sort DeployDuration desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Duration by Release",
+      "type": "data",
+      "visualization": "honeycomb",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "releaseName"
+            ],
+            "categoryAxisLabel": "releaseName",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "DeployDuration"
+            ],
+            "valueAxisLabel": "DeployDuration"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "DeployDuration"
+            }
+          ],
+          "displayedFields": [
+            "releaseName"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "orange-petrol",
+          "dataMappings": {
+            "value": "DeployDuration"
+          },
+          "displayedFields": [
+            "releaseName"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "right"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "releasename",
+          "prefixIcon": "",
+          "recordField": "releasename",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "content"
+              ],
+              "id": 1731354835908,
+              "value": "log-content"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "33": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\") and releaseStatus == \"succeeded\"\n| fields timestamp,releaseStatus,releaseName\n| makeTimeseries count(), by:{releaseName},interval:15m\n| filter in(releaseName, array($ReleaseName))",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Frequency by Release \u0026 Timestamp",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "releaseName"
+            ],
+            "categoryAxisLabel": "releaseName",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "interval"
+            ],
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisDimensions": [
+              "releaseName"
+            ],
+            "leftAxisValues": [
+              "count()"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "releaseName"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "interval"
+          },
+          "displayedFields": [
+            "releaseName"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "releasename",
+          "prefixIcon": "",
+          "recordField": "releasename",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "count()"
+              ],
+              "id": 1731107455170,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "34": {
+      "content": "![AzureDevOps](https://dt-cdn.net/hub/logos/microsoft-azure.png)",
+      "title": "",
+      "type": "markdown"
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"succeeded\"\n| summarize `Build Count`=count(), by: {buildNumber}\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Build Number"
+            ],
+            "categoryAxisLabel": "Build Number",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Build Count"
+            ],
+            "valueAxisLabel": "Build Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Build Count"
+            }
+          ],
+          "displayedFields": [
+            "Build Number"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Build Count"
+          },
+          "displayedFields": [
+            "Build Number"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "buildnumber",
+          "prefixIcon": "",
+          "recordField": "buildnumber",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Build Number\"]": 135.671875
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"succeeded\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Build Reason",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "resource.reason"
+            ],
+            "categoryAxisLabel": "resource.reason",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count"
+            ],
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count"
+            }
+          ],
+          "displayedFields": [
+            "resource.reason"
+          ],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count"
+          },
+          "displayedFields": [
+            "resource.reason"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"failed\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "Build Number",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "Build Count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "buildnumber",
+          "prefixIcon": "",
+          "recordField": "buildnumber",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Build Number\"]": 135.671875
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": []
+      }
+    },
+    "7": {
+      "content": "# Builds Succeeded",
+      "title": "",
+      "type": "markdown"
+    },
+    "8": {
+      "content": "# Builds Canceled",
+      "title": "",
+      "type": "markdown"
+    },
+    "9": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\") and result == \"failed\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Build Reason",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "reason",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {
+            "manual": {
+              "added": 1728590995014,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "purple-rain",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "displayedFields": [],
+          "legend": "auto",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "reason",
+          "prefixIcon": "",
+          "recordField": "reason",
+          "showLabel": true,
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    }
+  },
+  "variables": [
+    {
+      "defaultValue": [
+        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
+      ],
+      "input": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\")\n| fields releaseName",
+      "key": "ReleaseName",
+      "multiple": true,
+      "type": "query",
+      "visible": true
+    },
+    {
+      "defaultValue": [
+        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
+      ],
+      "input": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"ms.vss-release.deployment-completed-event\")\n| fields stageName",
+      "key": "ReleaseStage",
+      "multiple": true,
+      "type": "query",
+      "visible": true
+    },
+    {
+      "defaultValue": [
+        "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
+      ],
+      "input": "fetch logs\n| filter dt.system.bucket == \"azure_devops_logs\"\n| filter matchesPhrase(eventType,\"build.complete\")\n//| dedup buildnumber\n| fields buildNumber",
+      "key": "BuildNumber",
+      "multiple": true,
+      "type": "query",
+      "visible": true
+    }
+  ],
+  "version": 17
+}

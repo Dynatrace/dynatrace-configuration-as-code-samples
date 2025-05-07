@@ -1,0 +1,12 @@
+timeseries total=avg(dt.service.request.response_time, default:0)
+, by: { dt.entity.service }
+, filter: { in(entityAttr(dt.entity.service,"tags"), "app:{{.app}}") 
+and in(entityAttr(dt.entity.service,"tags"), "env:{{.env}}")
+and in(entityAttr(dt.entity.service,"tags"), "function:{{.function}}")}
+| fieldsAdd high=iCollectArray(if(total[]> (1000 * {{ .sliThreshold }}), total[]))
+| fieldsAdd low=iCollectArray(if(total[]<= (1000 * {{ .sliThreshold }}), total[]))
+| fieldsAdd highRespTimes=iCollectArray(if(isNull(high[]),0,else:1))
+| fieldsAdd lowRespTimes=iCollectArray(if(isNull(low[]),0,else:1))
+| fieldsAdd sli=100*(lowRespTimes[]/(lowRespTimes[]+highRespTimes[]))
+| fieldsAdd entityName(dt.entity.service)
+| fieldsRemove total, high, low, highRespTimes, lowRespTimes

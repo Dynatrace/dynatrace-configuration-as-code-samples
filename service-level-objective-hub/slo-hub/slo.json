@@ -1,0 +1,23 @@
+{
+  "name": "{{.title }}",
+  "description": "{{.description}}",
+  "customSli": {
+    "indicator": "{{.indicator}}",
+    "filterSegments": []
+  },
+  "criteria": [
+    {
+      "timeframeFrom": "{{.timeframeFrom}}",
+      "timeframeTo": "{{.timeframeTo}}",
+      "target": {{.target}},
+      "warning": {{.warning}}
+    }
+  ],
+  "tags": [
+    "env:{{.env}}",
+    "type:{{.type}}",
+    "objective:{{.objective}}",
+    "app:{{.app}}",
+    "function:{{.function}}"
+  ]
+}
