@@ -186,6 +186,7 @@ data:
   
   trigger.dynatrace-webhook-trigger: |
     - when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status in ['Healthy', 'Degraded']
+      send: [dynatrace-webhook-template]
     - when: app.status.operationState.phase in ['Failed', 'Error']
       send: [dynatrace-webhook-template]
     - when: app.status.operationState.phase in ['Running'] 
