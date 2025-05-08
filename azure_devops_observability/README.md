@@ -153,33 +153,37 @@ Repeat creation of webhook subscriptions for the following triggers:
    -  `Pull request created`
    -  `Pull request updated`
    
-## Work with Azure DevOps and observe organization-wide activities in Dashboards
+## Unlock enhanced development insights with Azure DevOps Dashboards
 
-Now that you've successfully configured Azure DevOps and Dynatrace, you can use Dashboards and SDLC events to observe your Azure DevOps pipelines and pull requests.
+Now that you've successfully configured Azure DevOps and Dynatrace, you can use Dashboards and SDLC events to observe your Azure DevOps pipelines and pull requests within the entire development organization.
 
-Open the **Azure DevOps Pipelines** and the **Azure DevOps Pull Request** dashboards to observe and analyze:
+### Analyze
 
-* Real-time activities of all pull requests in your organization or selected Git repositories.
-* Workflow execution details
-* Job insights
-* Step durations for pipelines in your organization or selected Git repositories.
+In Dynatrace, open the **Azure DevOps Pipelines** and **Azure DevOps Pull Request** dashboards to:
 
-Leverage those insights for the following improvement areas of your internal development platform (IDP):
+* Track real-time activities of pull requests.
+* Analyze CI/CD pipeline execution details and pipeline health.
+* Gain job insights.
+* Review step durations for pipelines.
 
-* Streamline CI/CD pipeline
+### Optimize
 
-  Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
+Leverage those insights for the following improvement areas:
+
+* **Streamline CI/CD pipeline**: Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
   Knowing about these bottlenecks and inefficiencies helps optimize build and deployment processes, leading to faster and more reliable releases.
 
-* Improve developer productivity
-
-  Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
+* **Improve developer productivity**: Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
   This automation allows developers to focus more on writing code and less on administrative tasks.
 
-* Get data-driven job insights
-
-  Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process.
+* **Get data-driven development insights**: Analyzing telemetry data from pull requests and pipelines provides valuable insights into the development process.
   You can use the telemetry data to make informed decisions and continuously improve the development flows.
+
+### Continuous improvements
+
+Regularly review and tweak your CI/CD pipelines to ensure they are optimized for performance.
+
+In Dynatrace, adjust the timeframe of the **Azure DevOps Pipelines** and **Azure DevOps Pull Request** dashboards to monitor the long-term impact of your improvements.
 
 ## Call to action
 

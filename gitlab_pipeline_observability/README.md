@@ -143,37 +143,41 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Gi
 
 2. [Add custom header](https://dt-url.net/5203zv5) to your webhook with the name `Authorization` and value `Api-Token <YOUR-ACCESS-TOKEN>`.
 
-## Work with GitLab and observe organization-wide activities in Dashboards
+## Unlock enhanced development insights with GitLab Dashboards
 
-Now that you've successfully configured GitLab and Dynatrace, you can use Dashboards and [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) to observe your GitLab pipelines and merge requests.
+Now that you've successfully configured GitLab and Dynatrace, you can use Dashboards and SDLC events to observe your GitLab pipelines and merge requests within the entire development organization.
 
-Open the **GitLab Pipeline Pulse** and the **GitLab Merge Request** dashboards to observe and analyze:
+### Analyze
 
-* Real-time activities of all merge requests in your organization or selected GitLab repositories.
-* Workflow execution details
-* Job insights
-* Step durations for workflows in your organization or selected GitLab repositories.
+In Dynatrace, open the **GitLab Pipeline Pulse** and **GitLab Merge Request** dashboards to:
+
+* Track real-time activities of merge requests.
+* Analyze CI/CD pipeline execution details and pipeline health.
+* Gain job insights.
+* Review step durations for pipelines.
 
 | Pipeline details: | Job insights: | Merge request insights: |
 |------------|-----|-------------|
 | ![image](images/pipeline_dashboard_pipeline_details.png)   | ![image](images/pipeline_dashboard_job_details.png) | ![image](images/merge_request_dashboard.png) |
 
-Leverage those insights for the following improvement areas of your internal development platform (IDP):
+### Optimize
 
-* Streamline CI/CD pipeline
+Leverage those insights for the following improvement areas:
 
-  Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
+* **Streamline CI/CD pipeline**: Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
   Knowing about these bottlenecks and inefficiencies helps optimize build and deployment processes, leading to faster and more reliable releases.
 
-* Improve developer productivity
-
-  Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
+* **Improve developer productivity**: Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
   This automation allows developers to focus more on writing code and less on administrative tasks.
 
-* Get data-driven job insights
-
-  Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process.
+* **Get data-driven development insights**: Analyzing telemetry data from merge requests and pipelines provides valuable insights into the development process.
   You can use the telemetry data to make informed decisions and continuously improve the development flows.
+
+### Continuous improvements
+
+Regularly review and tweak your CI/CD pipelines to ensure they are optimized for performance. 
+
+In Dynatrace, adjust the timeframe of the **GitLab Pipeline Pulse** and **GitLab Merge Request** dashboards to monitor the long-term impact of your improvements.
 
 ## Call to action
 
