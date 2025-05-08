@@ -256,7 +256,7 @@ Now that you've successfully configured ArgoCD and Dynatrace, you can use Dashbo
 
 ### Analyze
 
-In Dynatrace, open the **ArgoCD Lifecycle Dashboard** to:
+In Dynatrace, open the **ArgoCD Application Lifecycle** dashboard to:
 
 * Investigate running syncs and hotspots of many sync operations
 * Analyze duration of sync operations
@@ -279,7 +279,7 @@ Efficient syncs can help in better utilization of resources, reducing the load o
 
 Regularly review your ArgoCD sync and adjust configuration to ensure they are optimized for performance. 
 
-In Dynatrace, adjust the timeframe of the **ArgoCD Lifecycle Dashboard** dashboards to monitor the long-term impact of your improvements.
+In Dynatrace, adjust the timeframe of the **ArgoCD Application Lifecycle** dashboards to monitor the long-term impact of your improvements.
 
 ## Call to action
 
