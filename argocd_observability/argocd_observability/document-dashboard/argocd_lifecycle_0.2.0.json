@@ -1440,7 +1440,7 @@
       }
     },
     "23": {
-      "content": "This section leverages Prometheus metrics exposed by ArgoCD components. If no data is shown, activate [Prometheus monitoring](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples/tree/main/argocd_observability) in Dynatrace for the Kubernetes cluster hosting ArgoCD.",
+      "content": "This section leverages Prometheus metrics exposed by ArgoCD components. If no data is shown, activate [Prometheus monitoring](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples/tree/main/argocd_observability) in Dynatrace for the Kubernetes cluster hosting ArgoCD. The metrics just from the `argocd-metrics` service are needed.",
       "type": "markdown"
     },
     "3": {
