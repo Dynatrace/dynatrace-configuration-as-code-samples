@@ -1,10 +1,10 @@
 # Observe your ArgoCD syncs with Dashboards and normalized SDLC events through OpenPipeline
 
-Excited to dive into your ArgoCD sync activities of your ArgoCD Applications? For this use case, you'll
+Excited to dive into your ArgoCD sync activities and deployment states of your ArgoCD applications? For this use case, you'll
 
 * Integrate ArgoCD and Dynatrace.
-* Use Dashboards to observe ArgoCD syncs.
-* Use this information to optimize ArgoCD.
+* Use Dashboards to observe ArgoCD syncs and deployment health.
+* Use this information to optimize deployments with ArgoCD.
 
 ## Concepts
 
@@ -21,7 +21,8 @@ This tutorial is intended for Platform Engineers managing the internal Developme
 
 In this tutorial, you'll learn how to
 
-* Forward ArgoCD notifications to Dynatrace
+* Forward ArgoCD notifications to Dynatrace.
+* Send Prometheus metrics to Dynatrace.
 * Normalize the ingested event data.
 * Use Dashboards to analyze the data and derive improvements.
 
@@ -218,6 +219,37 @@ metadata:
 **Notes:**
 * The notifications annotation `notifications.argoproj.io` subscribes the ArgoCD application to the notification setup created above.
 
+### Send ArgoCD Prometheus metrics to Dynatrace
+
+Argo CD exposes different sets of Prometheus metrics per server. Configure your ArgoCD components exposing this information wich is then collected by Dynatrace. In Dynatrace, you can use ActiveGate installed on the Kubernetes cluster hosting ArgoCD, or you can use the [Dynatrace OpenTelemetry Collector](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/collector).
+
+In case of the Dynatrace ActiveGate:  
+
+1. Enable the Prometheus metrics monitoring capability:  
+
+* In Dynatrace, go to **Kubernetes**, and then select the monitored cluster with ArgoCD installation.
+* Click on **...** in the upper right corner, and then select **Connection settings**.
+* Choose **Monitoring Settings** and enable **Monitor annotated Prometheus exporters**
+* Save the changes
+
+2. Add the following two annotations to services in your ArgoCD installation namespace. 
+
+    ```
+    metrics.dynatrace.com/port: {METRICS_PORT}
+    metrics.dynatrace.com/scrape: 'true'
+    ```
+
+* Replace `{METRICS_PORT}` with the value corresponding to the specific service shown below:  
+
+  | Service                                 | Metrics Port |
+  | --------------------------------------- | ------------ |
+  | argocd-applicationset-controller        | 8080         |
+  | argocd-metrics                          | 8082         |
+  | argocd-server-metrics                   | 8083         |
+  | argocd-repo-server                      | 8084         |
+  | argocd-notifications-controller-metrics | 9001         |
+  | argocd-dex-server                       | 5558         |
+
 ## Unlock enhanced deployment insights with ArgoCD Dashboards
 
 Now that you've successfully configured ArgoCD and Dynatrace, you can use Dashboards and SDLC events to observe your ArgoCD syncs.
@@ -228,11 +260,11 @@ In Dynatrace, open the **ArgoCD Lifecycle Dashboard** to:
 
 * Investigate running syncs and hotspots of many sync operations
 * Analyze duration of sync operations
-* See snyc status and application health
+* See sync status and application health
 
-| ArgoCD Sync overview: | ArgoCD Sync details: |
-|------------|-----|
-| ![image](images/pipeline_dashboard_pipeline_details.png) | ![image](images/pipeline_dashboard_job_details.png) |
+| ArgoCD Sync overview: |
+|------------|
+| ![image](images/argocd_sync_deployment_overview.png) |
 
 ### Optimize
 

@@ -1,20 +1,30 @@
 configs:
-- id: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
+#- id: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
+#  config:
+#    name: 'ArgoCD: Lifecycle Dashboard v0.1.0'
+#    template: argocd_lifecycle_0.1.0.json
+#    skip: false
+#    originObjectId: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
+#  type:
+#    document:
+#      kind: dashboard
+#      private: true
+- id: 5ae0950c-1da6-4a1b-97d3-937b84f15bb7
   config:
-    name: 'ArgoCD: Lifecycle Dashboard v0.1.0'
-    template: argocd_lifecycle.json
+    name: 'ArgoCD Platform Observability (WIP)'
+    template: argocd_platform_observability.json
     skip: false
-    originObjectId: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
+    originObjectId: 5ae0950c-1da6-4a1b-97d3-937b84f15bb7
   type:
     document:
       kind: dashboard
       private: true
-- id: 5ae0950c-1da6-4a1b-97d3-937b84f15bb6
+- id: 728f26ad-e016-4ce3-98c3-ea36704a9f35
   config:
-    name: 'ArgoCD: Platform Observability v0.0.1 (WIP)'
-    template: argocd_platform_observability.json
+    name: ArgoCD Application Lifecycle Dashboard
+    template: argocd_lifecycle_0.2.0.json
     skip: false
-    originObjectId: 5ae0950c-1da6-4a1b-97d3-937b84f15bb6
+    originObjectId: 728f26ad-e016-4ce3-98c3-ea36704a9f35
   type:
     document:
       kind: dashboard

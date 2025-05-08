@@ -18,7 +18,7 @@
           "enabled": true,
           "id": "argocd:sets_event_id_to_a_unique_identifier_9364",
           "matcher": "isNull(event.id)",
-          "sampleData": "",
+          "sampleData": null,
           "type": "dql"
         },
         {
@@ -29,7 +29,7 @@
           "enabled": true,
           "id": "argocd:sets_application_properties_6951",
           "matcher": "true",
-          "sampleData": "",
+          "sampleData": null,
           "type": "dql"
         }
       ],
@@ -140,6 +140,14 @@
   "pipelines": [
     {
       "builtin": false,
+      "chargebackCostCenter": {
+        "editable": true,
+        "processors": []
+      },
+      "chargebackProduct": {
+        "editable": true,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": true,
         "processors": []
@@ -167,7 +175,7 @@
             "id": "argocd:application:number_of_finished_SDLC_tasks_3453",
             "matcher": "event.status == \"finished\"",
             "metricKey": "events.sdlc.finished_tasks",
-            "sampleData": "",
+            "sampleData": null,
             "type": "counterMetric"
           },
           {
@@ -187,7 +195,7 @@
             "id": "argocd:application:number_of_SDLC_tasks_2369",
             "matcher": "true",
             "metricKey": "events.sdlc.tasks",
-            "sampleData": "",
+            "sampleData": null,
             "type": "counterMetric"
           },
           {
@@ -207,7 +215,7 @@
             "id": "argocd:application:duration_of_finished_SDLC_tasks_3839",
             "matcher": "event.status == \"finished\"",
             "metricKey": "events.sdlc.task_duration",
-            "sampleData": "",
+            "sampleData": null,
             "type": "valueMetric"
           }
         ]
@@ -223,18 +231,18 @@
             "enabled": true,
             "id": "argocd:application:event.status_7232",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
             "builtin": false,
             "description": "duration",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd if((status[operationState][finishedAt] \u003e status[operationState][startedAt]) and lower(status[sync][status]) == \"synced\", toTimestamp(status[operationState][finishedAt]) - toTimestamp(status[operationState][startedAt]), else: toDuration(0)), alias: duration\n| fieldsRemove record_json, status",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd if((status[operationState][finishedAt] \u003e status[operationState][startedAt]) and isNotNull(status[operationState][finishedAt]), toTimestamp(status[operationState][finishedAt]) - toTimestamp(status[operationState][startedAt]), else: toDuration(0)), alias: duration\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:duration_3411",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
@@ -245,7 +253,7 @@
             "enabled": true,
             "id": "argocd:application:start_time_3797",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
@@ -256,18 +264,7 @@
             "enabled": true,
             "id": "argocd:application:end_time_5325",
             "matcher": "isNotNull(app) and event.status == \"finished\"",
-            "sampleData": "",
-            "type": "dql"
-          },
-          {
-            "builtin": false,
-            "description": "timestamp",
-            "dqlScript": "fieldsAdd dif2h = toLong(7200000000000)\n| fieldsAdd nt = toLong(toTimestamp(now()))\n| fieldsAdd if(nt - toLong(toTimestamp(start_time)) \u003c dif2h, start_time, else: toTimestamp(nt)), alias: st\n| fieldsAdd if(nt - toLong(toTimestamp(end_time)) \u003c dif2h, end_time, else: toTimestamp(nt)), alias: et\n| fieldsAdd if(event.status == \"started\", st, else: if(event.status == \"finished\", et, else: toTimestamp(nt))), alias: timestamp\n| fieldsRemove st, et, nt, dif2h",
-            "editable": true,
-            "enabled": false,
-            "id": "argocd:application:timestamp_3312",
-            "matcher": "type == \"DeploySuccess\" and event.status == \"finished\"",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
@@ -278,62 +275,84 @@
             "enabled": true,
             "id": "processor_task.id___name___outcome_9312",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
             "builtin": false,
             "description": "vcs.repository.url.full | ref.base.revision | ref.base.name",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.repository.url.full = status[operationState][syncResult][source][repoURL]\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][syncResult][revision]\n| fieldsRemove record_json, status",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.repository.url.full = status[operationState][syncResult][source][repoURL]\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][operation][sync][revision]\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:ext.application.source._path_repo.url_target_revision_project_4441",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
             "builtin": false,
             "description": "deployment.service.uid | name | namespace | resource_version | labels",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{metadata}\n| fieldsAdd deployment.service.uid = metadata[uid]\n| fieldsAdd deployment.service.name = metadata[name]\n| fieldsAdd deployment.service.namespace = metadata[namespace]\n| fieldsAdd deployment.service.resource_version = metadata[resourceVersion]\n| fieldsAdd deployment.service.labels = metadata[labels]\n| fieldsRemove record_json, metadata",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{metadata}\n| fieldsAdd deployment.service.uid = metadata[uid]\n| fieldsAdd deployment.service.namespace = metadata[namespace]\n| fieldsAdd deployment.service.resource_version = metadata[resourceVersion]\n| fieldsAdd deployment.service.labels = metadata[labels]\n\n| fieldsRemove record_json, metadata",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:task.id_task.name_5968",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
             "builtin": false,
             "description": "deployment.id | name | namespace | environment.name | server.url | images",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status, metadata}\n| fieldsAdd deployment.id = status[sync][revision]\n| fieldsAdd deployment.name = metadata[name]\n| fieldsAdd deployment.namespace = status[sync][comparedTo][destination][namespace]\n| fieldsAdd deployment.environment.name = \"undefined\"\n| fieldsAdd deployment.server.url = status[sync][comparedTo][destination][server]\n| fieldsAdd deployment.images = status[summary][images]\n| fieldsRemove record_json, status, metadata, sync",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status, metadata}\n| fieldsAdd deployment.id = status[sync][revision]\n| fieldsAdd deployment.name = metadata[name]\n| fieldsAdd deployment.namespace = status[sync][comparedTo][destination][namespace]\n| fieldsAdd deployment.environment.name = \"undefined\"\n| fieldsAdd deployment.server = if( isNotNull(status[sync][comparedTo][destination][server]), status[sync][comparedTo][destination][server], else: if( isNotNull(status[sync][comparedTo][destination][name]),status[sync][comparedTo][destination][name] ))\n| fieldsAdd deployment.images = status[summary][images]\n| fieldsRemove record_json, status, metadata, sync",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:deployment.images_3636",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
             "builtin": false,
-            "description": "argocd.sync.status | operationState.phase | operationState.outcome | app.health.status",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.app.health.status = lower(status[health][status])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.sync.operation_state.phase = lower(status[operationState][phase])\n| fieldsAdd argocd.sync.operation_state.outcome = lower(status[operationState][message])\n| fieldsRemove record_json, status",
+            "description": "argocd.sync.status | operationState.phase | operationState.outcome | app.health.status | app.reconciledAt",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.app.health.status = lower(status[health][status])\n| fieldsAdd argocd.app.conditions = status[conditions]\n| fieldsAdd argocd.app.reconciliation.time =  toTimeStamp(status[reconciledAt])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.sync.operation_state.outcome = lower(status[operationState][message])\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
             "id": "argocd:application:argocd.reconciliation.time_sync.status_health.status_9056",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "argocd.app.project.name",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{spec}\n| fieldsAdd argocd.app.project.name = spec[project]\n| fieldsRemove record_json, spec",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_deployment.service.project.name_5824",
+            "matcher": "isNotNull(app)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Mappings",
+            "dqlScript": "fieldsAdd task.outcome=if(task.outcome==\"succeeded\",\"success\",else:task.outcome)\n| fieldsAdd task.outcome=if(task.outcome==\"failed\",\"failure\",else:task.outcome)\n",
+            "editable": true,
+            "enabled": false,
+            "id": "processor_Mappings_2718",
+            "matcher": "isNotNull(task.outcome)",
+            "sampleData": null,
             "type": "dql"
           },
           {
             "builtin": false,
             "description": "Cleanup",
-            "dqlScript": "fieldsRemove type, app, apiVersion, kind, metadata, spec, status, commit.message",
+            "dqlScript": "fieldsRemove app",
             "editable": true,
-            "enabled": false,
+            "enabled": true,
             "id": "argocd:application:remove_fields_2091",
             "matcher": "isNotNull(app)",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           }
         ]
@@ -351,6 +370,14 @@
     },
     {
       "builtin": true,
+      "chargebackCostCenter": {
+        "editable": false,
+        "processors": []
+      },
+      "chargebackProduct": {
+        "editable": false,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": false,
         "processors": []
