@@ -177,11 +177,7 @@ data:
         path: /platform/ingest/custom/events.sdlc/argocd
         body: |
             {
-              "app": {{toJson .app}},
-              "context": {{toJson .context}},
-              "service_type": {{toJson .serviceType}},
-              "recipient": {{toJson .recipient}},
-              "commit_metadata": {{toJson (call .repo.GetCommitMetadata .app.status.operationState.syncResult.revision)}}
+              "app": {{toJson .app}}
             }
   
   trigger.dynatrace-webhook-trigger: |
