@@ -133,7 +133,9 @@ Currently, sending GitHub webhook events to Dynatrace necessitates an additional
 
 <details>
 
-<summary>Proxy the GitHub Dynatrace connection</summary>
+<summary>
+<b>Proxy the GitHub Dynatrace connection</b>
+</summary>
 
 Create a proxy to verify the signature of the GitHub event and to append the authentication header before forwarding the event to Dynatrace. Consider adding the following steps:
 
@@ -211,7 +213,9 @@ Create a proxy to verify the signature of the GitHub event and to append the aut
 
 <details>
 
-<summary>Insecure: Token in query parameter</summary>
+<summary>
+<b>Insecure: Token in query parameter</b>
+</summary>
 
 > **Security Disclaimer** :exclamation: Use this approach only in a sandbox environment, not in production. This approach involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
 > * **Minimal Permissions**: Assign the least set of permissions necessary for the access token, as outlined in this tutorial.
@@ -241,37 +245,39 @@ https://<YOUR-DT-ENV-ID>.live.dynatrace.com/platform/ingest/custom/events.sdlc/g
 5. Select **Active** to receive event details when the hook is triggered.
 6. Click **Add webhook** to save the webhook.
 
-## Work with GitHub and observe organization-wide activities in Dashboards
+## Unlock enhanced development insights with GitHub Dashboards
 
 Now that you've successfully configured GitHub and Dynatrace, you can use Dashboards and [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) to observe your GitHub workflows and pull requests.
 
-Open the **GitHub Workflow Pulse** and the **GitHub Pull Requests** dashboards to observe and analyze:
+### Analyze
 
-* Real-time activities of all pull requests in your organization or selected GitHub repositories.
-* Workflow execution details
-* Job insights
-* Step durations for workflows in your organization or selected GitHub repositories.
+In Dynatrace, open the **GitHub Workflow Pulse** and the **GitHub Pull Requests** dashboards to:
+
+* Track real-time activities of pull requests.
+* Analyze workflow execution details and workflow health.
+* Gain job insights.
+* Review step durations for workflows.
 
 | Workflow details: | Job insights: | Pull request insights: |
 |------------|-----|-------------|
 | ![image](images/pipeline_dashboard_pipeline_details.png)   | ![image](images/pipeline_dashboard_job_details.png) | ![image](images/pull_request_dashboard.png) |
 
-Leverage those insights for the following improvement areas of your internal development platform (IDP):
+### Optimize
 
-* Streamline CI/CD pipeline
+Leverage those insights for the following improvement areas:
 
-  Observing pipeline executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
+* **Streamline CI/CD pipeline**: Observing workflows executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
   Knowing about these bottlenecks and inefficiencies helps optimize build and deployment processes, leading to faster and more reliable releases.
 
-* Improve developer productivity
+* **Improve developer productivity**: Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards. This automation allows developers to focus more on writing code and less on administrative tasks.
 
-  Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards.
-  This automation allows developers to focus more on writing code and less on administrative tasks.
+* **Get data-driven development insights**: Analyzing telemetry data from pull requests and workflows provides valuable insights into the development process. You can use the telemetry data to make informed decisions and continuously improve the development flows.
 
-* Get data-driven job insights
+### Continuous improvements
 
-  Analyzing telemetry data from pull requests and pipelines provides valuable insights into the development process.
-  You can use the telemetry data to make informed decisions and continuously improve the development flows.
+Regularly review and tweak your CI/CD pipelines to ensure they are optimized for performance. 
+
+In Dynatrace, adjust the timeframe of the **GitHub Workflow Pulse** and **GitHub Pull Requests** dashboards to monitor the long-term impact of your improvements.
 
 ## Call to action
 
