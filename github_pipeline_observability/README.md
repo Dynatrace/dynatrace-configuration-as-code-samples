@@ -134,7 +134,7 @@ Currently, sending GitHub webhook events to Dynatrace necessitates an additional
 <details>
 
 <summary>
-<b>Proxy the GitHub Dynatrace connection</b>
+<b>:star: Proxy the GitHub Dynatrace connection</b>
 </summary>
 
 Create a proxy to verify the signature of the GitHub event and to append the authentication header before forwarding the event to Dynatrace. Consider adding the following steps:
@@ -147,7 +147,9 @@ Create a proxy to verify the signature of the GitHub event and to append the aut
 
     <details>
 
-    <summary>Example of an AWS Lambda function in Python</summary>
+    <summary>
+    <b>Example of an AWS Lambda function in Python</b>
+    </summary>
 
     * Store a **Secret**, which is configured in GitHub Webhook seetings below in an AWS Secrets Manager
     * Store your Dynatrace **Access Token** in AWS Secrets Manager.
@@ -214,7 +216,7 @@ Create a proxy to verify the signature of the GitHub event and to append the aut
 <details>
 
 <summary>
-<b>Insecure: Token in query parameter</b>
+<b>:exclamation: Insecure: Token in query parameter</b>
 </summary>
 
 > **Security Disclaimer** :exclamation: Use this approach only in a sandbox environment, not in production. This approach involves the use of a Dynatrace access token in GitHub webhook configuration, which could be misused if accessed by unauthorized individuals. To mitigate this risk, please adhere to the following security best practices:
