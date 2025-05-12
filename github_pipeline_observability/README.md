@@ -151,7 +151,7 @@ Create a proxy to verify the signature of the GitHub event and to append the aut
     <b>Example of an AWS Lambda function in Python</b>
     </summary>
 
-    * Store a **Secret**, which is configured in GitHub Webhook seetings below in an AWS Secrets Manager
+    * Store a **Secret**, which is configured in GitHub Webhook settings below in an AWS Secrets Manager
     * Store your Dynatrace **Access Token** in AWS Secrets Manager.
     * Exchange the placeholders `<YOUR-DT-ENV-ID>` with your Dynatrace environment ID in the below function code.
 
@@ -268,7 +268,7 @@ In Dynatrace, open the **GitHub Workflow Pulse** and the **GitHub Pull Requests*
 
 Leverage those insights for the following improvement areas:
 
-* **Streamline CI/CD pipeline**: Observing workflows executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
+* **Streamline CI/CD pipeline**: Observing workflow executions lets you identify bottlenecks and inefficiencies in your CI/CD pipelines.
   Knowing about these bottlenecks and inefficiencies helps optimize build and deployment processes, leading to faster and more reliable releases.
 
 * **Improve developer productivity**: Automated pipelines reduce the manual effort required for repetitive tasks, such as running tests and checking coding standards. This automation allows developers to focus more on writing code and less on administrative tasks.
