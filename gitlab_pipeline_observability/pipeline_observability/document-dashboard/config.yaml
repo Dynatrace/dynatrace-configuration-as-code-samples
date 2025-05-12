@@ -8,7 +8,7 @@ configs:
   type:
     document:
       kind: dashboard
-      private: true
+      private: false
 - id: 6251b16a-c92a-43bd-a454-6a6dfc649879
   config:
     name: GitLab Pipeline Pulse
@@ -18,4 +18,4 @@ configs:
   type:
     document:
       kind: dashboard
-      private: true
+      private: false
