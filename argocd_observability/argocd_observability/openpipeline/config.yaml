@@ -1,0 +1,8 @@
+configs:
+- id: events.sdlc
+  config:
+    template: events.sdlc.argocd.json
+    skip: false
+  type:
+    openpipeline:
+      kind: events.sdlc
