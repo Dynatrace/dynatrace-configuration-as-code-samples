@@ -12,16 +12,7 @@ configs:
 #    document:
 #      kind: dashboard
 #      private: true
-- id: 5ae0950c-1da6-4a1b-97d3-937b84f15bb9
-  config:
-    name: 'ArgoCD Platform Observability'
-    template: argocd_platform_observability.json
-    skip: false
-    originObjectId: 5ae0950c-1da6-4a1b-97d3-937b84f15bb9
-  type:
-    document:
-      kind: dashboard
-      private: false
+
 
 # 
 # Dashboard that works based on events and metrics
@@ -32,6 +23,21 @@ configs:
     template: argocd_lifecycle_0.2.0.json
     skip: false
     originObjectId: 48ceb455-7769-4ac4-acf7-09636c564729
+  type:
+    document:
+      kind: dashboard
+      private: false
+
+
+#
+# Dashboard to observe ArgoCD Infrastructure
+#
+- id: 3e152ce0-5638-406d-9bc5-609fa830d88f
+  config:
+    name: ArgoCD Platform Observability
+    template: argocd_platform_observability.json
+    skip: false
+    originObjectId: 3e152ce0-5638-406d-9bc5-609fa830d88f
   type:
     document:
       kind: dashboard
