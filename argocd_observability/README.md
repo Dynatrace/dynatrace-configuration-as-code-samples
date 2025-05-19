@@ -227,7 +227,7 @@ In case of the Dynatrace ActiveGate:
 * In Dynatrace, go to **Kubernetes**, and then select the monitored cluster with ArgoCD installation.
 * Click on **...** in the upper right corner, and then select **Connection settings**.
 * Choose **Monitoring Settings** and enable **Monitor annotated Prometheus exporters**
-* Save the changes
+* Save changes
 
 2. Add the following two annotations to services in your ArgoCD installation namespace. 
 
@@ -246,6 +246,12 @@ In case of the Dynatrace ActiveGate:
   | argocd-repo-server                      | 8084         |
   | argocd-notifications-controller-metrics | 9001         |
   | argocd-dex-server                       | 5558         |
+
+3. Activate Histogram data ingest:
+
+* In Dynatrace, go to **Settings > Metrics > Histograms**.
+* Enable: **Ingest complete explicit bucket histograms** 
+* Save changes
 
 ## Unlock enhanced deployment insights with ArgoCD Dashboards
 
