@@ -1,0 +1,1604 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 4
+    },
+    "1": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 7
+    },
+    "10": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 7
+    },
+    "11": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "12": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 15
+    },
+    "13": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 2
+    },
+    "15": {
+      "h": 8,
+      "w": 24,
+      "x": 0,
+      "y": 29
+    },
+    "16": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 28
+    },
+    "2": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 10
+    },
+    "20": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 4
+    },
+    "3": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 17
+    },
+    "4": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 20
+    },
+    "5": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 17
+    },
+    "6": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 23
+    },
+    "7": {
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 4
+    },
+    "8": {
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 17
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time, number, vcs.repository.name, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"finished\")) \n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Open PRs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "count()"
+            ],
+            "categoryAxisLabel": "count()",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Open PRs",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"finished\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize max(OpenedPrDuration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Oldest Open PR",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "max(OpenedPrDuration)"
+            ],
+            "categoryAxisLabel": "max(OpenedPrDuration)",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "max(OpenedPrDuration)"
+            ],
+            "valueAxisLabel": "max(OpenedPrDuration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "max(OpenedPrDuration)",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "max(OpenedPrDuration)"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "max(OpenedPrDuration)",
+          "prefixIcon": "",
+          "recordField": "max(OpenedPrDuration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727701272906,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "max(OpenedPrDuration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status), actions = collectArray(vcs.change.state) },  by: { task.id, task.name, start_time,number, vcs.repository.name, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"finished\")) \n| filter contains(toString(actions),\"reopened\")\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Re-opened PRs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "count()"
+            ],
+            "categoryAxisLabel": "count()",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "task"
+          ],
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Open PRs",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"statuses\"]": 259.734375
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "11": {
+      "content": "### GitHub Pull Request Pulse: Open \u0026 Merged Insights\nThis dashboard provides a comprehensive overview of the status of pull requests (PRs) in your GitHub repositories. Track open and merged PRs in real-time, analyze trends, and gain insights into your team's development workflow. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
+      "type": "markdown"
+    },
+    "12": {
+      "content": "### Merged \u0026 Closed Pull Requests\n\nThis section provides a clear and detailed view of the merged pull requests, helping you to understand the efficiency and effectiveness of your code integration process.\n\n-----",
+      "type": "markdown"
+    },
+    "13": {
+      "content": "### Open Pull Requests\n\nThis section provides a clear and detailed view of the current state of open pull requests, enabling you to manage and prioritize them effectively. \n\n-----",
+      "type": "markdown"
+    },
+    "15": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "type": "markdown"
+    },
+    "16": {
+      "content": " ",
+      "type": "markdown"
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) }, by: { task.id, start_time, vcs.change.id, vcs.change.title, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, vcs.change.url.full } \n| filter not in(statuses[0],array(\"finished\")) \n| fields \nIn_open_status = toTimestamp(now()) - toTimestamp(start_time),\nPR = vcs.change.id, \nTitle = vcs.change.title,\nURL = vcs.change.url.full,\nHeadName = vcs.ref.head.name, \nHeadRevision = vcs.ref.head.revision, \nBaseName = vcs.ref.base.name, \nBaseRevision = vcs.ref.base.revision,\nCreatedAt = start_time\n| sort In_open_status desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Open PRs Details",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Title",
+              "URL",
+              "HeadName",
+              "HeadRevision",
+              "BaseName",
+              "BaseRevision"
+            ],
+            "categoryAxisLabel": "Title,URL,HeadName,HeadRevision,BaseName,BaseRevision",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "In_open_status",
+              "PR"
+            ],
+            "valueAxisLabel": "In_open_status,PR"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "In_open_status"
+            ],
+            "timestamp": "CreatedAt"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "In_open_status",
+            "PR_number",
+            "GlobalId",
+            "PR"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "CreatedAt",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "In_open_status",
+          "displayedFields": [
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision",
+            "CreatedAt"
+          ],
+          "latitude": "PR",
+          "longitude": "In_open_status",
+          "value": "PR_number"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "In_open_status"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "PR"
+            }
+          ],
+          "displayedFields": [
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "In_open_status"
+          },
+          "displayedFields": [
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "PR_number",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "max(Duration)",
+          "prefixIcon": "",
+          "recordField": "max(Duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "value",
+          "columnTypeOverrides": [
+            {
+              "fields": [],
+              "id": 36911602,
+              "value": "date"
+            }
+          ],
+          "columnWidths": {
+            "[\"OpenFrom\"]": 138,
+            "[\"PR_number\"]": 146.4600830078125,
+            "[\"PR_title\"]": 404.0850830078125,
+            "[\"PR_url\"]": 423.39935302734375,
+            "[\"SourceRepository\"]": 233.796875,
+            "[\"Source_ref\"]": 279.58856201171875,
+            "[\"Source_repo\"]": 266.47222900390625,
+            "[\"Target_repo\"]": 244.47222900390625
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": true,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "default"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1727701272906,
+            "baseUnit": "nanosecond",
+            "decimals": 2,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "max(Duration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by: { task.id, task.name, start_time,number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"finished\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize avg(OpenedPrDuration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Time Open",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "avg(OpenedPrDuration)"
+            ],
+            "categoryAxisLabel": "avg(OpenedPrDuration)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "avg(OpenedPrDuration)"
+            ],
+            "valueAxisLabel": "avg(OpenedPrDuration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "displayedFields": [],
+          "longitude": "avg(OpenedPrDuration)",
+          "value": "avg(OpenedPrDuration)"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(OpenedPrDuration)"
+            }
+          ],
+          "displayedFields": [],
+          "legend": "auto",
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "avg(OpenedPrDuration)",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "avg(OpenedPrDuration)",
+          "prefixIcon": "",
+          "recordField": "avg(OpenedPrDuration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merged PRs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "count()"
+            ],
+            "categoryAxisLabel": "count()",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "count()",
+          "displayedFields": [],
+          "longitude": "count()",
+          "value": "Count"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Merged PRs",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| summarize percentile(duration, 50)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merge Time (p50)",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "percentile(duration, 50)"
+            ],
+            "categoryAxisLabel": "percentile(duration, 50)",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "percentile(duration, 50)"
+            ],
+            "valueAxisLabel": "percentile(duration, 50)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "percentile(duration, 50)",
+          "displayedFields": [],
+          "longitude": "percentile(duration, 50)",
+          "value": "Count"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "percentile(duration, 50)"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Median",
+          "prefixIcon": "",
+          "recordField": "percentile(duration, 50)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "description": "Shows the average time taken to merge pull requests, providing insights into the efficiency of the review and merge process.",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| summarize avg(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Merge Time",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "avg(duration)"
+            ],
+            "categoryAxisLabel": "avg(duration)",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "avg(duration)"
+            ],
+            "valueAxisLabel": "avg(duration)"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "avg(duration)",
+          "displayedFields": [],
+          "longitude": "avg(duration)",
+          "value": "Count"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "avg(duration)"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Avg",
+          "prefixIcon": "",
+          "recordField": "avg(duration)",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type == \"change\" \n| filter event.status == \"finished\" \n| filter event.provider ==\"github.com\" \n| sort timestamp asc\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| fields \nMergedAt = end_time,\nDuration = duration, \nPR = vcs.change.id, \nTitle = vcs.change.title,\nURL = vcs.change.url.full, \nHeadName = vcs.ref.head.name, \nHeadRevision = vcs.ref.head.revision, \nBaseName = vcs.ref.base.name, \nBaseRevision = vcs.ref.base.revision, \nCreatedAt = start_time\n| sort Duration desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merged PRs Details",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Title",
+              "URL",
+              "HeadName",
+              "HeadRevision",
+              "BaseName",
+              "BaseRevision"
+            ],
+            "categoryAxisLabel": "Title,URL,HeadName,HeadRevision,BaseName,BaseRevision",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Duration",
+              "PR"
+            ],
+            "valueAxisLabel": "Duration,PR"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "Duration"
+            ],
+            "timestamp": "CreatedAt"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "Duration",
+            "Number",
+            "GlobalId",
+            "PR"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "CreatedAt",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "MergedAt",
+          "displayedFields": [
+            "MergedAt",
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision",
+            "CreatedAt"
+          ],
+          "latitude": "PR",
+          "longitude": "Duration",
+          "value": "Number"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Duration"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "PR"
+            }
+          ],
+          "displayedFields": [
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Duration"
+          },
+          "displayedFields": [
+            "Title",
+            "URL",
+            "HeadName",
+            "HeadRevision",
+            "BaseName",
+            "BaseRevision"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Number",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Median duration ( from open to merge )",
+          "prefixIcon": "",
+          "recordField": "Avg",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "default",
+          "sortBy": {
+            "columnId": "[\"duration\"]",
+            "direction": "descending"
+          }
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort timestamp desc\n| summarize { statuses = collectArray(event.status) },  by:{ task.id, task.name, start_time, number, vcs.ref.base.name, vcs.ref.base.revision, vcs.ref.head.name, vcs.ref.head.revision, ext.vcs.change.pull_request.url } \n| filter not in(statuses[0],array(\"finished\")) \n| summarize count(), by:{vcs.ref.base.name}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Open PRs by Branch",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "vcs.ref.base.name"
+            ],
+            "categoryAxisLabel": "vcs.ref.base.name",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "absolute"
+          },
+          "colorPalette": "swamps",
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "vcs.ref.base.name",
+          "displayedFields": [
+            "vcs.ref.base.name"
+          ],
+          "longitude": "count()",
+          "value": "count()"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "vcs.ref.base.name"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue-moss",
+          "dataMappings": {
+            "value": "count()"
+          },
+          "displayedFields": [
+            "vcs.ref.base.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "max": null,
+          "min": null,
+          "shape": "circle"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "count()",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Open PRs",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"finished\" \n| filter event.provider == \"github.com\"\n| filter in(vcs.repository.name, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup task.id\n| sort timestamp asc\n| dedup task.id\n| summarize count = count(), by:{vcs.repository.name}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merged PRs by Repository",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "vcs.repository.name"
+            ],
+            "categoryAxisLabel": "vcs.repository.name",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count"
+            ],
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "absolute"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "connect",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "vcs.repository.name",
+          "displayedFields": [
+            "vcs.repository.name"
+          ],
+          "longitude": "count",
+          "value": "Count"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "count"
+            }
+          ],
+          "displayedFields": [
+            "vcs.repository.name"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "count"
+          },
+          "displayedFields": [
+            "vcs.repository.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Count",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "Avg",
+          "prefixIcon": "",
+          "recordField": "Avg",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    }
+  },
+  "variables": [
+    {
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\" \n| summarize distinctRepositories = collectDistinct(vcs.repository.name)\n| expand distinctRepositories\n| sort distinctRepositories",
+      "key": "Repository",
+      "multiple": false,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    },
+    {
+      "defaultValue": [
+        "main"
+      ],
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"github.com\"\n| summarize distinctBase = collectDistinct(vcs.ref.base.name)\n| expand distinctBase\n| sort distinctBase",
+      "key": "Branch",
+      "multiple": true,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    }
+  ],
+  "version": 18
+}

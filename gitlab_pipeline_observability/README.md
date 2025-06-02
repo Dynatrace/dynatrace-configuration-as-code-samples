@@ -1,9 +1,9 @@
-# Observe your GiLab pipelines and merge requests with Dashboards and normalized SDLC events through OpenPipeline
+# Observe your GitLab pipelines and merge requests with Dashboards and normalized SDLC events through OpenPipeline
 
 Excited to dive into your GitLab pipeline performance and uncover the secrets behind your merge request timings? For this use case, you'll
 
 * Integrate GitLab and Dynatrace.
-* Use Dashboards to observe GitLab pipelines and Workflows.
+* Use Dashboards to observe GitLab pipelines and merge requests.
 * Use this information to make decisions about streamlining CI/CD pipelines, improving productivity, and getting data-driven insights.
 
 ## Concepts

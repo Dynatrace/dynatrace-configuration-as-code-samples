@@ -1,0 +1,21 @@
+configs:
+- id: 0d27aaa2-f725-4320-8435-28e67947f4a9
+  config:
+    name: GitHub Workflow Pulse
+    template: github.workflow_pulse.json
+    skip: false
+    originObjectId: 0d27aaa2-f725-4320-8435-28e67947f4a9
+  type:
+    document:
+      kind: dashboard
+      private: true
+- id: a6fcb6d1-0ddb-4ab8-aff9-31afb2808501
+  config:
+    name: GitHub Pull Requests
+    template: github.pull_requests.json
+    skip: false
+    originObjectId: a6fcb6d1-0ddb-4ab8-aff9-31afb2808501
+  type:
+    document:
+      kind: dashboard
+      private: true
