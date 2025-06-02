@@ -1,0 +1,44 @@
+configs:
+# 
+# Dashboard that works based on events
+#
+#- id: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
+#  config:
+#    name: 'ArgoCD: Lifecycle v0.1.0'
+#    template: argocd_lifecycle_0.1.0.json
+#    skip: false
+#    originObjectId: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
+#  type:
+#    document:
+#      kind: dashboard
+#      private: true
+
+
+# 
+# Dashboard that works based on events and metrics
+#
+- id: 48ceb455-7769-4ac4-acf7-09636c564729
+  config:
+    name: ArgoCD Application Lifecycle
+    template: argocd_lifecycle_0.2.0.json
+    skip: false
+    originObjectId: 48ceb455-7769-4ac4-acf7-09636c564729
+  type:
+    document:
+      kind: dashboard
+      private: false
+
+
+#
+# Dashboard to observe ArgoCD Infrastructure
+#
+- id: 3e152ce0-5638-406d-9bc5-609fa830d88f
+  config:
+    name: ArgoCD Platform Observability
+    template: argocd_platform_observability.json
+    skip: false
+    originObjectId: 3e152ce0-5638-406d-9bc5-609fa830d88f
+  type:
+    document:
+      kind: dashboard
+      private: false

@@ -1,0 +1,2761 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "1": {
+      "h": 7,
+      "w": 10,
+      "x": 3,
+      "y": 20
+    },
+    "10": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 40
+    },
+    "11": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 29
+    },
+    "12": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 11
+    },
+    "13": {
+      "h": 6,
+      "w": 3,
+      "x": 0,
+      "y": 5
+    },
+    "14": {
+      "h": 7,
+      "w": 11,
+      "x": 13,
+      "y": 13
+    },
+    "15": {
+      "h": 6,
+      "w": 11,
+      "x": 13,
+      "y": 29
+    },
+    "16": {
+      "h": 6,
+      "w": 12,
+      "x": 0,
+      "y": 47
+    },
+    "17": {
+      "h": 4,
+      "w": 24,
+      "x": 0,
+      "y": 53
+    },
+    "18": {
+      "h": 3,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "19": {
+      "h": 6,
+      "w": 4,
+      "x": 3,
+      "y": 5
+    },
+    "2": {
+      "h": 5,
+      "w": 10,
+      "x": 3,
+      "y": 35
+    },
+    "20": {
+      "h": 6,
+      "w": 11,
+      "x": 7,
+      "y": 5
+    },
+    "22": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 3
+    },
+    "23": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 13
+    },
+    "24": {
+      "h": 6,
+      "w": 3,
+      "x": 0,
+      "y": 17
+    },
+    "3": {
+      "h": 5,
+      "w": 12,
+      "x": 0,
+      "y": 42
+    },
+    "4": {
+      "h": 7,
+      "w": 11,
+      "x": 13,
+      "y": 20
+    },
+    "5": {
+      "h": 5,
+      "w": 12,
+      "x": 12,
+      "y": 42
+    },
+    "6": {
+      "h": 7,
+      "w": 10,
+      "x": 3,
+      "y": 13
+    },
+    "7": {
+      "h": 6,
+      "w": 10,
+      "x": 3,
+      "y": 29
+    },
+    "8": {
+      "h": 6,
+      "w": 6,
+      "x": 18,
+      "y": 5
+    },
+    "9": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 27
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries workqueue_depth = sum(workqueue_depth), by: { controller }\n| sort arraySum(workqueue_depth) desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Work Queue Depth",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "workqueue_depth"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": ""
+          },
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "workqueue_depth"
+              ],
+              "id": 1746689640848,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "workqueue_depth",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "content": "#### Redis Status\n\nDisplays Redis metrics such as request activities and request performance that are vital for maintaining the performance of ArgoCD’s internal state management.\n\n---",
+      "type": "markdown"
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries max(argocd_git_request_total), by: { repo }\n| dedup repo\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git Repositories",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_git_request_total",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "12": {
+      "content": "#### ArgoCD Controller Stats\n\nIt tracks controller performance metrics such as work queue depth, reconciliation lag, and error rates, offering insights into the control plane's responsiveness and stability.\n\n---",
+      "type": "markdown"
+    },
+    "13": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries max(argocd_app_info), by: { name }\n| dedup name\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Applications",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "name,health_status",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "name",
+            "health_status"
+          ],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "name"
+          },
+          "displayedFields": [
+            "name",
+            "health_status"
+          ],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {
+            "record": "max(argocd_app_info)"
+          },
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnOrder": [
+            "[\"count()\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_git_request_total",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "14": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries { {p50 = median(argocd_app_reconcile_bucket), p90 =percentile(argocd_app_reconcile_bucket,90)}, filter:{ le != \"+Inf\"{{`}}`}}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Reconcillations  Performance",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": true,
+        "chartSettings": {
+          "bandChartSettings": {
+            "lower": "p50",
+            "upper": "p90"
+          },
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "swamps",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "argocd_app_reconcile_bucket"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "p50",
+                "p90"
+              ],
+              "id": 1747292218827,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "15": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries { {p50 = median(argocd_git_request_duration_seconds_bucket), p90 =percentile(argocd_git_request_duration_seconds_bucket,90)}, filter:{ le != \"+Inf\"{{`}}`}}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Git Requests Performance",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "bandChartSettings": {
+            "lower": "p50",
+            "upper": "p90"
+          },
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "interval",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "argocd_git_request_duration_seconds_bucket"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "interval"
+          ],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "p50",
+                "p90"
+              ],
+              "id": 1747292385442,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "16": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries { {p50 = median(argocd_redis_request_duration_bucket), p90 =percentile(argocd_redis_request_duration_bucket,90)}, filter:{ le != \"+Inf\"{{`}}`}}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Redis Request Performance",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "bandChartSettings": {
+            "lower": "p50",
+            "upper": "p90"
+          },
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": false,
+            "label": "argocd_redis_request_duration_bucket"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "interval"
+          ],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "p50",
+                "p90"
+              ],
+              "id": 1747293414846,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "17": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### About this dashboard\n\nRelease v0.5.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) ",
+      "type": "markdown"
+    },
+    "18": {
+      "content": "### ArgoCD Instance/Infrastructure Health\n\nThis dashboard provides a comprehensive, real-time overview of ArgoCD's operational health and performance. Designed to support platform engineers and DevOps teams, it consolidates critical telemetry from multiple components of the ArgoCD ecosystem to enhance visibility, troubleshooting, and optimization.\n\nBy aggregating these metrics into a single pane of glass, the dashboard empowers teams to proactively manage their GitOps infrastructure, quickly identify bottlenecks, and maintain high availability and performance of their continuous delivery pipelines.",
+      "type": "markdown"
+    },
+    "19": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Health = health_status, Server = dest_server, Namespace = dest_namespace, Project = project }, shift: -1m, interval: 1m\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc\n| summarize count(), by:{Health}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Application Health Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Health"
+            ],
+            "categoryAxisLabel": "Health",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-moss",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_git_lsremote_fail_total = sum(argocd_git_lsremote_fail_total)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git LsRemote Requests Failed",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "fireplace",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_git_lsremote_fail_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [
+            {
+              "override": {
+                "color": "#b3007d"
+              },
+              "seriesId": [
+                "argocd_git_lsremote_fail_total"
+              ]
+            }
+          ],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_git_lsremote_fail_total"
+              ],
+              "id": 1746690016689,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_git_lsremote_fail_total",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_notifications_deliveries_total = AVG(argocd_notifications_deliveries_total), by: { service, succeeded }\n\n\n\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Notifications Delivery",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "service,succeeded",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "false": {
+              "added": 306763.2000000477,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_notifications_deliveries_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval",
+            "argocd_notifications_deliveries_total"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "argocd_notifications_deliveries_total"
+          },
+          "legend": {},
+          "pointsDisplay": "auto",
+          "seriesOverrides": [
+            {
+              "override": {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+                },
+                "geometry": "bar"
+              },
+              "seriesId": [
+                "dynatrace-webhook",
+                "false"
+              ]
+            }
+          ],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_notifications_deliveries_total"
+              ],
+              "id": 1747650460714,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "22": {
+      "content": "#### Application Health and Status\n---",
+      "type": "markdown"
+    },
+    "23": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_sync_total = sum(argocd_app_sync_total)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Application syncs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "argocd_app_sync_total"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {
+            "record": "argocd_app_sync_total"
+          },
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "24": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Status = sync_status, Server = dest_server, Namespace = dest_namespace, Project = project }, shift: -1m, interval: 1m\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc\n| summarize count(), by:{Status}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Status"
+            ],
+            "categoryAxisLabel": "Status",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-moss",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_redis_request_total = sum(argocd_redis_request_total), by: { failed }\n| fieldsAdd state= if(failed == \"true\",\"failed\", else: \"success\")\n| sort arraySum(argocd_redis_request_total) desc\n| limit 20",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Redis Request Activities",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "failed",
+              "state"
+            ],
+            "categoryAxisLabel": "failed,state",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "interval"
+            ],
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_redis_request_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "failed"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [
+            {
+              "override": {
+                "color": {
+                  "Default": "var(--dt-colors-charts-vulnerability-status-resolved-default, #3e8e6a)"
+                }
+              },
+              "seriesId": [
+                "success"
+              ]
+            },
+            {
+              "override": {
+                "color": "#b3007d"
+              },
+              "seriesId": [
+                "failed"
+              ]
+            }
+          ],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_redis_request_total"
+              ],
+              "id": 1746690928668,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_redis_request_total",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_kubectl_exec_pending = sum(argocd_kubectl_exec_pending), by: { command }\n| sort arrayAvg(argocd_kubectl_exec_pending) desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Number of pending kubectl Executions",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "command"
+            ],
+            "categoryAxisLabel": "command",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "interval"
+            ],
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "fireplace",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_kubectl_exec_pending"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_kubectl_exec_pending"
+              ],
+              "id": 1746688539015,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_kubectl_exec_pending",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_repo_pending_request_total = sum(argocd_repo_pending_request_total)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git Pending Requests",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_repo_pending_request_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_repo_pending_request_total"
+              ],
+              "id": 1746689988887,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_repo_pending_request_total",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_reconcile_count = sum(argocd_app_reconcile_count)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Reconciliation Activities",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_app_reconcile_count"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnOrder": [
+            "[\"timeframe\",\"start\"]",
+            "[\"timeframe\",\"end\"]",
+            "[\"interval\"]",
+            "[\"argocd_app_reconcile_count\"]"
+          ],
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_app_reconcile_count"
+              ],
+              "id": 1747296359597,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_app_reconcile_count",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_git_request_total = sum(argocd_git_request_total), by: { repo }\n| sort arraySum(argocd_git_request_total) desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git Request Activities by Repository",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "request_type,repo",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_git_request_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": ""
+          },
+          "legend": {
+            "hidden": false,
+            "position": "right"
+          },
+          "pointsDisplay": "auto",
+          "seriesOverrides": [],
+          "tooltip": {
+            "seriesDisplayMode": "multi-line",
+            "variant": "single"
+          },
+          "truncationMode": "start",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnOrder": [
+            "[\"timeframe\",\"start\"]",
+            "[\"timeframe\",\"end\"]",
+            "[\"interval\"]",
+            "[\"repo\"]",
+            "[\"argocd_git_request_total\"]"
+          ],
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_git_request_total"
+              ],
+              "id": 1747208984133,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "argocd_git_request_total",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "≥",
+                "id": "0",
+                "label": ""
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "≥",
+                "id": "2",
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_cluster_connection_status = max(argocd_cluster_connection_status), by: {Server=server}\n| fieldsAdd argocd_cluster_connection_status.single_value = arrayLast(argocd_cluster_connection_status)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Kubernetes Connection Status",
+      "type": "data",
+      "visualization": "honeycomb",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "Server",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "argocd_cluster_connection_status.single_value",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_cluster_connection_status"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "interval",
+            "argocd_cluster_connection_status.single_value"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "argocd_cluster_connection_status"
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "custom-colors",
+          "colorPalette": "blue",
+          "customColors": [
+            {
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-unacceptable-default, #cd3741)"
+              },
+              "comparator": "≥",
+              "id": 1530711.599999994,
+              "value": 0
+            },
+            {
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+              },
+              "comparator": "≥",
+              "id": 1548392.099999994,
+              "value": 1
+            }
+          ],
+          "dataMappings": {
+            "value": "argocd_cluster_connection_status.single_value"
+          },
+          "displayedFields": [
+            "Server"
+          ],
+          "legend": {
+            "hidden": true,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "background",
+          "isIconVisible": false,
+          "label": "argocd_cluster_connection_status.single_value",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "argocd_cluster_connection_status.single_value",
+          "showLabel": false,
+          "sparklineSettings": {
+            "isVisible": true,
+            "record": "argocd_cluster_connection_status",
+            "showTicks": true,
+            "variant": "area",
+            "visible": true
+          },
+          "trend": {
+            "isVisible": true,
+            "relative": true,
+            "trendType": "auto",
+            "visible": true
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnOrder": [
+            "[\"timeframe\",\"start\"]",
+            "[\"timeframe\",\"end\"]",
+            "[\"interval\"]",
+            "[\"argocd_cluster_connection_status\"]",
+            "[\"argocd_cluster_connection_status.single_value\"]",
+            "[\"Server\"]"
+          ],
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "argocd_cluster_connection_status"
+              ],
+              "id": 1746698992771,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {
+            "[\"Server\"]": 768
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": true,
+          "hiddenColumns": [
+            [
+              "timeframe"
+            ],
+            [
+              "interval"
+            ],
+            [
+              "argocd_cluster_connection_status"
+            ],
+            [
+              "argocd_cluster_connection_status.single_value"
+            ]
+          ],
+          "lineWrapIds": [],
+          "linewrapEnabled": true,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "comfortable",
+          "selectedColumnForRowThreshold": "argocd_cluster_connection_status.single_value",
+          "sortBy": [
+            {
+              "columnId": "[\"Server\"]",
+              "direction": "ascending"
+            }
+          ]
+        },
+        "thresholds": [
+          {
+            "field": "argocd_cluster_connection_status.single_value",
+            "id": "0",
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#7dc540",
+                "comparator": "=",
+                "id": "0",
+                "label": "",
+                "value": 1
+              },
+              {
+                "color": "#f5d30f",
+                "comparator": "≥",
+                "id": "1",
+                "label": ""
+              },
+              {
+                "color": "#dc172a",
+                "comparator": "=",
+                "id": "2",
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "9": {
+      "content": "#### Repo Server Stats\n\nMonitors repository server health, including Git fetch times and request throughput, ensuring efficient and reliable access to configuration sources.\n\n---",
+      "type": "markdown"
+    }
+  },
+  "variables": [],
+  "version": 18
+}
