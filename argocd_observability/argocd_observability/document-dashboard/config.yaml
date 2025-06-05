@@ -4,8 +4,8 @@ configs:
 #
 #- id: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
 #  config:
-#    name: 'ArgoCD: Lifecycle v0.1.0'
-#    template: argocd_lifecycle_0.1.0.json
+#    name: ArgoCD Application Lifecycle
+#    template: argocd_app_lifecycle_observability_0.1.0.json
 #    skip: false
 #    originObjectId: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
 #  type:
@@ -20,7 +20,7 @@ configs:
 - id: 48ceb455-7769-4ac4-acf7-09636c564729
   config:
     name: ArgoCD Application Lifecycle
-    template: argocd_lifecycle_0.2.0.json
+    template: argocd_app_lifecycle_observability_0.2.0.json
     skip: false
     originObjectId: 48ceb455-7769-4ac4-acf7-09636c564729
   type:

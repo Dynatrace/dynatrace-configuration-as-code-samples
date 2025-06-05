@@ -265,9 +265,9 @@ In Dynatrace, open the **ArgoCD Application Lifecycle** dashboard to:
 * Analyze duration of sync operations
 * See sync status and application health
 
-| ArgoCD Sync overview: |
-|------------|
-| ![image](images/argocd_sync_deployment_overview.png) |
+| ArgoCD Sync Overview | ArgoCD Platform Insights |
+|------------|------------|
+| ![image](images/argocd_sync_deployment_overview.png) | ![image](images/argocd_platform_observability.png) |
 
 ### Optimize
 
