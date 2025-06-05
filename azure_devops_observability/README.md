@@ -166,6 +166,10 @@ In Dynatrace, open the **Azure DevOps Pipelines** and **Azure DevOps Pull Reques
 * Gain job insights.
 * Review step durations for pipelines.
 
+| Pipeline details: |
+|------------|
+| ![image](images/pipeline_dashboard_pipeline_details.png) |
+
 ### Optimize
 
 Leverage those insights for the following improvement areas:
