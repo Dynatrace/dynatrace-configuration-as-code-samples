@@ -148,10 +148,14 @@ You can configure [Azure DevOps Webhooks](https://learn.microsoft.com/en-us/azur
 7.  Click **Finish** to save the webhook configuration.
 
 Repeat creation of webhook subscriptions for the following triggers:
-   -  `Run job state changed`
-   -  `Run state changed`
-   -  `Pull request created`
-   -  `Pull request updated`
+   - `Run job state changed`
+   - `Run state changed`
+   - `Pull request created`
+   - `Pull request updated`
+   - `Release deployment started`
+   - `Release deployment completed`
+   - `Release deployment approval completed`
+   - `Release deployment approval pending`
    
 ## Unlock enhanced development insights with Azure DevOps Dashboards
 
@@ -159,12 +163,13 @@ Now that you've successfully configured Azure DevOps and Dynatrace, you can use 
 
 ### Analyze
 
-In Dynatrace, open the **Azure DevOps Pipelines** and **Azure DevOps Pull Request** dashboards to:
+In Dynatrace, open the **Azure DevOps Pipelines**, **Azure DevOps Pull Request**, and **Azure DevOps Deployment** dashboards to:
 
 * Track real-time activities of pull requests.
 * Analyze CI/CD pipeline execution details and pipeline health.
 * Gain job insights.
 * Review step durations for pipelines.
+* Monitor your deployments and approvals. 
 
 | Pipeline details: |
 |------------|
