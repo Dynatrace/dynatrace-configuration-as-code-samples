@@ -19,3 +19,13 @@ configs:
     document:
       kind: dashboard
       private: true
+- id: d66880a7-9a33-4991-9ef4-998463852fab
+  config:
+    name: Azure DevOps Deployments
+    template: azure_devops_deployments.json
+    skip: false
+    originObjectId: d66880a7-9a33-4991-9ef4-998463852fab
+  type:
+    document:
+      kind: dashboard
+      private: true

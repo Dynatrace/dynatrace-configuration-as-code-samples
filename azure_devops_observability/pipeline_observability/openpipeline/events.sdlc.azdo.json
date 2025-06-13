@@ -64,6 +64,28 @@
           "matcher": "eventType == \"git.pullrequest.updated\" or eventType == \"git.pullrequest.created\"",
           "sampleData": null,
           "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set deployment category properties",
+          "dqlScript": "fieldsAdd \nevent.version = \"0.1.0\",\nevent.provider = \"azure.devops\",\nevent.category = \"task\",\nevent.type = \"deployment\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_default_SDLC_properties_and_type_deployment_6357",
+          "matcher": "eventType==\"ms.vss-release.deployment-completed-event\"  or eventType == \"ms.vss-release.deployment-started-event\"",
+          "sampleData": null,
+          "type": "dql"
+        },
+        {
+          "builtin": false,
+          "description": "Set approval category properties",
+          "dqlScript": "fieldsAdd \nevent.version = \"0.1.0\",\nevent.provider = \"azure.devops\",\nevent.category = \"task\",\nevent.type = \"approval\"",
+          "editable": true,
+          "enabled": true,
+          "id": "processor_Set_default_SDLC_properties_and_type_approval_2165",
+          "matcher": "eventType==\"ms.vss-release.deployment-approval-completed-event\" or eventType == \"ms.vss-release.deployment-approval-pending-event\"",
+          "sampleData": null,
+          "type": "dql"
         }
       ],
       "routing": {
@@ -172,6 +194,457 @@
   "pipelines": [
     {
       "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - deployment finished",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_Azure_DevOps_-_deployment_8624",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "fieldsAdd event.status = if(eventType == \"ms.vss-release.deployment-completed-event\",\"finished\")",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_8064",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.outcome",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  task.outcome = resource_j[deployment][deploymentStatus]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.outcome_4470",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "(v2) duration, start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  start_time = toTimestamp(resource_j[deployment][startedOn])\n| fieldsAdd  duration = if(isNotNull(resource_j[deployment][completedOn]),toDuration(toTimestamp(resource_j[deployment][completedOn]) - toTimestamp(resource_j[deployment][startedOn])))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration__deployment.queued.duration_-_type_2_5480",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "(v1) duration, start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  start_time = toTimestamp(resource_j[deployment][queuedOn])\n| fieldsAdd  duration = if(isNotNull(resource_j[deployment][completedOn]),toDuration(toTimestamp(resource_j[deployment][completedOn]) - toTimestamp(resource_j[deployment][queuedOn])))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": false,
+            "id": "processor_duration_8442",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": " task.queued.duration,ext.deployment.timeToDeploy",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.deployment.timeToDeploy = resource_j[environment][timeToDeploy]\n| fieldsAdd task.queued.duration = toDuration(toTimestamp(resource_j[deployment][startedOn]) - toTimestamp(resource_j[deployment][queuedOn]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_deployPhases_3949",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "end_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  end_time = if(isNotNull(resource_j[deployment][completedOn]),toTimestamp(resource_j[deployment][completedOn]))\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_end_time_9319",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.name",
+            "dqlScript": "fieldsAdd task.name = \"Azure DevOps Deployment\"",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.name_7467",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "release.| name | id, deployment.| id | environment.name | task.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd release.name = resource_j[deployment][release][name]\n| fieldsAdd release.id = resource_j[deployment][release][id]\n| fieldsAdd release.url.full = resource_j[deployment][release][webAccessUri]\n//| fieldsAdd deployment.id = resource_j[deployment][id]\n| fieldsAdd task.id = resource_j[deployment][id]\n| fieldsAdd deployment.environment.name = resource_j[deployment][releaseEnvironment][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_release.__name___id__deployment.__id___environment.name_1323",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.project.| name | id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.project.name = resource_j[project][name]\n| fieldsAdd ext.project.id = resource_j[project][id]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.project.__name___id_1281",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.deployment.trigger.| type |  reason  ,deployment.attempt",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  ext.deployment.trigger.type = resource_j[deployment][reason]\n| fieldsAdd  ext.deployment.trigger.reason = resource_j[environment][triggerReason]\n| fieldsAdd  deployment.attempt = resource_j[deployment][attempt]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.deployment._._reason___attempt_3932",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.release.pipeline.| id| name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  cicd.pipeline.id = resource_j[deployment][releaseDefinition][id]\n| fieldsAdd  cicd.pipeline.name = resource_j[deployment][releaseDefinition][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.release.pipeline.__id__name_5444",
+            "matcher": "eventType == \"ms.vss-release.deployment-completed-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Mappings",
+            "dqlScript": "fieldsAdd task.outcome = if(task.outcome == \"succeeded\",\"success\", else:task.outcome)\n| fieldsAdd task.outcome = if(task.outcome == \"failed\",\"failure\", else:task.outcome)",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_Mappings_6559",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clear data",
+            "editable": true,
+            "enabled": true,
+            "fields": [
+              "createdDate",
+              "detailedMessage",
+              "eventType",
+              "id",
+              "message",
+              "notificationId",
+              "publisherId",
+              "resource",
+              "resourceContainers",
+              "resourceVersion",
+              "subscriptionId"
+            ],
+            "id": "processor_Clear_data_2621",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "fieldsRemove"
+          }
+        ]
+      },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - approval",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_Azure_DevOps_-_Approvals_4318",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "start_time, end_time, duration, event.status, approval.type",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  start_time = toTimestamp(resource_j[approval][createdOn])\n| fieldsAdd  event.status = if( eventType == \"ms.vss-release.deployment-approval-completed-event\",\"finished\", else: if(eventType == \"ms.vss-release.deployment-approval-pending-event\",\"started\" ))\n| fieldsAdd  task.outcome = if( eventType == \"ms.vss-release.deployment-approval-completed-event\",resource_j[approval][status])\n| fieldsAdd  end_time = if( eventType == \"ms.vss-release.deployment-approval-completed-event\",toTimestamp(resource_j[approval][modifiedOn]))\n| fieldsAdd  duration = if( eventType == \"ms.vss-release.deployment-approval-completed-event\",toDuration(toTimestamp(resource_j[approval][modifiedOn])-toTimestamp(resource_j[approval][createdOn])),else: toDuration(0))\n| fieldsAdd  approval.type = resource_j[approval][approvalType]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time__end_time__duration__event.status_7895",
+            "matcher": "eventType == \"ms.vss-release.deployment-approval-completed-event\" OR eventType == \"ms.vss-release.deployment-approval-pending-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.id, release.| id , name,  deployment.environment.| name | id, deployment.| id, attempt | task.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  task.id = resource_j[approval][id]\n| fieldsAdd  release.id = resource_j[approval][release][id]\n| fieldsAdd  release.name = resource_j[approval][release][name]\n| fieldsAdd  deployment.environment.name = resource_j[release][environments][0][name]\n| fieldsAdd  deployment.environment.id = resource_j[release][environments][0][id]\n| fieldsAdd  deployment.id = resource_j[release][environments][0][deploySteps][0][deploymentId]\n| fieldsAdd  deployment.attempt = resource_j[release][environments][0][deploySteps][0][attempt]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_approval.id_4303",
+            "matcher": "eventType == \"ms.vss-release.deployment-approval-completed-event\" OR eventType == \"ms.vss-release.deployment-approval-pending-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.project.id, ext.project.name, deployment.attempt , task.name | release.url",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  ext.project.id = resource_j[project][id]\n| fieldsAdd  ext.project.name = resource_j[project][name]\n| fieldsAdd  deployment.attempt = resource_j[attemptId]\n| fieldsAdd  task.name = \"Azure DevOps Approval\"\n| fieldsAdd  release.url.full = resource_j[url]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_approval.id_-_Copy_3213",
+            "matcher": "eventType == \"ms.vss-release.deployment-approval-completed-event\" OR eventType == \"ms.vss-release.deployment-approval-pending-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.release.pipeline.name, ext.release.pipeline.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  cicd.pipeline.id = resource_j[release][releaseDefinition][id]\n| fieldsAdd  cicd.pipeline.name = resource_j[release][releaseDefinition][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.release.pipeline.name__ext.release.pipeline.id_6868",
+            "matcher": "eventType == \"ms.vss-release.deployment-approval-completed-event\" OR eventType == \"ms.vss-release.deployment-approval-pending-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clean up",
+            "editable": true,
+            "enabled": true,
+            "fields": [
+              "createdDate",
+              "detailedMessage",
+              "eventType",
+              "id",
+              "message",
+              "notificationId",
+              "publisherId",
+              "resource",
+              "resourceContainers",
+              "resourceVersion",
+              "subscriptionId"
+            ],
+            "id": "processor_Clean_up_7267",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "fieldsRemove"
+          }
+        ]
+      },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
+      "dataExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "displayName": "azure devops - deployment",
+      "editable": true,
+      "enabled": true,
+      "id": "pipeline_Azure_DevOps_-_deployment_started_8896",
+      "metricExtraction": {
+        "editable": true,
+        "processors": []
+      },
+      "processing": {
+        "editable": true,
+        "processors": [
+          {
+            "builtin": false,
+            "description": "event.status",
+            "dqlScript": "fieldsAdd event.status = if(eventType == \"ms.vss-release.deployment-started-event\",\"started\")",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_event.status_8064",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "start_time",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  start_time = toTimestamp(resource_j[environment][deploySteps][0][queuedOn])\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_start_time_1607",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "duration",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  duration = toDuration(0)\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_duration_8442",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "task.name",
+            "dqlScript": "fieldsAdd task.name = \"Azure DevOps Deployment\"",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_task.name_7467",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "release.| name | id, deployment.| id | environment.name , task.id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd release.name = resource_j[release][name]\n| fieldsAdd release.id = resource_j[release][id]\n//| fieldsAdd deployment.id = resource_j[environment][deploySteps][0][deploymentId]\n| fieldsAdd task.id = resource_j[environment][deploySteps][0][deploymentId]\n| fieldsAdd deployment.environment.name = resource_j[environment][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_release.__name___id__deployment.__id___environment.name_1323",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.project.| name | id",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd ext.project.name = resource_j[project][name]\n| fieldsAdd ext.project.id = resource_j[project][id]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.project.__name___id_1281",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.deployment.trigger.type | deployment.attempt",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  ext.deployment.trigger.type = resource_j[environment][deploySteps][0][reason]\n| fieldsAdd  deployment.attempt = resource_j[environment][deploySteps][0][attempt]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.deployment._._reason___attempt_3932",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "ext.release.pipeline.| id| name",
+            "dqlScript": "parse resource, \"JSON:resource_j\" \n| fieldsAdd  cicd.pipeline.id = resource_j[release][releaseDefinition][id]\n| fieldsAdd  cicd.pipeline.name = resource_j[release][releaseDefinition][name]\n| fieldsRemove resource_j",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_ext.release.pipeline.__id__name_5444",
+            "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "Clear data",
+            "editable": true,
+            "enabled": true,
+            "fields": [
+              "createdDate",
+              "detailedMessage",
+              "eventType",
+              "id",
+              "message",
+              "notificationId",
+              "publisherId",
+              "resource",
+              "resourceContainers",
+              "resourceVersion",
+              "subscriptionId"
+            ],
+            "id": "processor_Clear_data_2621",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "fieldsRemove"
+          }
+        ]
+      },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
+      "securityContext": {
+        "editable": true,
+        "processors": []
+      },
+      "storage": {
+        "catchAllBucketName": "default_events",
+        "editable": true,
+        "processors": []
+      },
+      "type": "default"
+    },
+    {
+      "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": true,
         "processors": []
@@ -195,7 +668,7 @@
             "enabled": true,
             "id": "processor_Check_source_for_finished_event_2403",
             "matcher": "eventType == \"ms.vss-pipelines.run-state-changed-event\"",
-            "sampleData": "",
+            "sampleData": null,
             "type": "dql"
           },
           {
@@ -331,6 +804,10 @@
           }
         ]
       },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "securityContext": {
         "editable": true,
         "processors": []
@@ -344,6 +821,10 @@
     },
     {
       "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": true,
         "processors": []
@@ -471,6 +952,10 @@
           }
         ]
       },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "securityContext": {
         "editable": true,
         "processors": []
@@ -484,6 +969,10 @@
     },
     {
       "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": true,
         "processors": []
@@ -699,6 +1188,10 @@
           }
         ]
       },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "securityContext": {
         "editable": true,
         "processors": []
@@ -712,6 +1205,10 @@
     },
     {
       "builtin": false,
+      "costAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": true,
         "processors": []
@@ -850,6 +1347,10 @@
           }
         ]
       },
+      "productAllocation": {
+        "editable": true,
+        "processors": []
+      },
       "securityContext": {
         "editable": true,
         "processors": []
@@ -863,6 +1364,10 @@
     },
     {
       "builtin": true,
+      "costAllocation": {
+        "editable": false,
+        "processors": []
+      },
       "dataExtraction": {
         "editable": false,
         "processors": []
@@ -876,6 +1381,10 @@
         "processors": []
       },
       "processing": {
+        "editable": false,
+        "processors": []
+      },
+      "productAllocation": {
         "editable": false,
         "processors": []
       },
@@ -929,6 +1438,30 @@
         "matcher": "eventType==\"git.pullrequest.created\" or eventType==\"git.pullrequest.updated\"",
         "note": "Route all Azure DevOps events into pull request pipeline",
         "pipelineId": "pipeline_azure_devops_-_mr_3333"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType==\"ms.vss-release.deployment-completed-event\"",
+        "note": "Route all Azure DevOps events into deployment finished pipeline",
+        "pipelineId": "pipeline_Azure_DevOps_-_deployment_8624"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType == \"ms.vss-release.deployment-approval-completed-event\" OR eventType == \"ms.vss-release.deployment-approval-pending-event\"",
+        "note": "Route all Azure DevOps events into approval pipeline",
+        "pipelineId": "pipeline_Azure_DevOps_-_Approvals_4318"
+      },
+      {
+        "builtin": false,
+        "editable": true,
+        "enabled": true,
+        "matcher": "eventType == \"ms.vss-release.deployment-started-event\"",
+        "note": "Route all Azure DevOps events into deployment started pipeline",
+        "pipelineId": "pipeline_Azure_DevOps_-_deployment_started_8896"
       }
     ]
   }
