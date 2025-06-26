@@ -47,7 +47,7 @@ In this tutorial, you'll learn how to
     <!-- windows version -->
     Windows:
     ```
-    $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>' &&
+    $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
     $env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
     ```
     <!-- linux / macOS version -->
