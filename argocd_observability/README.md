@@ -39,20 +39,18 @@ In this tutorial, you'll learn how to
     * Create and edit documents: `document:documents:write`
     * View documents: `document:documents:read`
 
-2. Store the retrieved client ID, secret, and token endpoint as separate environment variables.
+2. Store the retrieved client ID and secret as separate environment variables.
     <!-- windows version -->
     Windows:
     ```
     $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
     $env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
-    $env:OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
     ```
     <!-- linux / macOS version -->
     Linux / macOS:
     ```
     export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
     export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
-    export OAUTH_TOKEN_ENDPOINT='https://sso.dynatrace.com/sso/oauth2/token'
     ```
 
 3. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `argocd_observability`.
