@@ -140,6 +140,8 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Gi
       * **Merge request events**
       * **Job events**
       * **Pipeline events**
+      * **Deployment events**
+      * **Releases events**
 
 2. [Add custom header](https://dt-url.net/5203zv5) to your webhook with the name `Authorization` and value `Api-Token <YOUR-ACCESS-TOKEN>`.
 
@@ -155,6 +157,7 @@ In Dynatrace, open the **GitLab Pipeline Pulse** and **GitLab Merge Request** da
 * Analyze CI/CD pipeline execution details and pipeline health.
 * Gain job insights.
 * Review step durations for pipelines.
+* Analyze deployment and release activities
 
 | Pipeline details: | Job insights: | Merge request insights: |
 |------------|-----|-------------|

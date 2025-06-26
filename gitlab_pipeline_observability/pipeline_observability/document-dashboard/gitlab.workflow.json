@@ -3341,9 +3341,7 @@
   },
   "variables": [
     {
-      "defaultValue": [
-        "{{`{{`}} .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 {{`}}`}}*"
-      ],
+      "defaultValue": [  ],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"gitlab\" and event.type == \"run\"\n| summarize distinctRepositories = collectDistinct(vcs.repository.url.full)\n| expand distinctRepositories\n| sort distinctRepositories",
       "key": "Repository",
       "multiple": true,
@@ -3352,10 +3350,7 @@
       "visible": true
     },
     {
-      "defaultValue": [
-        "{{`{{`}} .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 {{`}}`}}*"
-      ],
-      "editable": true,
+      "defaultValue": [  ],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"gitlab\" and event.type == \"run\"\n| filter in(vcs.repository.url.full, $Repository)\n| summarize distinctWorkflows = collectDistinct(cicd.pipeline.name)\n| expand distinctWorkflows\n| sort distinctWorkflows",
       "key": "Pipeline",
       "multiple": true,
@@ -3364,9 +3359,7 @@
       "visible": true
     },
     {
-      "defaultValue": [
-        "{{`{{`}} .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 {{`}}`}}*"
-      ],
+      "defaultValue": [  ],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"gitlab\" and event.type == \"run\"\n| summarize distinctTriggers = collectDistinct(cicd.pipeline.run.trigger)\n| expand distinctTriggers\n| sort distinctTriggers",
       "key": "Trigger",
       "multiple": true,
