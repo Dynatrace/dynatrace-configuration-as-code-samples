@@ -1,0 +1,6 @@
+{
+  "matcher": "URL_CONTAINS",
+  "pattern": "{{.pattern}}",
+  "applicationId": "{{.applicationId}}",
+  "description": null
+}
