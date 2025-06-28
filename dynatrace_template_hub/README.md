@@ -1,22 +1,37 @@
-> **_Disclaimer:_** This script is not supported by Dynatrace. Please utilize github issues for any issues that arrise. We will try our best to get to your issues.
-
-> **_Disclaimer:_** Supported monaco version: 2+
-
 # Dynatrace Template Hub
 
-This is a Dynatrace CaC project of monaco v2 templates for every configuration and setting in Dynatrace. 
+> **Comprehensive collection of Monaco v2 templates for every Dynatrace configuration and setting**
 
-## Pre-requisites 
+This template hub provides ready-to-use Monaco v2 templates for all Dynatrace configurations and settings. It serves as a reference library for building custom configurations and learning Monaco v2 syntax.
 
-1. Installing monaco
+> **💡 Note**: These templates demonstrate current Dynatrace capabilities. Some features like auto-tagging and management zones may evolve as Dynatrace introduces new data organization and filtering capabilities.
 
+## 🎯 What You'll Get
+
+### 📚 **Template Library**
+- **Complete coverage** of all Dynatrace configurations
+- **Ready-to-use templates** with proper syntax
+- **Configuration examples** for common use cases
+- **Reference documentation** for Monaco v2
+
+### 🔧 **Configuration Types**
+- **Global configurations** (tags, management zones, alerting profiles)
+- **Local settings** (services, monitors, applications)
+- **Anomaly detection** (services, databases, Kubernetes, RUM)
+- **Custom configurations** for specialized use cases
+
+## 📋 Prerequisites
+
+### 1. **Install Monaco**
 ```bash
+# Download and install Monaco v2+
+# Follow the installation guide:
 https://www.dynatrace.com/support/help/shortlink/configuration-as-code-installation
 ```
 
-2. Create an API-Token with the following permissions
-```
-API v2 scopes
+### 2. **Create API Token**
+```bash
+# Required API v2 scopes:
 - Read entities
 - Write entities
 - Read settings
@@ -24,25 +39,19 @@ API v2 scopes
 - Read SLO
 - Write SLO
 
-API v1 scopes
+# Required API v1 scopes:
 - Read configuration
 - Write configuration
 - Access problem and event feed, metrics, and topology
 ```
 
-3. Set Environment Variables
+### 3. **Set Environment Variables**
 ```bash
- export API_TOKEN="API_TOKEN"
+export API_TOKEN="your-api-token"
 ```
-4. Edit manifest.yaml
 
-Replace the placeholders in the environmentGroups:
-
-> ENV_NAME
-> ENV_ID
-> API_TOKEN
-
-```bash
+### 4. **Configure _manifest.yaml**
+```yaml
 environmentGroups:
 - name: default
   environments:
@@ -54,30 +63,117 @@ environmentGroups:
         name: API_TOKEN
 ```
 
-## Usage
-There are several directories which will contain monaco projects. The directory "global" will contain projects which can only be applied globally.
+## 🛠️ Quick Start
 
-Each directory will contain many sub-directories of monaco projects, which contain a folder with a config.yaml and object.json.
+### 1. **Choose Your Template**
+```bash
+# Browse available templates by category
+ls dynatrace_template_hub/
 
-#### Service Anomaly Detection
-1. Edit the anomalyDetection\serviceAnom\config.yaml file. 
+# Examples:
+# - global/          # Global configurations
+# - anomalyDetection/ # Anomaly detection settings
+# - service/         # Service-specific settings
+```
 
-Replace the parameter values with your own values. 
+### 2. **Customize Configuration**
 ```yaml
+# Edit the config.yaml file in your chosen template
+# Example: anomalyDetection/serviceAnom/config.yaml
+resp:
+  enabled: true
+  mode: "auto"
+  degMilli: 399
+  degPercent: 10
+  reqPerMin: 15
+  abState: 1
+  sens: "low"
+```
+
+### 3. **Deploy Template**
+```bash
+# Deploy specific template
+monaco deploy _manifest.yaml --project serviceAnom -e ENV_NAME
+
+# Deploy multiple templates
+monaco deploy _manifest.yaml --project "serviceAnom,kubernetesAnom" -e ENV_NAME
+```
+
+**Time to value: 10 minutes** ⚡
+
+## 📁 Template Structure
+
+```
+dynatrace_template_hub/
+├── _manifest.yaml                   # Monaco manifest
+├── global/                          # Global configurations
+│   ├── alertingProfile/            # Alerting profiles
+│   ├── managementZone/             # Management zones
+│   ├── ownership/                  # Ownership teams
+│   └── tag/                        # Auto-tagging rules
+├── anomalyDetection/               # Anomaly detection settings
+│   ├── databaseServiceAnom/       # Database anomaly detection
+│   ├── kubernetesAnom/            # Kubernetes anomaly detection
+│   ├── rumAnom/                   # RUM anomaly detection
+│   └── serviceAnom/               # Service anomaly detection
+├── service/                        # Service-specific settings
+│   ├── anomalyDetection/          # Service anomaly detection
+│   ├── generalFailureDetection/   # General failure detection
+│   ├── httpFailureDetection/      # HTTP failure detection
+│   ├── keyRequests/               # Key requests
+│   └── mutedRequests/             # Muted requests
+├── browserMonitor/                 # Browser monitor settings
+├── httpMonitor/                    # HTTP monitor settings
+└── README.md
+```
+
+## 🎛️ Template Categories
+
+### 🌐 **Global Configurations**
+> Templates that can only be applied globally
+
+| Template | Description | Command |
+|----------|-------------|---------|
+| **tag** | Auto-tagging rules | `monaco deploy _manifest.yaml --project tag -e ENV_NAME` |
+| **managementZone** | Management zones | `monaco deploy _manifest.yaml --project managementZone -e ENV_NAME` |
+| **ownership** | Ownership teams | `monaco deploy _manifest.yaml --project ownership -e ENV_NAME` |
+| **alertingProfile** | Alerting profiles | `monaco deploy _manifest.yaml --project alertingProfile -e ENV_NAME` |
+
+### 🔧 **Local Settings**
+> Templates that can be applied locally
+
+| Template | Description | Command |
+|----------|-------------|---------|
+| **service** | Service settings | `monaco deploy _manifest.yaml --project service -e ENV_NAME` |
+| **browserMonitor** | Browser monitor settings | `monaco deploy _manifest.yaml --project browserMonitor -e ENV_NAME` |
+| **httpMonitor** | HTTP monitor settings | `monaco deploy _manifest.yaml --project httpMonitor -e ENV_NAME` |
+
+### 📊 **Anomaly Detection**
+> Templates for anomaly detection settings
+
+| Template | Description | Command |
+|----------|-------------|---------|
+| **databaseServiceAnom** | Database anomaly detection | `monaco deploy _manifest.yaml --project databaseServiceAnom -e ENV_NAME` |
+| **serviceAnom** | Service anomaly detection | `monaco deploy _manifest.yaml --project serviceAnom -e ENV_NAME` |
+| **kubernetesAnom** | Kubernetes anomaly detection | `monaco deploy _manifest.yaml --project kubernetesAnom -e ENV_NAME` |
+| **rumAnom** | RUM anomaly detection | `monaco deploy _manifest.yaml --project rumAnom -e ENV_NAME` |
+
+## 🔧 Configuration Examples
+
+### Service Anomaly Detection
+```yaml
+# anomalyDetection/serviceAnom/config.yaml
+configs:
+  - id: globalServiceAnomalyDetection
+    type:
+      settings:
+        schema: builtin:anomaly-detection.services
+        scope: environment
+    config:
+      name: globalServiceAnomalyDetection
+      template: object.json
+      parameters:
         resp:
-          ###################
-          ## resp - responseTime
-          ## Fields:
-          ## enabled - enabled
-          ## mode - detectionMode - "auto","fixed"
-          ## degMilli (both) - degradationMilliseconds 
-          ## degPercent (auto) - degradationPercent
-          ## degSlowestMilli (both) - slowestDegradationMilliseconds
-          ## degSlowestPercent (auto) - slowestDegradationPercent
-          ## reqPerMin (both) - requestsPerMinute
-          ## abState (both) - minutesAbnormalState
-          ## sens (fixed) - sensitivity - "low","medium","high"
-          ##############
           type: value
           value:
             enabled: true
@@ -90,78 +186,204 @@ Replace the parameter values with your own values.
             abState: 1
             sens: "low"
 ```
-> Most Monaco v2 projects contain a "default" parameter. Which returns the setting/configuration back to defaults if set to true.
 
-3. Run the monaco command
-```bash
-monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME
-```
-
-#### Workflow of multiple configurations
-There are several configurations where the id/name should be used as input to another configuration.
-
-> ex: managementZone -> alertingProfile
-
-1. Copy the folders alertingProfile and managementZone, add them to a *new project folder*.
-
-2. Add the *new project folder name* under list of projects in manifest.yaml
-
+### Auto-Tagging Rule
 ```yaml
-  projects:
-  - name: {YOUR PROJECT NAME}
-    type: grouping
-    path: {YOUR PROJECT NAME}/
+# global/tag/config.yaml
+configs:
+  - id: environment-tagging
+    type:
+      settings:
+        schema: builtin:tags.auto-tagging
+        scope: environment
+    config:
+      name: "Environment Tagging"
+      template: object.json
+      parameters:
+        rules:
+          type: value
+          value:
+            - name: "Environment Tagging"
+              type: "SERVICE"
+              enabled: true
+              conditions:
+                - attribute: "SERVICE_NAME"
+                  operator: "CONTAINS"
+                  value: "production"
+              valueFormat: "environment=production"
 ```
 
-3. Edit the alertingProfile > config.yaml to make a reference to the id of one of the managementZone configs
-
+### Management Zone
 ```yaml
-    ...
-    parameters:
-      managementZone:
-        type: reference
-        project: managementZone
-        configType: builtin:management-zones
-        configId: {YOUR CONFIG MZ ID}
-        property: id
-    ...
+# global/managementZone/config.yaml
+configs:
+  - id: production-zone
+    type:
+      settings:
+        schema: builtin:management-zones
+        scope: environment
+    config:
+      name: "Production Zone"
+      template: object.json
+      parameters:
+        zones:
+          type: value
+          value:
+            - name: "Production Zone"
+              description: "Production environment"
+              rules:
+                - type: "SERVICE"
+                  conditions:
+                    - attribute: "SERVICE_TAG"
+                      operator: "EQUALS"
+                      value: "environment=production"
 ```
 
-4. Run the monaco command in the /project directory
+## 🔗 **Dependent Configurations**
+
+### Workflow for Multiple Configurations
+Some configurations depend on others. Here's how to handle dependencies:
+
+#### 1. **Create Project Folder**
 ```bash
-monaco deploy manifest.yaml --project {YOUR PROJECT NAME} -e ENV_NAME
+# Create a new project folder
+mkdir my-project
+cp -r global/managementZone my-project/
+cp -r global/alertingProfile my-project/
 ```
 
-## Monaco V2 Templates Supported Setting/Configuration Projects
+#### 2. **Update _manifest.yaml**
+```yaml
+projects:
+- name: my-project
+  type: grouping
+  path: my-project/
+```
 
-#### mirrored global & local settings/configurations
+#### 3. **Configure Dependencies**
+```yaml
+# my-project/alertingProfile/config.yaml
+configs:
+  - id: production-alerts
+    type:
+      settings:
+        schema: builtin:alerting.profile
+        scope: environment
+    config:
+      name: "Production Alerting Profile"
+      template: object.json
+      parameters:
+        managementZone:
+          type: reference
+          project: managementZone
+          configType: builtin:management-zones
+          configId: production-zone
+          property: id
+```
 
-> settings templates require a switch of the scope to adjust if it's applied globally or locally.
+#### 4. **Deploy Together**
+```bash
+monaco deploy _manifest.yaml --project my-project -e ENV_NAME
+```
 
-| Name | Type | Description | Group | Monaco Command |
-| ------ | ------ | ------ | ------ | ------ |
-| databaseServiceAnom | both | database setting | N/A | ```monaco deploy manifest.yaml --project databaseServiceAnom -e ENV_NAME``` |
-| serviceAnom | both | service setting | N/A | ```monaco deploy manifest.yaml --project serviceAnom -e ENV_NAME``` |
-| kubernetesAnom | both | k8s setting | cluster, namespace, node, workload, presVolumeClaim | ```monaco deploy manifest.yaml --project kubernetesAnom.GROUP -e ENV_NAME``` |
-| rumAnom | both | web/mobile/custom setting | app, customApp, customAppCrash, mobile, mobileCrash | ```monaco deploy manifest.yaml --project rumAnom.GROUP -e ENV_NAME``` |
+## 🎯 **Common Use Cases**
 
-#### strictly global settings/configurations
+### 1. **Service Monitoring Setup**
+```bash
+# Deploy service anomaly detection
+monaco deploy _manifest.yaml --project serviceAnom -e ENV_NAME
 
-> templates which can only be applied globally.
+# Deploy service settings
+monaco deploy _manifest.yaml --project service -e ENV_NAME
+```
 
-| Name | Type | Description | Group | Monaco Command |
-| ------ | ------ | ------ | ------ | ------ |
-| tag | global | auto-tagging | N/A | ```monaco deploy manifest.yaml --project tag -e ENV_NAME``` |
-| managementZone | global | management | N/A | ```monaco deploy manifest.yaml --project managementZone -e ENV_NAME``` |
-| ownership | global | ownership teams | N/A | ```monaco deploy manifest.yaml --project ownership -e ENV_NAME``` |
-| alertingProfile | global | alerting profiles | N/A | ```monaco deploy manifest.yaml --project alertingProfile -e ENV_NAME``` |
+### 2. **Kubernetes Monitoring**
+```bash
+# Deploy Kubernetes anomaly detection
+monaco deploy _manifest.yaml --project kubernetesAnom -e ENV_NAME
+```
 
-#### strictly local settings/configurations
+### 3. **Web Application Monitoring**
+```bash
+# Deploy RUM anomaly detection
+monaco deploy _manifest.yaml --project rumAnom -e ENV_NAME
 
-> templates which can only be applied locally.
+# Deploy browser monitoring
+monaco deploy _manifest.yaml --project browserMonitor -e ENV_NAME
+```
 
-| Name | Type | Description | Group | Monaco Command |
-| ------ | ------ | ------ | ------ | ------ |
-| service | setting | service settings | anomalyDetection, generalFailureDetection, httpFailureDetection, keyRequests, mutedRequests | ```monaco deploy manifest.yaml --project service.GROUP -e ENV_NAME```|
-| browserMonitor | setting | browser monitor settings | singleStep, multiStep | ```monaco deploy manifest.yaml --project browserMonitor.GROUP -e ENV_NAME```|
-| httpMonitor | setting | http monitor settings | singleRequest | ```monaco deploy manifest.yaml --project httpMonitor.GROUP -e ENV_NAME```|
+## 🔍 **Troubleshooting**
+
+### Common Issues
+
+**1. Template Not Found**
+```bash
+# Check template path
+ls dynatrace_template_hub/
+
+# Verify project name in _manifest.yaml
+```
+
+**2. Configuration Errors**
+```bash
+# Validate configuration
+monaco validate _manifest.yaml
+
+# Check syntax in config.yaml files
+```
+
+**3. Permission Errors**
+```bash
+# Verify API token permissions
+# Check OAuth client scopes
+# Ensure environment access
+```
+
+### Debug Commands
+```bash
+# Dry run deployment
+monaco deploy _manifest.yaml --project TEMPLATE_NAME -e ENV_NAME --dry-run
+
+# Validate specific project
+monaco validate _manifest.yaml --project TEMPLATE_NAME
+
+# Check configuration status
+# Navigate to Dynatrace UI to verify deployment
+```
+
+## 🏆 **Best Practices**
+
+### 1. **Template Usage**
+- Start with simple templates and expand
+- Test configurations in non-production first
+- Use descriptive names for custom configurations
+- Document customizations and dependencies
+
+### 2. **Configuration Management**
+- Version control all customizations
+- Use consistent naming conventions
+- Regular review and cleanup of configurations
+- Backup configurations before major changes
+
+### 3. **Deployment Strategy**
+- Deploy related configurations together
+- Test dependencies before production deployment
+- Use dry-run to validate changes
+- Monitor deployment success rates
+
+## 🤝 **Community Support**
+
+- **Questions?** [Open an issue](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples/issues)
+- **Improvements?** [Contribute](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples/pulls)
+
+## 📚 **Additional Resources**
+
+- **[Monaco v2 Documentation](https://docs.dynatrace.com/docs/shortlink/monaco)**
+- **[Dynatrace Configuration API](https://docs.dynatrace.com/docs/shortlink/configuration-api)**
+- **[Settings API Documentation](https://docs.dynatrace.com/docs/shortlink/settings-api)**
+
+---
+
+**Ready to build your configurations?** Start with the quick setup above! 🚀
+
+> **Disclaimer**: This template hub is not officially supported by Dynatrace. Please use GitHub issues for any problems that arise. We will try our best to address your issues.
