@@ -19,3 +19,13 @@ configs:
     document:
       kind: dashboard
       private: false
+- id: 95bed34c-b3f0-48a2-853c-906de7d6dd33
+  config:
+    name: GitLab Deployments
+    template: gitlab.deployments.json
+    skip: false
+    originObjectId: 95bed34c-b3f0-48a2-853c-906de7d6dd33
+  type:
+    document:
+      kind: dashboard
+      private: false
