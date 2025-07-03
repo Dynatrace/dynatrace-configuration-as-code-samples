@@ -1,0 +1,11 @@
+configs:
+- id: 49cb565d-5ca3-418f-8943-d3965084c12f
+  config:
+    name: Release Monitoring
+    template: release_monitoring.json
+    skip: false
+    originObjectId: 49cb565d-5ca3-418f-8943-d3965084c12f
+  type:
+    document:
+      kind: dashboard
+      private: true
