@@ -1,0 +1,16 @@
+manifestVersion: 1.0
+projects:
+  - name: release_monitoring
+environmentGroups:
+  - name: group
+    environments:
+      - name: <YOUR-DT-ENV-ID>
+        url:
+          type: value
+          value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
+        auth:
+            oAuth:
+              clientId:
+                name: OAUTH_CLIENT_ID
+              clientSecret:
+                name: OAUTH_CLIENT_SECRET
