@@ -1,0 +1,46 @@
+{
+              "children": [
+                    {
+                          "key": {
+                                "range": {
+                                      "from": 0,
+                                      "to": 14
+                                },
+                                "textValue": "gcp.project.id",
+                                "type": "Key",
+                                "value": "gcp.project.id"
+                          },
+                          "operator": {
+                                "range": {
+                                      "from": 15,
+                                      "to": 16
+                                },
+                                "textValue": "=",
+                                "type": "ComparisonOperator",
+                                "value": "="
+                          },
+                          "range": {
+                                "from": 0,
+                                "to": 22
+                          },
+                          "type": "Statement",
+                          "value": {
+                                "range": {
+                                      "from": 17,
+                                      "to": 22
+                                },
+                                "textValue": "'456'",
+                                "type": "String",
+                                "value": "'456'"
+                          }
+                    }
+              ],
+              "explicit": false,
+              "explicitLogicalOperator": false,
+              "logicalOperator": "AND",
+              "range": {
+                    "from": 0,
+                    "to": 22
+              },
+              "type": "Group"
+        }
