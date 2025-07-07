@@ -1,0 +1,274 @@
+#######
+# Use this yaml file to specify one or many openpipelines, buckets, segments, groups, policies, boundaries and bindings
+# If you need to extend with more resource types, you'll need to add new Terraform code to support
+#######
+
+# ENVIRONMENTS
+# Use this section to specify one or many environments belonging to the account you are deploying
+# Note that permissions scopes can reference any of these environments, but deployment of resources (buckets, openpipelines, segments) will only happen in the environment specified by the dt_env_url variable that is used by the Dynatrace Terraform provider
+environments:
+  env_1: "yqx03344" #"soddgwvydx"
+  env_2: "abc12345"
+
+# OPENPIPELINES
+# The entire section is optional, if not present, no open pipelines will be created.
+openpipelines:
+  - pipeline_type: "events"
+    endpoints:
+      - enabled: true
+        default_bucket: "default_events"
+        display_name: "Custom ingest source"
+        segment: "something"
+        routing:
+          type: "static"
+          pipeline_id: "default"
+    pipelines:
+      - enabled: true
+        display_name: "Custom pipeline 1"
+        id: "pipeline_Pipeline_8075"
+        processing:
+          processors:
+            - type: "fields_add_processor"
+              description: "Add a field 1"
+              enabled: true
+              id: "processor_Add_a_field_6856"
+              matcher: "true"
+              fields:
+                - name: "field"
+                  value: "value"
+        security_context:
+          processors:
+            - type: "security_context_processor"
+              description: "Set Security context for Morpheus team"
+              enabled: true
+              id: "sc_morpheus_team_1"
+              matcher: "true"
+              value:
+                - type: "field"
+                  field: "team"
+    routing:
+      - enabled: true
+        matcher: "true"
+        note: "Custom route"
+        pipeline_id: "pipeline_Pipeline_8075"
+
+  - pipeline_type: "logs"
+    pipelines:
+      - enabled: true
+        display_name: "Morpheus logs pipeline"
+        id: "pipeline_Morpheus_1"
+        processing:
+          processors:
+            - type: "dql_processor"
+              description: "process_team_morpheus"
+              enabled: true
+              dql_script: "parse content, \"LD 'team=' STRING:team\""
+              id: "processor_morpheus_team_1"
+              matcher: "matchesValue(content, \"*team*\")"
+        security_context:
+          processors:
+            - type: "security_context_processor"
+              description: "Set Security context for Morpheus team"
+              enabled: true
+              id: "sc_morpheus_team_1"
+              matcher: "true"
+              value:
+                - type: "field"
+                  field: "team"
+        storage:
+          catch_all_bucket_name: "default_logs" 
+          processors:
+            - type: "bucket_assignment_processor"
+              description: "Bucket assignment for Morpheus team"
+              enabled: true
+              bucket_name : "demo_morpheus_bucket"
+              id: "processor_bucket_assignment_morpheus_1"
+              matcher: "matchesValue(team, \"morpheus\")"
+    routing:
+      - enabled: true
+        matcher: "true"
+        note: "route morpheus"
+        pipeline_id: "pipeline_Morpheus_1"
+
+
+# BUCKETS
+# The entire section is optional, if not present, no buckets will be created.
+# display_name is optional, if not present, the name will be used as display_name
+# table defaults to logs if not present
+# retention defaults to 10 if not present. #Span buckets have retention days of 10 to 3657 days
+# buckets will be created in the environment specified the terraform provider through the dt_env_url variable
+buckets:
+  - name: "demo_morpheus_bucket"
+    display_name: "Bucket for storing morpheus logs." 
+    retention: 30
+    table: "logs"
+
+
+#SEGMENTS
+# The entire section is optional, if not present, no segments will be created.
+segments:
+  - name: "segment_morpheus"
+    description: "Segment for Morpheus project"
+    is_public: true
+    includes:
+      items:
+        - data_object: "logs"
+          filter: "$file:./config/segments/morpheus.json"
+  
+  - name: "demo_segment_1"
+    description: "Sample Segment"
+    is_public: true
+    includes:
+      items:
+        - data_object: "dt.entity.host"
+          filter: ""
+          relationship:
+            name: "clustered_by"
+            target: "dt.entity.kubernetes_cluster"
+
+
+# TEAMS
+# teams are modeled here by IAM groups
+# description, federated_attribute_values are optional
+teams: 
+  - name: "Demo_Admin_User_Team"
+    description: "Build and maintain applications and services"
+    federated_attribute_values:
+      - "gc-adm"
+
+  - name: "Demo_Observability_User_Team"
+    description: "Manage access, compliance, and overall system configuration" 
+    federated_attribute_values: 
+      - "gc-std"
+
+  - name: "Demo_Engineering_User_Team"
+    description: "Build and maintain observability platforms, dashboards, and alerting systems" 
+    federated_attribute_values:
+      - "gc-pwr"
+
+  - name: "demo_project_mobile_team_grp"
+    description: "Develop and maintain the new mobile application."
+    federated_attribute_values:
+      - "GCP_PROJECT_ID:123"
+
+  - name: "demo_project_morpheus_team_grp"
+    description: "In charge of the super secret Morpheus project." 
+    federated_attribute_values: 
+      - "GCP_PROJECT_ID:456"
+
+# POLICIES
+# Make sure the name for type: EXISTING matches exactly the name of the EXISTING policy
+# If missing, type will default to CUSTOM
+# Descriptin is optional
+#  if statement_query is preffixed with $file: it will be read from the file system. Ensure the file exits in the specified path
+policies:
+  - name:             "Admin User" 
+    type:             "EXISTING" 
+
+  - name:             "Standard User" 
+    type:             "EXISTING" 
+
+  - name:             "Pro User" 
+    type:             "EXISTING" 
+
+  - name:             "Data Processing and Storage" 
+    type:             "EXISTING" 
+
+  - name:             "All Grail data read access" 
+    type:             "EXISTING" 
+
+  - name:             "Read Logs" 
+    type:             "EXISTING" 
+
+  - name:             "demo_project_mobile_team_pol"
+    type:             "CUSTOM"
+    description:      "Custom policy for specific use cases."
+    statement_query: "$file:./config/policy_statements/pol_demo_project_mobile_team.pol"
+
+  - name:             "demo_project_morpheus_team_pol"
+    type:             "CUSTOM"
+    description:      "Custom policy for specific use cases."
+    statement_query: "$file:./config/policy_statements/pol_demo_project_morpheus_team.pol"
+
+# BOUNDARIES
+# if query is preffixed with $file: it will be read from the file system. Ensure the file exits in the specified path
+boundaries:
+  - name: "bnd_demo_morpheus_block_bnd"
+    query: "$file:./config/policy_statements/bnd_demo_morpheus_block.bnd"
+
+
+# GRANTS
+# permissions array under each team is optional, if not present, the team will not have any rbac permissions
+# policies array under each team is optional, if not present, the team will not have any abac policies
+# boundaries under each policy are optional, if not present, the policy will be applied to all resources
+# if levelId is missing and levelType is account, then value is taken directly from var.account_id
+# !!! due to a limitation in the Dynatrace Terraform proider, policies unde the same group must have the same levelType and levelId. If you need to use different levelType or levelId for same group and policy, define another group section
+grants:
+  - teamname: "Demo_Admin_User_Team"
+    permissions:
+      - name: "account-user-management"
+        type: "account"
+      - name: "account-viewer"
+        type: "account"
+      - name: "account-company-info"
+        type: "account"
+      - name: "tenant-viewer"
+        scope: "env_1"
+        type: "tenant"
+    policies:
+      - name: "Admin User"
+        levelType: "account"
+
+      - name: "Data Processing and Storage"
+        levelType: "account"
+
+      - name: "All Grail data read access"
+        levelType: "account"
+        boundaries:
+          - "bnd_demo_morpheus_block_bnd"
+
+  - teamname: "Demo_Observability_User_Team"
+    policies:
+      - name: "Pro User"
+        levelType: "account"
+      - name: "All Grail data read access"
+        levelType: "account"
+        boundaries:
+          - "bnd_demo_morpheus_block_bnd"
+
+  - teamname: "Demo_Engineering_User_Team"
+    policies:
+      - name: "Pro User"
+        levelType: "account"
+      - name: "Read Logs"
+        levelType: "account"
+        boundaries:
+          - "bnd_demo_morpheus_block_bnd"
+
+  - teamname: "demo_project_mobile_team_grp"
+    policies:
+      - name: "Standard User"
+        levelType: "environment"
+        levelId: "env_1"
+      - name: "demo_project_mobile_team_pol"
+        levelType: "environment"
+        levelId: "env_1"
+        parameters:
+          - name: "project_id"
+            value: "123"
+          - name: "sec_context"  
+            value: "mobile"
+
+  - teamname: "demo_project_morpheus_team_grp"
+    policies:
+      - name: "Standard User"
+        levelType: "environment"
+        levelId: "env_1"
+      - name: "demo_project_morpheus_team_pol"
+        levelType: "environment"
+        levelId: "env_1"
+        parameters:
+          - name: "project_id"
+            value: "456"
+          - name: "sec_context"  
+            value: "morpheus"

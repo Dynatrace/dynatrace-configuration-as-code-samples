@@ -1,0 +1,2 @@
+storage:bucket-name NOT IN ('demo_security_bucket', 'demo_morpheus_bucket');
+storage:dt.security_context = 'gc-engineering';

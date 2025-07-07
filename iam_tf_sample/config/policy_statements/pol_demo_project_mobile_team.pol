@@ -1,0 +1,6 @@
+// Enter here policy statements to be used for team demo_project_mobile_team_grp
+// To avoid errors during terraform apply, ensure statements are syntactically correct
+
+ALLOW storage:buckets:read WHERE storage:bucket-name = 'default_logs';
+ALLOW storage:logs:read WHERE storage:gcp.project.id = '${bindParam:project_id}' AND storage:dt.security_context='${bindParam:sec_context}';
+ALLOW settings:objects:read;
