@@ -1,0 +1,1672 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 6,
+      "w": 7,
+      "x": 0,
+      "y": 2
+    },
+    "10": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 19
+    },
+    "11": {
+      "h": 9,
+      "w": 24,
+      "x": 0,
+      "y": 23
+    },
+    "12": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 8
+    },
+    "13": {
+      "h": 7,
+      "w": 7,
+      "x": 0,
+      "y": 10
+    },
+    "14": {
+      "h": 7,
+      "w": 17,
+      "x": 7,
+      "y": 10
+    },
+    "2": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "3": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 17
+    },
+    "4": {
+      "h": 4,
+      "w": 13,
+      "x": 11,
+      "y": 19
+    },
+    "5": {
+      "h": 4,
+      "w": 2,
+      "x": 3,
+      "y": 19
+    },
+    "6": {
+      "h": 6,
+      "w": 17,
+      "x": 7,
+      "y": 2
+    },
+    "7": {
+      "h": 4,
+      "w": 2,
+      "x": 5,
+      "y": 19
+    },
+    "8": {
+      "h": 4,
+      "w": 2,
+      "x": 7,
+      "y": 19
+    },
+    "9": {
+      "h": 4,
+      "w": 2,
+      "x": 9,
+      "y": 19
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product = releasesProduct, stage = releasesStage, version\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| dedup product, stage, version",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Overview",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "product",
+              "stage",
+              "version"
+            ],
+            "categoryAxisLabel": "product,stage,version",
+            "tooltipVariant": "single",
+            "valueAxis": [],
+            "valueAxisLabel": ""
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {},
+        "histogram": {
+          "dataMappings": [],
+          "displayedFields": [
+            "product",
+            "stage",
+            "version"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "product"
+          },
+          "displayedFields": [
+            "stage"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "entity.name",
+          "prefixIcon": "",
+          "recordField": "entity.name",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [
+          {
+            "field": "",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product=releasesProduct, stage=releasesStage, version, id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n| filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n| filter vulnerability.resolution.status == \"OPEN\"\n| expand pgiId=affected_entity.affected_processes.ids\n| dedup pgiId, vulnerability.id\n//| fields pgId, vulnerability.id\n| summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| summarize {Vulnerabilities=toLong(sum(total))}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Number of Vulnerabilities",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Vulnerabilities"
+            ],
+            "categoryAxisLabel": "Vulnerabilities",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Vulnerabilities"
+            ],
+            "valueAxisLabel": "Vulnerabilities"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "value": "Vulnerabilities"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "Vulnerabilities"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "Vulnerabilities"
+          },
+          "displayedFields": [
+            null
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "Vulnerabilities",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "background",
+          "isIconVisible": true,
+          "label": "Vulnerabilities",
+          "prefixIcon": "SecurityProtectionSignetIcon",
+          "recordField": "Vulnerabilities",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"critical\"]": 117.13333129882812,
+            "[\"medium\"]": 84.14999389648438
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1724235344730,
+            "baseUnit": "none",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": null,
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields id, entity.name, product=releasesProduct, stage=releasesStage, version\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n  | filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n  | filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n  | filter event.level==\"ENTITY\" // on entity level\n  | filter vulnerability.resolution.status == \"OPEN\"\n  | expand pgiId=affected_entity.affected_processes.ids\n  | dedup pgiId, vulnerability.id\n  //| fields pgId, vulnerability.id\n  | summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n  ], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| fields  entity.name, product, stage, version, critical, high, medium, low",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "entity.name",
+            "categoryAxisLabel": "entity.name",
+            "tooltipVariant": "single",
+            "valueAxis": "critical",
+            "valueAxisLabel": "critical"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle"
+        },
+        "dataMapping": {
+          "value": "critical"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "critical"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "high"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "medium"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "low"
+            }
+          ],
+          "displayedFields": [
+            "entity.name",
+            "product",
+            "stage",
+            "version"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "critical"
+          },
+          "displayedFields": [
+            "entity.name"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "critical",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "entity.name",
+          "prefixIcon": "",
+          "recordField": "entity.name",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed",
+          "sortBy": [
+            {
+              "columnId": "[\"product\"]",
+              "direction": "ascending"
+            }
+          ]
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "12": {
+      "content": "### Release Validations\n\nThis section provides both an overview and a detailed view of release validation results. Ensure that the guardian is tagged with both `product` and `stage` to accurately correlate validation results with the corresponding release information. To further investigate a specific result, right-click a row in the table and select \"Open value with\" to launch the Site Reliability Guardian. \n\n---",
+      "type": "markdown"
+    },
+    "13": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch bizevents\n| filter event.type == \"guardian.validation.finished\"\n| parse guardian.tags, \"JSON:tags\"\n| filter tags[stage][0] == $Stage or $Stage == \"All\"\n| filter tags[product][0] == $Product or $Product == \"All\"\n| summarize count(), by: validation.status",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "validation.status"
+            ],
+            "categoryAxisLabel": "validation.status",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "error": {
+              "added": 1546111.5,
+              "color": "#b3007d"
+            },
+            "fail": {
+              "added": 1549234.5,
+              "color": "#DC172A"
+            },
+            "pass": {
+              "added": 1552622.5,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              }
+            },
+            "warning": {
+              "added": 1557127.700000003,
+              "color": "#C9A000"
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "carbon.emissions",
+            "energy.measurement.total",
+            "dt.system.routing_key",
+            "resource.instance.memory_total",
+            "cost.total",
+            "price.total",
+            "resource.instance.cpu_cores",
+            "carbon.intensity",
+            "energy.measurement.cpu_wasted",
+            "utilization.networkTotal.average",
+            "energy.measurement.machine",
+            "utilization.networkPrivate.average",
+            "utilization.cpu.average",
+            "energy.cpu_idle_threshold",
+            "energy.measurement.cpu",
+            "energy.measurement.memory",
+            "energy.measurement.total_wasted",
+            "energy.measurement.infrastructure_overhead",
+            "energy.pue",
+            "host.disk.size",
+            "energy.measurement.network",
+            "energy.measurement.io",
+            "host.memoryTotal",
+            "event.category",
+            "statusCode",
+            "firstId",
+            "firstPrice",
+            "response",
+            "accountId",
+            "amount",
+            "balance",
+            "instrumentId",
+            "duration",
+            "price",
+            "firstClose",
+            "firstInstrumentId",
+            "packageId",
+            "decimal",
+            "shippingCost.units",
+            "shippingCostTotal",
+            "shippingCost.nanos",
+            "time_correction.offset",
+            "dt.rum.custom_attributes_size",
+            "numberOfResults",
+            "childrenTravelers",
+            "adultTravelers",
+            "journeyDuration",
+            "resultPosition",
+            "startPrice"
+          ],
+          "leftYAxisSettings": {},
+          "legend": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timestamp",
+          "xAxisScaling": "auto"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "legend": {
+          "position": "auto",
+          "ratio": 19,
+          "showLegend": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnOrder": [
+            "[\"validation.status\"]",
+            "[\"count()\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "14": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch bizevents\n| filter event.type == \"guardian.validation.finished\"\n| parse guardian.tags, \"JSON:tags\"\n| filter tags[stage][0] == $Stage or $Stage == \"All\"\n| filter tags[product][0] == $Product or $Product == \"All\"\n| parse validation.summary, \"JSON:Objective_Result\"\n| fields Time = timestamp, Guardian = guardian.name, Status = validation.status, Objective_Result, guardian.id, validation.id\n| sort Time",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "dt.system.routing_key"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timestamp",
+          "xAxisScaling": "auto"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnOrder": [
+            "[\"Time\"]",
+            "[\"Guardian\"]",
+            "[\"Status\"]",
+            "[\"Objective_Result\",\"pass\"]",
+            "[\"Objective_Result\",\"warning\"]",
+            "[\"Objective_Result\",\"fail\"]",
+            "[\"Objective_Result\",\"error\"]",
+            "[\"Objective_Result\",\"info\"]",
+            "[\"guardian.id\"]",
+            "[\"validation.id\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Objective_Result\",\"info\"]": 48.63,
+            "[\"Status\"]": 111,
+            "[\"Summary\"]": 342
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed",
+          "sortBy": [
+            {
+              "columnId": "[\"guardian.id\"]",
+              "direction": "ascending"
+            }
+          ]
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "2": {
+      "content": "## Release Monitoring\n\nThis dashboard offers real-time visibility into software deployments and their impact on system performance. It automatically detects releases, correlates them with validation results, and highlights security vulnerabilities. This allows teams to quickly validate changes, detect regressions, and improve deployment confidence.\n\n---",
+      "type": "markdown"
+    },
+    "3": {
+      "content": "### Security Vulnerabilities\n\nThis section displays the number of vulnerabilities identified per release, categorized by severity. It also includes a detailed table listing the affected service entities.\n\n---",
+      "type": "markdown"
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product=releasesProduct, stage=releasesStage, version, id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n  | filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n  | filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n  | filter event.level==\"ENTITY\" // on entity level\n  | filter vulnerability.resolution.status == \"OPEN\"\n  | expand pgiId=affected_entity.affected_processes.ids\n  | dedup pgiId, vulnerability.id\n  //| fields pgId, vulnerability.id\n  | summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n  ], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| summarize by:{product, stage, version}, {critical=toLong(sum(critical)), high=toLong(sum(high)), medium=toLong(sum(medium)), low=toLong(sum(low)), total=toLong(sum(total))}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Overview",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "product",
+            "categoryAxisLabel": "product",
+            "tooltipVariant": "single",
+            "valueAxis": "critical",
+            "valueAxisLabel": "critical"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle"
+        },
+        "dataMapping": {
+          "value": "critical"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "critical"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "high"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "medium"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "low"
+            },
+            {
+              "rangeAxis": "",
+              "valueAxis": "total"
+            }
+          ],
+          "displayedFields": [
+            "product",
+            "stage",
+            "version"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "critical"
+          },
+          "displayedFields": [
+            "product"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "critical",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "entity.name",
+          "prefixIcon": "",
+          "recordField": "entity.name",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed",
+          "sortBy": {
+            "columnId": "[\"total\"]",
+            "direction": "descending"
+          }
+        },
+        "thresholds": [
+          {
+            "field": "",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product=releasesProduct, stage=releasesStage, version, id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n| filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n| filter vulnerability.resolution.status == \"OPEN\"\n| expand pgiId=affected_entity.affected_processes.ids\n| dedup pgiId, vulnerability.id\n//| fields pgId, vulnerability.id\n| summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| summarize {critical=toLong(sum(critical))}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "critical"
+            ],
+            "categoryAxisLabel": "critical",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "critical"
+            ],
+            "valueAxisLabel": "critical"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "value": "critical"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "critical"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "critical"
+          },
+          "displayedFields": [
+            null
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "critical",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "background",
+          "isIconVisible": true,
+          "label": "critical",
+          "prefixIcon": "SecurityCriticalIcon",
+          "recordField": "critical",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"critical\"]": 117.13333129882812,
+            "[\"medium\"]": 84.14999389648438
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [
+          {
+            "field": "critical",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#AB0C17",
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [
+          {
+            "added": 1724235344730,
+            "baseUnit": "none",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": null,
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields name = entity.name, product = releasesProduct, stage = releasesStage, version, dt.entity.process_group_instance = id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Instances",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "name,product,stage,version,dt.entity.process_group_instance",
+            "tooltipVariant": "single",
+            "valueAxisLabel": ""
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {},
+        "histogram": {
+          "dataMappings": [],
+          "displayedFields": [
+            "name",
+            "product",
+            "stage",
+            "version",
+            "dt.entity.process_group_instance"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "name"
+          },
+          "displayedFields": [
+            "product"
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "entity.name",
+          "prefixIcon": "",
+          "recordField": "entity.name",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnOrder": [
+            "[\"name\"]",
+            "[\"product\"]",
+            "[\"stage\"]",
+            "[\"version\"]",
+            "[\"dt.entity.process_group_instance\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"name\"]": 882.14
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product=releasesProduct, stage=releasesStage, version, id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n| filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n| filter vulnerability.resolution.status == \"OPEN\"\n| expand pgiId=affected_entity.affected_processes.ids\n| dedup pgiId, vulnerability.id\n//| fields pgId, vulnerability.id\n| summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| summarize {high=toLong(sum(high))}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Overview",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "high"
+            ],
+            "categoryAxisLabel": "high",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "high"
+            ],
+            "valueAxisLabel": "high"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "value": "high"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "high"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "high"
+          },
+          "displayedFields": [
+            null
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "high",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "background",
+          "isIconVisible": true,
+          "label": "high",
+          "prefixIcon": "SecurityHighIcon",
+          "recordField": "high",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"critical\"]": 117.13333129882812,
+            "[\"medium\"]": 84.14999389648438
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [
+          {
+            "field": "high",
+            "id": 2,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#DC172A",
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [
+          {
+            "added": 1724235344730,
+            "baseUnit": "none",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": null,
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product=releasesProduct, stage=releasesStage, version, id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n| filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n| filter vulnerability.resolution.status == \"OPEN\"\n| expand pgiId=affected_entity.affected_processes.ids\n| dedup pgiId, vulnerability.id\n//| fields pgId, vulnerability.id\n| summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| summarize {medium=toLong(sum(medium))}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Overview",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "medium"
+            ],
+            "categoryAxisLabel": "medium",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "medium"
+            ],
+            "valueAxisLabel": "medium"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "value": "medium"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "medium"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "medium"
+          },
+          "displayedFields": [
+            null
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "medium",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "background",
+          "isIconVisible": true,
+          "label": "medium",
+          "prefixIcon": "SecurityMediumIcon",
+          "recordField": "medium",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": false,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"critical\"]": 117.13333129882812,
+            "[\"medium\"]": 84.14999389648438
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [
+          {
+            "field": "medium",
+            "id": 3,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#C9A000",
+                "comparator": "≥",
+                "id": 1,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          },
+          {
+            "field": "low",
+            "id": 4,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#008CDB",
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [
+          {
+            "added": 1724235344730,
+            "baseUnit": "none",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": null,
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "9": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.entity.process_group_instance, from:now()-3h\n| parse releasesVersion, \"\"\"DATA 'version=\\'' DATA:version '\\','\"\"\"\n| fields product=releasesProduct, stage=releasesStage, version, id\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| filter product == $Product or $Product == \"All\"\n| filter stage == $Stage or $Stage == \"All\"\n| filter version == $Version or $Version == \"All\"\n| filter isNotNull(product) and isNotNull(stage) and isNotNull(version)\n| lookup [fetch events\n| filter event.kind == \"SECURITY_EVENT\" AND event.category == \"VULNERABILITY_MANAGEMENT\"\n| filter event.type==\"VULNERABILITY_STATE_REPORT_EVENT\" // historical vulnerability data\n| filter event.level==\"ENTITY\" // on entity level\n| filter vulnerability.resolution.status == \"OPEN\"\n| expand pgiId=affected_entity.affected_processes.ids\n| dedup pgiId, vulnerability.id\n//| fields pgId, vulnerability.id\n| summarize by:{pgiId}, {critical = countIf(vulnerability.risk.level == \"CRITICAL\"), high = countIf(vulnerability.risk.level == \"HIGH\"), medium = countIf(vulnerability.risk.level == \"MEDIUM\"), low = countIf(vulnerability.risk.level == \"LOW\"), total=count()}\n], sourceField:id, lookupField:pgiId, fields:{critical, high, medium, low, total}\n| summarize {low=toLong(sum(low))}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Overview",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "low"
+            ],
+            "categoryAxisLabel": "low",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "low"
+            ],
+            "valueAxisLabel": "low"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect",
+          "truncationMode": "middle",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "value": "low"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "low"
+            }
+          ],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "blue",
+          "dataMappings": {
+            "value": "low"
+          },
+          "displayedFields": [
+            null
+          ],
+          "legend": {
+            "hidden": false,
+            "position": "auto"
+          },
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "low",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "background",
+          "isIconVisible": true,
+          "label": "low",
+          "prefixIcon": "SecurityIcon",
+          "recordField": "low",
+          "showLabel": true,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"critical\"]": 117.13333129882812,
+            "[\"medium\"]": 84.14999389648438
+          },
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "comfortable"
+        },
+        "thresholds": [
+          {
+            "field": "low",
+            "id": 4,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#008CDB",
+                "comparator": "≥",
+                "id": 0,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [
+          {
+            "added": 1724235344730,
+            "baseUnit": "none",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": null,
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    }
+  },
+  "variables": [
+    {
+      "editable": true,
+      "input": "fetch dt.entity.process_group_instance\n| fields  releasesVersion, releasesProduct, releasesStage\n| filter isNotNull(releasesProduct) and isNotNull(releasesStage) and isNotNull(releasesVersion)\n| dedup releasesStage\n| fields releasesStage = array(\"All\", releasesStage)",
+      "key": "Stage",
+      "multiple": false,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    },
+    {
+      "editable": true,
+      "input": "fetch dt.entity.process_group_instance\n| fields  releasesVersion, releasesProduct, releasesStage\n| filter isNotNull(releasesProduct) and isNotNull(releasesStage) and isNotNull(releasesVersion)\n| parse releasesVersion, \"\"\"LD \"version='\" LD:version \"'\" \"\"\"\n| filter $Stage == \"All\" or releasesStage == $Stage\n| dedup releasesProduct\n| fields releasesProduct = array(\"All\", releasesProduct)",
+      "key": "Product",
+      "multiple": false,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    },
+    {
+      "input": "fetch dt.entity.process_group_instance\n| fields  releasesVersion, releasesProduct, releasesStage\n| filter isNotNull(releasesProduct) and isNotNull(releasesStage) and isNotNull(releasesVersion)\n| parse releasesVersion, \"\"\"LD \"version='\" LD:version \"'\" \"\"\"\n| filter $Product == \"All\" or releasesProduct == $Product\n| filter $Stage == \"All\" or releasesStage == $Stage\n| filter isNotNull(version)\n| dedup version\n| fields version = array(\"All\", version)",
+      "key": "Version",
+      "multiple": false,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    }
+  ],
+  "version": 19
+}
