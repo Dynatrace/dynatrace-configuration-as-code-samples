@@ -7,8 +7,8 @@
 # Use this section to specify one or many environments belonging to the account you are deploying
 # Note that permissions scopes can reference any of these environments, but deployment of resources (buckets, openpipelines, segments) will only happen in the environment specified by the dt_env_url variable that is used by the Dynatrace Terraform provider
 environments:
-  env_1: "yqx03344" #"soddgwvydx"
-  env_2: "abc12345"
+  end_dev: "abc" #placeholder for the first environment
+  env_prod: "def" #placeholder for the second environment
 
 # OPENPIPELINES
 # The entire section is optional, if not present, no open pipelines will be created.
@@ -213,7 +213,7 @@ grants:
       - name: "account-company-info"
         type: "account"
       - name: "tenant-viewer"
-        scope: "env_1"
+        scope: "end_dev"
         type: "tenant"
     policies:
       - name: "Admin User"
@@ -249,10 +249,10 @@ grants:
     policies:
       - name: "Standard User"
         levelType: "environment"
-        levelId: "env_1"
+        levelId: "end_dev"
       - name: "demo_project_mobile_team_pol"
         levelType: "environment"
-        levelId: "env_1"
+        levelId: "end_dev"
         parameters:
           - name: "project_id"
             value: "123"
@@ -263,10 +263,10 @@ grants:
     policies:
       - name: "Standard User"
         levelType: "environment"
-        levelId: "env_1"
+        levelId: "end_dev"
       - name: "demo_project_morpheus_team_pol"
         levelType: "environment"
-        levelId: "env_1"
+        levelId: "end_dev"
         parameters:
           - name: "project_id"
             value: "456"

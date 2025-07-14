@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This repository demonstrates best practices for managing Dynatrace IAM (Identity and Access Management) at the account level using Terraform. The goal is to provide a practical, modular, and scalable approach to IAM policy management, leveraging both default policies with policy boundaries, as well as custom policies with policy templating. This enables organizations to implement fine-grained access control for classic observability teams (such as Central Admin, Observability, Engineering. etc.) as well as for specialized teams (like the examples here from Mobile Developers and the Morpheus teams).
+This repository demonstrates best practices for managing Dynatrace IAM (Identity and Access Management) using Terraform. The goal is to provide a practical, modular, and scalable approach to IAM policy management, leveraging both default policies with policy boundaries, as well as custom policies with policy templating. This enables organizations to implement fine-grained access control for classic observability teams (such as Central Admin, Observability, Engineering. etc.) as well as for specialized teams working on particular projects.
 
 ## Why This Repository?
 
-Modern enterprise environments require robust and flexible access control. Dynatrace IAM provides powerful primitives, but applying them consistently and securely across teams can be challenging. This repository showcases:
+Modern enterprise environments require robust and flexible access control. Dynatrace IAM provides powerful access control primitives, but applying them consistently and securely across teams can be challenging. This repository showcases:
 
 - **Best practices for Dynatrace IAM access control** using Terraform.
 - **Default policies with custom policy boundaries** for classic observability teams, ensuring least-privilege access and compliance.
@@ -42,45 +42,48 @@ To get this project running on your system:
     export DT_CLIENT_SECRET=<your_client_secret>
     export TF_VAR_DT_ACCOUNT_ID=<your_account_id>
     ```
-5. **Optionally modify ./config/config.yaml:**
-   You might want to modify the config file that drives the code by adding additional buckets, segments, pipelines, teams etc.
+5. **Enter your environment IDs in ./config/config.yaml:**
+   Speficy at least one environment ID the config.yaml file
 
-5. **Optionally modify the location of the Terraform statefile:**
-   You can do so changing the `backend` section of the providers.tf
+6. **Optionally modify ./config/config.yaml:**
+   You might want to modify the config file that drives the Terraform code by adding additional buckets, segments, pipelines, teams, or modify permission assignments to better match your access scenario
 
-6. **Initialize Terraform:**
+7. **Optionally modify the location of the Terraform statefile:**
+   You can do so by changing the `backend` section of the providers.tf file. It is advisable for production environments to store this Terraform state file in secure cloud location rather than on the local machine.
+
+8. **Initialize Terraform:**
     ```sh
     terraform init
     ```
-7. **Review the plan:**
+9. **Review the plan:**
     ```sh
     terraform plan
     ``
-8. **Apply the configuration:**
+10. **Apply the configuration:**
     ```sh
     terraform apply
     ```
 
 ## Project Structure
 
-- `main.tf` – Main Terraform configuration for IAM resources.
+- `main.tf` – Terraform code for creating the Dynatrace resources as defined in the config.yaml file
 - `locals.tf` – Local variables to transform config.yaml for easier procesing in code.
 - `.\config\config.yaml` – Declarative configuration for all resources.
-- `.\config\policy_statements\*.*` – Policy & boundary statements used in config.yaml
-- `.\config\segments\*.*` – Segment json definitions used in config.yaml
+- `.\config\policy_statements\*.*` – Policy & boundary statements referenced in config.yaml
+- `.\config\segments\*.*` – Segment json definitions referenced in config.yaml
 - `README.md` – Project documentation.
 
 ## Example: Access Permissions by Team
 
 This repository includes example mappings for access control across some sample enterprise teams. Three central teams are granted permissions leveraging Dynatrace-managed `default policies` at platform and data categories along with `policy boundaries`. Two other teams make use of `custom policies` and `policy templating`.
 
-| :soccer: Team             | :page_with_curl: Platform Access  | :page_with_curl: Data Access                                                  |:left_right_arrow: Segment                 | :customs: Access Restrictions                 |
-|---------------------------|-----------------------------------|-------------------------------------------------------------------------------|-------------------------------------------|-----------------------------------------------|
-| **Central Admins**        | `Admin User`                      | `Data Processing and Storage`<br>`All Grail data read access`                 |                                           | - No access to `morpheus` bucket              |
-| **Central Observability** | `Pro User`                        | `All Grail data read access`                                                  |                                           | - No access to `morpheus` bucket              |
-| **Central Engineering**   | `Pro User`                        | `Read Logs`                                                                   |                                           | - No access to `morpheus` bucket              |
-| **Mobile Developers**     | `Standard User`                   | :pencil2: `Custom policy` to access logs bucket                               |                                           | :hash:- `project_id` + `storage:dt.security_context` <br> - No access to `morpheus` bucket|
-| **Project Morpheus**      | `Standard User`                   | :pencil2: `Custom policy` to access `morpheus` bucket                         |`dt.system_bucket = "demo_morpheus_bucket"`| :hash:- `project_id` + `storage:dt.security_context`|
+| :soccer: Team             | :page_with_curl: Platform Access  | :page_with_curl: Data Access                                                                                                                                              |:left_right_arrow: Segment                 | :customs: Access Restrictions                                                                         |
+|---------------------------|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| **Central Admins**        | `Admin User`                      | `Data Processing and Storage`<br>`All Grail data read access`                                                                                                             |                                           | - No access to `morpheus` bucket ([Boundary](./config/policy_statements/bnd_demo_morpheus_block.bnd)) |
+| **Central Observability** | `Pro User`                        | `All Grail data read access`                                                                                                                                              |                                           | - No access to `morpheus` bucket ([Boundary](./config/policy_statements/bnd_demo_morpheus_block.bnd)) |
+| **Central Engineering**   | `Pro User`                        | `Read Logs`                                                                                                                                                               |                                           | - No access to `morpheus` bucket ([Boundary](./config/policy_statements/bnd_demo_morpheus_block.bnd)) |
+| **Mobile Developers**     | `Standard User`                   | :pencil2: `Custom policy` with templating :hash:- `project_id` + `storage:dt.security_context` ([Policy](./config/policy_statements/pol_demo_project_mobile_team.pol))    |                                           | - No access to `morpheus` bucket ([Boundary](./config/policy_statements/bnd_demo_morpheus_block.bnd)) |
+| **Project Morpheus**      | `Standard User`                   | :pencil2: `Custom policy` with templating :hash:- `project_id` + `storage:dt.security_context` ([Policy](./config/policy_statements/pol_demo_project_morpheus_team.pol))  |`dt.system_bucket = "demo_morpheus_bucket"` ([Segment](./config/segments/morpheus.json))|                                                          |
 
 To complement the permission assignment, this sample repo also includes creation of Grail buckets, Openpipelines and Segments. The diagram below depicts what this repo covers.
 
