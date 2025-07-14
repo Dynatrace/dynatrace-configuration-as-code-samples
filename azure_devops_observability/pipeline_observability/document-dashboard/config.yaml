@@ -8,7 +8,7 @@ configs:
   type:
     document:
       kind: dashboard
-      private: true
+      private: false
 - id: ec7a0de0-04fa-4726-b34b-dfcde20d3c69
   config:
     name: Azure DevOps Pipelines
@@ -18,7 +18,7 @@ configs:
   type:
     document:
       kind: dashboard
-      private: true
+      private: false
 - id: d66880a7-9a33-4991-9ef4-998463852fab
   config:
     name: Azure DevOps Deployments
@@ -28,4 +28,4 @@ configs:
   type:
     document:
       kind: dashboard
-      private: true
+      private: false

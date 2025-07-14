@@ -2,11 +2,13 @@
 
 ## Introduction
 
+
 This repository demonstrates best practices for managing Dynatrace IAM (Identity and Access Management) using Terraform. The goal is to provide a practical, modular, and scalable approach to IAM policy management, leveraging both default policies with policy boundaries, as well as custom policies with policy templating. This enables organizations to implement fine-grained access control for classic observability teams (such as Central Admin, Observability, Engineering. etc.) as well as for specialized teams working on particular projects.
 
 ## Why This Repository?
 
 Modern enterprise environments require robust and flexible access control. Dynatrace IAM provides powerful access control primitives, but applying them consistently and securely across teams can be challenging. This repository showcases:
+
 
 - **Best practices for Dynatrace IAM access control** using Terraform.
 - **Default policies with custom policy boundaries** for classic observability teams, ensuring least-privilege access and compliance.
@@ -41,7 +43,7 @@ To get this project running on your system:
     export DT_CLIENT_ID=<your_client_id>
     export DT_CLIENT_SECRET=<your_client_secret>
     export TF_VAR_DT_ACCOUNT_ID=<your_account_id>
-    ```
+
 5. **Enter your environment IDs in ./config/config.yaml:**
    Speficy at least one environment ID the config.yaml file
 
@@ -60,17 +62,20 @@ To get this project running on your system:
     terraform plan
     ``
 10. **Apply the configuration:**
+
     ```sh
     terraform apply
     ```
 
 ## Project Structure
 
+
 - `main.tf` – Terraform code for creating the Dynatrace resources as defined in the config.yaml file
 - `locals.tf` – Local variables to transform config.yaml for easier procesing in code.
 - `.\config\config.yaml` – Declarative configuration for all resources.
 - `.\config\policy_statements\*.*` – Policy & boundary statements referenced in config.yaml
 - `.\config\segments\*.*` – Segment json definitions referenced in config.yaml
+
 - `README.md` – Project documentation.
 
 ## Example: Access Permissions by Team
@@ -84,6 +89,7 @@ This repository includes example mappings for access control across some sample 
 | **Central Engineering**   | `Pro User`                        | `Read Logs`                                                                                                                                                               |                                           | - No access to `morpheus` bucket ([Boundary](./config/policy_statements/bnd_demo_morpheus_block.bnd)) |
 | **Mobile Developers**     | `Standard User`                   | :pencil2: `Custom policy` with templating :hash:- `project_id` + `storage:dt.security_context` ([Policy](./config/policy_statements/pol_demo_project_mobile_team.pol))    |                                           | - No access to `morpheus` bucket ([Boundary](./config/policy_statements/bnd_demo_morpheus_block.bnd)) |
 | **Project Morpheus**      | `Standard User`                   | :pencil2: `Custom policy` with templating :hash:- `project_id` + `storage:dt.security_context` ([Policy](./config/policy_statements/pol_demo_project_morpheus_team.pol))  |`dt.system_bucket = "demo_morpheus_bucket"` ([Segment](./config/segments/morpheus.json))|                                                          |
+
 
 To complement the permission assignment, this sample repo also includes creation of Grail buckets, Openpipelines and Segments. The diagram below depicts what this repo covers.
 
