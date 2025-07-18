@@ -26,7 +26,7 @@ configs:
       slo:
         type: value
         value:
-          name: Service SLO
+          name: BookingService SLO
       ? slov2_availability_id
       : configId: booking-service-slo-availability
         configType: slo-v2
