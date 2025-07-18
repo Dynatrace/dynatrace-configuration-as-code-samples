@@ -32,7 +32,7 @@ To enable accurate release detection and ensure the dashboards work as intended:
 
 | Overview |
 |----------|
-| ![Overview Dashboard](\images\dashboard.png) |
+| ![Overview Dashboard](images/dashboard.png) |
 
 
 ## Getting Started
