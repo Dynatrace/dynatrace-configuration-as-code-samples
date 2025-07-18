@@ -5,7 +5,7 @@ configs:
     parameters:
       service:
         value:
-          id: SERVICE-620517BB99A7ED9E
+          id: SERVICE-ID
         type: value
     template: booking-service-fast-burn-rate-alert.json
     skip: false
@@ -22,11 +22,11 @@ configs:
       service:
         type: value
         value:
-          id: SERVICE-620517BB99A7ED9E
+          id: SERVICE-ID
       slo:
         type: value
         value:
-          name: BookingService SLO
+          name: Service SLO
       ? slov2_availability_id
       : configId: booking-service-slo-availability
         configType: slo-v2
@@ -51,7 +51,7 @@ configs:
       service:
         type: value
         value:
-          id: SERVICE-620517BB99A7ED9E
+          id: SERVICE-ID
     template: booking-service-slo-performance.json
     skip: false
   type: slo-v2
@@ -63,7 +63,7 @@ configs:
       service:
         type: value
         value:
-          id: SERVICE-620517BB99A7ED9E
+          id: SERVICE-ID
     template: booking-service-slo-availability.json
     skip: false
   type: slo-v2
@@ -75,7 +75,7 @@ configs:
       service:
         type: value
         value:
-          id: SERVICE-620517BB99A7ED9E
+          id: SERVICE-ID
     template: booking-service-guardian.json
     skip: false
   type:
