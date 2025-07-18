@@ -48,7 +48,7 @@ To enable accurate release detection and ensure the dashboards work as intended:
 You need a Dynatrace Platform environment and the following environment variables to try this out:
 
 * `DT_ENV_ID`: YOUR-DT-ENVIRONMENT-ID
-* `DT_ENV_URL`: https://YOUR-DT-ENVIRONMENT-ID.apps.dynatrace.com
+* `DT_ENV_URL`: https://<YOUR-DT-ENVIRONMENT-ID>.apps.dynatrace.com
 * `PLATFORM_TOKEN`: *Returned when creating the platform token* (see:[docs](https://docs.dynatrace.com/docs/shortlink/configuration-as-code-create-platform-token))
 
 ## Documentation
