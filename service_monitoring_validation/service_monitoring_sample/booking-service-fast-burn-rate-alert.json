@@ -1,0 +1,72 @@
+{
+  "enabled": true,
+  "title": "{{ .name }}",
+  "description": "This anomaly detector alerts on a high error budget burn rate of my critical BookingService",
+  "source": "Davis Anomaly Detection",
+  "executionSettings": {},
+  "analyzer": {
+    "name": "dt.statistics.ui.anomaly_detection.StaticThresholdAnomalyDetectionAnalyzer",
+    "input": [
+      {
+        "key": "query",
+        "value": "timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }\n  , by: { dt.entity.service }\n  , filter: { in (dt.entity.service, { \"{{ .service.id }}\" }) }\n| fieldsAdd sli=(((total[]-failures[])/total[])*(100))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, failures\n| fieldsAdd target = 95\n| fieldsAdd burnRate = ((100 - sli[]) / (100 - target))\n| fieldsRemove sli"
+      },
+      {
+        "key": "threshold",
+        "value": "2"
+      },
+      {
+        "key": "alertCondition",
+        "value": "ABOVE"
+      },
+      {
+        "key": "alertOnMissingData",
+        "value": "false"
+      },
+      {
+        "key": "violatingSamples",
+        "value": "3"
+      },
+      {
+        "key": "slidingWindow",
+        "value": "5"
+      },
+      {
+        "key": "dealertingSamples",
+        "value": "5"
+      }
+    ]
+  },
+  "eventTemplate": {
+    "properties": [
+      {
+        "key": "dt.source_entity",
+        "value": "{dims:dt.entity.service}"
+      },
+      {
+        "key": "event.type",
+        "value": "ERROR_EVENT"
+      },
+      {
+        "key": "event.description",
+        "value": "High burn rate alert (BookingService SLO), affecting: {dims:dt.entity.service.name}."
+      },
+      {
+        "key": "event.name",
+        "value": "SLO fast burn rate alert"
+      },
+      {
+        "key": "entity.name",
+        "value": "{dims:dt.entity.service.name}"
+      },
+      {
+        "key": "slo.name",
+        "value": "BookingService SLO"
+      },
+      {
+        "key": "dt.owner",
+        "value": "myTeam"
+      }
+    ]
+  }
+}

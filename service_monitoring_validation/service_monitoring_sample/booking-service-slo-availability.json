@@ -1,0 +1,23 @@
+{
+  "criteria": [
+    {
+      "target": 95,
+      "timeframeFrom": "now-7d",
+      "timeframeTo": "now"
+    }
+  ],
+  "description": "Measures the proportion of successful service requests over time.",
+  "name": "{{ .name }}",
+  "sliReference": {
+    "templateId": "e2J1aWx0aW46aW50ZXJuYWwuc2VydmljZS5sZXZlbC5vYmplY3RpdmUudGVtcGxhdGVzLCBpZDogYTU2NWMzNGEtYzVhNS00MTE1LTkzMTEtMDcxYjRjYjU5ZGQ3fQ==",
+    "variables": [
+      {
+        "name": "services",
+        "value": "\"{{ .service.id }}\""
+      }
+    ]
+  },
+  "tags": [
+    "service:BookingService"
+  ]
+}

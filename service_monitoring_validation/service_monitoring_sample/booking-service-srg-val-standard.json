@@ -1,0 +1,68 @@
+{
+  "description": "",
+  "hourlyExecutionLimit": 1000,
+  "input": {},
+  "isDeployed": true,
+  "isPrivate": false,
+  "result": null,
+  "schemaVersion": 3,
+  "taskDefaults": {},
+  "tasks": {
+    "run_validation": {
+      "action": "dynatrace.site.reliability.guardian:validate-guardian-action",
+      "description": "Automation action to start a Site Reliability Guardian validation",
+      "input": {
+        "executionId": "{{`{{`}} execution().id {{`}}`}}",
+        "expressionFrom": "",
+        "expressionTo": "",
+        "objectId": "{{.guardianid}}",
+        "timeframeInputType": "timeframeSelector",
+        "timeframeSelector": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "variables": [
+          {
+            "definition": "{{`{{`}}event()['version']{{`}}`}}",
+            "name": "version"
+          },
+          {
+            "definition": "{{`{{`}}event()['build.id']{{`}}`}}",
+            "name": "buildid"
+          }
+        ]
+      },
+      "name": "run_validation",
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "predecessors": []
+    }
+  },
+  "throttle": {
+    "isLimitHit": false,
+    "limitEvents": []
+  },
+  "title": "{{.name}}",
+  "trigger": {
+    "eventTrigger": {
+      "filterQuery": "`service` == \"booking\" AND \n`stage` == \"prod\" AND \n`gate` == \"performance gate\"",
+      "isActive": true,
+      "triggerConfiguration": {
+        "type": "event",
+        "value": {
+          "eventType": "bizevents",
+          "query": "`service` == \"booking\" AND \n`stage` == \"prod\" AND \n`gate` == \"performance gate\""
+        }
+      },
+      "uniqueExpression": null
+    }
+  },
+  "triggerType": "Event",
+  "type": "STANDARD",
+  "version": 10,
+  "workflowLimit": {
+    "isActive": false
+  }
+}

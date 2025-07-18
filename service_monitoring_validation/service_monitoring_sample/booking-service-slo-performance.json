@@ -1,0 +1,26 @@
+{
+  "criteria": [
+    {
+      "target": 95,
+      "timeframeFrom": "now-7d",
+      "timeframeTo": "now",
+      "warning": 98
+    }
+  ],
+  "description": "Measures the proportion of service requests served faster than a defined response time.",
+  "name": "{{ .name }}",
+  "sliReference": {
+    "templateId": "e2J1aWx0aW46aW50ZXJuYWwuc2VydmljZS5sZXZlbC5vYmplY3RpdmUudGVtcGxhdGVzLCBpZDogNTBhNjFkMmEtODFjZi00ZTU1LWFmZDUtM2NlMWE2ZDEyNzJlfQ==",
+    "variables": [
+      {
+        "name": "services",
+        "value": "\"{{ .service.id }}\""
+      },
+      {
+        "name": "responseTimeInMilliSeconds",
+        "value": "500"
+      }
+    ]
+  },
+  "tags": []
+}
