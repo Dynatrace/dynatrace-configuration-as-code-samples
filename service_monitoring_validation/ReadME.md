@@ -26,7 +26,7 @@ Additionally it provides a simple alert-notification workflows, to send an email
 To enable accurate release detection and ensure the dashboards work as intended:
 
 - Monaco version `v2.24.0+`
-- Platform token (see [documentions](https://docs.dynatrace.com/docs/shortlink/configuration-as-code-create-platform-token)) covering the needed permission: Documents, Automation, SLO v2, Settings, email and additionally `app-engine:apps:run`
+- Platform token ([See our documentation](https://docs.dynatrace.com/docs/shortlink/configuration-as-code-create-platform-token)) covering the needed permission: Documents, Automation, SLO v2, Settings, email and additionally `app-engine:apps:run`
 
 ## Dashboard Previews
 
@@ -47,9 +47,9 @@ To enable accurate release detection and ensure the dashboards work as intended:
 
 You need a Dynatrace Platform environment and the following environment variables to try this out:
 
-* `DT_ENV_ID`: <YOUR-DT-ENVIRONMENT-ID>
-* `DT_ENV_URL`: https://<YOUR-DT-ENVIRONMENT-ID>.apps.dynatrace.com
-* `PLATFORM_TOKEN`: *Returned when creating the platform token*
+* `DT_ENV_ID`: YOUR-DT-ENVIRONMENT-ID
+* `DT_ENV_URL`: https://YOUR-DT-ENVIRONMENT-ID.apps.dynatrace.com
+* `PLATFORM_TOKEN`: *Returned when creating the platform token* (see:[docs](https://docs.dynatrace.com/docs/shortlink/configuration-as-code-create-platform-token))
 
 ## Documentation
 
