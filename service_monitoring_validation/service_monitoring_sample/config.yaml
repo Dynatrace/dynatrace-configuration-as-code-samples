@@ -1,0 +1,113 @@
+configs:
+- id: booking-service-fast-burn-rate-alert
+  config:
+    name: CasC-sample Fast burn rate alert for BookingService availability SLO
+    parameters:
+      service:
+        value:
+          id: SERVICE-620517BB99A7ED9E
+        type: value
+    template: booking-service-fast-burn-rate-alert.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:davis.anomaly-detectors
+      schemaVersion: 1.0.9
+      scope: environment
+
+- id: booking-service-dashboard
+  config:
+    name: CasC-sample BookingService
+    parameters:
+      service:
+        type: value
+        value:
+          id: SERVICE-620517BB99A7ED9E
+      slo:
+        type: value
+        value:
+          name: BookingService SLO
+      ? slov2_availability_id
+      : configId: booking-service-slo-availability
+        configType: slo-v2
+        property: id
+        type: reference
+      ? slov2_performance_id
+      : configId: booking-service-slo-performance
+        configType: slo-v2
+        property: id
+        type: reference
+    template: booking-service-dashboard.json
+    skip: false
+  type:
+    document:
+      kind: dashboard
+      private: false
+
+- id: booking-service-slo-performance
+  config:
+    name: 'CasC-sample BookingService: Service performance'
+    parameters:
+      service:
+        type: value
+        value:
+          id: SERVICE-620517BB99A7ED9E
+    template: booking-service-slo-performance.json
+    skip: false
+  type: slo-v2
+
+- id: booking-service-slo-availability
+  config:
+    name: 'CasC-sample BookingService: Service availability'
+    parameters:
+      service:
+        type: value
+        value:
+          id: SERVICE-620517BB99A7ED9E
+    template: booking-service-slo-availability.json
+    skip: false
+  type: slo-v2
+
+- id: booking-service-guardian
+  config:
+    name: 'CasC-sample BookingService: Performance Quality Gate'
+    parameters:
+      service:
+        type: value
+        value:
+          id: SERVICE-620517BB99A7ED9E
+    template: booking-service-guardian.json
+    skip: false
+  type:
+    settings:
+      schema: app:dynatrace.site.reliability.guardian:guardians
+      schemaVersion: "1.6"
+      scope: environment
+
+- id: booking-service-srg-val-standard
+  config:
+    name: 'CasC-sample BookingService: Performance Quality Gate Validation'
+    parameters:
+      guardianid:
+        configId: booking-service-guardian
+        configType: app:dynatrace.site.reliability.guardian:guardians
+        property: id
+        type: reference
+    template: booking-service-srg-val-standard.json
+    skip: false
+  type:
+    automation:
+      resource: workflow
+
+- id: booking-service-slo-alert-notification
+  config:
+    name: CasC-sample SLO burn rate alerting
+    parameters:
+      recipient:
+        type: value
+        value: myteam@mycompany.com
+    template: booking-service-slo-alert-notification.json
+    skip: false
+  type:
+    automation:
+      resource: workflow

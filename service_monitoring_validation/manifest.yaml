@@ -1,0 +1,13 @@
+manifestVersion: "1.0"
+projects:
+- name: service_monitoring_sample
+environmentGroups:
+- name: group
+  environments:
+  - name: <YOUR-DT-ENV-ID>
+    url:
+      value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
+    auth:
+      platformToken:
+        type: environment
+        name: PLATFORM_TOKEN
