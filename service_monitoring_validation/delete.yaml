@@ -1,22 +1,22 @@
 delete:
 - project: service_monitoring_sample
   type: app:dynatrace.site.reliability.guardian:guardians
-  id: booking-service-guardian
+  id: myservice-guardian
 - project: service_monitoring_sample
   type: workflow
-  id: booking-service-srg-val-standard
+  id: myservice-srg-val-standard
 - project: service_monitoring_sample
   type: workflow
-  id: booking-service-slo-alert-notification
+  id: myservice-slo-alert-notification
 - project: service_monitoring_sample
   type: builtin:davis.anomaly-detectors
-  id: booking-service-fast-burn-rate-alert
+  id: myservice-fast-burn-rate-alert
 - project: service_monitoring_sample
   type: document
-  id: booking-service-dashboard
+  id: myservice-dashboard
 - project: service_monitoring_sample
   type: slo-v2
-  id: booking-service-slo-performance
+  id: myservice-slo-performance
 - project: service_monitoring_sample
   type: slo-v2
-  id: booking-service-slo-availability
+  id: myservice-slo-availability

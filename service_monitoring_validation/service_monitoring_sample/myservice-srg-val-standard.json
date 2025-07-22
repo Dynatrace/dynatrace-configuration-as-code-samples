@@ -47,13 +47,13 @@
   "title": "{{.name}}",
   "trigger": {
     "eventTrigger": {
-      "filterQuery": "`service` == \"booking\" AND \n`stage` == \"prod\" AND \n`gate` == \"performance gate\"",
+      "filterQuery": "`service` == \"{{ .event_filter_service }}\" AND \n`stage` == \"{{ .event_filter_stage }}\" AND \n`gate` == \"{{ .event_filter_gate }}\"",
       "isActive": true,
       "triggerConfiguration": {
         "type": "event",
         "value": {
           "eventType": "bizevents",
-          "query": "`service` == \"booking\" AND \n`stage` == \"prod\" AND \n`gate` == \"performance gate\""
+          "query": "`service` == \"{{ .event_filter_service }}\" AND \n`stage` == \"{{ .event_filter_stage }}\" AND \n`gate` == \"{{ .event_filter_gate }}\""
         }
       },
       "uniqueExpression": null

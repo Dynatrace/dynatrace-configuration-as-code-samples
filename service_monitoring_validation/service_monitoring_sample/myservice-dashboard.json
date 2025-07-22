@@ -419,7 +419,7 @@
         },
         "enabled": false
       },
-      "query": "fetch bizevents\n//| filter event.provider == \"dynatrace.site.reliability.guardian\"\n| filter event.type == \"guardian.validation.finished\"\n| parse guardian.tags, \"JSON:tags\"\n| filter tags[service][0] == \"booking\"\n| fields timestamp, validation.status, validation.summary\n| summarize count = count(), by:{validation.status}\n",
+      "query": "fetch bizevents\n//| filter event.provider == \"dynatrace.site.reliability.guardian\"\n| filter event.type == \"guardian.validation.finished\"\n| filter contains(guardian.name, \"{{ .guardian_name }}\")\n| fields timestamp, validation.status, validation.summary\n| summarize count = count(), by:{validation.status}\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -533,7 +533,7 @@
         },
         "enabled": false
       },
-      "query": "fetch bizEvents\n| filter event.type == \"guardian.validation.finished\" \n| parse guardian.tags, \"JSON:tags\"\n| filter tags[service][0] == \"booking\"\n| parse execution_context, \"JSON:context\"\n| parse validation.summary, \"JSON:parsed_validation_summary\"\n| fieldsAdd guardian=guardian.name\n\n| fields timestamp,\n  // guardian=guardian.name, \n  status=validation.status,\n  version=context[version],\n  buildId=context[buildId],\n  objectiveSummary=parsed_validation_summary,\n  owner=tags[dt.owner],\n  wfTrigger=validation.workflow.trigger_type,\n  guardian.id,\n  validation.id,\n  go2guardian = concat(\"[\", guardian.name, \"](/ui/apps/dynatrace.site.reliability.guardian/analysis/\",guardian.id, \")\"),\n  go2workflow = concat(\"[\", validation.workflow.id, \"](/ui/apps/dynatrace.automations/workflows/\",validation.workflow.id, \"?view=live)\")",
+      "query": "fetch bizEvents\n| filter event.type == \"guardian.validation.finished\" \n| filter contains(guardian.name, \"{{ .guardian_name }}\")\n| parse execution_context, \"JSON:context\"\n| parse validation.summary, \"JSON:parsed_validation_summary\"\n| fieldsAdd guardian=guardian.name\n\n| fields timestamp,\n  // guardian=guardian.name, \n  status=validation.status,\n  version=context[version],\n  buildId=context[buildId],\n  objectiveSummary=parsed_validation_summary,\n  owner=tags[dt.owner],\n  wfTrigger=validation.workflow.trigger_type,\n  guardian.id,\n  validation.id,\n  go2guardian = concat(\"[\", guardian.name, \"](/ui/apps/dynatrace.site.reliability.guardian/analysis/\",guardian.id, \")\"),\n  go2workflow = concat(\"[\", validation.workflow.id, \"](/ui/apps/dynatrace.automations/workflows/\",validation.workflow.id, \"?view=live)\")",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -756,12 +756,12 @@
     },
     "15": {
       "input": "{{.slov2_availability_id}}",
-      "title": "BookingService: Service availability",
+      "title": "{{.slov2_availability_name}}",
       "type": "slo"
     },
     "16": {
       "input": "{{.slov2_performance_id}}",
-      "title": "BookingService: Service performance",
+      "title": "{{.slov2_performance_name}}",
       "type": "slo"
     },
     "17": {
@@ -771,7 +771,7 @@
         },
         "enabled": false
       },
-      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| filter slo.name == \"{{ .slo.name }}\"\n| summarize number_of_alerts = count(), by:{dt.settings.object_id}\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| fieldsAdd config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\")\n| fieldsAdd dt.settings.schema_id = \"builtin:davis.anomaly-detectors\"\n| sort number_of_alerts desc",
+      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| filter slo.name == \"{{ .slov2_availability_name }}\"\n| summarize number_of_alerts = count(), by:{dt.settings.object_id}\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| fieldsAdd config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\")\n| fieldsAdd dt.settings.schema_id = \"builtin:davis.anomaly-detectors\"\n| sort number_of_alerts desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -869,7 +869,7 @@
         },
         "enabled": false
       },
-      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| filter slo.name == \"{{ .slo.name }}\"\n| fields SLO = slo.name, timestamp, description = event.description, config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\")\n| makeTimeseries count()",
+      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| filter slo.name == \"{{ .slov2_availability_name }}\"\n| fields SLO = slo.name, timestamp, description = event.description, config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\")\n| makeTimeseries count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -990,7 +990,7 @@
         },
         "enabled": false
       },
-      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| filter slo.name == \"{{ .slo.name }}\"\n| fields SLO = slo.name, timestamp, description = event.description, config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\"), dt.source_entity, entity.name",
+      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| filter slo.name == \"{{ .slov2_availability_name }}\"\n| fields SLO = slo.name, timestamp, description = event.description, config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\"), dt.source_entity, entity.name",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1245,7 +1245,7 @@
         },
         "enabled": false
       },
-      "query": "fetch bizevents\n//| filter event.provider == \"dynatrace.site.reliability.guardian\"\n| filter event.type == \"guardian.validation.finished\"\n| parse guardian.tags, \"JSON:tags\"\n| filter tags[service][0] == \"booking\"\n| fields timestamp, validation.status, validation.summary\n| summarize count = count()",
+      "query": "fetch bizevents\n//| filter event.provider == \"dynatrace.site.reliability.guardian\"\n| filter event.type == \"guardian.validation.finished\"\n| filter contains(guardian.name, \"{{ .guardian_name }}\")\n| fields timestamp, validation.status, validation.summary\n| summarize count = count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1323,7 +1323,7 @@
       }
     },
     "3": {
-      "content": "## 4 Golden Signals\n---\n\nThe Four Golden Signals are key metrics used in site reliability engineering (SRE) and observability to monitor a system's health and performance.\n\n* Leverage the [Services app](/ui/apps/dynatrace.services/home) to analyze those key metrics for your service.\n\nFor the sake of completeness, this dashboard shows them for the BookingService.",
+      "content": "## 4 Golden Signals\n---\n\nThe Four Golden Signals are key metrics used in site reliability engineering (SRE) and observability to monitor a system's health and performance.\n\n* Leverage the [Services app](/ui/apps/dynatrace.services/home) to analyze those key metrics for your service.\n\n",
       "type": "markdown"
     },
     "4": {
@@ -1485,7 +1485,7 @@
   },
   "variables": [
     {
-      "input": "{{ .service.id }}",
+      "input": "{{ .service_id }}",
       "key": "service",
       "multiple": false,
       "type": "csv",

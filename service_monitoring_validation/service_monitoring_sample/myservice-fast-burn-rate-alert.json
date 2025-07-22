@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "title": "{{ .name }}",
-  "description": "This anomaly detector alerts on a high error budget burn rate of my critical BookingService",
+  "description": "This anomaly detector alerts on a high error budget burn rate of {{ .slov2_availability_name }}",
   "source": "Davis Anomaly Detection",
   "executionSettings": {},
   "analyzer": {
@@ -9,7 +9,7 @@
     "input": [
       {
         "key": "query",
-        "value": "timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }\n  , by: { dt.entity.service }\n  , filter: { in (dt.entity.service, { \"{{ .service.id }}\" }) }\n| fieldsAdd sli=(((total[]-failures[])/total[])*(100))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, failures\n| fieldsAdd target = 95\n| fieldsAdd burnRate = ((100 - sli[]) / (100 - target))\n| fieldsRemove sli"
+        "value": "timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }\n  , by: { dt.entity.service }\n  , filter: { in (dt.entity.service, { \"{{ .service_id }}\" }) }\n| fieldsAdd sli=(((total[]-failures[])/total[])*(100))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, failures\n| fieldsAdd target = 95\n| fieldsAdd burnRate = ((100 - sli[]) / (100 - target))\n| fieldsRemove sli"
       },
       {
         "key": "threshold",
@@ -49,7 +49,7 @@
       },
       {
         "key": "event.description",
-        "value": "High burn rate alert (BookingService SLO), affecting: {dims:dt.entity.service.name}."
+        "value": "High burn rate alert ({{ .slov2_availability_name }}), affecting: {dims:dt.entity.service.name}."
       },
       {
         "key": "event.name",
@@ -61,11 +61,11 @@
       },
       {
         "key": "slo.name",
-        "value": "BookingService SLO"
+        "value": "{{ .slov2_availability_name }}"
       },
       {
         "key": "dt.owner",
-        "value": "myTeam"
+        "value": "{{ .owner }}"
       }
     ]
   }

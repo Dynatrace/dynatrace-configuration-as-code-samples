@@ -1,13 +1,20 @@
 configs:
-- id: booking-service-fast-burn-rate-alert
+- id: myservice-fast-burn-rate-alert
   config:
-    name: CasC-sample Fast burn rate alert for BookingService availability SLO
+    name: CasC-sample Fast burn rate alert for myService availability SLO #INPUT: Update name
     parameters:
-      service:
-        value:
-          id: SERVICE-ID
+      service_id:
+        name: SERVICE_ID
+        type: environment
+      owner:
+        value: "myTeam"
         type: value
-    template: booking-service-fast-burn-rate-alert.json
+      slov2_availability_name:
+        configId: myservice-slo-availability
+        configType: slo-v2
+        property: name
+        type: reference
+    template: myservice-fast-burn-rate-alert.json
     skip: false
   type:
     settings:
@@ -15,68 +22,81 @@ configs:
       schemaVersion: 1.0.9
       scope: environment
 
-- id: booking-service-dashboard
+- id: myservice-dashboard
   config:
-    name: CasC-sample BookingService
+    name: CasC-sample myService overview dashboard #INPUT: Update name
     parameters:
-      service:
-        type: value
-        value:
-          id: SERVICE-ID
-      slo:
-        type: value
-        value:
-          name: BookingService SLO
+      service_id:
+        name: SERVICE_ID
+        type: environment
+      slov2_availability_name:
+        configId: myservice-slo-availability
+        configType: slo-v2
+        property: name
+        type: reference
+      slov2_performance_name:
+        configId: myservice-slo-performance
+        configType: slo-v2
+        property: name
+        type: reference
+      guardian_name:
+        configId: myservice-guardian
+        configType: app:dynatrace.site.reliability.guardian:guardians
+        property: name
+        type: reference
       ? slov2_availability_id
-      : configId: booking-service-slo-availability
+      : configId: myservice-slo-availability
         configType: slo-v2
         property: id
         type: reference
       ? slov2_performance_id
-      : configId: booking-service-slo-performance
+      : configId: myservice-slo-performance
         configType: slo-v2
         property: id
         type: reference
-    template: booking-service-dashboard.json
+    template: myservice-dashboard.json
     skip: false
   type:
     document:
       kind: dashboard
       private: false
 
-- id: booking-service-slo-performance
+- id: myservice-slo-performance
   config:
-    name: 'CasC-sample BookingService: Service performance'
+    name: CasC-sample myService performance #INPUT: Update name
     parameters:
-      service:
-        type: value
-        value:
-          id: SERVICE-ID
-    template: booking-service-slo-performance.json
+      service_id:
+        name: SERVICE_ID
+        type: environment
+    template: myservice-slo-performance.json
     skip: false
   type: slo-v2
 
-- id: booking-service-slo-availability
+- id: myservice-slo-availability
   config:
-    name: 'CasC-sample BookingService: Service availability'
+    name: CasC-sample myService availability #INPUT: Update name
     parameters:
-      service:
-        type: value
-        value:
-          id: SERVICE-ID
-    template: booking-service-slo-availability.json
+      service_id:
+        name: SERVICE_ID
+        type: environment
+    template: myservice-slo-availability.json
     skip: false
   type: slo-v2
 
-- id: booking-service-guardian
+- id: myservice-guardian
   config:
-    name: 'CasC-sample BookingService: Performance Quality Gate'
+    name: CasC-sample myService Performance Quality Gate #INPUT: Update name
     parameters:
-      service:
-        type: value
-        value:
-          id: SERVICE-ID
-    template: booking-service-guardian.json
+      tags: #INPUT: Customize your guardian with tags
+        type: list
+        values: ["service:myService",
+          "stage:prod",
+          "gate:performance gate",
+          "dt.owner:myTeam"]
+      service_id:
+        name: SERVICE_ID
+        type: environment
+    template: myservice-guardian.json
     skip: false
   type:
     settings:
@@ -84,29 +104,38 @@ configs:
       schemaVersion: "1.6"
       scope: environment
 
-- id: booking-service-srg-val-standard
+- id: myservice-srg-val-standard
   config:
-    name: 'CasC-sample BookingService: Performance Quality Gate Validation'
+    name: CasC-sample myService Performance Quality Gate Validation #INPUT: Update name
     parameters:
+      event_filter_service:
+        value: myService #Define Servicename (needs to be part of the deployment event)
+        type: value
+      event_filter_stage:
+        value: prod #Define stage (needs to be part of the deployment event)
+        type: value
+      event_filter_gate:
+        value: performance gate #Define gate (needs to be part of the deployment event)
+        type: value
       guardianid:
-        configId: booking-service-guardian
+        configId: myservice-guardian
         configType: app:dynatrace.site.reliability.guardian:guardians
         property: id
         type: reference
-    template: booking-service-srg-val-standard.json
+    template: myservice-srg-val-standard.json
     skip: false
   type:
     automation:
       resource: workflow
 
-- id: booking-service-slo-alert-notification
+- id: myservice-slo-alert-notification
   config:
-    name: CasC-sample SLO burn rate alerting
+    name: CasC-sample SLO burn rate alerting #INPUT: Update name
     parameters:
       recipient:
         type: value
-        value: myteam@mycompany.com
-    template: booking-service-slo-alert-notification.json
+        value: myteam@mycompany.com #INPUT: Add email address
+    template: myservice-slo-alert-notification.json
     skip: false
   type:
     automation:

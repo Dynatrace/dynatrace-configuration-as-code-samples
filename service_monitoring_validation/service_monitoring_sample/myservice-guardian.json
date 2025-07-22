@@ -1,13 +1,7 @@
 {
   "name": "{{ .name }}",
   "description": "Safeguard your service with the four golden signals: latency, traffic, errors, and saturation. This minimum set of objectives focuses on what really matters regarding service reliability and performance.",
-  "tags": [
-    "service:booking",
-    "app:easyTravel",
-    "stage:prod",
-    "gate:performance gate",
-    "dt.owner:myTeam"
-  ],
+  "tags": {{.tags}},
   "variables": [
     {
       "name": "version",
@@ -23,7 +17,7 @@
       "name": "Latency",
       "description": "The time it takes to service a request is measured by the 95th percentile of a service's response time.",
       "objectiveType": "DQL",
-      "dqlQuery": "timeseries p95 = percentile(dt.service.request.response_time, 95), by:{dt.entity.service}\n| filter in(dt.entity.service, {\"{{ .service.id }}\"})\n| summarize response_time_95 = avg(arrayAvg(p95))",
+      "dqlQuery": "timeseries p95 = percentile(dt.service.request.response_time, 95), by:{dt.entity.service}\n| filter in(dt.entity.service, {\"{{ .service_id }}\"})\n| summarize response_time_95 = avg(arrayAvg(p95))",
       "displayUnit": {
         "base": "microsecond",
         "display": "second",
@@ -38,7 +32,7 @@
       "name": "Saturation",
       "description": "The resource utilization of the service is measured by the percentage of used process memory.",
       "objectiveType": "DQL",
-      "dqlQuery": "timeseries memory_usage = avg(dt.process.memory.usage),  by:{dt.entity.process_group},\n    filter:{\n      dt.entity.process_group in [\n        fetch dt.entity.process_group\n        | expand runs[dt.entity.service], alias: services\n        | filter services in [\n            fetch dt.entity.service\n            | filter in(id, {\"{{ .service.id }}\"})\n            | fields id\n          ]\n        | fields id\n      ]\n    }\n   | summarize memory_saturation = avg(arrayAvg(memory_usage))",
+      "dqlQuery": "timeseries memory_usage = avg(dt.process.memory.usage),  by:{dt.entity.process_group},\n    filter:{\n      dt.entity.process_group in [\n        fetch dt.entity.process_group\n        | expand runs[dt.entity.service], alias: services\n        | filter services in [\n            fetch dt.entity.service\n            | filter in(id, {\"{{ .service_id }}\"})\n            | fields id\n          ]\n        | fields id\n      ]\n    }\n   | summarize memory_saturation = avg(arrayAvg(memory_usage))",
       "displayUnit": {
         "base": "percent",
         "display": "Default",
@@ -52,7 +46,7 @@
       "name": "Errors",
       "description": "The rate of requests that fail.",
       "objectiveType": "DQL",
-      "dqlQuery": "timeseries {\n  failure_count = avg(dt.service.request.failure_count),\n  request_count = avg(dt.service.request.count)\n}, by:{dt.entity.service}\n| filter in(dt.entity.service, {\"{{ .service.id }}\"})\n| fieldsAdd result = 100 * (failure_count[]/request_count[])\n| summarize failure_rate = avg(arrayAvg(result))",
+      "dqlQuery": "timeseries {\n  failure_count = avg(dt.service.request.failure_count),\n  request_count = avg(dt.service.request.count)\n}, by:{dt.entity.service}\n| filter in(dt.entity.service, {\"{{ .service_id }}\"})\n| fieldsAdd result = 100 * (failure_count[]/request_count[])\n| summarize failure_rate = avg(arrayAvg(result))",
       "displayUnit": {
         "base": "percent",
         "display": "Default",
@@ -67,7 +61,7 @@
       "name": "Traffic",
       "description": "The amount of demand for your service is measured by the requests per minute.",
       "objectiveType": "DQL",
-      "dqlQuery": "timeseries request_count = sum(dt.service.request.count, rate: 1m), by:{dt.entity.service}\n| filter in(dt.entity.service, {\"{{ .service.id }}\"})\n| summarize throughput = avg(arrayAvg(request_count))",
+      "dqlQuery": "timeseries request_count = sum(dt.service.request.count, rate: 1m), by:{dt.entity.service}\n| filter in(dt.entity.service, {\"{{ .service_id }}\"})\n| summarize throughput = avg(arrayAvg(request_count))",
       "autoAdaptiveThresholdEnabled": true,
       "comparisonOperator": "GREATER_THAN_OR_EQUAL",
       "segments": []

@@ -14,7 +14,7 @@
     "variables": [
       {
         "name": "services",
-        "value": "\"{{ .service.id }}\""
+        "value": "\"{{ .service_id }}\""
       },
       {
         "name": "responseTimeInMilliSeconds",

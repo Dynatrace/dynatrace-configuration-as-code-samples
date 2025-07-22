@@ -4,9 +4,10 @@ projects:
 environmentGroups:
 - name: group
   environments:
-  - name: <YOUR-DT-ENV-ID>
+  - name: default
     url:
-      value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
+      type: environment
+      value: DT_ENV_URL
     auth:
       platformToken:
         type: environment
