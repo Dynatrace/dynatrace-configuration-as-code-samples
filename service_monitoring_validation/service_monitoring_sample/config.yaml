@@ -68,6 +68,10 @@ configs:
       service_id:
         name: SERVICE_ID
         type: environment
+      tags: #INPUT: Customize your SLO with tags
+        type: list
+        values: ["service:myService",
+          "dt.owner:myTeam"]
     template: myservice-slo-performance.json
     skip: false
   type: slo-v2
@@ -79,6 +83,10 @@ configs:
       service_id:
         name: SERVICE_ID
         type: environment
+      tags: #INPUT: Customize your SLO with tags
+        type: list
+        values: ["service:myService",
+          "dt.owner:myTeam"]
     template: myservice-slo-availability.json
     skip: false
   type: slo-v2
