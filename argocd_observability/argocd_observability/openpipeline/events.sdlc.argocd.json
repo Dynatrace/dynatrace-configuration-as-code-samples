@@ -280,12 +280,12 @@
           },
           {
             "builtin": false,
-            "description": "vcs.repository.url.full | ref.base.revision | ref.base.name",
-            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.repository.url.full = status[operationState][syncResult][source][repoURL]\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][operation][sync][revision]\n| fieldsRemove record_json, status",
+            "description": "vcs.repository.url.full | vcs.repository.commit.url | vcs.ref.base.revision | vcs.ref.base.name",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd vcs.ref.base.name = status[operationState][syncResult][source][targetRevision]\n| fieldsAdd vcs.ref.base.revision = status[operationState][operation][sync][revision]\n| fieldsAdd vcs.repository.url.full = status[operationState][syncResult][source][repoURL]\n| fieldsAdd if (contains(vcs.repository.url.full, \"git@\" ), replaceString(replaceString(vcs.repository.url.full, \"git@github.com:\", \"http://github.com/\"), \".git\", \"\"), else: vcs.repository.url.full), alias: repository_http_url \n| fieldsAdd vcs.repository.commit.url = concat(repository_http_url, \"/commit/\", vcs.ref.base.revision)\n| fieldsRemove record_json, status, repository_http_url",
             "editable": true,
             "enabled": true,
-            "id": "argocd:application:ext.application.source._path_repo.url_target_revision_project_4441",
-            "matcher": "isNotNull(app)",
+            "id": "processor_argocd_vcs_repository_4419",
+            "matcher": "true",
             "sampleData": null,
             "type": "dql"
           },
@@ -324,12 +324,45 @@
           },
           {
             "builtin": false,
+            "description": "argocd.app.url",
+            "dqlScript": "parse context, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{argocdUrl}\n| fieldsAdd argocd.app.url = concat(argocdUrl, \"/applications/\", deployment.service.namespace, \"/\", deployment.name)\n| fieldsRemove record_json, argocdUrl",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_target_url_3517",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
             "description": "argocd.app.project.name",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{spec}\n| fieldsAdd argocd.app.project.name = spec[project]\n| fieldsRemove record_json, spec",
             "editable": true,
             "enabled": true,
             "id": "processor_deployment.service.project.name_5824",
             "matcher": "isNotNull(app)",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "argocd.app.name | stage | owner | version",
+            "dqlScript": "parse app, \"JSON:record_json\"  \n| fieldsFlatten record_json, fields:{metadata}  \n| fieldsAdd argocd.app.name = metadata[labels][app]  \n| fieldsAdd argocd.app.stage = metadata[labels][stage]  \n| fieldsAdd argocd.app.owner = metadata[labels][owner]  \n| fieldsAdd argocd.app.version = metadata[labels][version]  \n| fieldsRemove record_json, metadata",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_argocd_metadata_labels_4419",
+            "matcher": "true",
+            "sampleData": null,
+            "type": "dql"
+          },
+          {
+            "builtin": false,
+            "description": "deployment.ingress.url | release.stage | release.product | release.version",
+            "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n | fieldsAdd deployment.ingress.url = status[summary][externalURLs][0]\n| fieldsAdd deployment.release.stage = argocd.app.stage\n| fieldsAdd deployment.release.product = concat(argocd.app.project.name,\"-\",argocd.app.owner)\n| fieldsAdd deployment.release.version = argocd.app.version\n| fieldsRemove record_json, status",
+            "editable": true,
+            "enabled": true,
+            "id": "processor_deployment.externalUrl___release_stage___release_product___release_version_2917",
+            "matcher": "true",
             "sampleData": null,
             "type": "dql"
           },
