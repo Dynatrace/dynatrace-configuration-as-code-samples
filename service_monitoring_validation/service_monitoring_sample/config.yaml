@@ -44,13 +44,13 @@ configs:
         configType: app:dynatrace.site.reliability.guardian:guardians
         property: name
         type: reference
-      ? slov2_availability_id
-      : configId: myservice-slo-availability
+      slov2_availability_id:
+        configId: myservice-slo-availability
         configType: slo-v2
         property: id
         type: reference
-      ? slov2_performance_id
-      : configId: myservice-slo-performance
+      slov2_performance_id:
+        configId: myservice-slo-performance
         configType: slo-v2
         property: id
         type: reference
@@ -117,13 +117,13 @@ configs:
     name: CasC-sample myService Performance Quality Gate Validation #INPUT: Update name
     parameters:
       event_filter_service:
-        value: myService #Define Servicename (needs to be part of the deployment event)
+        value: myService ##INPUT: Define Servicename (needs to be part of the deployment event)
         type: value
       event_filter_stage:
-        value: prod #Define stage (needs to be part of the deployment event)
+        value: prod ##INPUT: Define stage (needs to be part of the deployment event)
         type: value
       event_filter_gate:
-        value: performance gate #Define gate (needs to be part of the deployment event)
+        value: performance gate ##INPUT: Define gate (needs to be part of the deployment event)
         type: value
       guardianid:
         configId: myservice-guardian

@@ -35,7 +35,7 @@ To ensure the Dynatrace configurations work as intended:
 ## Getting Started
 
 1. **Clone or Download** this repository.
-2. In **`service_monitoring_sample\config.yaml`**, configure an email address by replacing "myteam@mycompany.com" with your email address and set proper names as indicated by "#INPUT" comments in the file.
+2. In **`service_monitoring_sample\config.yaml`**, configure an email address by replacing "myteam@mycompany.com" with your email address, set proper names, tags and event filter parameter as indicated by "#INPUT" comments in the file.
 3. **Set your environment variables**: You need a Dynatrace Platform environment and the following environment variables to try this out:
 * `DT_ENV_URL`: https://YOUR-DT-ENVIRONMENT-ID.apps.dynatrace.com
 * `PLATFORM_TOKEN`: *Returned when creating the platform token* (see:[docs](https://docs.dynatrace.com/docs/shortlink/configuration-as-code-create-platform-token))
