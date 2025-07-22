@@ -7,7 +7,7 @@ configs:
         name: SERVICE_ID
         type: environment
       owner:
-        value: "myTeam"
+        value: "myTeam" #INPUT: Add the responsible team
         type: value
       slov2_availability_name:
         configId: myservice-slo-availability
