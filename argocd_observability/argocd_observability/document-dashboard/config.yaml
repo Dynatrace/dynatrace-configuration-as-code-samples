@@ -28,6 +28,19 @@ configs:
       kind: dashboard
       private: false
 
+# 
+# Dashboard that works based on events, metrics and SDLC events
+# Application Sync Events section with Copilot Failed Syncs analyse
+# 
+- id: argocd_app_lifecycle_observability_3
+  config:
+    name: ArgoCD Application Lifecycle
+    template: argocd_app_lifecycle_observability_0.3.0.json
+    skip: false
+  type:
+    document:
+      kind: dashboard
+      private: false
 
 #
 # Dashboard to observe ArgoCD Infrastructure
