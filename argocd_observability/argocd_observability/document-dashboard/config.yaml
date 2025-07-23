@@ -17,16 +17,16 @@ configs:
 # 
 # Dashboard that works based on events and metrics
 #
-- id: 48ceb455-7769-4ac4-acf7-09636c564729
-  config:
-    name: ArgoCD Application Lifecycle
-    template: argocd_app_lifecycle_observability_0.2.0.json
-    skip: false
-    originObjectId: 48ceb455-7769-4ac4-acf7-09636c564729
-  type:
-    document:
-      kind: dashboard
-      private: false
+# - id: 48ceb455-7769-4ac4-acf7-09636c564729
+#   config:
+#     name: ArgoCD Application Lifecycle
+#     template: argocd_app_lifecycle_observability_0.2.0.json
+#     skip: false
+#     originObjectId: 48ceb455-7769-4ac4-acf7-09636c564729
+#   type:
+#     document:
+#       kind: dashboard
+#       private: false
 
 # 
 # Dashboard that works based on events, metrics and SDLC events
