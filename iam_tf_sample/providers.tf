@@ -6,10 +6,6 @@ terraform {
             version = "1.81.0"
             source = "dynatrace-oss/dynatrace"
         }
-        random = {
-            source = "hashicorp/random"
-            version = "3.7.2"
-        }
     }
 
     backend "local" {

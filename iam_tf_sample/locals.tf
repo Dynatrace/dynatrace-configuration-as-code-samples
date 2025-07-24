@@ -24,9 +24,9 @@ locals {
   policies_by_name_custom   = {for p in local.policies_by_name_all: p.name => p if upper(lookup(p, "type", "CUSTOM")) != "EXISTING"}
   boundaries_by_name        = { for b in local.config.boundaries  : b.name => b if b.query != null && b.name != null}
 
-  team_permissions = {
+ team_permissions = {
     for grant in lookup(local.config, "grants", []) :
-    grant.teamname => [
+    tostring(grant.id) => [
       for permission in lookup(grant, "permissions", []) : merge(
         permission,
         lower(permission.type) == "account"
@@ -40,21 +40,25 @@ locals {
           : {}
       )
     ]
+    if length(lookup(grant, "permissions", [])) > 0
   }
 
   bindings_with_account_id = [
-  for binding in local.config.grants : {
-    teamname = binding.teamname
-    policies = [
-      for policy in binding.policies : merge(
-        policy,
-        upper(policy.levelType) == "ACCOUNT" && !contains(keys(policy), "levelId")
-          ? { levelId = var.DT_ACCOUNT_ID }
-          : {}
-      )
-    ]
-  }
-]
+    for binding in local.config.grants : {
+      id      = binding.id
+      teamname = binding.teamname
+      policies = [
+        for policy in binding.policies : merge(
+          policy,
+          upper(policy.levelType) == "ACCOUNT" && !contains(keys(policy), "levelId")
+            ? { levelId = var.DT_ACCOUNT_ID }
+            : {}
+        )
+      ]
+      permissions = lookup(binding, "permissions", [])
+    }
+  ]
+
   bindings_with_details_split = flatten([
     for binding in local.bindings_with_account_id : [
       for scope in distinct(flatten([
@@ -64,6 +68,7 @@ locals {
             : { levelType = "ACCOUNT", levelId = lookup(policy_ref, "levelId", null) != null ? policy_ref.levelId : var.DT_ACCOUNT_ID }
         ]
       ])) : {
+        id       = binding.id
         groupname = binding.teamname
         levelType = scope.levelType
         levelId   = scope.levelId
@@ -94,7 +99,10 @@ locals {
           )
           if policy_ref != null
         ]
+        permissions = binding.permissions
       } if contains(keys(local.groups_by_name), binding.teamname)
     ]
   ])
+
+
 }
