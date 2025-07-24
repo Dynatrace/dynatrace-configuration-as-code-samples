@@ -6,16 +6,11 @@
       "timeframeTo": "now"
     }
   ],
+  "customSli": {
+    "filterSegments": [],
+    "indicator": "timeseries { total=sum(dt.service.request.count) ,failures=sum(dt.service.request.failure_count) }\n  , by: { dt.entity.service }\n  , filter: { in (dt.entity.service, { \"{{ .service_id }}\" }) }\n| fieldsAdd sli=(((total[]-failures[])/total[])*(100))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, failures"
+  },
   "description": "Measures the proportion of successful service requests over time.",
   "name": "{{ .name }}",
-  "sliReference": {
-    "templateId": "e2J1aWx0aW46aW50ZXJuYWwuc2VydmljZS5sZXZlbC5vYmplY3RpdmUudGVtcGxhdGVzLCBpZDogYTU2NWMzNGEtYzVhNS00MTE1LTkzMTEtMDcxYjRjYjU5ZGQ3fQ==",
-    "variables": [
-      {
-        "name": "services",
-        "value": "\"{{ .service_id }}\""
-      }
-    ]
-  },
-  "tags": {{.tags}}
+  "tags": {{ .tags }}
 }
