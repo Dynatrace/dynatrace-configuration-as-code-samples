@@ -57,16 +57,18 @@ To get this project running on your system:
     ```sh
     terraform init
     ```
+    
 9. **Review the plan:**
     ```sh
     terraform plan
-    ``
+    ```
+    
 10. **Apply the configuration:**
 
     ```sh
     terraform apply
     ```
-
+    Note that due to a `race condition` situation with the provider, policies still beng created report as completed, thus causing downstream errors (The argument "policy.1.id" is required, but no definition was found). To remedy, either run `terraform apply` again or consider implementing time_sleep or null_resource workarounds in main.tf.
 ## Project Structure
 
 
@@ -93,7 +95,7 @@ This repository includes example mappings for access control across some sample 
 
 To complement the permission assignment, this sample repo also includes creation of Grail buckets, Openpipelines and Segments. The diagram below depicts what this repo covers.
 
-![alt text](./images/Team-Access.jpg "Team Access")
+![alt text](./images/TeamAccess.jpg "Team Access")
 
 
 ## Contributing

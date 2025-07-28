@@ -53,6 +53,7 @@ resource "dynatrace_iam_policy" "custom" {
 }
 #endregion "policies"
 
+
 #region "boundaries"
 resource "dynatrace_iam_policy_boundary" "bound" {
   for_each = { for b in local.boundaries_by_name : b.name => b}
@@ -66,8 +67,8 @@ resource "dynatrace_iam_policy_boundary" "bound" {
 #region "bindings"
 resource "dynatrace_iam_policy_bindings_v2" "binding" {
   for_each = {
-    for b in local.bindings_with_details_split : 
-    "${b.groupname}-${b.levelType}-${b.levelId}" => b
+    for b in local.bindings_with_details_split :
+    tostring(b.id) => b
     if length(b.policies) > 0
   }
 
@@ -79,6 +80,7 @@ resource "dynatrace_iam_policy_bindings_v2" "binding" {
   dynamic "policy" {
     for_each = each.value.policies
     content {
+        
       id = upper(policy.value.type) == "EXISTING" ? data.dynatrace_iam_policy.existing_policies[policy.value.name].uuid : dynatrace_iam_policy.custom[policy.value.name].uuid
       boundaries = [
         for each in policy.value.boundaries : dynatrace_iam_policy_boundary.bound[each.name].id
@@ -96,7 +98,7 @@ resource "dynatrace_iam_policy_bindings_v2" "binding" {
     dynatrace_iam_group.new_groups,
     dynatrace_iam_policy.custom,
     dynatrace_iam_policy_boundary.bound,
-    data.dynatrace_iam_policy.existing_policies,
+    data.dynatrace_iam_policy.existing_policies
   ]
 }
 #endregion "bindings"

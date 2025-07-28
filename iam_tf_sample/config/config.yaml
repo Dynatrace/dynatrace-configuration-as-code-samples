@@ -8,7 +8,8 @@
 # Note that permissions scopes can reference any of these environments, but deployment of resources (buckets, openpipelines, segments) will only happen in the environment specified by the dt_env_url variable that is used by the Dynatrace Terraform provider
 environments:
   env_dev: "abc" #placeholder for the first environment
-  env_prod: "def" #placeholder for the second environment
+  env_prod: "def" #placeholder for the second environment. Continue adding more environments as needed and referencing them in the grants section
+
 
 
 # OPENPIPELINES
@@ -129,7 +130,7 @@ segments:
 
 
 # TEAMS
-# teams are modeled here by IAM groups
+# teams defined here end up being IAM groups in Dynatrace SaaS
 # description, federated_attribute_values are optional
 teams: 
   - name: "Demo_Admin_User_Team"
@@ -158,10 +159,10 @@ teams:
       - "GCP_PROJECT_ID:456"
 
 # POLICIES
-# Make sure the name for type: EXISTING matches exactly the name of the EXISTING policy
-# If missing, type will default to CUSTOM
+# Make sure the name for 'type: EXISTING' matches exactly the name of the EXISTING policy
+# If not provided, type will default to CUSTOM
 # Descriptin is optional
-#  if statement_query is preffixed with $file: it will be read from the file system. Ensure the file exits in the specified path
+# 'statement_query' can take a string of ALLOW statements or it is preffixed with $file: it will be read from the file system. Ensure the file exits in the specified path
 policies:
   - name:             "Admin User" 
     type:             "EXISTING" 
@@ -192,7 +193,7 @@ policies:
     statement_query: "$file:./config/policy_statements/pol_demo_project_morpheus_team.pol"
 
 # BOUNDARIES
-# if query is preffixed with $file: it will be read from the file system. Ensure the file exits in the specified path
+# 'query' can take a string of boundary statements or it is preffixed with $file: it will be read from the file system. Ensure the file exits in the specified path
 boundaries:
   - name: "bnd_demo_morpheus_block_bnd"
     query: "$file:./config/policy_statements/bnd_demo_morpheus_block.bnd"
@@ -205,7 +206,8 @@ boundaries:
 # if levelId is missing and levelType is account, then value is taken directly from var.account_id
 # !!! due to a limitation in the Dynatrace Terraform proider, policies unde the same group must have the same levelType and levelId. If you need to use different levelType or levelId for same group and policy, define another group section
 grants:
-  - teamname: "Demo_Admin_User_Team"
+  - id: 1
+    teamname: "Demo_Admin_User_Team"
     permissions:
       - name: "account-user-management"
         type: "account"
@@ -229,7 +231,8 @@ grants:
         boundaries:
           - "bnd_demo_morpheus_block_bnd"
 
-  - teamname: "Demo_Observability_User_Team"
+  - id: 2
+    teamname: "Demo_Observability_User_Team"
     policies:
       - name: "Pro User"
         levelType: "account"
@@ -238,7 +241,8 @@ grants:
         boundaries:
           - "bnd_demo_morpheus_block_bnd"
 
-  - teamname: "Demo_Engineering_User_Team"
+  - id: 3
+    teamname: "Demo_Engineering_User_Team"
     policies:
       - name: "Pro User"
         levelType: "account"
@@ -247,7 +251,8 @@ grants:
         boundaries:
           - "bnd_demo_morpheus_block_bnd"
 
-  - teamname: "demo_project_mobile_team_grp"
+  - id: 4
+    teamname: "demo_project_mobile_team_grp"
     policies:
       - name: "Standard User"
         levelType: "environment"
@@ -262,7 +267,8 @@ grants:
           - name: "sec_context"  
             value: "mobile"
 
-  - teamname: "demo_project_morpheus_team_grp"
+  - id: 5
+    teamname: "demo_project_morpheus_team_grp"
     policies:
       - name: "Standard User"
         levelType: "environment"
