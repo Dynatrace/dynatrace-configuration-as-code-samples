@@ -1,0 +1,22 @@
+delete:
+- project: service_monitoring_sample
+  type: app:dynatrace.site.reliability.guardian:guardians
+  id: myservice-guardian
+- project: service_monitoring_sample
+  type: workflow
+  id: myservice-srg-val-standard
+- project: service_monitoring_sample
+  type: workflow
+  id: myservice-slo-alert-notification
+- project: service_monitoring_sample
+  type: builtin:davis.anomaly-detectors
+  id: myservice-fast-burn-rate-alert
+- project: service_monitoring_sample
+  type: document
+  id: myservice-dashboard
+- project: service_monitoring_sample
+  type: slo-v2
+  id: myservice-slo-performance
+- project: service_monitoring_sample
+  type: slo-v2
+  id: myservice-slo-availability

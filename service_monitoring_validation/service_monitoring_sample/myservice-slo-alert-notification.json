@@ -1,0 +1,65 @@
+{
+  "description": "",
+  "hourlyExecutionLimit": 1000,
+  "input": {},
+  "isDeployed": true,
+  "isPrivate": false,
+  "schemaVersion": 3,
+  "tasks": {
+    "slo_alert_email": {
+      "action": "dynatrace.email:send-email",
+      "description": "Send email",
+      "input": {
+        "to":[
+          "{{ .recipient }}"
+        ],
+        "bcc": [],
+        "cc": [],
+        "content": "The SLO {{`{{`}} event()[\"slo.name\"] {{`}}`}} has a high burn rate. \n\nThe effected entity is {{`{{`}} event()[\"dt.entity.service.name\"] {{`}}`}} with its ID: {{`{{`}} event()[\"dt.entity.service\"] {{`}}`}}",
+        "environmentUrl": "{{`{{`}} environment().url {{`}}`}}",
+        "executionId": "{{`{{`}} execution().id {{`}}`}}",
+        "subject": "{{`{{`}}event()[\"event.name\"]{{`}}`}}",
+        "taskId": "{{`{{`}} task().id {{`}}`}}"
+      },
+      "name": "slo_alert_email",
+      "position": {
+        "x": 0,
+        "y": 1
+      },
+      "predecessors": []
+    }
+  },
+  "throttle": {
+    "isLimitHit": false,
+    "limitEvents": []
+  },
+  "title": "{{.name}}",
+  "trigger": {
+    "eventTrigger": {
+      "filterQuery": "event.kind == \"DAVIS_EVENT\" AND event.status == \"ACTIVE\" AND (matchesValue(event.name, \"SLO fast burn rate alert\"))",
+      "isActive": true,
+      "triggerConfiguration": {
+        "type": "davis-event",
+        "value": {
+          "customFilter": "",
+          "entityTags": {},
+          "entityTagsMatch": "all",
+          "names": [
+            {
+              "match": "equals",
+              "name": "SLO fast burn rate alert"
+            }
+          ],
+          "onProblemClose": false
+        }
+      },
+      "uniqueExpression": "{{`{{`}} event()[\"event.id\"] {{`}}`}}"
+    }
+  },
+  "triggerType": "Event",
+  "type": "SIMPLE",
+  "version": 3,
+  "workflowLimit": {
+    "isActive": false
+  }
+}

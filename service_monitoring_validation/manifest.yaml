@@ -1,0 +1,14 @@
+manifestVersion: "1.0"
+projects:
+- name: service_monitoring_sample
+environmentGroups:
+- name: group
+  environments:
+  - name: default
+    url:
+      type: environment
+      value: DT_ENV_URL
+    auth:
+      platformToken:
+        type: environment
+        name: PLATFORM_TOKEN
