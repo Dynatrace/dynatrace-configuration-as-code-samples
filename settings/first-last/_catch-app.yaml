@@ -1,0 +1,23 @@
+configs:
+
+- id: catch-app
+  type: application-web
+  config:
+    name: "Catch all other app"
+    template: "application.json"
+
+- id: catch-all-app-rule
+  type:
+    settings:
+      schema: builtin:rum.web.app-detection
+      scope: environment
+      insertAfter: back
+  config:
+    template: "rule.json"
+    parameters:
+      applicationId:
+        type: reference
+        configType: application-web
+        configId: catch-app
+        property: id
+      pattern: "app.dynatrace"
