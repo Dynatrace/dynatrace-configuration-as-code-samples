@@ -2800,7 +2800,6 @@
   },
   "variables": [
     {
-      "defaultValue": [],
       "editable": true,
       "input": "timeseries argocd_app_info = avg(argocd_app_info),by: {name}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields name=deployment.name \n]\n| summarize appName = collectDistinct(name)\n| expand appName\n| sort appName",
       "key": "Application",
@@ -2810,7 +2809,6 @@
       "visible": true
     },
     {
-      "defaultValue": [],
       "editable": true,
       "input": "timeseries argocd_app_info = avg(argocd_app_info),by: { dest_namespace}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields dest_namespace=deployment.namespace\n]\n| summarize namespace = collectDistinct(dest_namespace)\n| expand namespace\n| sort namespace",
       "key": "Namespace",
@@ -2820,7 +2818,6 @@
       "visible": true
     },
     {
-      "defaultValue": [],
       "editable": true,
       "input": "timeseries argocd_app_info = avg(argocd_app_info),by: { project}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields project=argocd.app.project.name\n]\n| summarize project = collectDistinct(project)\n| expand project\n| sort project",
       "key": "Project",

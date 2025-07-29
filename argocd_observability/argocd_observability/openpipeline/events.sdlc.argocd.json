@@ -313,7 +313,7 @@
           },
           {
             "builtin": false,
-            "description": "argocd.sync.status | operationState.phase | operationState.outcome | app.health.status | app.reconciledAt",
+            "description": "argocd.sync.status | operation_state.outcome | app.health.status | app.conditions | app.reconciliation.time",
             "dqlScript": "parse app, \"JSON:record_json\" \n| fieldsFlatten record_json, fields:{status}\n| fieldsAdd argocd.app.health.status = lower(status[health][status])\n| fieldsAdd argocd.app.conditions = status[conditions]\n| fieldsAdd argocd.app.reconciliation.time =  toTimeStamp(status[reconciledAt])\n| fieldsAdd argocd.sync.status = lower(status[sync][status])\n| fieldsAdd argocd.sync.operation_state.outcome = lower(status[operationState][message])\n| fieldsRemove record_json, status",
             "editable": true,
             "enabled": true,
