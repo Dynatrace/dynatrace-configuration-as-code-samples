@@ -29,16 +29,25 @@
 | deployment.namespace | app.status.sync.comparedTo.destination.namespace | x
 | deployment.server.url.full | app.status.sync.comparedTo.destination.server | x
 | deployment.environment.name | `undefined` | x
-<!--| deployment.images | app.status.summary.images, Note: This is a list of images. Should be `expanded` to create `artifact.*` properties. Currently, expand operation is not supported by OpenPipeline. | - -->
+| deployment.ingress.url | app.status.summary.externalURLs | -
 | | | |
 | vcs.repository.url.full | | x
+| vcs.repository.commit.url | | -
 | vcs.ref.base.name | | -
 | vcs.ref.base.revision | | x
 | | | |
 | argocd.app.health.status | app.status.health.status | x
+| argocd.app.reconciliation.time | app.status.reconciledAt | x
+| argocd.app.conditions | app.status.conditions | -
+| argocd.app.url | | -
+| argocd.app.name | app.metadata.labels.name | x
+| argocd.app.stage | app.metadata.labels.stage | -
+| argocd.app.owner | app.metadata.labels.owner | -
+| argocd.app.version | app.metadata.labels.version | -
 | argocd.sync.status | app.status.sync.status |  x
-| argocd.sync.operation_state.phase | app.status.operationState.phase | x
-| argocd.sync.operation_state.outcome | app.status.operationState.message | -
+| argocd.sync.operation_state.outcome | app.status.operationState.message | x
+
+<!--| deployment.images | app.status.summary.images, Note: This is a list of images. Should be `expanded` to create `artifact.*` properties. Currently, expand operation is not supported by OpenPipeline. | - -->
 
 ### Semantic Dictionary: `artifact.md`
 
