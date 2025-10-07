@@ -7,3 +7,5 @@ delete:
     name: Storage - Bucket CasC Admin
     level:
       type: account
+  - type: boundary
+    name: Workflow Simple boundary

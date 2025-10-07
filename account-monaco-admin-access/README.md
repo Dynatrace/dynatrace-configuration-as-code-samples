@@ -7,11 +7,11 @@ on a Dynatrace Platform environment.
 
 ## What this sample contains
 
-This sample contains a simple Account configuration, consisting of a [Group](./casc-admin/groups.yaml), [Policy](./casc-admin/policies.yaml) and [User](./casc-admin/users.yaml).
+This sample contains a simple Account configuration, consisting of a [Group](./casc-admin/groups.yaml), [Policy](./casc-admin/policies.yaml), [Boundary](./casc-admin/boundaries.yaml), and [User](./casc-admin/users.yaml).
 
 When deployed the configuration will create a new policy granting Grail Bucket Admin access, assign this policy to a new
 Group - which also grants all the generally required permission for use with Configuration-as-Code, as well as Automation Admin
-access, and assign a user to the new group. 
+access to `simple` workflows, configured via boundaries, and assign a user to the new group. 
 
 The sample also contains a [delete file](./delete.yaml) allowing you to remove the configurations if you don't need them anymore.
 

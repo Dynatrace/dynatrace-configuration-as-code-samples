@@ -6,8 +6,6 @@ groups:
       including Automation and Grail Bucket permissions not included in any pre-configured group.
     account:
       policies:
-        - AppEngine - Admin
-        - AutomationEngine - Admin access
         - Environment role - Access environment
         - Environment role - Change monitoring settings
         - Extensions - Admin access
@@ -19,4 +17,11 @@ groups:
         - environment: %YOUR_ENVIRONMENT_ID%
           permissions:
             - tenant-manage-settings
+          policies:
+            - policy:
+                type: reference
+                id: workflow-admin
+              boundaries:
+                - type: reference
+                  id: workflow-simple-boundary
         # ADD FURTHER ENVIRONMENTS AS NEEDED

@@ -1,0 +1,4 @@
+boundaries:
+  - id: workflow-simple-boundary
+    name: Workflow Simple boundary
+    query: automation:workflow-type = "SIMPLE";
