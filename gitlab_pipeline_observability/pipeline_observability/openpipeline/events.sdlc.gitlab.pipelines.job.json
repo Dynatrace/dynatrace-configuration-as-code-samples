@@ -1,0 +1,148 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"build\"",
+        "description": "add build task properties",
+        "id": "processor_add_build_task_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd event.status = if (isNotNull(build_finished_at) and build_status!=\"running\",\"finished\", else:build_status)\n| fieldsAdd duration = if(isNotNull(build_duration),toDuration(build_duration*1000000000), else: toDuration(0))\n| fieldsAdd task.queued.duration = if(isNotNull(build_queued_duration),toDuration(build_queued_duration*1000000000), else: toDuration(0))\n| fieldsAdd task.outcome = if (isNotNull(build_finished_at) and build_status!=\"running\",build_status)\n| fieldsAdd cicd.pipeline.run.id = pipeline_id\n| fieldsAdd task.id = build_id\n| fieldsAdd task.name = build_name\n| fieldsAdd task.retry = retries_count"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"build\" and build_status == \"running\" and isNotNull(build_started_at)",
+        "description": "add start_time",
+        "id": "processor_add_start_time",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd start_time = toTimestamp(build_started_at)"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"build\" and build_status != \"running\" and isNotNull(build_finished_at)",
+        "description": "add end_time",
+        "id": "processor_add_end_time",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd end_time = toTimestamp(build_finished_at)"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"build\" and build_status == \"failed\"",
+        "description": "add task.outcome.failure.reason",
+        "id": "processor_add_task_outcome_failure_reason",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd task.outcome.failure.reason = build_failure_reason"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"build\" and isNotNull(environment)",
+        "description": "add ext.task.build.environment",
+        "id": "processor_add_ext_task_build_environment",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd ext.task.build.environment = environment"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(project)",
+        "description": "add vcs.repository.name",
+        "id": "processor_add_vcs_repository_name",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse project, \"JSON:proj_j\"\n| fieldsAdd vcs.repository.name=proj_j[name]\n| fieldsRemove proj_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(runner)",
+        "description": "add task.runner.name",
+        "id": "processor_add_task_runner_name",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse runner, \"JSON:runner_j\"\n| fieldsAdd task.runner.name=runner_j[description]\n| fieldsRemove runner_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"build\" and isNotNull(build_stage)",
+        "description": "add ext.task.stage.name",
+        "id": "processor_add_ext_task_stage_name",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd ext.task.stage.name=build_stage"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(task.outcome)",
+        "description": "mappings",
+        "id": "processor_map_task_outcome",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd task.outcome=if(task.outcome==\"failed\",\"failure\",else:task.outcome)"
+        }
+      },
+      {
+        "type": "fieldsRemove",
+        "matcher": "object_kind==\"build\"",
+        "description": "Clean",
+        "id": "processor_fields_remove",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsRemove": {
+          "fields": [
+            "runner",
+            "project_id",
+            "project_name",
+            "user",
+            "commit",
+            "repository",
+            "project",
+            "environment",
+            "object_kind",
+            "ref",
+            "tag",
+            "before_sha",
+            "sha",
+            "retries_count",
+            "build_id",
+            "build_name",
+            "build_stage",
+            "build_status",
+            "build_created_at",
+            "build_started_at",
+            "build_finished_at",
+            "build_duration",
+            "build_queued_duration",
+            "build_allow_failure",
+            "build_failure_reason",
+            "pipeline_id",
+            "build_created_at_iso",
+            "build_started_at_iso",
+            "build_finished_at_iso"
+          ]
+        }
+      }
+    ]
+  }
+}

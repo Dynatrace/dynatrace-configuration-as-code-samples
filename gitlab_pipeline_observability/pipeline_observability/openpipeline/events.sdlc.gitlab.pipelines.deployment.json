@@ -1,0 +1,118 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "type": "dql",
+        "matcher": "isNotNull(status) ",
+        "description": "add event.status",
+        "id": "processor_add_event_status",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd event.status = if(status == \"running\",\"started\", else: if(status != \"running\",\"finished\"))"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(status) and status==\"running\"",
+        "description": "add start_time",
+        "id": "processor_add_start_time",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd start_time = toTimestamp(status_changed_at)"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(status) and status!=\"running\"",
+        "description": "add end_time",
+        "id": "processor_add_end_time",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd end_time = toTimestamp(status_changed_at)\n| fieldsAdd task.outcome = status"
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "true",
+        "description": "add task.name",
+        "id": "processor_add_task_name",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "task.name",
+              "value": "GitLab Deployment"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "object_kind==\"deployment\"",
+        "description": "add deployment properties",
+        "id": "processor_add_deployment_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd task.id = deployment_id\n| fieldsAdd deployment.environment.name = environment\n| fieldsAdd deployment.url.full = deployable_url\n| fieldsAdd ext.deployment.job.id = deployable_id\n| fieldsAdd vcs.ref.base.revision = short_sha\n| fieldsAdd vcs.ref.base.name = ref"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(project)",
+        "description": "add project properties",
+        "id": "processor_add_project_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse project, \"JSON:project_j\"\n| fieldsAdd ext.project.id = project_j[id]\n| fieldsAdd vcs.repository.url.full = project_j[web_url]\n| fieldsAdd vcs.repository.name =project_j[name]\n| fieldsRemove project_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(task.outcome)",
+        "description": "add task.outcome",
+        "id": "processor_add_task_outcome",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd task.outcome = if(task.outcome==\"failed\",\"failure\",else:task.outcome)"
+        }
+      },
+      {
+        "type": "fieldsRemove",
+        "matcher": "true",
+        "description": "Clean up",
+        "id": "processor_fields_remove",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsRemove": {
+          "fields": [
+            "object_kind",
+            "status",
+            "status_changed_at",
+            "deployment_id",
+            "deployable_id",
+            "deployable_url",
+            "environment",
+            "environment_tier",
+            "environment_slug",
+            "environment_external_url",
+            "project",
+            "short_sha",
+            "user",
+            "user_url",
+            "commit_url",
+            "commit_title"
+          ]
+        }
+      }
+    ]
+  }
+}

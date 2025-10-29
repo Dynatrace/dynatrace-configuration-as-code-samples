@@ -1,0 +1,40 @@
+{
+  "routingEntries": [
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "object_kind == \"pipeline\"",
+      "description": "Route all GitLab events into workflow pipelinen (v2)",
+      "pipelineId": "{{.gitlabPipelinePipelineId}}"
+    },
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "object_kind==\"build\"",
+      "description": "Route all GitLab events to job pipeline (v2)",
+      "pipelineId": "{{.gitlabJobPipelineId}}"
+    },
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "object_kind==\"merge_request\"",
+      "description": "Route all GitLab events into merge request pipeline (v2)",
+      "pipelineId": "{{.gitlabMergeRequestPipelineId}}"
+    },
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "object_kind==\"deployment\"",
+      "description": "Route all GitLab events into deployment pipeline (v2)",
+      "pipelineId": "{{.gitlabDeploymentPipelineId}}"
+    },
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "object_kind==\"release\"",
+      "description": "Route all GitLab events into release pipeline (v2)",
+      "pipelineId": "{{.gitlabReleasePipelineId}}"
+    }
+  ]
+}
+

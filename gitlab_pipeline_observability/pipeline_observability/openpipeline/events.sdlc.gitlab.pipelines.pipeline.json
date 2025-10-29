@@ -1,0 +1,94 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "type": "dql",
+        "matcher": "isNotNull(object_attributes)",
+        "description": "add object attribute properties",
+        "id": "processor_add_object_attribute_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse object_attributes, \"JSON:obj_attr_j\" \n| fieldsAdd duration = if(isNotNull(obj_attr_j[finished_at]),toDuration(toTimestamp(obj_attr_j[finished_at])-toTimestamp(obj_attr_j[created_at])), else: toDuration(0))\n| fieldsAdd pipeline.queued.duration = if(isNotNull(obj_attr_j[queued_duration]),toDuration(obj_attr_j[queued_duration]*1000000000), else: toDuration(0))\n| fieldsAdd cicd.pipeline.run.id = obj_attr_j[id]\n| fieldsAdd cicd.pipeline.run.url.full = obj_attr_j[url]\n| fieldsAdd cicd.pipeline.run.trigger = obj_attr_j[source]\n| fieldsAdd vcs.ref.head.name = obj_attr_j[ref]\n| fieldsAdd vcs.ref.head.revision = obj_attr_j[sha]\n| fieldsAdd cicd.pipeline.run.variable = obj_attr_j[variables]\n| fieldsAdd event.status = if (isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status]!=\"running\",\"finished\", else:obj_attr_j[status])\n| fieldsAdd cicd.pipeline.run.outcome = if (isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status]!=\"running\",obj_attr_j[status])\n| fieldsAdd end_time = if (isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status]!=\"running\",toTimestamp(obj_attr_j[finished_at]))\n| fieldsAdd start_time = if(isNotNull(obj_attr_j[created_at]),toTimestamp(obj_attr_j[created_at])) \n| fieldsAdd cicd.pipeline.name = if (isNotNull(obj_attr_j[name]) ,obj_attr_j[name], else: \"unknown\")\n| fieldsRemove obj_attr_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(source_pipeline)",
+        "description": "add source pipeline properties",
+        "id": "processor_add_source_pipeline_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse source_pipeline, \"JSON:src_pipe_j\"\n| fieldsAdd cicd.upstream_pipeline.id = src_pipe_j[project][id]\n| fieldsAdd cicd.upstream_pipeline.run.id = src_pipe_j[pipeline_id]\n| fieldsAdd ext.upstream_pipeline.run.job.id = src_pipe_j[job_id]\n| fieldsRemove src_pipe_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(project)",
+        "description": "add project properties",
+        "id": "processor_add_project_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse project, \"JSON:proj_j\"\n| fieldsAdd ext.pipeline.project.name = proj_j[name]\n| fieldsAdd ext.pipeline.project.namespace = proj_j[namespace]\n| fieldsAdd vcs.repository.url.full = proj_j[web_url]\n| fieldsAdd vcs.repository.name = proj_j[name]\n| fieldsAdd cicd.pipeline.id = proj_j[id]\n| fieldsRemove proj_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(merge_request)",
+        "description": "add vcs.change.id",
+        "id": "processor_add_vcs_change_id",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse merge_request, \"JSON:mr_j\"\n| fieldsAdd vcs.change.id = mr_j[iid]\n| fieldsRemove mr_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(user)",
+        "description": "add ext.pipeline.run.trigger.user",
+        "id": "processor_add_ext_pipeline_run_trigger_user",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse user, \"JSON:user_j\"\n| fieldsAdd ext.pipeline.run.trigger.user = user_j\n| fieldsRemove user_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(cicd.pipeline.run.outcome)",
+        "description": "add cicd.pipeline.run.outcome",
+        "id": "processor_add_cicd_pipeline_run_outcome",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd cicd.pipeline.run.outcome = if(cicd.pipeline.run.outcome==\"failed\",\"failure\",else:cicd.pipeline.run.outcome)"
+        }
+      },
+      {
+        "type": "fieldsRemove",
+        "matcher": "true",
+        "description": "Clean up",
+        "id": "processor_remove_fields",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsRemove": {
+          "fields": [
+            "object_kind",
+            "object_attributes",
+            "merge_request",
+            "user",
+            "project",
+            "commit",
+            "source_pipeline",
+            "builds"
+          ]
+        }
+      }
+    ]
+  }
+}

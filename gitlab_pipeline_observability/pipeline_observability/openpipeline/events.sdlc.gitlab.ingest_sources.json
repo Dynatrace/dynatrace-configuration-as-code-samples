@@ -1,0 +1,178 @@
+{
+  "displayName": "{{.ingestSourceDisplayName}}",
+  "sourceType": "http",
+  "pathSegment": "{{.ingestSourcePathSegment}}",
+  "defaultBucket": "default_events",
+  "enabled": true,
+  "processing": {
+    "processors": [
+      {
+        "type": "fieldsAdd",
+        "matcher": "isNull(event.kind)",
+        "description": "Add event.kind if not set",
+        "id": "processor_add_event_kind_if_not_set",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNull(event.id)",
+        "description": "Add event.id if not set",
+        "id": "processor_add_event_id_if_not_set",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))"
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "object_kind==\"pipeline\"",
+        "description": "Add pipeline run properties",
+        "id": "processor_add_pipeline_run_properties",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.provider",
+              "value": "gitlab"
+            },
+            {
+              "name": "event.category",
+              "value": "pipeline"
+            },
+            {
+              "name": "event.type",
+              "value": "run"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "object_kind==\"build\"",
+        "description": "Add build task properties",
+        "id": "processor_add_build_task_properties",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.provider",
+              "value": "gitlab"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "build"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "object_kind==\"merge_request\"",
+        "description": "Add change task properties",
+        "id": "processor_add_change_task_properties",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.provider",
+              "value": "gitlab"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "change"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "object_kind==\"deployment\"",
+        "description": "Add deployment category properties",
+        "id": "processor_add_deployment_category_properties",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.provider",
+              "value": "gitlab"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "deployment"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "object_kind==\"release\"",
+        "description": "Add release task properties",
+        "id": "processor_add_release_task_properties",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.provider",
+              "value": "gitlab"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "release"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

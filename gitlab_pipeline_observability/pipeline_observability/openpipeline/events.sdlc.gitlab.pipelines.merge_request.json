@@ -1,0 +1,72 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "type": "dql",
+        "matcher": "isNotNull(object_attributes)",
+        "description": "add object attribute properties",
+        "id": "processor_add_object_attribute_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse object_attributes, \"JSON:obj_attr_j\" \n| fieldsAdd duration = if(obj_attr_j[state] ==\"merged\" and obj_attr_j[action]==\"merge\",toDuration(toTimestamp(obj_attr_j[updated_at])-toTimestamp(obj_attr_j[created_at])), else: toDuration(0))\n| fieldsAdd event.status = obj_attr_j[state]\n| fieldsAdd start_time = toTimestamp(obj_attr_j[created_at])\n| fieldsAdd end_time = if( in(obj_attr_j[state],{\"merged\",\"closed\"}) and in(obj_attr_j[action],{\"close\",\"merge\"}),toTimestamp(obj_attr_j[updated_at]))\n| fieldsAdd task.id = obj_attr_j[id]\n| fieldsAdd vcs.change.id = obj_attr_j[iid]\n| fieldsAdd vcs.change.title = obj_attr_j[title]\n| fieldsAdd vcs.repository.ref.revision = obj_attr_j[merge_commit_sha]\n| fieldsAdd vcs.ref.head.name = obj_attr_j[source_branch]\n| fieldsAdd vcs.ref.head.revision = obj_attr_j[last_commit][id]\n| fieldsAdd vcs.ref.base.name = obj_attr_j[target_branch]\n| fieldsAdd ext.task.action = obj_attr_j[action]\n| fieldsAdd ext.task.action.made_at = toTimestamp(obj_attr_j[updated_at])\n| fieldsAdd vcs.change.url.full = obj_attr_j[url]\n| fieldsRemove obj_attr_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(project)",
+        "description": "add repository properties",
+        "id": "processor_add_repository_properties",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse project, \"JSON:project_j\"\n| fieldsAdd vcs.repository.name = project_j[name]\n| fieldsAdd vcs.repository.url.full = project_j[web_url]\n| fieldsRemove project_j"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(labels)",
+        "description": "add ext.task.labels",
+        "id": "processor_add_ext_task_labels",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "fieldsAdd ext.task.labels = labels"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(user)",
+        "description": "add ext.task.sender.name",
+        "id": "processor_add_ext_task_sender_name",
+        "enabled": true,
+        "sampleData": null,
+        "dql": {
+          "script": "parse user, \"JSON:user_j\" \n| fieldsAdd ext.task.sender.name=user_j[name]\n| fieldsRemove user_j"
+        }
+      },
+      {
+        "type": "fieldsRemove",
+        "matcher": "true",
+        "description": "Clean up",
+        "id": "processor_remove_fields",
+        "enabled": true,
+        "sampleData": null,
+        "fieldsRemove": {
+          "fields": [
+            "object_kind",
+            "event_type",
+            "user",
+            "project",
+            "object_attributes",
+            "labels",
+            "changes",
+            "repository"
+          ]
+        }
+      }
+    ]
+  }
+}
