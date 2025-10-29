@@ -89,7 +89,7 @@ If your OpenPipeline configuration contains only default/built-in values, you ca
 3. If the answer is "yes", follow the steps below. Otherwise, skip ahead to step 4.
     * Download your OpenPipeline configuration
       ```
-      monaco download -e <YOUR-DT-ENV-ID> --settings-schema "builtin:openpipeline.events.sdlc.routing" --output-folder routing-download
+      monaco download -e <YOUR-DT-ENV-ID> --settings-schema "builtin:openpipeline.events.sdlc.routing"
       ```
     * Open the following files:
         * Your downloaded configuration file, `download_<DATE>-<TIME>/project_<YOUR-DT-ENV-ID>/builtinopenpipeline.events.sdlc.routing/<SOME-UUID>.json`.
