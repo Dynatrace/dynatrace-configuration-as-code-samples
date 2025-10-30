@@ -1,0 +1,32 @@
+delete:
+  ### This will delete ALL routing entries from the global table
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.routing
+  id: openpipeline.events.sdlc.global.routing
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.ingest-sources
+  id: openpipeline.events.sdlc.gitlab.ingest_sources
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.pipelines
+  id: openpipeline.events.sdlc.gitlab.pipelines.release
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.pipelines
+  id: openpipeline.events.sdlc.gitlab.pipelines.deployment
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.pipelines
+  id: openpipeline.events.sdlc.gitlab.pipelines.job
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.pipelines
+  id: openpipeline.events.sdlc.gitlab.pipelines.merge_request
+- project: pipeline_observability
+  type: builtin:openpipeline.events.sdlc.pipelines
+  id: openpipeline.events.sdlc.gitlab.pipelines.pipeline
+- project: pipeline_observability
+  type: document
+  id: gitlab_merge_requests
+- project: pipeline_observability
+  type: document
+  id: gitlab_pipeline_pulse
+- project: pipeline_observability
+  type: document
+  id: gitlab_deployments
