@@ -1,0 +1,2613 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 3,
+      "w": 6,
+      "x": 0,
+      "y": 2
+    },
+    "1": {
+      "h": 6,
+      "w": 9,
+      "x": 6,
+      "y": 2
+    },
+    "10": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 31
+    },
+    "11": {
+      "h": 7,
+      "w": 24,
+      "x": 0,
+      "y": 24
+    },
+    "12": {
+      "h": 6,
+      "w": 9,
+      "x": 15,
+      "y": 18
+    },
+    "13": {
+      "h": 4,
+      "w": 3,
+      "x": 3,
+      "y": 33
+    },
+    "14": {
+      "h": 4,
+      "w": 9,
+      "x": 6,
+      "y": 33
+    },
+    "15": {
+      "h": 4,
+      "w": 9,
+      "x": 15,
+      "y": 33
+    },
+    "16": {
+      "h": 3,
+      "w": 6,
+      "x": 0,
+      "y": 5
+    },
+    "17": {
+      "h": 6,
+      "w": 9,
+      "x": 6,
+      "y": 18
+    },
+    "18": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "19": {
+      "h": 5,
+      "w": 9,
+      "x": 15,
+      "y": 13
+    },
+    "2": {
+      "h": 6,
+      "w": 9,
+      "x": 15,
+      "y": 2
+    },
+    "20": {
+      "h": 5,
+      "w": 6,
+      "x": 0,
+      "y": 13
+    },
+    "21": {
+      "h": 8,
+      "w": 24,
+      "x": 0,
+      "y": 43
+    },
+    "3": {
+      "h": 5,
+      "w": 15,
+      "x": 0,
+      "y": 8
+    },
+    "4": {
+      "h": 6,
+      "w": 3,
+      "x": 0,
+      "y": 18
+    },
+    "5": {
+      "h": 6,
+      "w": 3,
+      "x": 3,
+      "y": 18
+    },
+    "6": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 33
+    },
+    "7": {
+      "h": 5,
+      "w": 9,
+      "x": 15,
+      "y": 8
+    },
+    "8": {
+      "h": 5,
+      "w": 9,
+      "x": 6,
+      "y": 13
+    },
+    "9": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 37
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Finished Deployments",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize count() , by:{task.outcome}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "task.outcome"
+            ],
+            "categoryAxisLabel": "task.outcome",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "canceled": {
+              "added": 15472341.400000006,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-blue-steel-color-05-default, #134fc9)"
+              }
+            },
+            "failure": {
+              "added": 5312688.200000003,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "content": "### Releases\n\nThis section provides a comprehensive overview of GitLab release activity, including the number of created and deployed releases, deployment statuses, environment-specific release metrics, and details of the 20 most recent deployments.\n\n---",
+      "type": "markdown"
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  Started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  Finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  Status = takeAny(if(event.status == \"finished\",task.outcome)),\n  JobRunUrl = takeAny(deployment.url.full),\n  JobRunId = takeAny(ext.deployment.job.id)\n}, by: {task.id,vcs.repository.name,vcs.ref.base.name,deployment.environment.name,vcs.repository.url.full}\n| filter isNotNull(Finished)\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"build\" and event.status == \"finished\" | fields task.id,cicd.pipeline.run.id, task.name , task.outcome.failure.reason, task.queued.duration, task.retry,ext.task.stage],kind: leftOuter,on:{left[JobRunId] == right[task.id]},prefix:\"j.\"\n| fields \nEnvironment = upper(deployment.environment.name),\nStatus ,\nDuration=Finished-Started,\nStarted,\nFinished,\nJobName = j.task.name,\nJobQueuedDuration = j.task.queued.duration,\nJobRunUrl ,\nJobRetry = j.task.retry,\nJobFailureReason = if(isNotNull(j.task.outcome.failure.reason),j.task.outcome.failure.reason,else: \"n/a\"),\nProject = vcs.repository.name,\nPipelineRunId = j.cicd.pipeline.run.id,\nRepository = vcs.repository.url.full\n| sort Finished desc\n| limit 20",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployments | last 20",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "Duration"
+            ],
+            "timestamp": "Started"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "JobId",
+            "PipelineRunId"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "Started",
+          "xAxisScaling": "auto"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnOrder": [
+            "[\"Environment\"]",
+            "[\"Status\"]",
+            "[\"Duration\"]",
+            "[\"Finished\"]",
+            "[\"JobName\"]",
+            "[\"JobQueuedDuration\"]",
+            "[\"JobFailureReason\"]",
+            "[\"Project\"]",
+            "[\"JobRunUrl\"]",
+            "[\"JobRetry\"]",
+            "[\"Started\"]",
+            "[\"PipelineRunId\"]",
+            "[\"Repository\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": true,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "default",
+          "selectedColumnForRowThreshold": "Status"
+        },
+        "thresholds": [
+          {
+            "field": "Status",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": "#ABF57D",
+                "comparator": "=",
+                "id": 0,
+                "label": "",
+                "value": "success"
+              },
+              {
+                "color": "#B8FFF6",
+                "comparator": "=",
+                "id": 1,
+                "label": "",
+                "value": "canceled"
+              },
+              {
+                "color": "#FF5F5F",
+                "comparator": "=",
+                "id": 2,
+                "label": "",
+                "value": "failure"
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "12": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  status = takeAny (if(event.status == \"finished\",task.outcome))\n\n}, by: {task.id,deployment.environment.name, vcs.repository.url.full,vcs.repository.name}\n| filter isNotNull(finished)\n| filter status!=\"canceled\"\n| fieldsAdd duration = finished - started\n| filter isNotNull(duration)\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize p50 = median(duration), by: {upper(deployment.environment.name), vcs.repository.name}\n| sort p50 desc | limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Duration ( p50 ) | top 5",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "upper(deployment.environment.name)",
+              "vcs.repository.name"
+            ],
+            "categoryAxisLabel": "upper(deployment.environment.name),vcs.repository.name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "p50"
+            ],
+            "valueAxisLabel": "p50",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "p50",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "p50",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "13": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\"  and event.type == \"release\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" | fields vcs.ref.base.name,ext.project.id,vcs.repository.name, release.name,release.description, start_time,vcs.repository.url.full\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" and event.status == \"finished\" | fields task.outcome,vcs.ref.base.name,ext.project.id, ext.deployment.job.id, deployment.environment.name, end_time,vcs.repository.url.full ],on:{vcs.ref.base.name,ext.project.id}\n| filter in(vcs.repository.url.full, $Project) \n| filter in(right.deployment.environment.name,$Environment)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Releases deployed",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "ext.project.id",
+            "right.ext.project.id",
+            "right.ext.deployment.job.id"
+          ],
+          "leftYAxisSettings": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "start_time",
+          "xAxisScaling": "auto"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "14": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\"  and event.type == \"release\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" | fields vcs.ref.base.name,ext.project.id,vcs.repository.name, release.name,release.description, start_time,vcs.repository.url.full\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" and event.status == \"finished\" | fields task.outcome,vcs.ref.base.name,ext.project.id, ext.deployment.job.id, deployment.environment.name, end_time,vcs.repository.url.full ],on:{vcs.ref.base.name,ext.project.id}\n| filter in(vcs.repository.url.full, $Project) \n| filter in(right.deployment.environment.name,$Environment)\n| summarize count(), by:{ right.task.outcome }",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Deployments Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "right.task.outcome"
+            ],
+            "categoryAxisLabel": "right.task.outcome",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "canceled": {
+              "added": 15410943.600000009,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-blue-steel-color-05-default, #134fc9)"
+              }
+            },
+            "failure": {
+              "added": 15985262.900000006,
+              "color": {
+                "Default": "var(--dt-colors-charts-security-risk-level-critical-default, #8a0012)"
+              }
+            },
+            "success": {
+              "added": 14652673.5,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-good-default, #1c520a)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "15": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\"  and event.type == \"release\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" | fields vcs.ref.base.name,ext.project.id,vcs.repository.name, release.name,release.description, start_time,vcs.repository.url.full\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" and event.status == \"finished\" | fields task.outcome,vcs.ref.base.name,ext.project.id, ext.deployment.job.id, deployment.environment.name, end_time,vcs.repository.url.full ],on:{vcs.ref.base.name,ext.project.id}\n| filter in(vcs.repository.url.full, $Project) \n| filter in(right.deployment.environment.name,$Environment)\n| summarize count(), by:{ upper(right.deployment.environment.name) }\n| sort `count()` desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Deployments by Environment",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "upper(right.deployment.environment.name)"
+            ],
+            "categoryAxisLabel": "upper(right.deployment.environment.name)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 14652673.5,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-good-default, #1c520a)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "16": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome==\"failure\")) / toDouble(count())*100)\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Failure Rate",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": true,
+          "label": "count()",
+          "prefixIcon": "CriticalFailedIcon",
+          "recordField": "failureRate",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "failureRate",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "unitsOverrides": [
+          {
+            "added": 1747844158473,
+            "baseUnit": "percent",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "failureRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "17": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  status = takeAny (if(event.status == \"finished\",task.outcome))\n\n}, by: {task.id,deployment.environment.name, vcs.repository.url.full}\n| fieldsAdd duration = finished - started\n| filter isNotNull(finished)\n| filter status!=\"canceled\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| makeTimeseries p50 = median(duration),p90 = percentile(duration,90),time: finished\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Duration",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "bandChartSettings": {
+            "lower": "p50",
+            "upper": "p90"
+          },
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "interval",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {},
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [
+            {
+              "rangeAxis": "range(duration, 10m)",
+              "valueAxis": "count()"
+            }
+          ],
+          "displayedFields": [
+            "interval"
+          ],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "p50",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "p50",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "p50",
+                "p90"
+              ],
+              "id": 1747895461704,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1747845759722,
+            "baseUnit": "nanosecond",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "p50",
+            "suffix": "",
+            "unitCategory": "time"
+          },
+          {
+            "added": 1747845921745,
+            "baseUnit": "nanosecond",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "p90",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "18": {
+      "content": "### GitLab Deployment Pulse\n\nThis dashboard provides a comprehensive overview of deployment activities within GitLab pipelines, enabling engineering and DevOps teams to monitor, analyze, and optimize their software delivery processes. \n\n---",
+      "type": "markdown"
+    },
+    "19": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  Started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  Finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  Status = takeAny(if(event.status == \"finished\",task.outcome)),\n  JobRunUrl = takeAny(deployment.url.full),\n  JobRunId = takeAny(ext.deployment.job.id)\n}, by: {task.id,vcs.repository.name,vcs.ref.base.name,deployment.environment.name,vcs.repository.url.full}\n| filter isNotNull(Finished)\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"build\" and event.status == \"finished\" | fields task.id,task.outcome.failure.reason],kind: leftOuter,on:{left[JobRunId] == right[task.id]},prefix:\"j.\"\n| filter isNotNull(j.task.outcome.failure.reason)\n| summarize Count=count(), by:{j.task.outcome.failure.reason}\n| sort Count desc\n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Failure Reasons | top 5",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "j.task.outcome.failure.reason"
+            ],
+            "categoryAxisLabel": "j.task.outcome.failure.reason",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Count"
+            ],
+            "valueAxisLabel": "Count",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "absolute"
+          },
+          "colorPalette": "purple-rain",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "task.id",
+            "JobRunId",
+            "j.task.id"
+          ],
+          "leftYAxisSettings": {},
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "Started",
+          "xAxisScaling": "auto"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "legend": {
+          "position": "auto",
+          "ratio": 47,
+          "showLegend": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnOrder": [
+            "[\"j.task.outcome.failure.reason\"]",
+            "[\"Count\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize Count = count() , by:{upper(deployment.environment.name)}\n| sort Count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Finished Deployments by Environment",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "upper(deployment.environment.name)"
+            ],
+            "categoryAxisLabel": "upper(deployment.environment.name)",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Count"
+            ],
+            "valueAxisLabel": "Count",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  Started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  Finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  Status = takeAny(if(event.status == \"finished\",task.outcome)),\n  JobRunUrl = takeAny(deployment.url.full),\n  JobRunId = takeAny(ext.deployment.job.id)\n}, by: {task.id,vcs.repository.name,vcs.ref.base.name,deployment.environment.name,vcs.repository.url.full}\n| filter isNotNull(Finished)\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"build\" and event.status == \"finished\" | fields task.id,task.outcome.failure.reason],kind: leftOuter,on:{left[JobRunId] == right[task.id]},prefix:\"j.\"\n| filter isNotNull(j.task.outcome.failure.reason) and j.task.outcome.failure.reason == \"deployment_rejected\"\n| summarize Count=count(), by:{j.task.outcome.failure.reason}\n| sort Count desc\n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Failure caused by acceptance rejection",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "j.task.outcome.failure.reason"
+            ],
+            "categoryAxisLabel": "j.task.outcome.failure.reason",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Count"
+            ],
+            "valueAxisLabel": "Count",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "absolute"
+          },
+          "colorPalette": "purple-rain",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "task.id",
+            "JobRunId",
+            "j.task.id"
+          ],
+          "leftYAxisSettings": {},
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "Started",
+          "xAxisScaling": "auto"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "legend": {
+          "position": "auto",
+          "ratio": 47,
+          "showLegend": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "Count",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "Count",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnOrder": [
+            "[\"j.task.outcome.failure.reason\"]",
+            "[\"Count\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [
+          {
+            "field": "Count",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-apdex-poor-default, #d56b1a)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": "",
+                "value": 0
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "21": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.1.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "type": "markdown"
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| makeTimeseries Count = count() , by:{upper(deployment.environment.name)}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Frequency",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisLabel": "deployment.environment.name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxisLabel": "interval",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "relative"
+          },
+          "colorPalette": "fireplace",
+          "curve": "linear",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "Count"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "gap",
+          "hiddenLegendFields": [
+            "deployment.environment",
+            "interval",
+            "Count"
+          ],
+          "leftYAxisSettings": {},
+          "legend": {},
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "Count"
+              ],
+              "id": 1747895629427,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  status = takeAny (if(event.status == \"finished\",task.outcome))\n}, by: {task.id,vcs.repository.url.full,deployment.environment.name}\n| filter isNotNull(finished)\n| filter status != \"canceled\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| fieldsAdd duration = finished - started\n| summarize p50 = median(duration), p90 = percentile(duration,90)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Duration | p50",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "p50",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "p50",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize {\n  started = takeMin(if(event.status == \"started\", toTimestamp(start_time))),\n  finished = takeMax(if(event.status == \"finished\", toTimestamp(end_time))),\n  status = takeAny (if(event.status == \"finished\",task.outcome))\n}, by: {task.id,vcs.repository.url.full,deployment.environment.name}\n| filter isNotNull(finished)\n| filter status!=\"canceled\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| fieldsAdd duration = finished - started\n| summarize p50 = median(duration), p90 = percentile(duration,90)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployment Duration | p90",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "p50",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "p90",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"release\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"created\"\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Releases created",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "count()",
+          "prefixIcon": "AnalyticsIcon",
+          "recordField": "count()",
+          "showLabel": false,
+          "sparklineSettings": {},
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize Count = count() , by:{vcs.repository.name}\n| sort Count desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Deployments by Project",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "vcs.repository.name"
+            ],
+            "categoryAxisLabel": "vcs.repository.name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "layout": "vertical",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Count"
+            ],
+            "valueAxisLabel": "Count",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "absolute"
+          },
+          "colorPalette": "blue-steel-inverted",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": false
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| filter event.status == \"finished\" and task.outcome == \"failure\"\n| filter in(vcs.repository.url.full, $Project) \n| filter in(deployment.environment.name,$Environment)\n| summarize Count = count() , by:{ upper(deployment.environment.name),vcs.repository.name}\n| sort Count desc | limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Error-prone Deployments | top 5",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "upper(deployment.environment.name)",
+              "vcs.repository.name"
+            ],
+            "categoryAxisLabel": "upper(deployment.environment.name),vcs.repository.name",
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "isCategoryLabelVisible": false,
+            "isValueLabelVisible": false,
+            "layout": "horizontal",
+            "scale": "absolute",
+            "tooltipVariant": "single",
+            "valueAxis": [
+              "Count"
+            ],
+            "valueAxisLabel": "Count",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {
+            "success": {
+              "added": 329768.60000000894,
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-excellent-default, #2a7453)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "showTotalValue": false,
+            "valueType": "absolute"
+          },
+          "colorPalette": "fireplace",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "legend": {
+          "position": "auto",
+          "ratio": 47,
+          "showLegend": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "9": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"gitlab\"  and event.type == \"release\"  and event.kind == \"SDLC_EVENT\" and event.category == \"task\"| fields vcs.ref.base.name,ext.project.id,vcs.repository.name, release.name,release.description, start_time,vcs.repository.url.full, release.url.full\n| join [fetch events | filter event.provider == \"gitlab\"  and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\" and event.status == \"finished\" | fields task.outcome,vcs.ref.base.name,ext.project.id, ext.deployment.job.id, deployment.environment.name, end_time,vcs.repository.url.full ],on:{vcs.ref.base.name,ext.project.id}\n| filter in(vcs.repository.url.full, $Project) \n| filter in(right.deployment.environment.name,$Environment)\n| fields \nReleaseName=release.name,\nReleaseDescription = release.description,\nStatus = right.task.outcome,\nEnvironment = upper(right.deployment.environment.name),\nReleaseTag = vcs.ref.base.name,\nFinished = right.end_time,\nProject = vcs.repository.name,\nReleaseUrl = release.url.full ,\nRepository = vcs.repository.url.full\n| sort Finished desc | limit 20",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Release Deployments | last 20",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "middle",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "middle",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "middle"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnOrder": [
+            "[\"ReleaseName\"]",
+            "[\"ReleaseDescription\"]",
+            "[\"Status\"]",
+            "[\"Environment\"]",
+            "[\"ReleaseTag\"]",
+            "[\"Finished\"]",
+            "[\"Project\"]",
+            "[\"ReleaseUrl\"]",
+            "[\"Repository\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {
+            "[\"Repository\"]": 330
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "default"
+        },
+        "thresholds": [
+          {
+            "field": "Status",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "=",
+                "id": 0,
+                "label": "",
+                "value": "success"
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-themed-blue-steel-color-03-default, #627cfe)"
+                },
+                "comparator": "=",
+                "id": 1,
+                "label": "",
+                "value": "canceled"
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "=",
+                "id": 2,
+                "label": "",
+                "value": "failure"
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    }
+  },
+  "variables": [
+    {
+      "defaultValue": [  ],
+      "editable": true,
+      "input": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize projects = collectDistinct(vcs.repository.url.full)\n| expand projects\n| sort projects",
+      "key": "Project",
+      "multiple": true,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    },
+    {
+      "defaultValue": [  ],
+      "editable": true,
+      "input": "fetch events | filter event.provider == \"gitlab\" and event.type == \"deployment\" and event.kind == \"SDLC_EVENT\" and event.category == \"task\"\n| summarize env = collectDistinct(deployment.environment.name)\n| expand env\n| sort env",
+      "key": "Environment",
+      "multiple": true,
+      "type": "query",
+      "version": 1,
+      "visible": true
+    }
+  ],
+  "version": 19
+}
