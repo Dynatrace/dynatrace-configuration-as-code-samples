@@ -2330,7 +2330,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Error-prune Deployments | top 5",
+      "title": "Error-prone Deployments | top 5",
       "type": "data",
       "visualization": "categoricalBarChart",
       "visualizationSettings": {
