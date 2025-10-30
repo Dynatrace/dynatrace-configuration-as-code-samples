@@ -80,7 +80,7 @@ In this tutorial, you'll learn how to
 ### Check the OpenPipeline configuration for SDLC events
 
 > These steps modify the OpenPipeline configuration for SDLC events.
-If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration. If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
+If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration. If you have any dynamic routes, you'll first need to download your configuration and manually merge it into the Monaco configuration.
 
 > Step 3 will indicate if a configuration merge is needed or if you can apply the provided configuration directly.
 
