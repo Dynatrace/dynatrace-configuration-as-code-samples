@@ -98,7 +98,7 @@ If your OpenPipeline configuration contains only default/built-in values, you ca
       This is mandatory as the **Dynamic Routing table** is a global configuration and the order of the entries as well as the `matcher` clauses determine the overall routing.
 4. Apply the Monaco configuration.
    Run this command to apply the provided Monaco configuration.
-   The configuration consists of (1) Dashboards to analyze GitLab activities and (2) OpenPipeline configuration to normalize [GitLab events](https://docs.gitlab.com/user/project/integrations/webhook_events/) into [SDLC events](pipeline-observability-ingest-sdlc-events).
+   The configuration consists of (1) Dashboards to analyze GitLab activities and (2) OpenPipeline configuration to normalize [GitLab events](https://docs.gitlab.com/user/project/integrations/webhook_events/) into [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events).
     ```
     monaco deploy manifest.yaml
     ```
