@@ -1,4 +1,7 @@
 locals {
+  sdlc_event_version = "0.1.0"
+  sdlc_event_provider = "gitlab"
+
   ingest_source_display_name = "Gitlab"
   ingest_source_path_segment = "gitlab"
 

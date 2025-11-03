@@ -42,11 +42,11 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
           fields {
             field {
               name  = "event.version"
-              value = "0.1.0"
+              value = local.sdlc_event_version
             }
             field {
               name  = "event.provider"
-              value = "gitlab"
+              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
@@ -71,11 +71,11 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
           fields {
             field {
               name  = "event.version"
-              value = "0.1.0"
+              value = local.sdlc_event_version
             }
             field {
               name  = "event.provider"
-              value = "gitlab"
+              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
@@ -100,11 +100,11 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
           fields {
             field {
               name  = "event.version"
-              value = "0.1.0"
+              value = local.sdlc_event_version
             }
             field {
               name  = "event.provider"
-              value = "gitlab"
+              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
@@ -129,11 +129,11 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
           fields {
             field {
               name  = "event.version"
-              value = "0.1.0"
+              value = local.sdlc_event_version
             }
             field {
               name  = "event.provider"
-              value = "gitlab"
+              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
@@ -158,11 +158,11 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
           fields {
             field {
               name  = "event.version"
-              value = "0.1.0"
+              value = local.sdlc_event_version
             }
             field {
               name  = "event.provider"
-              value = "gitlab"
+              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
