@@ -5,9 +5,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(status)
-        DQL
+        matcher     = "isNotNull(status)"
         description = "add event.status"
         id          = "processor_add_event_status"
         enabled     = true
@@ -26,9 +24,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_start_time"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd start_time = toTimestamp(status_changed_at)
-          DQL
+          script = "fieldsAdd start_time = toTimestamp(status_changed_at)"
         }
       }
       processor {
@@ -82,9 +78,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(project)
-        DQL
+        matcher     = "isNotNull(project)"
         description = "add project properties"
         id          = "processor_add_project_properties"
         enabled     = true
@@ -100,9 +94,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(task.outcome)
-        DQL
+        matcher     = "isNotNull(task.outcome)"
         description = "add task.outcome"
         id          = "processor_add_task_outcome"
         enabled     = true
@@ -157,9 +149,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(object_attributes)
-        DQL
+        matcher     = "isNotNull(object_attributes)"
         description = "add object attribute properties"
         id          = "processor_add_object_attribute_properties"
         enabled     = true
@@ -186,9 +176,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(project)
-        DQL
+        matcher     = "isNotNull(project)"
         description = "add repository properties"
         id          = "processor_add_repository_properties"
         enabled     = true
@@ -203,23 +191,17 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(labels)
-        DQL
+        matcher     = "isNotNull(labels)"
         description = "add ext.task.labels"
         id          = "processor_add_ext_task_labels"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd ext.task.labels = labels
-          DQL
+          script = "fieldsAdd ext.task.labels = labels"
         }
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(user)
-        DQL
+        matcher     = "isNotNull(user)"
         description = "add ext.task.sender.name"
         id          = "processor_add_ext_task_sender_name"
         enabled     = true
@@ -268,9 +250,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(object_attributes)
-        DQL
+        matcher     = "isNotNull(object_attributes)"
         description = "add object attribute properties"
         id          = "processor_add_object_attribute_properties"
         enabled     = true
@@ -296,9 +276,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(source_pipeline)
-        DQL
+        matcher     = "isNotNull(source_pipeline)"
         description = "add source pipeline properties"
         id          = "processor_add_source_pipeline_properties"
         enabled     = true
@@ -314,9 +292,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(project)
-        DQL
+        matcher     = "isNotNull(project)"
         description = "add project properties"
         id          = "processor_add_project_properties"
         enabled     = true
@@ -334,9 +310,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(merge_request)
-        DQL
+        matcher     = "isNotNull(merge_request)"
         description = "add vcs.change.id"
         id          = "processor_add_vcs_change_id"
         enabled     = true
@@ -350,9 +324,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(user)
-        DQL
+        matcher     = "isNotNull(user)"
         description = "add ext.pipeline.run.trigger.user"
         id          = "processor_add_ext_pipeline_run_trigger_user"
         enabled     = true
@@ -366,9 +338,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(cicd.pipeline.run.outcome)
-        DQL
+        matcher     = "isNotNull(cicd.pipeline.run.outcome)"
         description = "add cicd.pipeline.run.outcome"
         id          = "processor_add_cicd_pipeline_run_outcome"
         enabled     = true
@@ -443,9 +413,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_start_time"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd start_time = toTimestamp(build_started_at)
-          DQL
+          script = "fieldsAdd start_time = toTimestamp(build_started_at)"
         }
       }
       processor {
@@ -457,9 +425,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_end_time"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd end_time = toTimestamp(build_finished_at)
-          DQL
+          script = "fieldsAdd end_time = toTimestamp(build_finished_at)"
         }
       }
       processor {
@@ -471,9 +437,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_task_outcome_failure_reason"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd task.outcome.failure.reason = build_failure_reason
-          DQL
+          script = "fieldsAdd task.outcome.failure.reason = build_failure_reason"
         }
       }
       processor {
@@ -485,16 +449,12 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_ext_task_build_environment"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd ext.task.build.environment = environment
-          DQL
+          script = "fieldsAdd ext.task.build.environment = environment"
         }
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(project)
-        DQL
+        matcher     = "isNotNull(project)"
         description = "add vcs.repository.name"
         id          = "processor_add_vcs_repository_name"
         enabled     = true
@@ -508,9 +468,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(runner)
-        DQL
+        matcher     = "isNotNull(runner)"
         description = "add task.runner.name"
         id          = "processor_add_task_runner_name"
         enabled     = true
@@ -531,16 +489,12 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_ext_task_stage_name"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd ext.task.stage.name = build_stage
-          DQL
+          script = "fieldsAdd ext.task.stage.name = build_stage"
         }
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(task.outcome)
-        DQL
+        matcher     = "isNotNull(task.outcome)"
         description = "mappings"
         id          = "processor_map_task_outcome"
         enabled     = true
@@ -610,9 +564,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(action)
-        DQL
+        matcher     = "isNotNull(action)"
         description = "add event.status"
         id          = "processor_add_event_status"
         enabled     = true
@@ -631,9 +583,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         id          = "processor_add_start_time"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd start_time = toTimestamp(created_at)
-          DQL
+          script = "fieldsAdd start_time = toTimestamp(created_at)"
         }
       }
       processor {
@@ -658,9 +608,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(commit)
-        DQL
+        matcher     = "isNotNull(commit)"
         description = "add vcs.ref.base.revision"
         id          = "processor_add_vcs_ref_base_revision"
         enabled     = true
@@ -674,9 +622,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(project)
-        DQL
+        matcher     = "isNotNull(project)"
         description = "add project properties"
         id          = "processor_add_project_properties"
         enabled     = true

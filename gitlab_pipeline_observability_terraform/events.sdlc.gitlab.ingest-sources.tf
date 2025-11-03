@@ -7,9 +7,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
     processors {
       processor {
         type        = "fieldsAdd"
-        matcher     = <<-DQL
-          isNull(event.kind)
-        DQL
+        matcher     = "isNull(event.kind)"
         description = "Add event.kind if not set"
         id          = "processor_add_event_kind_if_not_set"
         enabled     = true
@@ -24,16 +22,12 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNull(event.id)
-        DQL
+        matcher     = "isNull(event.id)"
         description = "Add event.id if not set"
         id          = "processor_add_event_id_if_not_set"
         enabled     = true
         dql {
-          script = <<-DQL
-            fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))
-          DQL
+          script = "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))"
         }
       }
       processor {
