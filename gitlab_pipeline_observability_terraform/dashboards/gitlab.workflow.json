@@ -183,7 +183,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -198,7 +198,6 @@
               "cicd.pipeline.run.outcome"
             ],
             "categoryAxisLabel": "cicd.pipeline.run.outcome",
-            "tooltipVariant": "single",
             "valueAxis": [
               "count()"
             ],
@@ -222,94 +221,14 @@
           },
           "circleChartSettings": {
             "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
             "valueType": "relative"
           },
-          "curve": "linear",
-          "gapPolicy": "connect",
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
+          "truncationMode": "middle"
         },
-        "dataMapping": {
-          "dimension": "cicd.pipeline.run.outcome",
-          "displayedFields": [
-            "cicd.pipeline.run.outcome",
-            "count()"
-          ],
-          "longitude": "count()",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [
-            "cicd.pipeline.run.outcome"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "count()"
-          },
-          "displayedFields": [
-            "cicd.pipeline.run.outcome"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "cicd.pipeline.run.outcome",
-          "prefixIcon": "",
-          "recordField": "cicd.pipeline.run.outcome",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "1": {
@@ -329,7 +248,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -338,106 +257,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "count()"
-            ],
-            "categoryAxisLabel": "count()",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "count()"
-            ],
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "count()",
-          "displayedFields": [
-            "count()"
-          ],
-          "longitude": "count()",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Count",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "count()",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "10": {
@@ -457,7 +286,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -466,104 +295,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "median(duration)"
-            ],
-            "categoryAxisLabel": "median(duration)",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "median(duration)"
-            ],
-            "valueAxisLabel": "median(duration)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "median(duration)",
-          "displayedFields": [
-            "avg(duration)"
-          ],
-          "longitude": "median(duration)",
-          "value": "avg(duration)"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "median(duration)"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "avg(duration)",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "avg(duration)",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "median(duration)",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "11": {
@@ -583,7 +324,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -598,7 +339,6 @@
               "cicd.pipeline.run.trigger"
             ],
             "categoryAxisLabel": "cicd.pipeline.run.trigger",
-            "tooltipVariant": "single",
             "valueAxis": [
               "count()"
             ],
@@ -626,95 +366,11 @@
           },
           "circleChartSettings": {
             "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
             "valueType": "relative"
           },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
+          "truncationMode": "middle"
         },
-        "dataMapping": {
-          "dimension": "cicd.pipeline.run.trigger",
-          "displayedFields": [
-            "cicd.pipeline.run.trigger",
-            "count()"
-          ],
-          "longitude": "count()",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [
-            "cicd.pipeline.run.trigger"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "count()"
-          },
-          "displayedFields": [
-            "cicd.pipeline.run.trigger"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "cicd.pipeline.run.outcome",
-          "prefixIcon": "",
-          "recordField": "cicd.pipeline.run.outcome",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "18": {
@@ -742,8 +398,6 @@
               "tasks[task.runner.name]"
             ],
             "categoryAxisLabel": "tasks[task.runner.name]",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "Count"
             ],
@@ -751,92 +405,14 @@
           },
           "categoryOverrides": {},
           "circleChartSettings": {
-            "groupingThresholdType": "number-of-slices",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
+            "groupingThresholdType": "number-of-slices"
           },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "tasks[task.runner.name]",
-          "displayedFields": [
-            "task.runner.name",
-            "Count"
-          ],
-          "longitude": "Count",
-          "value": "Count"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "Count"
-            }
-          ],
-          "displayedFields": [
-            "tasks[task.runner.name]"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "Count"
-          },
-          "displayedFields": [
-            "tasks[task.runner.name]"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Count",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
+          "truncationMode": "middle"
         },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727680127964,
@@ -848,11 +424,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "2": {
@@ -872,7 +444,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -881,119 +453,28 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "avg(duration)"
-            ],
-            "categoryAxisLabel": "avg(duration)",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "avg(duration)"
-            ],
-            "valueAxisLabel": "avg(duration)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "avg(duration)",
-          "displayedFields": [
-            "median(duration)"
-          ],
-          "longitude": "avg(duration)",
-          "value": "median(duration)"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "avg(duration)"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "median(duration)",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "median(duration)",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "avg(duration)",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "20": {
       "content": "### GitLab Pipeline Pulse\n\nThis dashboard offers a detailed overview of your GitLab pipeline executions, providing valuable insights into the performance and efficiency of your CI/CD pipelines.",
-      "title": "",
       "type": "markdown"
     },
     "24": {
       "content": "### Pipeline Details\n\nThis section provides a clear and detailed view of the current state of GitLab pipeline executions, enabling you to manage and improve them effectively. \n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "25": {
       "content": "### Job Details\n\nThis section will give you a comprehensive view of the detailed performance and status of individual jobs within your GitLab pipelines, enabling you to monitor, analyze, and optimize your CI/CD processes effectively. \n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "3": {
@@ -1022,106 +503,18 @@
               "task.name"
             ],
             "categoryAxisLabel": "task.name",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "duration"
             ],
             "valueAxisLabel": "duration"
           },
           "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisScaling": "analyzedTimeframe"
+          "truncationMode": "middle"
         },
-        "dataMapping": {
-          "dimension": "task.name",
-          "displayedFields": [
-            "TaskName",
-            "Median"
-          ],
-          "longitude": "duration",
-          "value": "Median"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "duration"
-            }
-          ],
-          "displayedFields": [
-            "task.name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "duration"
-          },
-          "displayedFields": [
-            "task.name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Median",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "30": {
@@ -1141,7 +534,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1150,114 +543,24 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "avg(tasks[duration])"
-            ],
-            "categoryAxisLabel": "avg(tasks[duration])",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "avg(tasks[duration])"
-            ],
-            "valueAxisLabel": "avg(tasks[duration])"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "avg(duration)",
-          "displayedFields": [
-            "median(duration)"
-          ],
-          "longitude": "avg(duration)",
-          "value": "median(duration)"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "avg(tasks[duration])"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "median(duration)",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "median(duration)",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "avg(tasks[duration])",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "32": {
       "content": " ",
-      "title": "",
       "type": "markdown"
     },
     "33": {
       "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
-      "title": "",
       "type": "markdown"
     },
     "34": {
@@ -1277,7 +580,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1286,106 +589,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "count()"
-            ],
-            "categoryAxisLabel": "count()",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "count()"
-            ],
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "count()",
-          "displayedFields": [
-            "count()"
-          ],
-          "longitude": "count()",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Count",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "count()",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "35": {
@@ -1405,7 +618,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1414,96 +627,15 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "successful"
-            ],
-            "categoryAxisLabel": "successful",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "successful"
-            ],
-            "valueAxisLabel": "successful"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "successful",
-          "displayedFields": [],
-          "longitude": "successful",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "successful"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "isIconVisible": true,
           "label": "failureRate",
+          "labelMode": "none",
           "prefixIcon": "SuccessIcon",
           "recordField": "successful",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
         },
         "thresholds": [
           {
@@ -1515,7 +647,7 @@
                 "color": {
                   "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
                 },
-                "comparator": "\u003e",
+                "comparator": ">",
                 "id": 0,
                 "label": "",
                 "value": 0
@@ -1524,9 +656,6 @@
             "title": ""
           }
         ],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727678780356,
@@ -1538,11 +667,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "36": {
@@ -1562,7 +687,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1571,96 +696,15 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "failed"
-            ],
-            "categoryAxisLabel": "failed",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "failed"
-            ],
-            "valueAxisLabel": "failed"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "failed",
-          "displayedFields": [],
-          "longitude": "failed",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "failed"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "isIconVisible": true,
           "label": "failureRate",
+          "labelMode": "none",
           "prefixIcon": "CriticalFailedIcon",
           "recordField": "failed",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
         },
         "thresholds": [
           {
@@ -1681,9 +725,6 @@
             "title": ""
           }
         ],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727678780356,
@@ -1695,11 +736,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "37": {
@@ -1719,7 +756,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1728,96 +765,15 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "other"
-            ],
-            "categoryAxisLabel": "other",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "other"
-            ],
-            "valueAxisLabel": "other"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "other",
-          "displayedFields": [],
-          "longitude": "other",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "other"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "isIconVisible": true,
           "label": "failureRate",
+          "labelMode": "none",
           "prefixIcon": "WarningIcon",
           "recordField": "other",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
         },
         "thresholds": [
           {
@@ -1838,9 +794,6 @@
             "title": ""
           }
         ],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727678780356,
@@ -1852,11 +805,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "38": {
@@ -1876,7 +825,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -1885,96 +834,15 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "successful"
-            ],
-            "categoryAxisLabel": "successful",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "successful"
-            ],
-            "valueAxisLabel": "successful"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "successful",
-          "displayedFields": [],
-          "longitude": "successful",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "successful"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "isIconVisible": true,
           "label": "failureRate",
+          "labelMode": "none",
           "prefixIcon": "SuccessIcon",
           "recordField": "successful",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
         },
         "thresholds": [
           {
@@ -1986,7 +854,7 @@
                 "color": {
                   "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
                 },
-                "comparator": "\u003e",
+                "comparator": ">",
                 "id": 0,
                 "label": "",
                 "value": 0
@@ -1995,9 +863,6 @@
             "title": ""
           }
         ],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727678780356,
@@ -2009,11 +874,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "39": {
@@ -2033,7 +894,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2042,96 +903,15 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "failure"
-            ],
-            "categoryAxisLabel": "failure",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "failure"
-            ],
-            "valueAxisLabel": "failure"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "failure",
-          "displayedFields": [],
-          "longitude": "failure",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "failure"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "isIconVisible": true,
           "label": "failureRate",
+          "labelMode": "none",
           "prefixIcon": "SuccessIcon",
           "recordField": "failure",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
         },
         "thresholds": [
           {
@@ -2152,9 +932,6 @@
             "title": ""
           }
         ],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727678780356,
@@ -2166,11 +943,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "4": {
@@ -2190,7 +963,7 @@
       },
       "timeframe": {
         "tileTimeframe": {
-          "from": "-7d",
+          "from": "now()-7d",
           "to": "now()"
         },
         "tileTimeframeEnabled": false
@@ -2199,95 +972,14 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "failureRate"
-            ],
-            "categoryAxisLabel": "failureRate",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "failureRate"
-            ],
-            "valueAxisLabel": "failureRate"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "longitude": "failureRate",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "failureRate"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "isIconVisible": false,
           "label": "failureRate",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "failureRate",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isLabelVisible": false,
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
         },
         "thresholds": [
           {
@@ -2325,9 +1017,6 @@
             "title": ""
           }
         ],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727678780356,
@@ -2339,11 +1028,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "42": {
@@ -2371,93 +1056,15 @@
               "task.failure"
             ],
             "categoryAxisLabel": "task.failure",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "count"
             ],
             "valueAxisLabel": "count"
           },
           "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "absolute",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count"
-            }
-          ],
-          "displayedFields": [
-            "task.failure"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "count"
-          },
-          "displayedFields": [
-            "task.failure"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
+          "truncationMode": "middle"
         },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727680127964,
@@ -2469,11 +1076,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "44": {
@@ -2502,93 +1105,15 @@
               "runner.name"
             ],
             "categoryAxisLabel": "runner.name",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "queued"
             ],
             "valueAxisLabel": "queued"
           },
           "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "absolute",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "queued"
-            }
-          ],
-          "displayedFields": [
-            "runner.name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "queued"
-          },
-          "displayedFields": [
-            "runner.name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
+          "truncationMode": "middle"
         },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727680127964,
@@ -2600,11 +1125,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "46": {
@@ -2628,33 +1149,6 @@
       "visualizationSettings": {
         "autoSelectVisualization": false,
         "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "cicd.pipeline.run.id",
-              "has_matching_runs",
-              "queued"
-            ],
-            "categoryAxisLabel": "cicd.pipeline.run.id,has_matching_runs,queued",
-            "categoryAxisTickLayout": "horizontal",
-            "colorPaletteMode": "multi-color",
-            "groupMode": "stacked",
-            "layout": "horizontal",
-            "scale": "absolute",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "cicd.pipeline.run.id",
-              "has_matching_runs",
-              "queued"
-            ],
-            "valueAxisLabel": "cicd.pipeline.run.id,has_matching_runs,queued"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
-          },
-          "colorPalette": "categorical",
           "curve": "smooth",
           "fieldMapping": {
             "leftAxisValues": [
@@ -2681,102 +1175,19 @@
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "seriesOverrides": [],
           "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisIsLabelVisible": false,
           "xAxisLabel": "end_time",
           "xAxisScaling": "analyzedTimeframe"
         },
         "dataMapping": {
-          "dimension": "cicd.pipeline.run.id",
           "displayedFields": [
             "start_time",
             "cicd.pipeline.run.id",
             "cicd.pipeline.run.attempt",
             "timeToStart"
-          ],
-          "latitude": "has_matching_pipeline",
-          "longitude": "cicd.pipeline.run.id",
-          "value": "cicd.pipeline.run.id"
+          ]
         },
-        "histogram": {
-          "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "cicd.pipeline.run.id"
-            },
-            {
-              "rangeAxis": "",
-              "valueAxis": "has_matching_runs"
-            },
-            {
-              "rangeAxis": "",
-              "valueAxis": "queued"
-            }
-          ],
-          "displayedFields": [],
-          "legend": "auto",
-          "truncationMode": "middle",
-          "variant": "single",
-          "yAxis": {
-            "label": "Frequency",
-            "scale": "linear"
-          }
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon",
-          "truncationMode": "middle"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "cicd.pipeline.run.id",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "start_time",
-          "prefixIcon": "",
-          "recordField": "avg(task.queued.duration)",
-          "showLabel": true,
-          "sparklineSettings": {},
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {},
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "5": {
@@ -2804,105 +1215,18 @@
               "name"
             ],
             "categoryAxisLabel": "name",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "Median"
             ],
             "valueAxisLabel": "Median"
           },
           "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
+          "truncationMode": "middle"
         },
-        "dataMapping": {
-          "dimension": "name",
-          "displayedFields": [
-            "name",
-            "Median"
-          ],
-          "longitude": "Median",
-          "value": "Median"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "Median"
-            }
-          ],
-          "displayedFields": [
-            "name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "Median"
-          },
-          "displayedFields": [
-            "name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Median",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "6": {
@@ -2912,7 +1236,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"gitlab\" \n| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| filter in(cicd.pipeline.name,$Pipeline)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100), by: {vcs.repository.name,cicd.pipeline.name }\n| filter failureRate\u003e0 \n| sort  failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"pipeline\" \n| filter event.type == \"run\" \n| filter event.status == \"finished\" \n| filter event.provider == \"gitlab\" \n| filter in(vcs.repository.url.full, $Repository) \n| filter in(cicd.pipeline.run.trigger, $Trigger)\n| filter in(cicd.pipeline.name,$Pipeline)\n| summarize failureRate = if(count() == 0, 0, else: toDouble(countIf(cicd.pipeline.run.outcome==\"failure\")) / toDouble(count())*100), by: {vcs.repository.name,cicd.pipeline.name }\n| filter failureRate>0 \n| sort  failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2931,8 +1255,6 @@
               "cicd.pipeline.name"
             ],
             "categoryAxisLabel": "vcs.repository.name,cicd.pipeline.name",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "failureRate"
             ],
@@ -2940,92 +1262,11 @@
           },
           "categoryOverrides": {},
           "circleChartSettings": {
-            "groupingThresholdType": "number-of-slices",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
+            "groupingThresholdType": "number-of-slices"
           },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "vcs.repository.name",
-          "displayedFields": [],
-          "longitude": "failureRate",
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "failureRate"
-            }
-          ],
-          "displayedFields": [
-            "vcs.repository.name",
-            "cicd.pipeline.name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "failureRate"
-          },
-          "displayedFields": [
-            "vcs.repository.name",
-            "cicd.pipeline.name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
+          "truncationMode": "middle"
         },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727680127964,
@@ -3037,11 +1278,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "7": {
@@ -3051,7 +1288,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"gitlab\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.url.full, $Repository) \n    and in(cicd.pipeline.name, $Pipeline) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, failure = if(task.outcome==\"failure\",1)), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  failureRate = 100 * sum(tasks[failure]) / count() \n}, by: {task.name = tasks[task.name] }\n| filter failureRate \u003e 0 \n| sort failureRate desc \n| limit 5",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.provider == \"gitlab\"\n| filter (event.category == \"task\" and event.status == \"finished\") \n  or\n  ( event.category == \"pipeline\" and event.type == \"run\" and event.status == \"finished\" \n    and in(vcs.repository.url.full, $Repository) \n    and in(cicd.pipeline.name, $Pipeline) \n    and in(cicd.pipeline.run.trigger, $Trigger)\n  )\n| summarize { \n  tasks = arrayRemoveNulls(collectArray(if(event.category == \"task\", record(task.name, failure = if(task.outcome==\"failure\",1)), else: null))),\n  has_matching_runs = countif(event.category == \"pipeline\")\n}, by: { cicd.pipeline.run.id }\n| expand tasks\n| filterOut has_matching_runs == 0 \n| summarize {\n  failureRate = 100 * sum(tasks[failure]) / count() \n}, by: {task.name = tasks[task.name] }\n| filter failureRate > 0 \n| sort failureRate desc \n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -3069,93 +1306,15 @@
               "task.name"
             ],
             "categoryAxisLabel": "task.name",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
             "valueAxis": [
               "failureRate"
             ],
             "valueAxisLabel": "failureRate"
           },
           "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "absolute",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [],
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "value": "failureRate"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "failureRate"
-            }
-          ],
-          "displayedFields": [
-            "task.name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "failureRate"
-          },
-          "displayedFields": [
-            "task.name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "failureRate",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
+          "truncationMode": "middle"
         },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727680127964,
@@ -3167,11 +1326,7 @@
             "suffix": "",
             "unitCategory": "percentage"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "8": {
@@ -3193,180 +1348,51 @@
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "Name",
-              "Status",
-              "Run",
-              "Trigger",
-              "Repository"
-            ],
-            "categoryAxisLabel": "Name,Status,Run,Trigger,Repository",
-            "colorPaletteMode": "multi-color",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "Duration"
-            ],
-            "valueAxisLabel": "Duration"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "fieldMapping": {
-            "leftAxisValues": [
-              "Duration"
-            ],
-            "timestamp": "Start"
-          },
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [
-            "Duration",
-            "Run_attempt",
-            "Attempts"
-          ],
-          "leftYAxisSettings": {},
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisIsLabelVisible": false,
-          "xAxisLabel": "Start",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "Duration",
-          "displayedFields": [
-            "Duration",
-            "Name",
-            "Status",
-            "Run",
-            "Attempts",
-            "Trigger",
-            "Start",
-            "End",
-            "Repository"
-          ],
-          "latitude": "Attempts",
-          "longitude": "Duration",
-          "value": "Attempts"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "Duration"
-            }
-          ],
-          "displayedFields": [
-            "Name",
-            "Status",
-            "Run",
-            "Trigger",
-            "Repository"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "Duration"
-          },
-          "displayedFields": [
-            "Name",
-            "Status",
-            "Run",
-            "Trigger",
-            "Repository"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Attempts",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "error",
-          "prefixIcon": "",
-          "recordField": "error",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
         "table": {
-          "columnTypeOverrides": [],
           "columnWidths": {
             "[\"Repository\"]": 273.09375,
             "[\"RunUrl\"]": 346.84375
           },
-          "enableSparklines": false,
-          "hiddenColumns": [],
           "lineWrapIds": [
             [
               "RunUrl"
             ]
           ],
           "linewrapEnabled": true,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
           "rowDensity": "comfortable"
         },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     }
   },
   "variables": [
     {
-      "defaultValue": [  ],
+      "defaultValue": [],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"gitlab\" and event.type == \"run\"\n| summarize distinctRepositories = collectDistinct(vcs.repository.url.full)\n| expand distinctRepositories\n| sort distinctRepositories",
       "key": "Repository",
       "multiple": true,
       "type": "query",
-      "version": 1,
+      "version": 2,
       "visible": true
     },
     {
-      "defaultValue": [  ],
+      "defaultValue": [],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"gitlab\" and event.type == \"run\"\n| filter in(vcs.repository.url.full, $Repository)\n| summarize distinctWorkflows = collectDistinct(cicd.pipeline.name)\n| expand distinctWorkflows\n| sort distinctWorkflows",
       "key": "Pipeline",
       "multiple": true,
       "type": "query",
-      "version": 1,
+      "version": 2,
       "visible": true
     },
     {
-      "defaultValue": [  ],
+      "defaultValue": [],
       "input": "fetch events\n| filter event.category == \"pipeline\" and event.status == \"finished\" and event.provider==\"gitlab\" and event.type == \"run\"\n| summarize distinctTriggers = collectDistinct(cicd.pipeline.run.trigger)\n| expand distinctTriggers\n| sort distinctTriggers",
       "key": "Trigger",
       "multiple": true,
       "type": "query",
-      "version": 1,
+      "version": 2,
       "visible": true
     }
   ],
-  "version": 17
+  "version": 20
 }

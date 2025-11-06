@@ -132,101 +132,16 @@
       "visualization": "singleValue",
       "visualizationSettings": {
         "autoSelectVisualization": false,
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "count()"
-            ],
-            "categoryAxisLabel": "count()",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "count()"
-            ],
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "count()",
-          "displayedFields": [],
-          "longitude": "count()",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Open PRs",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "count()",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "1": {
@@ -248,101 +163,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "max(OpenedPrDuration)"
-            ],
-            "categoryAxisLabel": "max(OpenedPrDuration)",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "max(OpenedPrDuration)"
-            ],
-            "valueAxisLabel": "max(OpenedPrDuration)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [
-            "count()"
-          ],
-          "longitude": "max(OpenedPrDuration)",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "max(OpenedPrDuration)"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "isIconVisible": false,
           "label": "max(OpenedPrDuration)",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "max(OpenedPrDuration)",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727701272906,
@@ -354,11 +184,7 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "10": {
@@ -381,137 +207,40 @@
       "visualization": "singleValue",
       "visualizationSettings": {
         "autoSelectVisualization": false,
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "count()"
-            ],
-            "categoryAxisLabel": "count()",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "count()"
-            ],
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [
-            "task"
-          ],
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "count()",
-          "displayedFields": [],
-          "longitude": "count()",
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Open PRs",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "count()",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {
-            "[\"statuses\"]": 259.734375
-          },
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "11": {
-      "content": "### GitLab Merge Request Pulse: Open \u0026 Merged Insights\nThis dashboard provides a comprehensive overview of the status of merge requests (MRs) in your GitLab repositories. Track open and merged MRs in real-time, analyze trends, and gain insights into your team's development workflow. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
-      "title": "",
+      "content": "### GitLab Merge Request Pulse: Open & Merged Insights\nThis dashboard provides a comprehensive overview of the status of merge requests (MRs) in your GitLab repositories. Track open and merged MRs in real-time, analyze trends, and gain insights into your team's development workflow. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
       "type": "markdown"
     },
     "12": {
       "content": "### Merged Merge Requests\n\nThis section provides a clear and detailed view of the merged merge requests, helping you to understand the efficiency and effectiveness of your code integration process.\n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "13": {
       "content": "### Open Merge Requests\n\nThis section provides a clear and detailed view of the current state of open merge requests, enabling you to manage and prioritize them effectively. \n\n-----",
-      "title": "",
       "type": "markdown"
     },
     "15": {
       "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification]() (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
-      "title": "",
       "type": "markdown"
     },
     "16": {
       "content": " ",
-      "title": "",
       "type": "markdown"
     },
     "18": {
       "content": "Space for additional KPI",
-      "title": "",
       "type": "markdown"
     },
     "2": {
@@ -533,123 +262,7 @@
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "Title",
-              "URL",
-              "HeadName",
-              "HeadRevision",
-              "BaseName",
-              "Repository"
-            ],
-            "categoryAxisLabel": "Title,URL,HeadName,HeadRevision,BaseName,Repository",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "In_open_status",
-              "PR"
-            ],
-            "valueAxisLabel": "In_open_status,PR"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "fieldMapping": {
-            "leftAxisValues": [
-              "In_open_status"
-            ],
-            "timestamp": "CreatedAt"
-          },
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [
-            "In_open_status",
-            "PR_number",
-            "GlobalId",
-            "PR"
-          ],
-          "leftYAxisSettings": {},
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisIsLabelVisible": false,
-          "xAxisLabel": "CreatedAt",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "value": "PR_number"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "In_open_status"
-            },
-            {
-              "rangeAxis": "",
-              "valueAxis": "PR"
-            }
-          ],
-          "displayedFields": [
-            "Title",
-            "URL",
-            "HeadName",
-            "HeadRevision",
-            "BaseName",
-            "Repository"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "In_open_status"
-          },
-          "displayedFields": [
-            "Title",
-            "URL",
-            "HeadName",
-            "HeadRevision",
-            "BaseName",
-            "Repository"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "PR_number",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "max(Duration)",
-          "prefixIcon": "",
-          "recordField": "max(Duration)",
-          "showLabel": false,
-          "sparklineSettings": {
-            "isVisible": true
-          },
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
         "table": {
-          "colorThresholdTarget": "value",
           "columnTypeOverrides": [
             {
               "fields": [],
@@ -667,19 +280,10 @@
             "[\"Source_repo\"]": 266.47222900390625,
             "[\"Target_repo\"]": 244.47222900390625
           },
-          "enableSparklines": false,
-          "enableThresholdInRow": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
           "linewrapEnabled": true,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
           "rowDensity": "default"
         },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1727701272906,
@@ -691,11 +295,7 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "20": {
@@ -718,108 +318,16 @@
       "visualization": "singleValue",
       "visualizationSettings": {
         "autoSelectVisualization": false,
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "avg(OpenedPrDuration)"
-            ],
-            "categoryAxisLabel": "avg(OpenedPrDuration)",
-            "categoryAxisTickLayout": "horizontal",
-            "colorPaletteMode": "multi-color",
-            "groupMode": "stacked",
-            "layout": "horizontal",
-            "scale": "absolute",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "avg(OpenedPrDuration)"
-            ],
-            "valueAxisLabel": "avg(OpenedPrDuration)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "colorPalette": "categorical",
-          "curve": "linear",
-          "gapPolicy": "gap",
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "displayedFields": [],
-          "longitude": "avg(OpenedPrDuration)",
-          "value": "avg(OpenedPrDuration)"
-        },
-        "histogram": {
-          "colorPalette": "categorical",
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "avg(OpenedPrDuration)"
-            }
-          ],
-          "displayedFields": [],
-          "legend": "auto",
-          "truncationMode": "middle",
-          "variant": "single",
-          "yAxis": {
-            "label": "Frequency",
-            "scale": "linear"
-          }
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "categorical",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon",
-          "truncationMode": "middle"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "avg(OpenedPrDuration)",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "avg(OpenedPrDuration)",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "avg(OpenedPrDuration)",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1740648009785,
@@ -831,16 +339,11 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "21": {
       "content": "Space for additional KPI",
-      "title": "",
       "type": "markdown"
     },
     "3": {
@@ -862,105 +365,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "count()"
-            ],
-            "categoryAxisLabel": "count()",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "count()"
-            ],
-            "valueAxisLabel": "count()"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "count()",
-          "displayedFields": [
-            "Count",
-            "Median",
-            "Avg"
-          ],
-          "longitude": "count()",
-          "value": "Count"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Count",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Merged PRs",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "count()",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "4": {
@@ -982,101 +396,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "percentile(duration, 50)"
-            ],
-            "categoryAxisLabel": "percentile(duration, 50)",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "percentile(duration, 50)"
-            ],
-            "valueAxisLabel": "percentile(duration, 50)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "percentile(duration, 50)",
-          "displayedFields": [
-            "Count",
-            "Median",
-            "Avg"
-          ],
-          "longitude": "percentile(duration, 50)",
-          "value": "Count"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "percentile(duration, 50)"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Count",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Median",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "percentile(duration, 50)",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1740648063968,
@@ -1088,11 +417,7 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "5": {
@@ -1115,101 +440,16 @@
       "type": "data",
       "visualization": "singleValue",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "avg(duration)"
-            ],
-            "categoryAxisLabel": "avg(duration)",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "avg(duration)"
-            ],
-            "valueAxisLabel": "avg(duration)"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "gapPolicy": "connect",
-          "legend": {
-            "hidden": true
-          },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "avg(duration)",
-          "displayedFields": [
-            "Count",
-            "Median",
-            "Avg"
-          ],
-          "longitude": "avg(duration)",
-          "value": "Count"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "avg(duration)"
-            }
-          ],
-          "displayedFields": [],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {},
-          "displayedFields": [],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Count",
-          "showLabel": false
-        },
         "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
           "label": "Avg",
+          "labelMode": "none",
           "prefixIcon": "",
           "recordField": "avg(duration)",
-          "showLabel": false,
-          "sparklineSettings": {},
           "trend": {
-            "isVisible": true,
-            "trendType": "auto"
+            "isVisible": true
           }
         },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
         "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
         "unitsOverrides": [
           {
             "added": 1740648048011,
@@ -1221,11 +461,7 @@
             "suffix": "",
             "unitCategory": "time"
           }
-        ],
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        ]
       }
     },
     "6": {
@@ -1247,156 +483,14 @@
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
-        "chartSettings": {
-          "categoricalBarChartSettings": {
-            "categoryAxis": [
-              "Title",
-              "URL",
-              "HeadName",
-              "HeadRevision",
-              "BaseName",
-              "Repository"
-            ],
-            "categoryAxisLabel": "Title,URL,HeadName,HeadRevision,BaseName,Repository",
-            "tooltipVariant": "single",
-            "valueAxis": [
-              "Duration",
-              "PR"
-            ],
-            "valueAxisLabel": "Duration,PR"
-          },
-          "categoryOverrides": {},
-          "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "relative"
-          },
-          "curve": "linear",
-          "fieldMapping": {
-            "leftAxisValues": [
-              "Duration"
-            ],
-            "timestamp": "MergedAt"
-          },
-          "gapPolicy": "connect",
-          "hiddenLegendFields": [
-            "Duration",
-            "Number",
-            "GlobalId",
-            "PR"
-          ],
-          "leftYAxisSettings": {},
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "valueRepresentation": "absolute",
-          "xAxisIsLabelVisible": false,
-          "xAxisLabel": "MergedAt",
-          "xAxisScaling": "analyzedTimeframe"
-        },
-        "dataMapping": {
-          "dimension": "MergedAt",
-          "displayedFields": [
-            "Duration",
-            "Number",
-            "Title",
-            "Url",
-            "SourceRepository",
-            "SourceRef",
-            "TargetRepository",
-            "TargetRef",
-            "CreatedAt",
-            "MergetAt",
-            "GlobalId"
-          ],
-          "latitude": "GlobalId",
-          "longitude": "Duration",
-          "value": "Number"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "Duration"
-            },
-            {
-              "rangeAxis": "",
-              "valueAxis": "PR"
-            }
-          ],
-          "displayedFields": [
-            "Title",
-            "URL",
-            "HeadName",
-            "HeadRevision",
-            "BaseName",
-            "Repository"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "Duration"
-          },
-          "displayedFields": [
-            "Title",
-            "URL",
-            "HeadName",
-            "HeadRevision",
-            "BaseName",
-            "Repository"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Number",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "Median duration ( from open to merge )",
-          "prefixIcon": "",
-          "recordField": "Avg",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
         "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
           "rowDensity": "default",
           "sortBy": {
             "columnId": "[\"duration\"]",
             "direction": "descending"
           }
         },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "7": {
@@ -1425,7 +519,6 @@
               "vcs.ref.base.name"
             ],
             "categoryAxisLabel": "vcs.ref.base.name",
-            "tooltipVariant": "single",
             "valueAxis": [
               "count()"
             ],
@@ -1433,93 +526,15 @@
           },
           "categoryOverrides": {},
           "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
+            "groupingThresholdType": "relative"
           },
           "colorPalette": "swamps",
-          "curve": "linear",
-          "gapPolicy": "connect",
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
+          "truncationMode": "middle"
         },
-        "dataMapping": {
-          "displayedFields": [],
-          "value": "count()"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count()"
-            }
-          ],
-          "displayedFields": [
-            "vcs.ref.base.name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue-moss",
-          "dataMappings": {
-            "value": "count()"
-          },
-          "displayedFields": [
-            "vcs.ref.base.name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "max": null,
-          "min": null,
-          "shape": "circle"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "count()",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "Open PRs",
-          "prefixIcon": "",
-          "recordField": "count()",
-          "showLabel": true,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     },
     "8": {
@@ -1547,7 +562,6 @@
               "vcs.repository.name"
             ],
             "categoryAxisLabel": "vcs.repository.name",
-            "tooltipVariant": "single",
             "valueAxis": [
               "count"
             ],
@@ -1555,96 +569,15 @@
           },
           "categoryOverrides": {},
           "circleChartSettings": {
-            "groupingThresholdType": "relative",
-            "groupingThresholdValue": 0,
-            "valueType": "absolute"
+            "groupingThresholdType": "relative"
           },
           "colorPalette": "blue-steel",
-          "curve": "linear",
-          "gapPolicy": "connect",
           "legend": {
             "hidden": true
           },
-          "pointsDisplay": "auto",
-          "truncationMode": "middle",
-          "xAxisScaling": "analyzedTimeframe"
+          "truncationMode": "middle"
         },
-        "dataMapping": {
-          "dimension": "vcs.repository.name",
-          "displayedFields": [
-            "vcs.repository.name",
-            "Count"
-          ],
-          "longitude": "count",
-          "value": "Count"
-        },
-        "histogram": {
-          "dataMappings": [
-            {
-              "rangeAxis": "",
-              "valueAxis": "count"
-            }
-          ],
-          "displayedFields": [
-            "vcs.repository.name"
-          ],
-          "variant": "single"
-        },
-        "honeycomb": {
-          "colorMode": "color-palette",
-          "colorPalette": "blue",
-          "dataMappings": {
-            "value": "count"
-          },
-          "displayedFields": [
-            "vcs.repository.name"
-          ],
-          "legend": {
-            "hidden": false,
-            "position": "auto"
-          },
-          "shape": "hexagon"
-        },
-        "icon": {
-          "icon": "",
-          "showIcon": false
-        },
-        "label": {
-          "label": "Count",
-          "showLabel": false
-        },
-        "singleValue": {
-          "alignment": "center",
-          "autoscale": true,
-          "colorThresholdTarget": "value",
-          "label": "Avg",
-          "prefixIcon": "",
-          "recordField": "Avg",
-          "showLabel": false,
-          "trend": {
-            "isVisible": true,
-            "trendType": "auto"
-          }
-        },
-        "table": {
-          "columnTypeOverrides": [],
-          "columnWidths": {},
-          "enableSparklines": false,
-          "hiddenColumns": [],
-          "lineWrapIds": [],
-          "linewrapEnabled": false,
-          "monospacedFontColumns": [],
-          "monospacedFontEnabled": false,
-          "rowDensity": "condensed"
-        },
-        "thresholds": [],
-        "tooltip": {
-          "showCustomFields": false
-        },
-        "valueBoundaries": {
-          "max": "auto",
-          "min": "auto"
-        }
+        "thresholds": []
       }
     }
   },
@@ -1654,7 +587,7 @@
       "key": "Repository",
       "multiple": true,
       "type": "query",
-      "version": 1,
+      "version": 2,
       "visible": true
     },
     {
@@ -1665,9 +598,9 @@
       "key": "Branch",
       "multiple": true,
       "type": "query",
-      "version": 1,
+      "version": 2,
       "visible": true
     }
   ],
-  "version": 17
+  "version": 20
 }
