@@ -1,13 +1,80 @@
 configs:
-- id: events.sdlc
+
+###
+# INDEPENDENT CONFIGS
+#
+# This can be done in any order as the configs are independent.
+###
+- id: openpipeline.events.sdlc.github.ingest_sources
   config:
     parameters:
-      extractedIDs:
-        type: value
-        value:
-          id_9ecd9ce4_ad89_4aa8_af7b_ebb7daf55435: 9ecd9ce4-ad89-4aa8-af7b-ebb7daf55435
-    template: events.sdlc.github.json
+      ingestSourceDisplayName: "GitHub"
+      ingestSourcePathSegment: "github"
+    template: events.sdlc.github.ingest_sources.json
     skip: false
   type:
-    openpipeline:
-      kind: events.sdlc
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.ingest-sources"
+      schemaVersion: &schemaVersion "1.26"
+      scope: &scope "environment"
+- id: openpipeline.events.sdlc.github.pipelines.job
+  config:
+    parameters:
+      pipelineDisplayName: "GitHub Job"
+      pipelineCustomName: "pipeline_github_job_v2"
+    template: events.sdlc.github.pipelines.job.json
+    skip: false
+  type: &pipelineType
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.pipelines"
+      schemaVersion: *schemaVersion
+      scope: *scope
+- id: openpipeline.events.sdlc.github.pipelines.workflow
+  config:
+    parameters:
+      pipelineDisplayName: "GitHub Workflow"
+      pipelineCustomName: "pipeline_github_workflow_v2"
+    template: events.sdlc.github.pipelines.workflow.json
+    skip: false
+  type:
+    <<: *pipelineType
+- id: openpipeline.events.sdlc.github.pipelines.pull_request
+  config:
+    parameters:
+      pipelineDisplayName: "GitHub Pull Request"
+      pipelineCustomName: "pipeline_github_pull_request_v2"
+    template: events.sdlc.github.pipelines.pull_request.json
+    skip: false
+  type:
+    <<: *pipelineType
+
+###
+# GLOBAL CONFIGURATION
+#
+#   You cannot do partial updates here! Any routing for 'events.sdlc' must be present in the JSON file.
+#   Mind the order! All routing entries must be at the correct position according to their matchers.
+###
+- id: openpipeline.events.sdlc.global.routing
+  config:
+    parameters:
+      githubJobPipelineId:
+        configId: openpipeline.events.sdlc.github.pipelines.job
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+      githubWorkflowPipelineId:
+        configId: openpipeline.events.sdlc.github.pipelines.workflow
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+      githubPullRequestPipelineId:
+        configId: openpipeline.events.sdlc.github.pipelines.pull_request
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+    template: events.sdlc.global.routing.json
+    skip: false
+  type:
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.routing"
+      scope: *scope

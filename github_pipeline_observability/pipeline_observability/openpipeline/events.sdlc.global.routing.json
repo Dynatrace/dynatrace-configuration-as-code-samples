@@ -1,0 +1,25 @@
+{
+  "routingEntries": [
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "isNotNull(workflow_run)",
+      "description": "Route all GitHub events to workflow pipeline (v2)",
+      "pipelineId": "{{.githubWorkflowPipelineId}}"
+    },
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "isNotNull(workflow_job)",
+      "description": "Route all GitHub events to job pipeline (v2)",
+      "pipelineId": "{{.githubJobPipelineId}}"
+    },
+    {
+      "enabled": true,
+      "pipelineType": "custom",
+      "matcher": "isNotNull(pull_request)",
+      "description": "Route all GitHub events to pull request pipeline (v2)",
+      "pipelineId": "{{.githubPullRequestPipelineId}}"
+    }
+  ]
+}

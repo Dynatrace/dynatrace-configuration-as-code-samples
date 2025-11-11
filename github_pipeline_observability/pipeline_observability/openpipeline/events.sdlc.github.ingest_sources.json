@@ -1,0 +1,139 @@
+{
+  "displayName": "{{.ingestSourceDisplayName}}",
+  "sourceType": "http",
+  "pathSegment": "{{.ingestSourcePathSegment}}",
+  "defaultBucket": "default_events",
+  "enabled": true,
+  "processing": {
+    "processors": [
+      {
+        "type": "fieldsAdd",
+        "matcher": "isNull(event.kind)",
+        "description": "Add event.kind if not set",
+        "id": "processor_add_event_kind_if_not_set",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "isNull(event.provider)",
+        "description": "Add event.provider if not set",
+        "id": "processor_add_event_provider_if_not_set",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.provider",
+              "value": "github.com"
+            }
+          ]
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNull(event.id)",
+        "description": "Add event.id if not set",
+        "id": "processor_add_event_id_if_not_set",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))"
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "isNotNull(workflow_run)",
+        "description": "Add pipeline run properties",
+        "id": "processor_add_pipeline_run_properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "pipeline"
+            },
+            {
+              "name": "event.type",
+              "value": "run"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "isNotNull(workflow_job)",
+        "description": "Add build task properties",
+        "id": "processor_add_build_task_properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "build"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsAdd",
+        "matcher": "isNotNull(pull_request)",
+        "description": "Add change task properties",
+        "id": "processor_add_change_task_properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "change"
+            }
+          ]
+        }
+      },
+      {
+        "type": "fieldsRemove",
+        "matcher": "isNotNull(workflow_run) or isNotNull(workflow_job) or isNotNull(pull_request)",
+        "description": "Cleanup",
+        "id": "processor_fields_remove",
+        "enabled": false,
+        "fieldsRemove": {
+          "fields": [
+            "action",
+            "installation",
+            "repository",
+            "sender",
+            "workflow",
+            "workflow_job",
+            "workflow_run",
+            "pull_request"
+          ]
+        }
+      }
+    ]
+  }
+}
