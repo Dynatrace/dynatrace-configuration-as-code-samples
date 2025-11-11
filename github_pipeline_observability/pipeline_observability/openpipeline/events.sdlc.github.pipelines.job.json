@@ -66,7 +66,7 @@
         "id": "processor_clean_up",
         "enabled": true,
         "dql": {
-          "script": "fieldsKeep \n  event.kind, \n  event.status, \n  event.id, \n  event.provider, \n  event.category,\n  event.type,\n  duration, \n  start_time, \n  end_time,\n  timestamp,\n  task.outcome,\n  cicd.pipeline.run.id,\n  task.id,\n  task.name,\n  task.run.attempt,\n  task.steps,\n  task.labels,\n  task.runner.name,\n  task.runner.group.name,\n  vcs.ref.head.revision,\n  vcs.ref.head.name,\n  vcs.repository.name,\n  vcs.repository.url.full"
+          "script": "fieldsKeep \n  event.kind, \n  event.status, \n  event.id, \n  event.provider, \n  event.category,\n  event.type,\n  event.version,\n  duration, \n  start_time, \n  end_time,\n  timestamp,\n  task.outcome,\n  cicd.pipeline.run.id,\n  task.id,\n  task.name,\n  task.run.attempt,\n  task.steps,\n  task.labels,\n  task.runner.name,\n  task.runner.group.name,\n  vcs.ref.head.revision,\n  vcs.ref.head.name,\n  vcs.repository.name,\n  vcs.repository.url.full"
         }
       }
     ]
