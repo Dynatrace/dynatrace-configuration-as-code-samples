@@ -114,25 +114,6 @@
             }
           ]
         }
-      },
-      {
-        "type": "fieldsRemove",
-        "matcher": "isNotNull(workflow_run) or isNotNull(workflow_job) or isNotNull(pull_request)",
-        "description": "Cleanup",
-        "id": "processor_fields_remove",
-        "enabled": false,
-        "fieldsRemove": {
-          "fields": [
-            "action",
-            "installation",
-            "repository",
-            "sender",
-            "workflow",
-            "workflow_job",
-            "workflow_run",
-            "pull_request"
-          ]
-        }
       }
     ]
   }
