@@ -105,5 +105,4 @@ configs:
   type:
     settings:
       schema: "builtin:openpipeline.events.sdlc.routing"
-      schemaVersion: *schemaVersion
       scope: *scope
