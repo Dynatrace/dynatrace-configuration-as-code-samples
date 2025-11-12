@@ -8,7 +8,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.ingest_sources
   config:
     parameters:
-      ingestSourceDisplayName: "Gitlab"
+      ingestSourceDisplayName: "GitLab"
       ingestSourcePathSegment: "gitlab"
     template: events.sdlc.gitlab.ingest_sources.json
     skip: false
@@ -20,7 +20,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.pipelines.job
   config:
     parameters:
-      pipelineDisplayName: "Gitlab Job"
+      pipelineDisplayName: "GitLab Job"
       pipelineCustomName: "pipeline_gitlab_job_v2"
     template: events.sdlc.gitlab.pipelines.job.json
     skip: false
@@ -32,7 +32,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.pipelines.pipeline
   config:
     parameters:
-      pipelineDisplayName: "Gitlab Pipeline"
+      pipelineDisplayName: "GitLab Pipeline"
       pipelineCustomName: "pipeline_gitlab_pipeline_v2"
     template: events.sdlc.gitlab.pipelines.pipeline.json
     skip: false
@@ -41,7 +41,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.pipelines.merge_request
   config:
     parameters:
-      pipelineDisplayName: "Gitlab Merge Request"
+      pipelineDisplayName: "GitLab Merge Request"
       pipelineCustomName: "pipeline_gitlab_merge_request_v2"
     template: events.sdlc.gitlab.pipelines.merge_request.json
     skip: false
@@ -50,7 +50,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.pipelines.release
   config:
     parameters:
-      pipelineDisplayName: "Gitlab Release"
+      pipelineDisplayName: "GitLab Release"
       pipelineCustomName: "pipeline_gitlab_release_v2"
     template: events.sdlc.gitlab.pipelines.release.json
     skip: false
@@ -59,7 +59,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.pipelines.deployment
   config:
     parameters:
-      pipelineDisplayName: "Gitlab Deployment"
+      pipelineDisplayName: "GitLab Deployment"
       pipelineCustomName: "pipeline_gitlab_deployment_v2"
     template: events.sdlc.gitlab.pipelines.deployment.json
     skip: false
