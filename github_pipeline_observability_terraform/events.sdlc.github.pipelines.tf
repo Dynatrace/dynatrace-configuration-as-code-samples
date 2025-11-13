@@ -86,34 +86,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         }
       }
       processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          isNotNull(pull_request) and event.status != "finished" and isNull(end_time)
-        DQL
-        description = "Remove end_time if null"
-        id          = "processor_remove_end_time_if_null"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "end_time"
-          ]
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          isNotNull(pull_request) and (action != "closed" and merged != true) and isNull(task.outcome)
-        DQL
-        description = "Remove task.outcome if null"
-        id          = "processor_remove_task_outcome_if_null"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "task.outcome"
-          ]
-        }
-      }
-      processor {
         type        = "dql"
         matcher     = "true"
         description = "Clean up"
@@ -168,23 +140,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(workflow_run) and event.status == "finished"
-        DQL
-        description = "Add end_time"
-        id          = "processor_add_end_time"
-        enabled     = true
-        dql {
-          script = <<-DQL
-            parse workflow_run, "JSON{STRING:updated_at}:run"
-            | fieldsFlatten run, fields:{updated_at}
-            | fieldsAdd end_time = toTimestamp(updated_at)
-            | fieldsRemove run, updated_at
-          DQL
-        }
-      }
-      processor {
-        type        = "dql"
         matcher     = "isNotNull(workflow_run)"
         description = "Add workflow run properties"
         id          = "processor_add_workflow_run_properties"
@@ -221,7 +176,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
             | fieldsAdd event.status = if(status == "in_progress", "started", else: if(status == "completed", "finished", else: status))
             | fieldsAdd duration = if((updated_at > run_started_at) and event.status == "finished", toTimestamp(updated_at) - toTimestamp(run_started_at), else: toDuration(0))
             | fieldsAdd start_time = toTimestamp(run_started_at)
-            // end_time has its own processor and must be before this one, as it is referenced below in 'et'
+            | fieldsAdd end_time = if(event.status == "finished", toTimestamp(updated_at))
 
             | fieldsAdd diff2h = toLong(7200000000000)
             | fieldsAdd nt = toLong(toTimestamp(now()))
@@ -241,20 +196,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
             | fieldsRename vcs.ref.head.revision = head_sha
             | fieldsRename vcs.ref.head.name = head_branch
           DQL
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          isNotNull(workflow_run) and (action != "completed" and action != "requested") and isNull(conclusion)
-        DQL
-        description = "Remove cicd.pipeline.run.outcome if null"
-        id          = "processor_remove_cicd_pipeline_run_outcome_if_null"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "cicd.pipeline.run.outcome"
-          ]
         }
       }
       processor {
@@ -416,48 +357,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
             | fieldsRename vcs.repository.url.full = repo.html_url
             | fieldsRemove repo
           DQL
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          isNotNull(workflow_job) and event.status != "started" and isNull(start_time)
-        DQL
-        description = "Remove start_time if null"
-        id          = "processor_remove_start_time_if_null"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "start_time"
-          ]
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          isNotNull(workflow_job) and event.status != "finished" and isNull(end_time)
-        DQL
-        description = "Remove end_time if null"
-        id          = "processor_remove_end_time_if_null"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "end_time"
-          ]
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          isNotNull(workflow_job) and action != "completed" and isNull(task.outcome)
-        DQL
-        description = "Remove task.outcome if null"
-        id          = "processor_remove_task_outcome_if_null"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "task.outcome"
-          ]
         }
       }
       processor {
