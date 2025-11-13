@@ -31,7 +31,7 @@
           "fields": [
             {
               "name": "event.provider",
-              "value": "github.com"
+              "value": "{{.eventProvider}}"
             }
           ]
         }

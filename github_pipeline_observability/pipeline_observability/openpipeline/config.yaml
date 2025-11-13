@@ -8,6 +8,7 @@ configs:
 - id: openpipeline.events.sdlc.github.ingest_sources
   config:
     parameters:
+      eventProvider: &eventProvider "github.com"
       ingestSourceDisplayName: "GitHub"
       ingestSourcePathSegment: "github"
     template: events.sdlc.github.ingest_sources.json
@@ -57,6 +58,7 @@ configs:
 - id: openpipeline.events.sdlc.global.routing
   config:
     parameters:
+      eventProvider: *eventProvider
       githubJobPipelineId:
         configId: openpipeline.events.sdlc.github.pipelines.job
         configType: builtin:openpipeline.events.sdlc.pipelines

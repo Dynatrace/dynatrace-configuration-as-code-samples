@@ -3,21 +3,21 @@
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "isNotNull(workflow_run)",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"pipeline\" and event.type == \"run\"",
       "description": "Route all GitHub events to workflow pipeline (v2)",
       "pipelineId": "{{.githubWorkflowPipelineId}}"
     },
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "isNotNull(workflow_job)",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"task\" and event.type == \"build\"",
       "description": "Route all GitHub events to job pipeline (v2)",
       "pipelineId": "{{.githubJobPipelineId}}"
     },
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "isNotNull(pull_request)",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"task\" and event.type == \"change\"",
       "description": "Route all GitHub events to pull request pipeline (v2)",
       "pipelineId": "{{.githubPullRequestPipelineId}}"
     }
