@@ -5,34 +5,12 @@
     "processors": [
       {
         "type": "dql",
-        "matcher": "isNotNull(workflow_run) and event.status == \"finished\"",
-        "description": "Add end_time",
-        "id": "processor_add_end_time",
-        "enabled": true,
-        "dql": {
-          "script": "parse workflow_run, \"JSON{STRING:updated_at}:run\" \n| fieldsFlatten run, fields:{updated_at} \n| fieldsAdd end_time = toTimestamp(updated_at)\n| fieldsRemove run, updated_at"
-        }
-      },
-      {
-        "type": "dql",
         "matcher": "isNotNull(workflow_run)",
         "description": "Add workflow run properties",
         "id": "processor_add_workflow_run_properties",
         "enabled": true,
         "dql": {
-          "script": "parse workflow_run,\n  \"JSON{\n    STRING:status,\n    STRING:updated_at,\n    STRING:run_started_at,\n    LONG:id,\n    STRING:html_url,\n    STRING:event,\n    LONG:run_attempt,\n    STRING:conclusion,\n    STRING:head_sha,\n    STRING:head_branch\n  }:run\"\n| fieldsFlatten run,\n  fields:{\n    status,\n    updated_at,\n    run_started_at,\n    id,\n    html_url,\n    event,\n    run_attempt,\n    conclusion,\n    head_sha,\n    head_branch\n  }\n\n| fieldsAdd event.status = if(status == \"in_progress\", \"started\", else: if(status == \"completed\", \"finished\", else: status))\n| fieldsAdd duration = if((updated_at > run_started_at) and event.status == \"finished\", toTimestamp(updated_at) - toTimestamp(run_started_at), else: toDuration(0))\n| fieldsAdd start_time = toTimestamp(run_started_at)\n// end_time has its own processor and must be before this one, as it is referenced below in 'et'\n\n| fieldsAdd diff2h = toLong(7200000000000)\n| fieldsAdd nt = toLong(toTimestamp(now()))\n| fieldsAdd st = if(nt - toLong(toTimestamp(start_time)) < diff2h, start_time, else: toTimestamp(nt))\n| fieldsAdd et = if(nt - toLong(toTimestamp(end_time)) < diff2h, end_time, else: toTimestamp(nt))\n| fieldsAdd ut = if(nt - toLong(toTimestamp(updated_at)) < diff2h, updated_at, else: toTimestamp(nt))\n| fieldsAdd timestamp = if(event.status == \"started\", st, else: if(event.status == \"finished\", et, else: ut))\n\n| fieldsAdd cicd.pipeline.run.outcome = if (action == \"completed\" or action == \"requested\", conclusion)\n\n| fieldsRemove run, status, updated_at, run_started_at, st, et, ut, nt, diff2h, conclusion\n\n| fieldsRename cicd.pipeline.run.id = id\n| fieldsRename cicd.pipeline.run.url.full = html_url\n| fieldsRename cicd.pipeline.run.trigger = event\n| fieldsRename cicd.pipeline.run.attempt = run_attempt\n| fieldsRename vcs.ref.head.revision = head_sha\n| fieldsRename vcs.ref.head.name = head_branch\n\n"
-        }
-      },
-      {
-        "type": "fieldsRemove",
-        "matcher": "isNotNull(workflow_run) and (action != \"completed\" and action != \"requested\") and isNull(conclusion)",
-        "description": "Remove cicd.pipeline.run.outcome if null",
-        "id": "processor_remove_cicd_pipeline_run_outcome_if_null",
-        "enabled": true,
-        "fieldsRemove": {
-          "fields": [
-            "cicd.pipeline.run.outcome"
-          ]
+          "script": "parse workflow_run,\n  \"JSON{\n    STRING:status,\n    STRING:updated_at,\n    STRING:run_started_at,\n    LONG:id,\n    STRING:html_url,\n    STRING:event,\n    LONG:run_attempt,\n    STRING:conclusion,\n    STRING:head_sha,\n    STRING:head_branch\n  }:run\"\n| fieldsFlatten run,\n  fields:{\n    status,\n    updated_at,\n    run_started_at,\n    id,\n    html_url,\n    event,\n    run_attempt,\n    conclusion,\n    head_sha,\n    head_branch\n  }\n\n| fieldsAdd event.status = if(status == \"in_progress\", \"started\", else: if(status == \"completed\", \"finished\", else: status))\n| fieldsAdd duration = if((updated_at > run_started_at) and event.status == \"finished\", toTimestamp(updated_at) - toTimestamp(run_started_at), else: toDuration(0))\n| fieldsAdd start_time = toTimestamp(run_started_at)\n| fieldsAdd end_time = if(event.status == \"finished\", toTimestamp(updated_at))\n\n| fieldsAdd diff2h = toLong(7200000000000)\n| fieldsAdd nt = toLong(toTimestamp(now()))\n| fieldsAdd st = if(nt - toLong(toTimestamp(start_time)) < diff2h, start_time, else: toTimestamp(nt))\n| fieldsAdd et = if(nt - toLong(toTimestamp(end_time)) < diff2h, end_time, else: toTimestamp(nt))\n| fieldsAdd ut = if(nt - toLong(toTimestamp(updated_at)) < diff2h, updated_at, else: toTimestamp(nt))\n| fieldsAdd timestamp = if(event.status == \"started\", st, else: if(event.status == \"finished\", et, else: ut))\n\n| fieldsAdd cicd.pipeline.run.outcome = if (action == \"completed\" or action == \"requested\", conclusion)\n\n| fieldsRemove run, status, updated_at, run_started_at, st, et, ut, nt, diff2h, conclusion\n\n| fieldsRename cicd.pipeline.run.id = id\n| fieldsRename cicd.pipeline.run.url.full = html_url\n| fieldsRename cicd.pipeline.run.trigger = event\n| fieldsRename cicd.pipeline.run.attempt = run_attempt\n| fieldsRename vcs.ref.head.revision = head_sha\n| fieldsRename vcs.ref.head.name = head_branch\n\n"
         }
       },
       {

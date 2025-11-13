@@ -24,30 +24,6 @@
         }
       },
       {
-        "type": "fieldsRemove",
-        "matcher": "isNotNull(pull_request) and event.status != \"finished\" and isNull(end_time)",
-        "description": "Remove end_time if null",
-        "id": "processor_remove_end_time_if_null",
-        "enabled": true,
-        "fieldsRemove": {
-          "fields": [
-            "end_time"
-          ]
-        }
-      },
-      {
-        "type": "fieldsRemove",
-        "matcher": "isNotNull(pull_request) and (action != \"closed\" and merged != true) and isNull(task.outcome)",
-        "description": "Remove task.outcome if null",
-        "id": "processor_remove_task_outcome_if_null",
-        "enabled": true,
-        "fieldsRemove": {
-          "fields": [
-            "task.outcome"
-          ]
-        }
-      },
-      {
         "type": "dql",
         "matcher": "true",
         "description": "Clean up",
