@@ -4,7 +4,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_routing" "events_sdlc_global_rou
       enabled       = true
       pipeline_type = "custom"
       matcher       = <<-DQL
-        object_kind == "pipeline"
+        event.provider == "${local.sdlc_event_provider}" and event.category == "pipeline" and event.type == "run"
       DQL
       description   = "Route all GitLab events into workflow pipeline (v2)"
       pipeline_id   = dynatrace_openpipeline_v2_events_sdlc_pipelines.events_sdlc_pipeline_gitlab_pipeline.id
@@ -13,7 +13,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_routing" "events_sdlc_global_rou
       enabled       = true
       pipeline_type = "custom"
       matcher       = <<-DQL
-        object_kind == "build"
+        event.provider == "${local.sdlc_event_provider}" and event.category == "task" and event.type == "build"
       DQL
       description   = "Route all GitLab events to job pipeline (v2)"
       pipeline_id   = dynatrace_openpipeline_v2_events_sdlc_pipelines.events_sdlc_pipeline_gitlab_job.id
@@ -22,7 +22,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_routing" "events_sdlc_global_rou
       enabled       = true
       pipeline_type = "custom"
       matcher       = <<-DQL
-        object_kind == "merge_request"
+        event.provider == "${local.sdlc_event_provider}" and event.category == "task" and event.type == "change"
       DQL
       description   = "Route all GitLab events into merge request pipeline (v2)"
       pipeline_id   = dynatrace_openpipeline_v2_events_sdlc_pipelines.events_sdlc_pipeline_gitlab_merge_request.id
@@ -31,7 +31,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_routing" "events_sdlc_global_rou
       enabled       = true
       pipeline_type = "custom"
       matcher       = <<-DQL
-        object_kind == "deployment"
+        event.provider == "${local.sdlc_event_provider}" and event.category == "task" and event.type == "deployment"
       DQL
       description   = "Route all GitLab events into deployment pipeline (v2)"
       pipeline_id   = dynatrace_openpipeline_v2_events_sdlc_pipelines.events_sdlc_pipeline_gitlab_deployment.id
@@ -40,7 +40,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_routing" "events_sdlc_global_rou
       enabled       = true
       pipeline_type = "custom"
       matcher       = <<-DQL
-        object_kind == "release"
+        event.provider == "${local.sdlc_event_provider}" and event.category == "task" and event.type == "release"
       DQL
       description   = "Route all GitLab events into release pipeline (v2)"
       pipeline_id   = dynatrace_openpipeline_v2_events_sdlc_pipelines.events_sdlc_pipeline_gitlab_release.id
