@@ -5,130 +5,81 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = "isNotNull(status)"
-        description = "add event.status"
-        id          = "processor_add_event_status"
-        enabled     = true
-        dql {
-          script = <<-DQL
-            fieldsAdd event.status = if(status == "running", "started", else: if(status != "running", "finished"))
-          DQL
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(status) and status == "running"
-        DQL
-        description = "add start_time"
-        id          = "processor_add_start_time"
-        enabled     = true
-        dql {
-          script = "fieldsAdd start_time = toTimestamp(status_changed_at)"
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          isNotNull(status) and status != "running"
-        DQL
-        description = "add end_time"
-        id          = "processor_add_end_time"
-        enabled     = true
-        dql {
-          script = <<-DQL
-            fieldsAdd end_time = toTimestamp(status_changed_at)
-            | fieldsAdd task.outcome = status
-          DQL
-        }
-      }
-      processor {
-        type        = "fieldsAdd"
-        matcher     = "true"
-        description = "add task.name"
-        id          = "processor_add_task_name"
-        enabled     = true
-        fields_add {
-          fields {
-            field {
-              name  = "task.name"
-              value = "GitLab Deployment"
-            }
-          }
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "deployment"
-        DQL
-        description = "add deployment properties"
+        matcher     = true
+        description = "Add deployment properties"
         id          = "processor_add_deployment_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            fieldsAdd task.id = deployment_id
-            | fieldsAdd deployment.environment.name = environment
-            | fieldsAdd deployment.url.full = deployable_url
-            | fieldsAdd ext.deployment.job.id = deployable_id
-            | fieldsAdd vcs.ref.base.revision = short_sha
-            | fieldsAdd vcs.ref.base.name = ref
+            fieldsAdd task.name = "GitLab Deployment"
+            | fieldsAdd event.status = if(status == "running", "started", else: "finished")
+            | fieldsAdd start_time = if (event.status == "started", toTimestamp(status_changed_at))
+            | fieldsAdd end_time = if(isNotNull(status) and status != "running", toTimestamp(status_changed_at))
+            | fieldsAdd task.outcome = if(status == "failed", "failure", else: if (status != "running", status))
+
+            | fieldsRename task.id = deployment_id
+            | fieldsRename deployment.environment.name = environment
+            | fieldsRename deployment.url.full = deployable_url
+            | fieldsRename ext.deployment.job.id = deployable_id
+            | fieldsRename vcs.ref.base.revision = short_sha
+            | fieldsRename vcs.ref.base.name = ref
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(project)"
-        description = "add project properties"
+        description = "Add project properties"
         id          = "processor_add_project_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse project, "JSON:project_j"
-            | fieldsAdd ext.project.id = project_j[id]
-            | fieldsAdd vcs.repository.url.full = project_j[web_url]
-            | fieldsAdd vcs.repository.name = project_j[name]
-            | fieldsRemove project_j
+            parse project,
+              "JSON{
+                LONG:id,
+                STRING:web_url,
+                STRING:name
+              }:project"
+            | fieldsFlatten project, fields: { id, web_url, name }
+
+            | fieldsRename ext.project.id = id
+            | fieldsRename vcs.repository.url.full = web_url
+            | fieldsRename vcs.repository.name = name
+
+            | fieldsRemove project
           DQL
         }
       }
       processor {
         type        = "dql"
-        matcher     = "isNotNull(task.outcome)"
-        description = "add task.outcome"
-        id          = "processor_add_task_outcome"
+        matcher     = "true"
+        description = "Clean up"
+        id          = "processor_clean_up"
         enabled     = true
         dql {
           script = <<-DQL
-            fieldsAdd task.outcome = if(task.outcome == "failed", "failure", else:task.outcome)
+            fieldsKeep
+              event.kind,
+              event.status,
+              event.id,
+              event.provider,
+              event.category,
+              event.type,
+              event.version,
+              start_time,
+              end_time,
+              timestamp,
+              task.outcome,
+              ext.project.id,
+              vcs.repository.url.full,
+              vcs.repository.name,
+              task.id,
+              deployment.environment.name,
+              deployment.url.full,
+              ext.deployment.job.id,
+              vcs.ref.base.revision,
+              vcs.ref.base.name
           DQL
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = "true"
-        description = "Clean up"
-        id          = "processor_fields_remove"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "object_kind",
-            "status",
-            "status_changed_at",
-            "deployment_id",
-            "deployable_id",
-            "deployable_url",
-            "environment",
-            "environment_tier",
-            "environment_slug",
-            "environment_external_url",
-            "project",
-            "short_sha",
-            "user",
-            "user_url",
-            "commit_url",
-            "commit_title"
-          ]
         }
       }
     }
@@ -155,22 +106,56 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         enabled     = true
         dql {
           script = <<-DQL
-          parse object_attributes, "JSON:obj_attr_j"
-          | fieldsAdd duration = if(obj_attr_j[state] == "merged" and obj_attr_j[action] == "merge", toDuration(toTimestamp(obj_attr_j[updated_at]) - toTimestamp(obj_attr_j[created_at])), else: toDuration(0))
-          | fieldsAdd event.status = obj_attr_j[state]
-          | fieldsAdd start_time = toTimestamp(obj_attr_j[created_at])
-          | fieldsAdd end_time = if(in(obj_attr_j[state], {"merged", "closed"}) and in(obj_attr_j[action], {"close", "merge"}), toTimestamp(obj_attr_j[updated_at]))
-          | fieldsAdd task.id = obj_attr_j[id]
-          | fieldsAdd vcs.change.id = obj_attr_j[iid]
-          | fieldsAdd vcs.change.title = obj_attr_j[title]
-          | fieldsAdd vcs.repository.ref.revision = obj_attr_j[merge_commit_sha]
-          | fieldsAdd vcs.ref.head.name = obj_attr_j[source_branch]
-          | fieldsAdd vcs.ref.head.revision = obj_attr_j[last_commit][id]
-          | fieldsAdd vcs.ref.base.name = obj_attr_j[target_branch]
-          | fieldsAdd ext.task.action = obj_attr_j[action]
-          | fieldsAdd ext.task.action.made_at = toTimestamp(obj_attr_j[updated_at])
-          | fieldsAdd vcs.change.url.full = obj_attr_j[url]
-          | fieldsRemove obj_attr_j
+            parse object_attributes,
+              "JSON{
+                STRING:state,
+                STRING:action,
+                STRING:updated_at,
+                STRING:created_at,
+                LONG:id,
+                LONG:iid,
+                STRING:title,
+                STRING:merge_commit_sha,
+                STRING:source_branch,
+                STRING:target_branch,
+                STRING:url,
+                JSON{
+                  STRING:id
+                }:last_commit
+              }:obj"
+            | fieldsFlatten obj,
+              fields: {
+                state,
+                action,
+                updated_at,
+                created_at,
+                id,
+                iid,
+                title,
+                merge_commit_sha,
+                source_branch,
+                target_branch,
+                url
+              }
+
+            | fieldsAdd duration = if(state == "merged" and action == "merge", toDuration(toTimestamp(updated_at) - toTimestamp(created_at)), else: toDuration(0))
+            | fieldsAdd start_time = toTimestamp(created_at)
+            | fieldsAdd end_time = if(in(state,{"merged","closed"}) and in(action, {"close","merge"}), toTimestamp(updated_at))
+            | fieldsAdd ext.task.action.made_at = toTimestamp(updated_at)
+            | fieldsAdd vcs.ref.head.revision = last_commit[id]
+
+            | fieldsRemove obj, last_commit, updated_at, created_at
+
+            | fieldsRename event.status = state
+            | fieldsRename task.id = id
+            | fieldsRename vcs.change.id = iid
+            | fieldsRename vcs.change.title = title
+            | fieldsRename vcs.repository.ref.revision = merge_commit_sha
+            | fieldsRename vcs.ref.head.name = source_branch
+            | fieldsRename vcs.ref.base.name = target_branch
+            | fieldsRename ext.task.action = action
+            | fieldsRename vcs.change.url.full = url
+            | fieldsRename ext.task.labels = labels
           DQL
         }
       }
@@ -182,21 +167,14 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         enabled     = true
         dql {
           script = <<-DQL
-            parse project, "JSON:project_j"
-            | fieldsAdd vcs.repository.name = project_j[name]
-            | fieldsAdd vcs.repository.url.full = project_j[web_url]
-            | fieldsRemove project_j
+            parse project, "JSON{STRING:name, STRING:web_url}:project"
+            | fieldsFlatten project, fields: { name, web_url }
+
+            | fieldsRename vcs.repository.name = name
+            | fieldsRename vcs.repository.url.full = web_url
+
+            | fieldsRemove project
           DQL
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = "isNotNull(labels)"
-        description = "add ext.task.labels"
-        id          = "processor_add_ext_task_labels"
-        enabled     = true
-        dql {
-          script = "fieldsAdd ext.task.labels = labels"
         }
       }
       processor {
@@ -207,29 +185,50 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
         enabled     = true
         dql {
           script = <<-DQL
-            parse user, "JSON:user_j"
-            | fieldsAdd ext.task.sender.name = user_j[name]
-            | fieldsRemove user_j
+            parse user, "JSON{STRING:name}:user"
+            | fieldsFlatten user, fields:{ name }
+
+            | fieldsRename ext.task.sender.name = name
+
+            | fieldsRemove user
           DQL
         }
       }
       processor {
-        type        = "fieldsRemove"
+        type        = "dql"
         matcher     = "true"
         description = "Clean up"
-        id          = "processor_remove_fields"
+        id          = "processor_clean_up"
         enabled     = true
-        fields_remove {
-          fields = [
-            "object_kind",
-            "event_type",
-            "user",
-            "project",
-            "object_attributes",
-            "labels",
-            "changes",
-            "repository"
-          ]
+        dql {
+          script = <<-DQL
+            fieldsKeep
+              event.kind,
+              event.status,
+              event.id,
+              event.provider,
+              event.category,
+              event.type,
+              event.version,
+              start_time,
+              end_time,
+              duration,
+              timestamp,
+              ext.task.action.made_at,
+              vcs.ref.head.revision,
+              task.id,
+              vcs.change.id,
+              vcs.change.title,
+              vcs.repository.ref.revision,
+              vcs.ref.head.name,
+              vcs.ref.base.name,
+              ext.task.action,
+              vcs.change.url.full,
+              ext.task.labels,
+              vcs.repository.url.full,
+              vcs.repository.name,
+              ext.task.sender.name
+          DQL
         }
       }
     }
@@ -251,120 +250,188 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
       processor {
         type        = "dql"
         matcher     = "isNotNull(object_attributes)"
-        description = "add object attribute properties"
+        description = "Add object attribute properties"
         id          = "processor_add_object_attribute_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse object_attributes, "JSON:obj_attr_j"
-            | fieldsAdd duration = if(isNotNull(obj_attr_j[finished_at]), toDuration(toTimestamp(obj_attr_j[finished_at]) - toTimestamp(obj_attr_j[created_at])), else: toDuration(0))
-            | fieldsAdd pipeline.queued.duration = if(isNotNull(obj_attr_j[queued_duration]), toDuration(obj_attr_j[queued_duration]*1000000000), else: toDuration(0))
-            | fieldsAdd cicd.pipeline.run.id = obj_attr_j[id]
-            | fieldsAdd cicd.pipeline.run.url.full = obj_attr_j[url]
-            | fieldsAdd cicd.pipeline.run.trigger = obj_attr_j[source]
-            | fieldsAdd vcs.ref.head.name = obj_attr_j[ref]
-            | fieldsAdd vcs.ref.head.revision = obj_attr_j[sha]
-            | fieldsAdd cicd.pipeline.run.variable = obj_attr_j[variables]
-            | fieldsAdd event.status = if(isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status] != "running", "finished", else:obj_attr_j[status])
-            | fieldsAdd cicd.pipeline.run.outcome = if(isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status] != "running", obj_attr_j[status])
-            | fieldsAdd end_time = if(isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status] != "running", toTimestamp(obj_attr_j[finished_at]))
-            | fieldsAdd start_time = if(isNotNull(obj_attr_j[created_at]), toTimestamp(obj_attr_j[created_at]))
-            | fieldsAdd cicd.pipeline.name = if(isNotNull(obj_attr_j[name]), obj_attr_j[name], else: "unknown")
-            | fieldsRemove obj_attr_j
+            parse object_attributes,
+              "JSON{
+                STRING:finished_at,
+                STRING:created_at,
+                LONG:queued_duration,
+                STRING:status,
+                STRING:name,
+                LONG:id,
+                STRING:url,
+                STRING:source,
+                STRING:ref,
+                STRING:sha,
+                STRING:variables
+              }:obj"
+            | fieldsFlatten obj,
+              fields: {
+                finished_at,
+                created_at,
+                queued_duration,
+                status,
+                name,
+                id,
+                url,
+                source,
+                ref,
+                sha,
+                variables
+              }
+
+            | fieldsAdd duration = if(isNotNull(finished_at), toDuration(toTimestamp(finished_at) - toTimestamp(created_at)), else: toDuration(0))
+            | fieldsAdd pipeline.queued.duration = if(isNotNull(queued_duration), toDuration(queued_duration * 1000000000), else: toDuration(0))
+            | fieldsAdd event.status = if(isNotNull(finished_at) and status != "running", "finished", else: status)
+
+            | fieldsAdd cicd.pipeline.run.outcome = if(status == "failed", "failure", else: if(isNotNull(finished_at) and status != "running" , status))
+            | fieldsAdd end_time = if(isNotNull(finished_at) and status != "running", toTimestamp(finished_at))
+            | fieldsAdd start_time = if(isNotNull(created_at), toTimestamp(created_at))
+            | fieldsAdd cicd.pipeline.name = if(isNotNull(name), name, else: "unknown")
+
+            | fieldsRemove obj, finished_at, created_at, status, name
+
+
+            | fieldsRename cicd.pipeline.run.id = id
+            | fieldsRename cicd.pipeline.run.url.full = url
+            | fieldsRename cicd.pipeline.run.trigger = source
+            | fieldsRename vcs.ref.head.name = ref
+            | fieldsRename vcs.ref.head.revision = sha
+            | fieldsRename cicd.pipeline.run.variable = variables
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(source_pipeline)"
-        description = "add source pipeline properties"
+        description = "Add source pipeline properties"
         id          = "processor_add_source_pipeline_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse source_pipeline, "JSON:src_pipe_j"
-            | fieldsAdd cicd.upstream_pipeline.id = src_pipe_j[project][id]
-            | fieldsAdd cicd.upstream_pipeline.run.id = src_pipe_j[pipeline_id]
-            | fieldsAdd ext.upstream_pipeline.run.job.id = src_pipe_j[job_id]
-            | fieldsRemove src_pipe_j
+            parse source_pipeline,
+              "JSON{
+                JSON{
+                  LONG:id
+                }:project,
+                LONG:pipeline_id,
+                LONG:job_id
+              }:pipeline"
+            | fieldsFlatten pipeline, fields: { project, pipeline_id, job_id}
+
+            | fieldsAdd cicd.upstream_pipeline.id = project[id]
+
+            | fieldsRename cicd.upstream_pipeline.run.id = pipeline_id
+            | fieldsRename ext.upstream_pipeline.run.job.id = job_id
+
+            | fieldsRemove pipeline, project
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(project)"
-        description = "add project properties"
+        description = "Add project properties"
         id          = "processor_add_project_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse project, "JSON:proj_j"
-            | fieldsAdd ext.pipeline.project.name = proj_j[name]
-            | fieldsAdd ext.pipeline.project.namespace = proj_j[namespace]
-            | fieldsAdd vcs.repository.url.full = proj_j[web_url]
-            | fieldsAdd vcs.repository.name = proj_j[name]
-            | fieldsAdd cicd.pipeline.id = proj_j[id]
-            | fieldsRemove proj_j
+            parse project,
+              "JSON{
+                STRING:name,
+                STRING:namespace,
+                STRING:web_url,
+                LONG:id
+              }:project"
+            | fieldsFlatten project,
+              fields: {
+                name,
+                namespace,
+                web_url,
+                id
+              }
+
+            | fieldsAdd ext.pipeline.project.name = name
+            | fieldsRename ext.pipeline.project.namespace = namespace
+            | fieldsRename vcs.repository.url.full = web_url
+            | fieldsRename vcs.repository.name = name
+            | fieldsRename cicd.pipeline.id = id
+
+            | fieldsRemove project
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(merge_request)"
-        description = "add vcs.change.id"
-        id          = "processor_add_vcs_change_id"
+        description = "Add merge request properties"
+        id          = "processor_add_merge_request_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse merge_request, "JSON:mr_j"
-            | fieldsAdd vcs.change.id = mr_j[iid]
-            | fieldsRemove mr_j
+            parse merge_request, "JSON{LONG:iid}:merge_request"
+            | fieldsAdd vcs.change.id = merge_request[iid]
+            | fieldsRemove merge_request
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(user)"
-        description = "add ext.pipeline.run.trigger.user"
-        id          = "processor_add_ext_pipeline_run_trigger_user"
+        description = "Add user properties"
+        id          = "processor_add_user_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse user, "JSON:user_j"
-            | fieldsAdd ext.pipeline.run.trigger.user = user_j
-            | fieldsRemove user_j
+            parse user, "JSON{LONG:id, STRING:username}:user"
+            | fieldsRename ext.pipeline.run.trigger.user = user
           DQL
         }
       }
       processor {
         type        = "dql"
-        matcher     = "isNotNull(cicd.pipeline.run.outcome)"
-        description = "add cicd.pipeline.run.outcome"
-        id          = "processor_add_cicd_pipeline_run_outcome"
+        matcher     = "true"
+        description = "Clean up"
+        id          = "processor_clean_up"
         enabled     = true
         dql {
           script = <<-DQL
-            fieldsAdd cicd.pipeline.run.outcome = if(cicd.pipeline.run.outcome == "failed", "failure", else:cicd.pipeline.run.outcome)
+            fieldsKeep
+              event.kind,
+              event.status,
+              event.id,
+              event.provider,
+              event.category,
+              event.type,
+              event.version,
+              duration,
+              start_time,
+              end_time,
+              timestamp,
+              pipeline.queued.duration,
+              cicd.pipeline.run.outcome,
+              cicd.pipeline.name,
+              cicd.pipeline.run.id,
+              cicd.pipeline.run.url.full,
+              cicd.pipeline.run.trigger,
+              vcs.ref.head.name,
+              vcs.ref.head.revision,
+              cicd.pipeline.run.variable,
+              cicd.upstream_pipeline.id,
+              cicd.upstream_pipeline.run.id,
+              ext.upstream_pipeline.run.job.id,
+              ext.pipeline.project.name,
+              ext.pipeline.project.namespace,
+              vcs.repository.url.full,
+              vcs.repository.name,
+              cicd.pipeline.id,
+              vcs.change.id,
+              ext.pipeline.run.trigger.user
           DQL
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = "true"
-        description = "Clean up"
-        id          = "processor_remove_fields"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "object_kind",
-            "object_attributes",
-            "merge_request",
-            "user",
-            "project",
-            "commit",
-            "source_pipeline",
-            "builds"
-          ]
         }
       }
     }
@@ -385,165 +452,95 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "build"
-        DQL
-        description = "add build task properties"
+        matcher     = true
+        description = "Add build task properties"
         id          = "processor_add_build_task_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            fieldsAdd event.status = if(isNotNull(build_finished_at) and build_status != "running", "finished", else:build_status)
+            fieldsAdd event.status = if(isNotNull(build_finished_at) and build_status != "running", "finished", else: build_status)
             | fieldsAdd duration = if(isNotNull(build_duration), toDuration(build_duration*1000000000), else: toDuration(0))
             | fieldsAdd task.queued.duration = if(isNotNull(build_queued_duration), toDuration(build_queued_duration*1000000000), else: toDuration(0))
-            | fieldsAdd task.outcome = if(isNotNull(build_finished_at) and build_status != "running", build_status)
-            | fieldsAdd cicd.pipeline.run.id = pipeline_id
-            | fieldsAdd task.id = build_id
-            | fieldsAdd task.name = build_name
-            | fieldsAdd task.retry = retries_count
+            | fieldsAdd task.outcome = if(build_status == "failed", "failure", else: if(isNotNull(build_finished_at) and build_status != "running", build_status))
+            | fieldsAdd start_time = if(build_status == "running" and isNotNull(build_started_at), toTimestamp(build_started_at))
+            | fieldsAdd end_time = if(build_status != "running" and isNotNull(build_finished_at), toTimestamp(build_finished_at))
+            | fieldsAdd task.outcome.failure.reason = if(build_status == "failed", build_failure_reason)
+
+            | fieldsRename cicd.pipeline.run.id = pipeline_id
+            | fieldsRename task.id = build_id
+            | fieldsRename task.name = build_name
+            | fieldsRename task.retry = retries_count
+            | fieldsRename ext.task.build.environment = environment
+            | fieldsRename ext.task.stage.name = build_stage
           DQL
         }
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "build" and build_status == "running" and isNotNull(build_started_at)
-        DQL
-        description = "add start_time"
-        id          = "processor_add_start_time"
-        enabled     = true
-        dql {
-          script = "fieldsAdd start_time = toTimestamp(build_started_at)"
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "build" and build_status != "running" and isNotNull(build_finished_at)
-        DQL
-        description = "add end_time"
-        id          = "processor_add_end_time"
-        enabled     = true
-        dql {
-          script = "fieldsAdd end_time = toTimestamp(build_finished_at)"
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "build" and build_status == "failed"
-        DQL
-        description = "add task.outcome.failure.reason"
-        id          = "processor_add_task_outcome_failure_reason"
-        enabled     = true
-        dql {
-          script = "fieldsAdd task.outcome.failure.reason = build_failure_reason"
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "build" and isNotNull(environment)
-        DQL
-        description = "add ext.task.build.environment"
-        id          = "processor_add_ext_task_build_environment"
-        enabled     = true
-        dql {
-          script = "fieldsAdd ext.task.build.environment = environment"
-        }
-      }
-      processor {
-        type        = "dql"
         matcher     = "isNotNull(project)"
-        description = "add vcs.repository.name"
-        id          = "processor_add_vcs_repository_name"
+        description = "Add project properties"
+        id          = "processor_add_project_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse project, "JSON:proj_j"
-            | fieldsAdd vcs.repository.name = proj_j[name]
-            | fieldsRemove proj_j
+            parse project, "JSON{STRING:name}:project"
+            | fieldsFlatten project, fields:{ name }
+
+            | fieldsRename vcs.repository.name = name
+
+            | fieldsRemove project
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(runner)"
-        description = "add task.runner.name"
-        id          = "processor_add_task_runner_name"
+        description = "Add runner properties"
+        id          = "processor_add_runner_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse runner, "JSON:runner_j"
-            | fieldsAdd task.runner.name = runner_j[description]
-            | fieldsRemove runner_j
+            parse runner, "JSON{STRING:description}:runner"
+            | fieldsFlatten runner, fields: { description }
+
+            | fieldsRename task.runner.name = description
+
+            | fieldsRemove runner
           DQL
         }
       }
       processor {
         type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "build" and isNotNull(build_stage)
-        DQL
-        description = "add ext.task.stage.name"
-        id          = "processor_add_ext_task_stage_name"
-        enabled     = true
-        dql {
-          script = "fieldsAdd ext.task.stage.name = build_stage"
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = "isNotNull(task.outcome)"
-        description = "mappings"
-        id          = "processor_map_task_outcome"
+        matcher     = "true"
+        description = "Clean up"
+        id          = "processor_clean_up"
         enabled     = true
         dql {
           script = <<-DQL
-            fieldsAdd task.outcome = if(task.outcome == "failed", "failure", else:task.outcome)
+            fieldsKeep
+              event.kind,
+              event.status,
+              event.id,
+              event.provider,
+              event.category,
+              event.type,
+              event.version,
+              start_time,
+              end_time,
+              duration,
+              timestamp,
+              task.queued.duration,
+              task.outcome,
+              task.outcome.failure.reason,
+              vcs.repository.name,
+              cicd.pipeline.run.id,
+              task.id,
+              task.name,
+              task.retry,
+              ext.task.build.environment,
+              ext.task.stage.name,
+              task.runner.name
           DQL
-        }
-      }
-      processor {
-        type        = "fieldsRemove"
-        matcher     = <<-DQL
-          object_kind == "build"
-        DQL
-        description = "Clean"
-        id          = "processor_fields_remove"
-        enabled     = true
-        fields_remove {
-          fields = [
-            "runner",
-            "project_id",
-            "project_name",
-            "user",
-            "commit",
-            "repository",
-            "project",
-            "environment",
-            "object_kind",
-            "ref",
-            "tag",
-            "before_sha",
-            "sha",
-            "retries_count",
-            "build_id",
-            "build_name",
-            "build_stage",
-            "build_status",
-            "build_created_at",
-            "build_started_at",
-            "build_finished_at",
-            "build_duration",
-            "build_queued_duration",
-            "build_allow_failure",
-            "build_failure_reason",
-            "pipeline_id",
-            "build_created_at_iso",
-            "build_started_at_iso",
-            "build_finished_at_iso"
-          ]
         }
       }
     }
@@ -564,99 +561,90 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
     processors {
       processor {
         type        = "dql"
-        matcher     = "isNotNull(action)"
-        description = "add event.status"
-        id          = "processor_add_event_status"
-        enabled     = true
-        dql {
-          script = <<-DQL
-            fieldsAdd event.status = concat(action, "d")
-          DQL
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "release" and action == "create"
-        DQL
-        description = "add start_time"
-        id          = "processor_add_start_time"
-        enabled     = true
-        dql {
-          script = "fieldsAdd start_time = toTimestamp(created_at)"
-        }
-      }
-      processor {
-        type        = "dql"
-        matcher     = <<-DQL
-          object_kind == "release"
-        DQL
-        description = "add release properties"
+        matcher     = true
+        description = "Add release properties"
         id          = "processor_add_release_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            fieldsAdd task.id = id
-            | fieldsAdd task.name = "GitLab Release"
-            | fieldsAdd release.name = name
-            | fieldsAdd release.description = description
-            | fieldsAdd release.url.full = url
-            | fieldsAdd vcs.ref.base.name = tag
+            fieldsAdd task.name = "GitLab Release"
             | fieldsAdd ext.release.time = toTimestamp(released_at)
+            | fieldsAdd start_time = if(action == "create", toTimestamp(created_at))
+            | fieldsAdd event.status = if(isNotNull(action), concat(action,"d"))
+
+            | fieldsRename task.id = id
+            | fieldsRename release.name = name
+            | fieldsRename release.description = description
+            | fieldsRename release.url.full = url
+            | fieldsRename vcs.ref.base.name = tag
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(commit)"
-        description = "add vcs.ref.base.revision"
-        id          = "processor_add_vcs_ref_base_revision"
+        description = "Add commit properties"
+        id          = "processor_add_commit_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse commit, "JSON:commit_j"
-            | fieldsAdd vcs.ref.base.revision = commit_j[id]
-            | fieldsRemove commit_j
+            parse commit, "JSON{STRING:id}:commit"
+            | fieldsFlatten commit, fields:{ id }
+
+            | fieldsRename vcs.ref.base.revision = id
+
+            | fieldsRemove commit
           DQL
         }
       }
       processor {
         type        = "dql"
         matcher     = "isNotNull(project)"
-        description = "add project properties"
+        description = "Add project properties"
         id          = "processor_add_project_properties"
         enabled     = true
         dql {
           script = <<-DQL
-            parse project, "JSON:project_j"
-            | fieldsAdd ext.project.id = project_j[id]
-            | fieldsAdd vcs.repository.url.full = project_j[web_url]
-            | fieldsAdd vcs.repository.name = project_j[name]
-            | fieldsRemove project_j
+            parse project, "JSON{LONG:id, STRING:web_url, STRING:name}:project"
+            | fieldsFlatten project, fields: { id, web_url, name }
+
+            | fieldsRename ext.project.id = id
+            | fieldsRename vcs.repository.url.full = web_url
+            | fieldsRename vcs.repository.name = name
+
+            | fieldsRemove project
           DQL
         }
       }
       processor {
-        type        = "fieldsRemove"
+        type        = "dql"
         matcher     = "true"
         description = "Clean up"
-        id          = "processor_fields_remove"
+        id          = "processor_clean_up"
         enabled     = true
-        fields_remove {
-          fields = [
-            "id",
-            "created_at",
-            "description",
-            "name",
-            "released_at",
-            "tag",
-            "object_kind",
-            "project",
-            "url",
-            "action",
-            "assets",
-            "commit"
-          ]
+        dql {
+          script = <<-DQL
+            fieldsKeep
+              event.kind,
+              event.status,
+              event.id,
+              event.provider,
+              event.category,
+              event.type,
+              event.version,
+              start_time,
+              timestamp,
+              ext.release.time,
+              task.id,
+              release.name,
+              release.description,
+              release.url.full,
+              vcs.ref.base.name,
+              vcs.ref.base.revision,
+              ext.project.id,
+              vcs.repository.url.full,
+              vcs.repository.name
+          DQL
         }
       }
     }
