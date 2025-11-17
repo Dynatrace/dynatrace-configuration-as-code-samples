@@ -7,15 +7,19 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
     processors {
       processor {
         type        = "fieldsAdd"
-        matcher     = "isNull(event.kind)"
-        description = "Add event.kind if not set"
-        id          = "processor_add_event_kind_if_not_set"
+        matcher     = true
+        description = "Add event.kind and event.provider"
+        id          = "processor_add_event_kind_and_event_provider"
         enabled     = true
         fields_add {
           fields {
             field {
               name  = "event.kind"
               value = "SDLC_EVENT"
+            }
+            field {
+              name  = "event.provider"
+              value = local.sdlc_event_provider
             }
           }
         }
@@ -45,10 +49,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
               value = local.sdlc_event_version
             }
             field {
-              name  = "event.provider"
-              value = local.sdlc_event_provider
-            }
-            field {
               name  = "event.category"
               value = "pipeline"
             }
@@ -72,10 +72,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
             field {
               name  = "event.version"
               value = local.sdlc_event_version
-            }
-            field {
-              name  = "event.provider"
-              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
@@ -103,10 +99,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
               value = local.sdlc_event_version
             }
             field {
-              name  = "event.provider"
-              value = local.sdlc_event_provider
-            }
-            field {
               name  = "event.category"
               value = "task"
             }
@@ -132,10 +124,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
               value = local.sdlc_event_version
             }
             field {
-              name  = "event.provider"
-              value = local.sdlc_event_provider
-            }
-            field {
               name  = "event.category"
               value = "task"
             }
@@ -159,10 +147,6 @@ resource "dynatrace_openpipeline_v2_events_sdlc_ingestsources" "events_sdlc_inge
             field {
               name  = "event.version"
               value = local.sdlc_event_version
-            }
-            field {
-              name  = "event.provider"
-              value = local.sdlc_event_provider
             }
             field {
               name  = "event.category"
