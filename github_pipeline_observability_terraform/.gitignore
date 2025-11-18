@@ -1,0 +1,6 @@
+# terraform ignores
+terraform.*
+.terraform**
+
+# dynatrace terraform provider export directory
+configuration
