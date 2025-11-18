@@ -1,0 +1,155 @@
+{
+  "displayName": "{{.ingestSourceDisplayName}}",
+  "sourceType": "http",
+  "pathSegment": "{{.ingestSourcePathSegment}}",
+  "defaultBucket": "default_events",
+  "enabled": true,
+  "processing": {
+    "processors": [
+      {
+        "id": "processor_add_event_kind_and_event_provider",
+        "type": "fieldsAdd",
+        "matcher": "true",
+        "description": "Add event.kind and event.provider",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            },
+            {
+              "name": "event.provider",
+              "value": "{{.eventProvider}}"
+            }
+          ]
+        }
+      },
+      {
+        "id": "processor_add_event_id_if_not_set",
+        "type": "dql",
+        "matcher": "isNull(event.id)",
+        "description": "Add event.id if not set",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))"
+        }
+      },
+      {
+        "id": "processor_add_pipeline_run_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"pipeline\"\n",
+        "description": "Add pipeline run properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "pipeline"
+            },
+            {
+              "name": "event.type",
+              "value": "run"
+            }
+          ]
+        }
+      },
+      {
+        "id": "processor_add_build_task_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"build\"\n",
+        "description": "Add build task properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "build"
+            }
+          ]
+        }
+      },
+      {
+        "id": "processor_add_change_task_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"merge_request\"\n",
+        "description": "Add change task properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "change"
+            }
+          ]
+        }
+      },
+      {
+        "id": "processor_add_deployment_category_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"deployment\"\n",
+        "description": "Add deployment category properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "deployment"
+            }
+          ]
+        }
+      },
+      {
+        "id": "processor_add_release_task_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"release\"\n",
+        "description": "Add release task properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "release"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

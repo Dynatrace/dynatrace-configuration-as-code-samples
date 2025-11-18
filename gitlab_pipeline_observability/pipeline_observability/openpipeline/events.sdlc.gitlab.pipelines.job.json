@@ -1,0 +1,48 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "id": "processor_add_build_task_properties",
+        "type": "dql",
+        "matcher": "true",
+        "description": "Add build task properties",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsAdd event.status = if(isNotNull(build_finished_at) and build_status != \"running\", \"finished\", else: build_status)\n| fieldsAdd duration = if(isNotNull(build_duration), toDuration(build_duration*1000000000), else: toDuration(0))\n| fieldsAdd task.queued.duration = if(isNotNull(build_queued_duration), toDuration(build_queued_duration*1000000000), else: toDuration(0))\n| fieldsAdd task.outcome = if(build_status == \"failed\", \"failure\", else: if(isNotNull(build_finished_at) and build_status != \"running\", build_status))\n| fieldsAdd start_time = if(build_status == \"running\" and isNotNull(build_started_at), toTimestamp(build_started_at))\n| fieldsAdd end_time = if(build_status != \"running\" and isNotNull(build_finished_at), toTimestamp(build_finished_at))\n| fieldsAdd task.outcome.failure.reason = if(build_status == \"failed\", build_failure_reason)\n\n| fieldsRename cicd.pipeline.run.id = pipeline_id\n| fieldsRename task.id = build_id\n| fieldsRename task.name = build_name\n| fieldsRename task.retry = retries_count\n| fieldsRename ext.task.build.environment = environment\n| fieldsRename ext.task.stage.name = build_stage\n"
+        }
+      },
+      {
+        "id": "processor_add_project_properties",
+        "type": "dql",
+        "matcher": "isNotNull(project)",
+        "description": "Add project properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse project, \"JSON{STRING:name}:project\"\n| fieldsFlatten project, fields:{ name }\n\n| fieldsRename vcs.repository.name = name\n\n| fieldsRemove project\n"
+        }
+      },
+      {
+        "id": "processor_add_runner_properties",
+        "type": "dql",
+        "matcher": "isNotNull(runner)",
+        "description": "Add runner properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse runner, \"JSON{STRING:description}:runner\"\n| fieldsFlatten runner, fields: { description }\n\n| fieldsRename task.runner.name = description\n\n| fieldsRemove runner\n"
+        }
+      },
+      {
+        "id": "processor_clean_up",
+        "type": "dql",
+        "matcher": "true",
+        "description": "Clean up",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsKeep\n  event.kind,\n  event.status,\n  event.id,\n  event.provider,\n  event.category,\n  event.type,\n  event.version,\n  start_time,\n  end_time,\n  duration,\n  timestamp,\n  task.queued.duration,\n  task.outcome,\n  task.outcome.failure.reason,\n  vcs.repository.name,\n  cicd.pipeline.run.id,\n  task.id,\n  task.name,\n  task.retry,\n  ext.task.build.environment,\n  ext.task.stage.name,\n  task.runner.name\n"
+        }
+      }
+    ]
+  }
+}

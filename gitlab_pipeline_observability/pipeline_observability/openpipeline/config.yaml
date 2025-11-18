@@ -1,13 +1,110 @@
 configs:
-- id: events.sdlc
+
+###
+# INDEPENDENT CONFIGS
+#
+# This can be done in any order as the configs are independent.
+###
+- id: openpipeline.events.sdlc.gitlab.ingest_sources
   config:
     parameters:
-      extractedIDs:
-        type: value
-        value:
-          id_9ecd9ce4_ad89_4aa8_af7b_ebb7daf55435: 9ecd9ce4-ad89-4aa8-af7b-ebb7daf55435
-    template: events.sdlc.gitlab.json
+      eventProvider: &eventProvider "gitlab"
+      ingestSourceDisplayName: "GitLab"
+      ingestSourcePathSegment: "gitlab"
+    template: events.sdlc.gitlab.ingest_sources.json
     skip: false
   type:
-    openpipeline:
-      kind: events.sdlc
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.ingest-sources"
+      schemaVersion: &schemaVersion "1.26"
+      scope: &scope "environment"
+- id: openpipeline.events.sdlc.gitlab.pipelines.job
+  config:
+    parameters:
+      pipelineDisplayName: "GitLab Job"
+      pipelineCustomName: "pipeline_gitlab_job_v2"
+    template: events.sdlc.gitlab.pipelines.job.json
+    skip: false
+  type: &pipelineType
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.pipelines"
+      schemaVersion: *schemaVersion
+      scope: *scope
+- id: openpipeline.events.sdlc.gitlab.pipelines.pipeline
+  config:
+    parameters:
+      pipelineDisplayName: "GitLab Pipeline"
+      pipelineCustomName: "pipeline_gitlab_pipeline_v2"
+    template: events.sdlc.gitlab.pipelines.pipeline.json
+    skip: false
+  type:
+    <<: *pipelineType
+- id: openpipeline.events.sdlc.gitlab.pipelines.merge_request
+  config:
+    parameters:
+      pipelineDisplayName: "GitLab Merge Request"
+      pipelineCustomName: "pipeline_gitlab_merge_request_v2"
+    template: events.sdlc.gitlab.pipelines.merge_request.json
+    skip: false
+  type:
+    <<: *pipelineType
+- id: openpipeline.events.sdlc.gitlab.pipelines.release
+  config:
+    parameters:
+      pipelineDisplayName: "GitLab Release"
+      pipelineCustomName: "pipeline_gitlab_release_v2"
+    template: events.sdlc.gitlab.pipelines.release.json
+    skip: false
+  type:
+    <<: *pipelineType
+- id: openpipeline.events.sdlc.gitlab.pipelines.deployment
+  config:
+    parameters:
+      pipelineDisplayName: "GitLab Deployment"
+      pipelineCustomName: "pipeline_gitlab_deployment_v2"
+    template: events.sdlc.gitlab.pipelines.deployment.json
+    skip: false
+  type:
+    <<: *pipelineType
+
+###
+# GLOBAL CONFIGURATION
+#
+#   You cannot do partial updates here! Any routing for 'events.sdlc' must be present in the JSON file.
+#   Mind the order! All routing entries must be at the correct position according to their matchers.
+###
+- id: openpipeline.events.sdlc.global.routing
+  config:
+    parameters:
+      eventProvider: *eventProvider
+      gitlabJobPipelineId:
+        configId: openpipeline.events.sdlc.gitlab.pipelines.job
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+      gitlabPipelinePipelineId:
+        configId: openpipeline.events.sdlc.gitlab.pipelines.pipeline
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+      gitlabReleasePipelineId:
+        configId: openpipeline.events.sdlc.gitlab.pipelines.release
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+      gitlabMergeRequestPipelineId:
+        configId: openpipeline.events.sdlc.gitlab.pipelines.merge_request
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+      gitlabDeploymentPipelineId:
+        configId: openpipeline.events.sdlc.gitlab.pipelines.deployment
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+    template: events.sdlc.global.routing.json
+    skip: false
+  type:
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.routing"
+      scope: *scope

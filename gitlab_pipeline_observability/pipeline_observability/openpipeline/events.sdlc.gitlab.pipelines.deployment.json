@@ -1,0 +1,38 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "id": "processor_add_deployment_properties",
+        "type": "dql",
+        "matcher": "true",
+        "description": "Add deployment properties",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsAdd task.name = \"GitLab Deployment\"\n| fieldsAdd event.status = if(status == \"running\", \"started\", else: \"finished\")\n| fieldsAdd start_time = if (event.status == \"started\", toTimestamp(status_changed_at))\n| fieldsAdd end_time = if(isNotNull(status) and status != \"running\", toTimestamp(status_changed_at))\n| fieldsAdd task.outcome = if(status == \"failed\", \"failure\", else: if (status != \"running\", status))\n\n| fieldsRename task.id = deployment_id\n| fieldsRename deployment.environment.name = environment\n| fieldsRename deployment.url.full = deployable_url\n| fieldsRename ext.deployment.job.id = deployable_id\n| fieldsRename vcs.ref.base.revision = short_sha\n| fieldsRename vcs.ref.base.name = ref\n"
+        }
+      },
+      {
+        "id": "processor_add_project_properties",
+        "type": "dql",
+        "matcher": "isNotNull(project)",
+        "description": "Add project properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse project,\n  \"JSON{\n    LONG:id,\n    STRING:web_url,\n    STRING:name\n  }:project\"\n| fieldsFlatten project, fields: { id, web_url, name }\n\n| fieldsRename ext.project.id = id\n| fieldsRename vcs.repository.url.full = web_url\n| fieldsRename vcs.repository.name = name\n\n| fieldsRemove project\n"
+        }
+      },
+      {
+        "id": "processor_clean_up",
+        "type": "dql",
+        "matcher": "true",
+        "description": "Clean up",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsKeep\n  event.kind,\n  event.status,\n  event.id,\n  event.provider,\n  event.category,\n  event.type,\n  event.version,\n  start_time,\n  end_time,\n  timestamp,\n  task.outcome,\n  ext.project.id,\n  vcs.repository.url.full,\n  vcs.repository.name,\n  task.id,\n  deployment.environment.name,\n  deployment.url.full,\n  ext.deployment.job.id,\n  vcs.ref.base.revision,\n  vcs.ref.base.name\n"
+        }
+      }
+    ]
+  }
+}

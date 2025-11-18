@@ -1,31 +1,28 @@
 configs:
-- id: da563d0c-7dfa-40b6-8abe-1abe4837ba18
-  config:
-    name: GitLab Merge Requests
-    template: gitlab.merge_request.json
-    skip: false
-    originObjectId: da563d0c-7dfa-40b6-8abe-1abe4837ba18
-  type:
-    document:
-      kind: dashboard
-      private: false
-- id: 6251b16a-c92a-43bd-a454-6a6dfc649879
-  config:
-    name: GitLab Pipeline Pulse
-    template: gitlab.workflow.json
-    skip: false
-    originObjectId: 6251b16a-c92a-43bd-a454-6a6dfc649879
-  type:
-    document:
-      kind: dashboard
-      private: false
-- id: 95bed34c-b3f0-48a2-853c-906de7d6dd33
-  config:
-    name: GitLab Deployments
-    template: gitlab.deployments.json
-    skip: false
-    originObjectId: 95bed34c-b3f0-48a2-853c-906de7d6dd33
-  type:
-    document:
-      kind: dashboard
-      private: false
+  - id: gitlab_merge_requests
+    config:
+      name: GitLab Merge Requests
+      template: gitlab.merge_request.json
+      skip: false
+    type:
+      document:
+        kind: dashboard
+        private: false
+  - id: gitlab_pipeline_pulse
+    config:
+      name: GitLab Pipeline Pulse
+      template: gitlab.workflow.json
+      skip: false
+    type:
+      document:
+        kind: dashboard
+        private: false
+  - id: gitlab_deployments
+    config:
+      name: GitLab Deployments
+      template: gitlab.deployments.json
+      skip: false
+    type:
+      document:
+        kind: dashboard
+        private: false
