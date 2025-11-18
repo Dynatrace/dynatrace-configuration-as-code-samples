@@ -1,0 +1,150 @@
+configs:
+- id: myservice-fast-burn-rate-alert
+  config:
+    name: CasC-sample Fast burn rate alert for myService availability SLO #INPUT: Update name
+    parameters:
+      service_id:
+        name: SERVICE_ID
+        type: environment
+      owner:
+        value: "myTeam" #INPUT: Add the responsible team
+        type: value
+      slov2_availability_name:
+        configId: myservice-slo-availability
+        configType: slo-v2
+        property: name
+        type: reference
+    template: myservice-fast-burn-rate-alert.json
+    skip: false
+  type:
+    settings:
+      schema: builtin:davis.anomaly-detectors
+      schemaVersion: 1.0.9
+      scope: environment
+
+- id: myservice-dashboard
+  config:
+    name: CasC-sample myService overview dashboard #INPUT: Update name
+    parameters:
+      service_id:
+        name: SERVICE_ID
+        type: environment
+      slov2_availability_name:
+        configId: myservice-slo-availability
+        configType: slo-v2
+        property: name
+        type: reference
+      slov2_performance_name:
+        configId: myservice-slo-performance
+        configType: slo-v2
+        property: name
+        type: reference
+      guardian_name:
+        configId: myservice-guardian
+        configType: app:dynatrace.site.reliability.guardian:guardians
+        property: name
+        type: reference
+      slov2_availability_id:
+        configId: myservice-slo-availability
+        configType: slo-v2
+        property: id
+        type: reference
+      slov2_performance_id:
+        configId: myservice-slo-performance
+        configType: slo-v2
+        property: id
+        type: reference
+    template: myservice-dashboard.json
+    skip: false
+  type:
+    document:
+      kind: dashboard
+      private: false
+
+- id: myservice-slo-performance
+  config:
+    name: CasC-sample myService performance #INPUT: Update name
+    parameters:
+      service_id:
+        name: SERVICE_ID
+        type: environment
+      tags: #INPUT: Customize your SLO with tags
+        type: list
+        values: ["service:myService",
+          "dt.owner:myTeam"]
+    template: myservice-slo-performance.json
+    skip: false
+  type: slo-v2
+
+- id: myservice-slo-availability
+  config:
+    name: CasC-sample myService availability #INPUT: Update name
+    parameters:
+      service_id:
+        name: SERVICE_ID
+        type: environment
+      tags: #INPUT: Customize your SLO with tags
+        type: list
+        values: ["service:myService",
+          "dt.owner:myTeam"]
+    template: myservice-slo-availability.json
+    skip: false
+  type: slo-v2
+
+- id: myservice-guardian
+  config:
+    name: CasC-sample myService Performance Quality Gate #INPUT: Update name
+    parameters:
+      tags: #INPUT: Customize your guardian with tags
+        type: list
+        values: ["service:myService",
+          "stage:prod",
+          "gate:performance gate",
+          "dt.owner:myTeam"]
+      service_id:
+        name: SERVICE_ID
+        type: environment
+    template: myservice-guardian.json
+    skip: false
+  type:
+    settings:
+      schema: app:dynatrace.site.reliability.guardian:guardians
+      schemaVersion: "1.6"
+      scope: environment
+
+- id: myservice-srg-val-standard
+  config:
+    name: CasC-sample myService Performance Quality Gate Validation #INPUT: Update name
+    parameters:
+      event_filter_service:
+        value: myService ##INPUT: Define Servicename (needs to be part of the deployment event)
+        type: value
+      event_filter_stage:
+        value: prod ##INPUT: Define stage (needs to be part of the deployment event)
+        type: value
+      event_filter_gate:
+        value: performance gate ##INPUT: Define gate (needs to be part of the deployment event)
+        type: value
+      guardianid:
+        configId: myservice-guardian
+        configType: app:dynatrace.site.reliability.guardian:guardians
+        property: id
+        type: reference
+    template: myservice-srg-val-standard.json
+    skip: false
+  type:
+    automation:
+      resource: workflow
+
+- id: myservice-slo-alert-notification
+  config:
+    name: CasC-sample SLO burn rate alerting #INPUT: Update name
+    parameters:
+      recipient:
+        type: value
+        value: myteam@mycompany.com #INPUT: Add email address
+    template: myservice-slo-alert-notification.json
+    skip: false
+  type:
+    automation:
+      resource: workflow

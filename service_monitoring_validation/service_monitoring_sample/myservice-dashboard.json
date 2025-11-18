@@ -1,0 +1,1497 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 4,
+      "w": 12,
+      "x": 0,
+      "y": 4
+    },
+    "1": {
+      "h": 4,
+      "w": 12,
+      "x": 12,
+      "y": 4
+    },
+    "10": {
+      "h": 7,
+      "w": 3,
+      "x": 2,
+      "y": 16
+    },
+    "11": {
+      "h": 7,
+      "w": 19,
+      "x": 5,
+      "y": 16
+    },
+    "12": {
+      "h": 3,
+      "w": 24,
+      "x": 0,
+      "y": 29
+    },
+    "14": {
+      "h": 3,
+      "w": 24,
+      "x": 0,
+      "y": 23
+    },
+    "15": {
+      "h": 3,
+      "w": 12,
+      "x": 0,
+      "y": 26
+    },
+    "16": {
+      "h": 3,
+      "w": 12,
+      "x": 12,
+      "y": 26
+    },
+    "17": {
+      "h": 6,
+      "w": 3,
+      "x": 0,
+      "y": 32
+    },
+    "18": {
+      "h": 6,
+      "w": 12,
+      "x": 12,
+      "y": 32
+    },
+    "19": {
+      "h": 6,
+      "w": 9,
+      "x": 3,
+      "y": 32
+    },
+    "2": {
+      "h": 4,
+      "w": 12,
+      "x": 0,
+      "y": 9
+    },
+    "20": {
+      "h": 7,
+      "w": 2,
+      "x": 0,
+      "y": 16
+    },
+    "3": {
+      "h": 3,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "4": {
+      "h": 1,
+      "w": 12,
+      "x": 0,
+      "y": 3
+    },
+    "5": {
+      "h": 1,
+      "w": 12,
+      "x": 12,
+      "y": 3
+    },
+    "6": {
+      "h": 1,
+      "w": 12,
+      "x": 0,
+      "y": 8
+    },
+    "7": {
+      "h": 1,
+      "w": 12,
+      "x": 12,
+      "y": 8
+    },
+    "8": {
+      "h": 4,
+      "w": 12,
+      "x": 12,
+      "y": 9
+    },
+    "9": {
+      "h": 3,
+      "w": 24,
+      "x": 0,
+      "y": 13
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries response_time = percentile(dt.service.request.response_time, 50), by: { dt.entity.service } | filter dt.entity.service == $service\n| append[timeseries response_time = percentile(dt.service.request.response_time, 90), by: { dt.entity.service }, filter: dt.entity.service == $service]\n| append[timeseries response_time = percentile(dt.service.request.response_time, 99), by: { dt.entity.service } | filter dt.entity.service == $service]",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "dt.entity.service",
+            "categoryAxisLabel": "dt.entity.service",
+            "valueAxis": "interval",
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "fieldMapping": {
+            "leftAxisValues": [
+              "response_time"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "Service request response time"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "end",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "interval",
+          "displayedFields": [
+            "interval",
+            "dt.entity.service"
+          ],
+          "longitude": "interval",
+          "value": "interval"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "dt.entity.service"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "dt.entity.service"
+          },
+          "displayedFields": [
+            "dt.entity.service"
+          ],
+          "legend": "auto",
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "interval",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "response_time"
+              ],
+              "id": 1734689558724,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries failed = sum(dt.service.request.failure_count), \nall = sum(dt.service.request.count), by:{dt.entity.service}, filter: dt.entity.service == $service\n| fieldsAdd failureRate_timeseries = failed[]/all[] * 100\n| fieldsRemove failed, all\n| append[timeseries failure_count = sum(dt.service.request.failure_count), by: { dt.entity.service }, filter: dt.entity.service == $service]",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "bandChartSettings": {
+            "lower": "failureRate_timeseries",
+            "upper": "failure_count"
+          },
+          "categoricalBarChartSettings": {
+            "categoryAxis": "dt.entity.service",
+            "categoryAxisLabel": "dt.entity.service",
+            "valueAxis": "interval",
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "fireplace",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "failureRate_timeseries",
+              "failure_count"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "Service failure count"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "end",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "interval",
+          "displayedFields": [
+            "interval",
+            "dt.entity.service"
+          ],
+          "longitude": "interval",
+          "value": "interval"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "dt.entity.service"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "dt.entity.service"
+          },
+          "displayedFields": [
+            "dt.entity.service"
+          ],
+          "legend": "auto",
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "interval",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "failure_count"
+              ],
+              "id": 1734689557881,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "unitsOverrides": [
+          {
+            "added": 1736751809424,
+            "baseUnit": "millisecond_per_minute",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "failure_count",
+            "suffix": "",
+            "unitCategory": "load"
+          }
+        ],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "10": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch bizevents\n//| filter event.provider == \"dynatrace.site.reliability.guardian\"\n| filter event.type == \"guardian.validation.finished\"\n| filter contains(guardian.name, \"{{ .guardian_name }}\")\n| fields timestamp, validation.status, validation.summary\n| summarize count = count(), by:{validation.status}\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Guardian validations",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "validation.status",
+            "categoryAxisLabel": "validation.status",
+            "valueAxis": "count",
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {
+            "fail": {
+              "added": 1718949268260,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-12-default, #cd3741)"
+              }
+            },
+            "pass": {
+              "added": 1718950348210,
+              "color": {
+                "Default": "var(--dt-colors-charts-vulnerability-status-resolved-default, #3e8e6a)"
+              }
+            },
+            "warning": {
+              "added": 1718949261285,
+              "color": {
+                "Default": "var(--dt-colors-charts-loglevel-severe-default, #d56b1a)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "gapPolicy": "connect",
+          "legend": {}
+        },
+        "dataMapping": {
+          "displayedFields": []
+        },
+        "histogram": {
+          "dataMappings": [],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "validation.status"
+          },
+          "displayedFields": [
+            "validation.status"
+          ],
+          "legend": "auto",
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "validation.status",
+          "prefixIcon": "",
+          "recordField": "validation.status",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch bizEvents\n| filter event.type == \"guardian.validation.finished\" \n| filter contains(guardian.name, \"{{ .guardian_name }}\")\n| parse execution_context, \"JSON:context\"\n| parse validation.summary, \"JSON:parsed_validation_summary\"\n| fieldsAdd guardian=guardian.name\n\n| fields timestamp,\n  // guardian=guardian.name, \n  status=validation.status,\n  version=context[version],\n  buildId=context[buildId],\n  objectiveSummary=parsed_validation_summary,\n  owner=tags[dt.owner],\n  wfTrigger=validation.workflow.trigger_type,\n  guardian.id,\n  validation.id,\n  go2guardian = concat(\"[\", guardian.name, \"](/ui/apps/dynatrace.site.reliability.guardian/analysis/\",guardian.id, \")\"),\n  go2workflow = concat(\"[\", validation.workflow.id, \"](/ui/apps/dynatrace.automations/workflows/\",validation.workflow.id, \"?view=live)\")",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {},
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "gapPolicy": "connect"
+        },
+        "dataMapping": {
+          "displayedFields": []
+        },
+        "histogram": {
+          "dataMappings": [],
+          "displayedFields": [],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "timestamp"
+          },
+          "displayedFields": [
+            "Version"
+          ],
+          "legend": "auto",
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "timestamp",
+          "prefixIcon": "",
+          "recordField": "timestamp",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnOrder": [
+            "[\"timestamp\"]",
+            "[\"status\"]",
+            "[\"version\"]",
+            "[\"buildId\"]",
+            "[\"objectiveSummary\",\"pass\"]",
+            "[\"objectiveSummary\",\"warning\"]",
+            "[\"objectiveSummary\",\"fail\"]",
+            "[\"objectiveSummary\",\"error\"]",
+            "[\"objectiveSummary\",\"info\"]",
+            "[\"owner\"]",
+            "[\"wfTrigger\"]",
+            "[\"guardian.id\"]",
+            "[\"validation.id\"]",
+            "[\"go2guardian\"]",
+            "[\"go2workflow\"]"
+          ],
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "go2guardian"
+              ],
+              "id": 1064521.8999999994,
+              "value": "markdown"
+            },
+            {
+              "fields": [
+                "go2workflow"
+              ],
+              "id": 326194.5999999996,
+              "value": "markdown"
+            }
+          ],
+          "columnWidths": {
+            "[\"guardian.id\"]": 585,
+            "[\"valdation\"]": 157.36,
+            "[\"validation.workflow.id\"]": 302.99
+          },
+          "enableSparklines": false,
+          "enableThresholdInRow": false,
+          "hiddenColumns": [
+            [
+              "guardian.id"
+            ],
+            [
+              "validation.id"
+            ]
+          ],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed",
+          "selectedColumnForRowThreshold": "",
+          "sortBy": [
+            {
+              "columnId": "[\"guardian\"]",
+              "direction": "ascending"
+            }
+          ]
+        },
+        "thresholds": [
+          {
+            "field": "status",
+            "id": 1,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "=",
+                "id": 0,
+                "label": "",
+                "value": "pass"
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "=",
+                "id": 1,
+                "label": "",
+                "value": "warning"
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "=",
+                "id": 2,
+                "label": "",
+                "value": "fail"
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-color-15-default, #9033a3)"
+                },
+                "comparator": "=",
+                "id": 3,
+                "label": "",
+                "value": "error"
+              }
+            ],
+            "title": ""
+          },
+          {
+            "field": "",
+            "id": 2,
+            "isEnabled": true,
+            "rules": [
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+                },
+                "comparator": "≥",
+                "id": 0,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+                },
+                "comparator": "≥",
+                "id": 1,
+                "label": ""
+              },
+              {
+                "color": {
+                  "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+                },
+                "comparator": "≥",
+                "id": 2,
+                "label": ""
+              }
+            ],
+            "title": ""
+          }
+        ],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "12": {
+      "content": "\n## SLO burn-rate events via the Davis Anomaly Detection\n---\n\n* **Proactive Incident Response**: Catch issues early—before they impact users or breach your SLO.\n\n* **Smarter Alerting**: Avoid alert fatigue by only triggering alerts when the rate of failure is unsustainable, not just when a threshold is crossed.\n\n* **Better Risk Management**: Helps teams decide whether to pause deployments, roll back changes, or investigate anomalies.",
+      "type": "markdown"
+    },
+    "14": {
+      "content": "## Service-Level Objective\n---\n\n* **Ensure Reliability**: SLOs define acceptable performance levels, helping you detect issues early and focus on what matters to users.\n\n* **Drive Smart Decisions**: They support error budgeting and prioritization, guiding when to innovate or stabilize.\n\n* **Align Teams**: SLOs create a shared understanding between developers, site reliability engineers, operations, and business teams around service quality.",
+      "type": "markdown"
+    },
+    "15": {
+      "input": "{{.slov2_availability_id}}",
+      "title": "{{.slov2_availability_name}}",
+      "type": "slo"
+    },
+    "16": {
+      "input": "{{.slov2_performance_id}}",
+      "title": "{{.slov2_performance_name}}",
+      "type": "slo"
+    },
+    "17": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| filter slo.name == \"{{ .slov2_availability_name }}\"\n| summarize number_of_alerts = count(), by:{dt.settings.object_id}\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| fieldsAdd config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\")\n| fieldsAdd dt.settings.schema_id = \"builtin:davis.anomaly-detectors\"\n| sort number_of_alerts desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Number of SLO alerts",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "end",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "end",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "end"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": false
+        },
+        "table": {
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "18": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| filter slo.name == \"{{ .slov2_availability_name }}\"\n| fields SLO = slo.name, timestamp, description = event.description, config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\")\n| makeTimeseries count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "SLO alerts over time",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "smooth",
+          "fieldMapping": {},
+          "gapPolicy": "gap",
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "max": "data-max",
+            "min": null,
+            "scale": "linear"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "pointsDisplay": "auto",
+          "rightYAxisSettings": {},
+          "seriesOverrides": [],
+          "tooltip": {},
+          "truncationMode": "end",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "end",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "end"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": false
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "count()"
+              ],
+              "id": 1752047819108,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "19": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch dt.davis.events\n| filter dt.settings.schema_id == \"builtin:davis.anomaly-detectors\"\n| parse decodeBase64ToString(dt.settings.object_id), \"LD UUIDSTRING:config_id\"\n| filter slo.name == \"{{ .slov2_availability_name }}\"\n| fields SLO = slo.name, timestamp, description = event.description, config_id = concat(\"[\", config_id, \"](\", \"/ui/intent/dynatrace.davis.anomalydetection/open_anomaly_detector_schema/#%7B%22dt.settings.object_id%22%3A%22\", dt.settings.object_id, \"%22%2C%22dt.settings.schema_id%22%3A%22builtin%3Adavis.anomaly-detectors%22%7D)\"), dt.source_entity, entity.name",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "SLO alert details",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "end",
+          "valueRepresentation": "absolute"
+        },
+        "histogram": {
+          "colorPalette": "categorical",
+          "dataMappings": [],
+          "legend": {
+            "position": "auto"
+          },
+          "truncationMode": "end",
+          "variant": "single",
+          "yAxis": {
+            "isLabelVisible": true,
+            "label": "Frequency",
+            "scale": "linear"
+          }
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "end"
+        },
+        "singleValue": {
+          "alignment": "center",
+          "colorThresholdTarget": "value",
+          "isIconVisible": false,
+          "label": "",
+          "prefixIcon": "AnalyticsIcon",
+          "showLabel": true
+        },
+        "table": {
+          "columnOrder": [
+            "[\"SLO\"]",
+            "[\"timestamp\"]",
+            "[\"config_id\"]",
+            "[\"description\"]",
+            "[\"dt.source_entity\"]",
+            "[\"entity.name\"]"
+          ],
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "config_id"
+              ],
+              "id": 505787.2000000477,
+              "value": "markdown"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed",
+          "sortBy": [
+            {
+              "columnId": "[\"timestamp\"]",
+              "direction": "descending"
+            }
+          ]
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries count = sum(dt.service.request.count, rate: 1m), by: { dt.entity.service }, filter: dt.entity.service == $service",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "dt.entity.service",
+            "categoryAxisLabel": "dt.entity.service",
+            "valueAxis": "interval",
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "fieldMapping": {
+            "leftAxisValues": [
+              "count"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "Service request count"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "end",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "interval",
+          "displayedFields": [
+            "interval",
+            "dt.entity.service"
+          ],
+          "longitude": "interval",
+          "value": "interval"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "dt.entity.service"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "dt.entity.service"
+          },
+          "displayedFields": [
+            "dt.entity.service"
+          ],
+          "legend": "auto",
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "interval",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "error",
+          "prefixIcon": "",
+          "recordField": "error",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "count"
+              ],
+              "id": 1734689557921,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch bizevents\n//| filter event.provider == \"dynatrace.site.reliability.guardian\"\n| filter event.type == \"guardian.validation.finished\"\n| filter contains(guardian.name, \"{{ .guardian_name }}\")\n| fields timestamp, validation.status, validation.summary\n| summarize count = count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Number of Release Validations",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxisTickLayout": "horizontal",
+            "colorPaletteMode": "multi-color",
+            "groupMode": "stacked",
+            "layout": "horizontal",
+            "scale": "absolute",
+            "valueAxisScale": "linear"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "colorPalette": "categorical",
+          "curve": "linear",
+          "gapPolicy": "gap",
+          "pointsDisplay": "auto",
+          "truncationMode": "end",
+          "valueRepresentation": "absolute"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {},
+          "displayedFields": [],
+          "labels": {
+            "showLabels": false
+          },
+          "legend": {
+            "hidden": false,
+            "position": "auto",
+            "ratio": "auto"
+          },
+          "shape": "hexagon",
+          "truncationMode": "end"
+        },
+        "singleValue": {
+          "isIconVisible": false,
+          "prefixIcon": "CheckmarkIcon",
+          "showLabel": false
+        },
+        "table": {
+          "columnOrder": [
+            "[\"count\"]"
+          ],
+          "columnTypeOverrides": [],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "linewrapEnabled": false,
+          "monospacedFontColumns": [],
+          "monospacedFontEnabled": false,
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "3": {
+      "content": "## 4 Golden Signals\n---\n\nThe Four Golden Signals are key metrics used in site reliability engineering (SRE) and observability to monitor a system's health and performance.\n\n* Leverage the [Services app](/ui/apps/dynatrace.services/home) to analyze those key metrics for your service.\n\n",
+      "type": "markdown"
+    },
+    "4": {
+      "content": "### Response Time P50, P90, P99",
+      "type": "markdown"
+    },
+    "5": {
+      "content": "### Failure rate / failure count",
+      "type": "markdown"
+    },
+    "6": {
+      "content": "### Throughput",
+      "type": "markdown"
+    },
+    "7": {
+      "content": "### Memory saturation",
+      "type": "markdown"
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries memory_usage = avg(dt.process.memory.usage),  by:{dt.entity.process_group},\n    filter:{\n      dt.entity.process_group in [\n        fetch dt.entity.process_group\n        | expand runs[dt.entity.service], alias: services\n        | filter services in [\n            fetch dt.entity.service\n            | filter in(id, {$service})\n            | fields id\n          ]\n        | fields id\n      ]\n    }",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": "dt.entity.process_group",
+            "categoryAxisLabel": "dt.entity.process_group",
+            "valueAxis": "interval",
+            "valueAxisLabel": "interval"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "groupingThresholdValue": 0,
+            "valueType": "relative"
+          },
+          "fieldMapping": {
+            "leftAxisValues": [
+              "memory_usage"
+            ],
+            "timestamp": "timeframe"
+          },
+          "gapPolicy": "connect",
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "Process memory usage",
+            "max": 100
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "end",
+          "valueRepresentation": "absolute",
+          "xAxisIsLabelVisible": false,
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "dataMapping": {
+          "dimension": "interval",
+          "displayedFields": [
+            "interval",
+            "dt.entity.process_group"
+          ],
+          "longitude": "interval",
+          "value": "interval"
+        },
+        "histogram": {
+          "dataMappings": [
+            {
+              "rangeAxis": "",
+              "valueAxis": "interval"
+            }
+          ],
+          "displayedFields": [
+            "dt.entity.process_group"
+          ],
+          "variant": "single"
+        },
+        "honeycomb": {
+          "colorMode": "color-palette",
+          "colorPalette": "categorical",
+          "dataMappings": {
+            "value": "dt.entity.process_group"
+          },
+          "displayedFields": [
+            "dt.entity.process_group"
+          ],
+          "legend": "auto",
+          "shape": "hexagon"
+        },
+        "icon": {
+          "icon": "",
+          "showIcon": false
+        },
+        "label": {
+          "label": "interval",
+          "showLabel": false
+        },
+        "singleValue": {
+          "alignment": "center",
+          "autoscale": true,
+          "colorThresholdTarget": "value",
+          "label": "memory_saturation",
+          "prefixIcon": "",
+          "recordField": "memory_saturation",
+          "showLabel": true,
+          "trend": {
+            "isVisible": true,
+            "trendType": "auto"
+          }
+        },
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [
+                "memory_usage"
+              ],
+              "id": 1734689558954,
+              "value": "sparkline"
+            }
+          ],
+          "columnWidths": {},
+          "enableSparklines": false,
+          "hiddenColumns": [],
+          "lineWrapIds": [],
+          "rowDensity": "condensed"
+        },
+        "thresholds": [],
+        "tooltip": {
+          "showCustomFields": false
+        },
+        "valueBoundaries": {
+          "max": "auto",
+          "min": "auto"
+        }
+      }
+    },
+    "9": {
+      "content": "## Automated release validations\n---\n* **Prevent Bad Releases**: SRG automatically checks if a new release meets predefined objectives, performance baselines, and error thresholds. If it fails, the release can be blocked or flagged; reducing the risk of introducing regressions.\n\n* **Automate Quality Gates in CI/CD**: SRG integrates with your CI/CD pipeline (e.g., Jenkins, GitLab, Azure DevOps) to act as a quality gate. This ensures only healthy builds are promoted to the next stage (e.g., staging → production).\n\n* **Speed Up Safe Deployments**: By automating release checks, you reduce manual validation time while maintaining high standards. This enables faster, safer, and more reliable deployments.",
+      "type": "markdown"
+    }
+  },
+  "variables": [
+    {
+      "input": "{{ .service_id }}",
+      "key": "service",
+      "multiple": false,
+      "type": "csv",
+      "version": 1,
+      "visible": true
+    }
+  ],
+  "version": 19
+}
