@@ -1,0 +1,38 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "type": "dql",
+        "matcher": "isNotNull(workflow_job)",
+        "description": "Add pipeline properties",
+        "id": "processor_add_pipeline_properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse workflow_job,\n  \"JSON{\n    STRING:status,\n    STRING:started_at,\n    STRING:created_at,\n    STRING:completed_at,\n    STRING:updated_at,\n    LONG:run_id,\n    LONG:id,\n    STRING:name,\n    LONG:run_attempt,\n    JSON_ARRAY:steps,\n    STRING[]:labels,\n    STRING:runner_name,\n    STRING:runner_group_name,\n    STRING:conclusion,\n    STRING:head_branch,\n    STRING:head_sha\n  }:job\"\n| fieldsFlatten job, fields: {status, started_at, created_at, completed_at, updated_at, run_id, id, name, run_attempt, steps, labels, runner_name, runner_group_name, conclusion, head_branch, head_sha}\n\n| fieldsAdd event.status = if(status == \"in_progress\", \"started\", else: if(status == \"completed\", \"finished\", else: status))\n| fieldsAdd duration = if((started_at > created_at) and event.status == \"finished\", toTimestamp(started_at) - toTimestamp(created_at), else: toDuration(0))\n| fieldsAdd start_time = if (event.status == \"started\", toTimestamp(created_at))\n| fieldsAdd end_time = if (event.status == \"finished\", toTimestamp(completed_at))\n\n| fieldsAdd diff2h = toLong(7200000000000)\n| fieldsAdd nt = toLong(toTimestamp(now()))\n| fieldsAdd st = if(nt - toLong(toTimestamp(start_time)) < diff2h, start_time, else: toTimestamp(nt))\n| fieldsAdd et = if(nt - toLong(toTimestamp(end_time)) < diff2h, end_time, else: toTimestamp(nt))\n| fieldsAdd timestamp = if(event.status == \"started\", st, else: if(event.status == \"finished\", et, else: toTimestamp(nt)))\n\n| fieldsAdd task.outcome = if(action == \"completed\", conclusion)\n\n| fieldsRename cicd.pipeline.run.id = run_id\n| fieldsRename task.id = id\n| fieldsRename task.name = name\n| fieldsRename task.run.attempt = run_attempt\n| fieldsRename task.steps = steps\n| fieldsRename task.labels = labels\n| fieldsRename task.runner.name = runner_name\n| fieldsRename task.runner.group.name = runner_group_name\n| fieldsRename vcs.ref.head.revision = head_sha\n| fieldsRename vcs.ref.head.name = head_branch\n\n| fieldsRemove job, status, started_at, created_at, updated_at, st, et, nt, diff2h, conclusion\n"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(repository)",
+        "description": "Add repository properties",
+        "id": "processor_add_repository_properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse repository,\n  \"JSON{\n    STRING:full_name,\n    STRING:html_url\n  }:repo\"\n| fieldsFlatten repo\n| fieldsRename vcs.repository.name = repo.full_name\n| fieldsRename vcs.repository.url.full = repo.html_url\n| fieldsRemove repo"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "true",
+        "description": "Clean up",
+        "id": "processor_clean_up",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsKeep \n  event.kind, \n  event.status, \n  event.id, \n  event.provider, \n  event.category,\n  event.type,\n  event.version,\n  duration, \n  start_time, \n  end_time,\n  timestamp,\n  task.outcome,\n  cicd.pipeline.run.id,\n  task.id,\n  task.name,\n  task.run.attempt,\n  task.steps,\n  task.labels,\n  task.runner.name,\n  task.runner.group.name,\n  vcs.ref.head.revision,\n  vcs.ref.head.name,\n  vcs.repository.name,\n  vcs.repository.url.full"
+        }
+      }
+    ]
+  }
+}

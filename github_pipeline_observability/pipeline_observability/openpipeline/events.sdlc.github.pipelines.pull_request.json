@@ -1,0 +1,38 @@
+{
+  "displayName": "{{.pipelineDisplayName}}",
+  "customId": "{{.pipelineCustomName}}",
+  "processing": {
+    "processors": [
+      {
+        "type": "dql",
+        "matcher": "isNotNull(pull_request)",
+        "description": "Add pull request properties",
+        "id": "processor_add_pull_request_properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse pull_request,\n  \"JSON{\n    BOOLEAN:merged,\n    STRING:state,\n    STRING:merged_at,\n    STRING:created_at,\n    LONG:id,\n    STRING:title,\n    STRING[]:labels,\n    LONG:number,\n    STRING:html_url,\n    JSON{\n      STRING:ref,\n      STRING:sha\n    }:head,\n    JSON{\n      STRING:ref,\n      STRING:sha\n    }:base\n  }:pr\"\n| fieldsFlatten pr,\n  fields:{\n    merged,\n    state,\n    merged_at,\n    created_at,\n    id,\n    title,\n    labels,\n    number,\n    html_url,\n    head,\n    base\n  }\n\n| fieldsAdd event.status = if(merged == true, \"finished\", else: if(state == \"closed\", \"finished\", else: \"started\"))\n| fieldsAdd duration = if((merged_at > created_at) and event.status == \"finished\", toTimestamp(merged_at) - toTimestamp(created_at), else: toDuration(0))\n| fieldsAdd start_time = toTimestamp(created_at)\n| fieldsAdd end_time = if(merged == true, toTimestamp(merged_at), else: if(state == \"closed\", toTimestamp(closed_at)))\n\n| fieldsAdd task.title = concat(\"[Change Request]\", \" \", title)\n| fieldsAdd task.labels = toArray(labels)\n| fieldsAdd task.outcome = if(action == \"closed\" and merged == true, \"success\")\n| fieldsAdd vcs.ref.head.name = head[ref]\n| fieldsAdd vcs.ref.head.revision = head[sha]\n| fieldsAdd vcs.ref.base.name = base[ref]\n| fieldsAdd vcs.ref.base.revision = base[sha]\n\n| fieldsRemove pr, merged, state, merged_at, created_at, labels, head, base\n\n| fieldsRename task.id = id\n| fieldsRename vcs.change.id = number\n| fieldsRename vcs.change.title = title\n| fieldsRename vcs.change.state = action\n| fieldsRename vcs.change.url.full = html_url\n\n"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "isNotNull(repository)",
+        "description": "Add repository properties",
+        "id": "processor_add_repository_properties",
+        "enabled": true,
+        "dql": {
+          "script": "parse repository, \"JSON{STRING:full_name, STRING:html_url}:repo\" \n| fieldsFlatten repo, fields:{full_name, html_url} \n| fieldsRename vcs.repository.name = full_name\n| fieldsRename vcs.repository.url.full = html_url\n| fieldsRemove repo"
+        }
+      },
+      {
+        "type": "dql",
+        "matcher": "true",
+        "description": "Clean up",
+        "id": "processor_clean_up",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsKeep\n  event.kind,\n  event.status,\n  event.id,\n  event.provider,\n  event.category,\n  event.type,\n  event.version,\n  duration,\n  start_time,\n  end_time,\n  timestamp,\n  task.title,\n  task.labels,\n  task.outcome,\n  vcs.ref.head.revision,\n  vcs.ref.head.name,\n  vcs.ref.base.revision,\n  vcs.ref.base.name,\n  task.id,\n  vcs.change.id,\n  vcs.change.title,\n  vcs.change.state,\n  vcs.change.url.full,\n  vcs.repository.name,\n  vcs.repository.url.full"
+        }
+      }
+    ]
+  }
+}
