@@ -3,37 +3,37 @@
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "object_kind == \"pipeline\"",
-      "description": "Route all GitLab events into workflow pipelinen (v2)",
-      "pipelineId": "{{.gitlabPipelinePipelineId}}"
+      "pipelineId": "{{.gitlabPipelinePipelineId}}",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"pipeline\" and event.type == \"run\"",
+      "description": "Route all GitLab events into workflow pipeline (v2)"
     },
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "object_kind==\"build\"",
-      "description": "Route all GitLab events to job pipeline (v2)",
-      "pipelineId": "{{.gitlabJobPipelineId}}"
+      "pipelineId": "{{.gitlabJobPipelineId}}",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"task\" and event.type == \"build\"",
+      "description": "Route all GitLab events to job pipeline (v2)"
     },
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "object_kind==\"merge_request\"",
-      "description": "Route all GitLab events into merge request pipeline (v2)",
-      "pipelineId": "{{.gitlabMergeRequestPipelineId}}"
+      "pipelineId": "{{.gitlabMergeRequestPipelineId}}",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"task\" and event.type == \"change\"",
+      "description": "Route all GitLab events into merge request pipeline (v2)"
     },
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "object_kind==\"deployment\"",
-      "description": "Route all GitLab events into deployment pipeline (v2)",
-      "pipelineId": "{{.gitlabDeploymentPipelineId}}"
+      "pipelineId": "{{.gitlabDeploymentPipelineId}}",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"task\" and event.type == \"deployment\"",
+      "description": "Route all GitLab events into deployment pipeline (v2)"
     },
     {
       "enabled": true,
       "pipelineType": "custom",
-      "matcher": "object_kind==\"release\"",
-      "description": "Route all GitLab events into release pipeline (v2)",
-      "pipelineId": "{{.gitlabReleasePipelineId}}"
+      "pipelineId": "{{.gitlabReleasePipelineId}}",
+      "matcher": "event.provider == \"{{.eventProvider}}\" and event.category == \"task\" and event.type == \"release\"",
+      "description": "Route all GitLab events into release pipeline (v2)"
     }
   ]
 }

@@ -7,48 +7,45 @@
   "processing": {
     "processors": [
       {
+        "id": "processor_add_event_kind_and_event_provider",
         "type": "fieldsAdd",
-        "matcher": "isNull(event.kind)",
-        "description": "Add event.kind if not set",
-        "id": "processor_add_event_kind_if_not_set",
+        "matcher": "true",
+        "description": "Add event.kind and event.provider",
         "enabled": true,
-        "sampleData": null,
         "fieldsAdd": {
           "fields": [
             {
               "name": "event.kind",
               "value": "SDLC_EVENT"
+            },
+            {
+              "name": "event.provider",
+              "value": "{{.eventProvider}}"
             }
           ]
         }
       },
       {
+        "id": "processor_add_event_id_if_not_set",
         "type": "dql",
         "matcher": "isNull(event.id)",
         "description": "Add event.id if not set",
-        "id": "processor_add_event_id_if_not_set",
         "enabled": true,
-        "sampleData": null,
         "dql": {
           "script": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))"
         }
       },
       {
-        "type": "fieldsAdd",
-        "matcher": "object_kind==\"pipeline\"",
-        "description": "Add pipeline run properties",
         "id": "processor_add_pipeline_run_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"pipeline\"\n",
+        "description": "Add pipeline run properties",
         "enabled": true,
-        "sampleData": null,
         "fieldsAdd": {
           "fields": [
             {
               "name": "event.version",
               "value": "0.1.0"
-            },
-            {
-              "name": "event.provider",
-              "value": "gitlab"
             },
             {
               "name": "event.category",
@@ -62,21 +59,16 @@
         }
       },
       {
-        "type": "fieldsAdd",
-        "matcher": "object_kind==\"build\"",
-        "description": "Add build task properties",
         "id": "processor_add_build_task_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"build\"\n",
+        "description": "Add build task properties",
         "enabled": true,
-        "sampleData": null,
         "fieldsAdd": {
           "fields": [
             {
               "name": "event.version",
               "value": "0.1.0"
-            },
-            {
-              "name": "event.provider",
-              "value": "gitlab"
             },
             {
               "name": "event.category",
@@ -90,21 +82,16 @@
         }
       },
       {
-        "type": "fieldsAdd",
-        "matcher": "object_kind==\"merge_request\"",
-        "description": "Add change task properties",
         "id": "processor_add_change_task_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"merge_request\"\n",
+        "description": "Add change task properties",
         "enabled": true,
-        "sampleData": null,
         "fieldsAdd": {
           "fields": [
             {
               "name": "event.version",
               "value": "0.1.0"
-            },
-            {
-              "name": "event.provider",
-              "value": "gitlab"
             },
             {
               "name": "event.category",
@@ -118,21 +105,16 @@
         }
       },
       {
-        "type": "fieldsAdd",
-        "matcher": "object_kind==\"deployment\"",
-        "description": "Add deployment category properties",
         "id": "processor_add_deployment_category_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"deployment\"\n",
+        "description": "Add deployment category properties",
         "enabled": true,
-        "sampleData": null,
         "fieldsAdd": {
           "fields": [
             {
               "name": "event.version",
               "value": "0.1.0"
-            },
-            {
-              "name": "event.provider",
-              "value": "gitlab"
             },
             {
               "name": "event.category",
@@ -146,21 +128,16 @@
         }
       },
       {
-        "type": "fieldsAdd",
-        "matcher": "object_kind==\"release\"",
-        "description": "Add release task properties",
         "id": "processor_add_release_task_properties",
+        "type": "fieldsAdd",
+        "matcher": "object_kind == \"release\"\n",
+        "description": "Add release task properties",
         "enabled": true,
-        "sampleData": null,
         "fieldsAdd": {
           "fields": [
             {
               "name": "event.version",
               "value": "0.1.0"
-            },
-            {
-              "name": "event.provider",
-              "value": "gitlab"
             },
             {
               "name": "event.category",

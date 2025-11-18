@@ -8,6 +8,7 @@ configs:
 - id: openpipeline.events.sdlc.gitlab.ingest_sources
   config:
     parameters:
+      eventProvider: &eventProvider "gitlab"
       ingestSourceDisplayName: "GitLab"
       ingestSourcePathSegment: "gitlab"
     template: events.sdlc.gitlab.ingest_sources.json
@@ -75,6 +76,7 @@ configs:
 - id: openpipeline.events.sdlc.global.routing
   config:
     parameters:
+      eventProvider: *eventProvider
       gitlabJobPipelineId:
         configId: openpipeline.events.sdlc.gitlab.pipelines.job
         configType: builtin:openpipeline.events.sdlc.pipelines
