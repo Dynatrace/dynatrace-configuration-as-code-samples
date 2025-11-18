@@ -4,89 +4,63 @@
   "processing": {
     "processors": [
       {
+        "id": "processor_add_object_attribute_properties",
         "type": "dql",
         "matcher": "isNotNull(object_attributes)",
-        "description": "add object attribute properties",
-        "id": "processor_add_object_attribute_properties",
+        "description": "Add object attribute properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse object_attributes, \"JSON:obj_attr_j\" \n| fieldsAdd duration = if(isNotNull(obj_attr_j[finished_at]),toDuration(toTimestamp(obj_attr_j[finished_at])-toTimestamp(obj_attr_j[created_at])), else: toDuration(0))\n| fieldsAdd pipeline.queued.duration = if(isNotNull(obj_attr_j[queued_duration]),toDuration(obj_attr_j[queued_duration]*1000000000), else: toDuration(0))\n| fieldsAdd cicd.pipeline.run.id = obj_attr_j[id]\n| fieldsAdd cicd.pipeline.run.url.full = obj_attr_j[url]\n| fieldsAdd cicd.pipeline.run.trigger = obj_attr_j[source]\n| fieldsAdd vcs.ref.head.name = obj_attr_j[ref]\n| fieldsAdd vcs.ref.head.revision = obj_attr_j[sha]\n| fieldsAdd cicd.pipeline.run.variable = obj_attr_j[variables]\n| fieldsAdd event.status = if (isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status]!=\"running\",\"finished\", else:obj_attr_j[status])\n| fieldsAdd cicd.pipeline.run.outcome = if (isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status]!=\"running\",obj_attr_j[status])\n| fieldsAdd end_time = if (isNotNull(obj_attr_j[finished_at]) and obj_attr_j[status]!=\"running\",toTimestamp(obj_attr_j[finished_at]))\n| fieldsAdd start_time = if(isNotNull(obj_attr_j[created_at]),toTimestamp(obj_attr_j[created_at])) \n| fieldsAdd cicd.pipeline.name = if (isNotNull(obj_attr_j[name]) ,obj_attr_j[name], else: \"unknown\")\n| fieldsRemove obj_attr_j"
+          "script": "parse object_attributes,\n  \"JSON{\n    STRING:finished_at,\n    STRING:created_at,\n    LONG:queued_duration,\n    STRING:status,\n    STRING:name,\n    LONG:id,\n    STRING:url,\n    STRING:source,\n    STRING:ref,\n    STRING:sha,\n    STRING:variables\n  }:obj\"\n| fieldsFlatten obj,\n  fields: {\n    finished_at,\n    created_at,\n    queued_duration,\n    status,\n    name,\n    id,\n    url,\n    source,\n    ref,\n    sha,\n    variables\n  }\n\n| fieldsAdd duration = if(isNotNull(finished_at), toDuration(toTimestamp(finished_at) - toTimestamp(created_at)), else: toDuration(0))\n| fieldsAdd pipeline.queued.duration = if(isNotNull(queued_duration), toDuration(queued_duration * 1000000000), else: toDuration(0))\n| fieldsAdd event.status = if(isNotNull(finished_at) and status != \"running\", \"finished\", else: status)\n\n| fieldsAdd cicd.pipeline.run.outcome = if(status == \"failed\", \"failure\", else: if(isNotNull(finished_at) and status != \"running\" , status))\n| fieldsAdd end_time = if(isNotNull(finished_at) and status != \"running\", toTimestamp(finished_at))\n| fieldsAdd start_time = if(isNotNull(created_at), toTimestamp(created_at))\n| fieldsAdd cicd.pipeline.name = if(isNotNull(name), name, else: \"unknown\")\n\n| fieldsRemove obj, finished_at, created_at, status, name\n\n\n| fieldsRename cicd.pipeline.run.id = id\n| fieldsRename cicd.pipeline.run.url.full = url\n| fieldsRename cicd.pipeline.run.trigger = source\n| fieldsRename vcs.ref.head.name = ref\n| fieldsRename vcs.ref.head.revision = sha\n| fieldsRename cicd.pipeline.run.variable = variables\n"
         }
       },
       {
+        "id": "processor_add_source_pipeline_properties",
         "type": "dql",
         "matcher": "isNotNull(source_pipeline)",
-        "description": "add source pipeline properties",
-        "id": "processor_add_source_pipeline_properties",
+        "description": "Add source pipeline properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse source_pipeline, \"JSON:src_pipe_j\"\n| fieldsAdd cicd.upstream_pipeline.id = src_pipe_j[project][id]\n| fieldsAdd cicd.upstream_pipeline.run.id = src_pipe_j[pipeline_id]\n| fieldsAdd ext.upstream_pipeline.run.job.id = src_pipe_j[job_id]\n| fieldsRemove src_pipe_j"
+          "script": "parse source_pipeline,\n  \"JSON{\n    JSON{\n      LONG:id\n    }:project,\n    LONG:pipeline_id,\n    LONG:job_id\n  }:pipeline\"\n| fieldsFlatten pipeline, fields: { project, pipeline_id, job_id}\n\n| fieldsAdd cicd.upstream_pipeline.id = project[id]\n\n| fieldsRename cicd.upstream_pipeline.run.id = pipeline_id\n| fieldsRename ext.upstream_pipeline.run.job.id = job_id\n\n| fieldsRemove pipeline, project\n"
         }
       },
       {
+        "id": "processor_add_project_properties",
         "type": "dql",
         "matcher": "isNotNull(project)",
-        "description": "add project properties",
-        "id": "processor_add_project_properties",
+        "description": "Add project properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse project, \"JSON:proj_j\"\n| fieldsAdd ext.pipeline.project.name = proj_j[name]\n| fieldsAdd ext.pipeline.project.namespace = proj_j[namespace]\n| fieldsAdd vcs.repository.url.full = proj_j[web_url]\n| fieldsAdd vcs.repository.name = proj_j[name]\n| fieldsAdd cicd.pipeline.id = proj_j[id]\n| fieldsRemove proj_j"
+          "script": "parse project,\n  \"JSON{\n    STRING:name,\n    STRING:namespace,\n    STRING:web_url,\n    LONG:id\n  }:project\"\n| fieldsFlatten project,\n  fields: {\n    name,\n    namespace,\n    web_url,\n    id\n  }\n\n| fieldsAdd ext.pipeline.project.name = name\n| fieldsRename ext.pipeline.project.namespace = namespace\n| fieldsRename vcs.repository.url.full = web_url\n| fieldsRename vcs.repository.name = name\n| fieldsRename cicd.pipeline.id = id\n\n| fieldsRemove project\n"
         }
       },
       {
+        "id": "processor_add_merge_request_properties",
         "type": "dql",
         "matcher": "isNotNull(merge_request)",
-        "description": "add vcs.change.id",
-        "id": "processor_add_vcs_change_id",
+        "description": "Add merge request properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse merge_request, \"JSON:mr_j\"\n| fieldsAdd vcs.change.id = mr_j[iid]\n| fieldsRemove mr_j"
+          "script": "parse merge_request, \"JSON{LONG:iid}:merge_request\"\n| fieldsAdd vcs.change.id = merge_request[iid]\n| fieldsRemove merge_request\n"
         }
       },
       {
+        "id": "processor_add_user_properties",
         "type": "dql",
         "matcher": "isNotNull(user)",
-        "description": "add ext.pipeline.run.trigger.user",
-        "id": "processor_add_ext_pipeline_run_trigger_user",
+        "description": "Add user properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse user, \"JSON:user_j\"\n| fieldsAdd ext.pipeline.run.trigger.user = user_j\n| fieldsRemove user_j"
+          "script": "parse user, \"JSON{LONG:id, STRING:username}:user\"\n| fieldsRename ext.pipeline.run.trigger.user = user\n"
         }
       },
       {
+        "id": "processor_clean_up",
         "type": "dql",
-        "matcher": "isNotNull(cicd.pipeline.run.outcome)",
-        "description": "add cicd.pipeline.run.outcome",
-        "id": "processor_add_cicd_pipeline_run_outcome",
-        "enabled": true,
-        "sampleData": null,
-        "dql": {
-          "script": "fieldsAdd cicd.pipeline.run.outcome = if(cicd.pipeline.run.outcome==\"failed\",\"failure\",else:cicd.pipeline.run.outcome)"
-        }
-      },
-      {
-        "type": "fieldsRemove",
         "matcher": "true",
         "description": "Clean up",
-        "id": "processor_remove_fields",
         "enabled": true,
-        "sampleData": null,
-        "fieldsRemove": {
-          "fields": [
-            "object_kind",
-            "object_attributes",
-            "merge_request",
-            "user",
-            "project",
-            "commit",
-            "source_pipeline",
-            "builds"
-          ]
+        "dql": {
+          "script": "fieldsKeep\n  event.kind,\n  event.status,\n  event.id,\n  event.provider,\n  event.category,\n  event.type,\n  event.version,\n  duration,\n  start_time,\n  end_time,\n  timestamp,\n  pipeline.queued.duration,\n  cicd.pipeline.run.outcome,\n  cicd.pipeline.name,\n  cicd.pipeline.run.id,\n  cicd.pipeline.run.url.full,\n  cicd.pipeline.run.trigger,\n  vcs.ref.head.name,\n  vcs.ref.head.revision,\n  cicd.pipeline.run.variable,\n  cicd.upstream_pipeline.id,\n  cicd.upstream_pipeline.run.id,\n  ext.upstream_pipeline.run.job.id,\n  ext.pipeline.project.name,\n  ext.pipeline.project.namespace,\n  vcs.repository.url.full,\n  vcs.repository.name,\n  cicd.pipeline.id,\n  vcs.change.id,\n  ext.pipeline.run.trigger.user\n"
         }
       }
     ]

@@ -4,82 +4,43 @@
   "processing": {
     "processors": [
       {
-        "type": "dql",
-        "matcher": "isNotNull(action)",
-        "description": "add event.status",
-        "id": "processor_add_event_status",
-        "enabled": true,
-        "sampleData": null,
-        "dql": {
-          "script": "fieldsAdd event.status = concat(action,\"d\")"
-        }
-      },
-      {
-        "type": "dql",
-        "matcher": "object_kind == \"release\" and action == \"create\"",
-        "description": "add start_time",
-        "id": "processor_add_start_time",
-        "enabled": true,
-        "sampleData": null,
-        "dql": {
-          "script": "fieldsAdd start_time = toTimestamp(created_at)"
-        }
-      },
-      {
-        "type": "dql",
-        "matcher": "object_kind == \"release\"",
-        "description": "add release properties",
         "id": "processor_add_release_properties",
+        "type": "dql",
+        "matcher": "true",
+        "description": "Add release properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "fieldsAdd task.id = id\n| fieldsAdd task.name = \"GitLab Release\"\n| fieldsAdd release.name = name\n| fieldsAdd release.description = description\n| fieldsAdd release.url.full = url\n| fieldsAdd vcs.ref.base.name = tag\n| fieldsAdd ext.release.time = toTimestamp(released_at)"
+          "script": "fieldsAdd task.name = \"GitLab Release\"\n| fieldsAdd ext.release.time = toTimestamp(released_at)\n| fieldsAdd start_time = if(action == \"create\", toTimestamp(created_at))\n| fieldsAdd event.status = if(isNotNull(action), concat(action,\"d\"))\n\n| fieldsRename task.id = id\n| fieldsRename release.name = name\n| fieldsRename release.description = description\n| fieldsRename release.url.full = url\n| fieldsRename vcs.ref.base.name = tag\n"
         }
       },
       {
+        "id": "processor_add_commit_properties",
         "type": "dql",
         "matcher": "isNotNull(commit)",
-        "description": "add vcs.ref.base.revision",
-        "id": "processor_add_vcs_ref_base_revision",
+        "description": "Add commit properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse commit, \"JSON:commit_j\"\n| fieldsAdd vcs.ref.base.revision = commit_j[id]\n| fieldsRemove commit_j"
+          "script": "parse commit, \"JSON{STRING:id}:commit\"\n| fieldsFlatten commit, fields:{ id }\n\n| fieldsRename vcs.ref.base.revision = id\n\n| fieldsRemove commit\n"
         }
       },
       {
+        "id": "processor_add_project_properties",
         "type": "dql",
         "matcher": "isNotNull(project)",
-        "description": "add project properties",
-        "id": "processor_add_project_properties",
+        "description": "Add project properties",
         "enabled": true,
-        "sampleData": null,
         "dql": {
-          "script": "parse project, \"JSON:project_j\"\n| fieldsAdd ext.project.id = project_j[id]\n| fieldsAdd vcs.repository.url.full = project_j[web_url]\n| fieldsAdd vcs.repository.name = project_j[name]\n| fieldsRemove project_j"
+          "script": "parse project, \"JSON{LONG:id, STRING:web_url, STRING:name}:project\"\n| fieldsFlatten project, fields: { id, web_url, name }\n\n| fieldsRename ext.project.id = id\n| fieldsRename vcs.repository.url.full = web_url\n| fieldsRename vcs.repository.name = name\n\n| fieldsRemove project\n"
         }
       },
       {
-        "type": "fieldsRemove",
+        "id": "processor_clean_up",
+        "type": "dql",
         "matcher": "true",
         "description": "Clean up",
-        "id": "processor_fields_remove",
         "enabled": true,
-        "sampleData": null,
-        "fieldsRemove": {
-          "fields": [
-            "id",
-            "created_at",
-            "description",
-            "name",
-            "released_at",
-            "tag",
-            "object_kind",
-            "project",
-            "url",
-            "action",
-            "assets",
-            "commit"
-          ]
+        "dql": {
+          "script": "fieldsKeep\n  event.kind,\n  event.status,\n  event.id,\n  event.provider,\n  event.category,\n  event.type,\n  event.version,\n  start_time,\n  timestamp,\n  ext.release.time,\n  task.id,\n  release.name,\n  release.description,\n  release.url.full,\n  vcs.ref.base.name,\n  vcs.ref.base.revision,\n  ext.project.id,\n  vcs.repository.url.full,\n  vcs.repository.name\n"
         }
       }
     ]
