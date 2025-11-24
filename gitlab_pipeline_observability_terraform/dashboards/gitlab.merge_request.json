@@ -1,0 +1,606 @@
+{
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 4
+    },
+    "1": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 7
+    },
+    "10": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 7
+    },
+    "11": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "12": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 15
+    },
+    "13": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 2
+    },
+    "15": {
+      "h": 8,
+      "w": 24,
+      "x": 0,
+      "y": 29
+    },
+    "16": {
+      "h": 1,
+      "w": 24,
+      "x": 0,
+      "y": 28
+    },
+    "18": {
+      "h": 6,
+      "w": 8,
+      "x": 16,
+      "y": 4
+    },
+    "2": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 10
+    },
+    "20": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 4
+    },
+    "21": {
+      "h": 6,
+      "w": 8,
+      "x": 16,
+      "y": 17
+    },
+    "3": {
+      "h": 3,
+      "w": 4,
+      "x": 0,
+      "y": 17
+    },
+    "4": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 20
+    },
+    "5": {
+      "h": 3,
+      "w": 4,
+      "x": 4,
+      "y": 17
+    },
+    "6": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 23
+    },
+    "7": {
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 4
+    },
+    "8": {
+      "h": 6,
+      "w": 8,
+      "x": 8,
+      "y": 17
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup {task.id,vcs.change.url.full},sort: {ext.task.action.made_at desc}\n| filter not in(event.status,array(\"merged\",\"closed\")) \n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Open PRs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "singleValue": {
+          "label": "Open PRs",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": []
+      }
+    },
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup {task.id,vcs.change.url.full},sort: {ext.task.action.made_at desc}\n| filter not in(event.status,array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize max(OpenedPrDuration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Oldest Open PR",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "singleValue": {
+          "label": "max(OpenedPrDuration)",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "max(OpenedPrDuration)",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1727701272906,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "max(OpenedPrDuration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "10": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| sort ext.task.action.made_at desc\n| summarize { statuses = collectArray(event.status), actions = collectArray(ext.task.action) },  by: { task.id,vcs.change.url.full  } \n| filter not in(statuses[0],array(\"merged\", \"closed\")) \n| filter contains(toString(actions),\"reopen\")\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Re-opened PRs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "singleValue": {
+          "label": "Open PRs",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": []
+      }
+    },
+    "11": {
+      "content": "### GitLab Merge Request Pulse: Open & Merged Insights\nThis dashboard provides a comprehensive overview of the status of merge requests (MRs) in your GitLab repositories. Track open and merged MRs in real-time, analyze trends, and gain insights into your team's development workflow. [Data ingest](https://dt-rnd.atlassian.net/wiki/x/WwLNLg) ",
+      "type": "markdown"
+    },
+    "12": {
+      "content": "### Merged Merge Requests\n\nThis section provides a clear and detailed view of the merged merge requests, helping you to understand the efficiency and effectiveness of your code integration process.\n\n-----",
+      "type": "markdown"
+    },
+    "13": {
+      "content": "### Open Merge Requests\n\nThis section provides a clear and detailed view of the current state of open merge requests, enabling you to manage and prioritize them effectively. \n\n-----",
+      "type": "markdown"
+    },
+    "15": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (Blog Post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (Docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (Docs)\n* [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) (Docs)\n#\n---\n\n#### About this dashboard\n\nPreview Release v0.3.1, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples)",
+      "type": "markdown"
+    },
+    "16": {
+      "content": " ",
+      "type": "markdown"
+    },
+    "18": {
+      "content": "Space for additional KPI",
+      "type": "markdown"
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup {task.id,vcs.change.url.full},sort: {ext.task.action.made_at desc}\n| filter not in(event.status,array(\"merged\",\"closed\")) \n| fields \nIn_open_status = toTimestamp(now()) - toTimestamp(start_time),\nPR = vcs.change.id, \nTitle = vcs.change.title,\nURL = vcs.change.url.full,\nHeadName = vcs.ref.head.name, \nHeadRevision = vcs.ref.head.revision, \nBaseName = vcs.ref.base.name, \nCreatedAt = start_time,\nRepository = vcs.repository.url.full\n| sort In_open_status desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Open PRs Details",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "table": {
+          "columnTypeOverrides": [
+            {
+              "fields": [],
+              "id": 36911602,
+              "value": "date"
+            }
+          ],
+          "columnWidths": {
+            "[\"OpenFrom\"]": 138,
+            "[\"PR_number\"]": 146.4600830078125,
+            "[\"PR_title\"]": 404.0850830078125,
+            "[\"PR_url\"]": 423.39935302734375,
+            "[\"SourceRepository\"]": 233.796875,
+            "[\"Source_ref\"]": 279.58856201171875,
+            "[\"Source_repo\"]": 266.47222900390625,
+            "[\"Target_repo\"]": 244.47222900390625
+          },
+          "linewrapEnabled": true,
+          "rowDensity": "default"
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1727701272906,
+            "baseUnit": "nanosecond",
+            "decimals": 2,
+            "delimiter": true,
+            "displayUnit": null,
+            "identifier": "max(Duration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup {task.id,vcs.change.url.full},sort: {ext.task.action.made_at desc}\n| filter not in(event.status,array(\"merged\",\"closed\")) \n| fieldsAdd OpenedPrDuration = toTimestamp(now()) - toTimestamp(start_time) \n| summarize avg(OpenedPrDuration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Time Open",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "singleValue": {
+          "label": "avg(OpenedPrDuration)",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "avg(OpenedPrDuration)",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1740648009785,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "avg(OpenedPrDuration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "21": {
+      "content": "Space for additional KPI",
+      "type": "markdown"
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"gitlab\"\n| filter ext.task.action == \"merge\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merged PRs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "singleValue": {
+          "label": "Merged PRs",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "count()",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": []
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"gitlab\"\n| filter ext.task.action == \"merge\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize percentile(duration, 50)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merge Time (p50)",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "singleValue": {
+          "label": "Median",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "percentile(duration, 50)",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1740648063968,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "percentile(duration, 50)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "description": "Shows the average time taken to merge pull requests, providing insights into the efficiency of the review and merge process.",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"gitlab\"\n| filter ext.task.action == \"merge\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n\n| summarize avg(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Average Merge Time",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "singleValue": {
+          "label": "Avg",
+          "labelMode": "none",
+          "prefixIcon": "",
+          "recordField": "avg(duration)",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "thresholds": [],
+        "unitsOverrides": [
+          {
+            "added": 1740648048011,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "avg(duration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\"  \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider ==\"gitlab\" \n| filter ext.task.action == \"merge\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| fields \nMergedAt = end_time,\nDuration = duration, \nPR = vcs.change.id, \nTitle = vcs.change.title,\nURL = vcs.change.url.full,\nHeadName = vcs.ref.head.name, \nHeadRevision = vcs.ref.head.revision, \nBaseName = vcs.ref.base.name, \nCreatedAt = start_time,\nRepository = vcs.repository.url.full\n| sort Duration desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merged PRs Details",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "table": {
+          "rowDensity": "default",
+          "sortBy": {
+            "columnId": "[\"duration\"]",
+            "direction": "descending"
+          }
+        },
+        "thresholds": []
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| dedup {task.id,vcs.change.url.full},sort: {ext.task.action.made_at desc}\n| filter not in(event.status,array(\"merged\",\"closed\")) \n| summarize count(), by:{vcs.ref.base.name}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Open PRs by Branch",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "vcs.ref.base.name"
+            ],
+            "categoryAxisLabel": "vcs.ref.base.name",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative"
+          },
+          "colorPalette": "swamps",
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle"
+        },
+        "thresholds": []
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.status == \"merged\" \n| filter event.provider == \"gitlab\"\n| filter ext.task.action == \"merge\"\n| filter in(vcs.repository.url.full, $Repository) \n| filter in(vcs.ref.base.name, $Branch)\n| summarize count = count(), by:{vcs.repository.name}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Merged PRs by Repository",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "vcs.repository.name"
+            ],
+            "categoryAxisLabel": "vcs.repository.name",
+            "valueAxis": [
+              "count"
+            ],
+            "valueAxisLabel": "count"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative"
+          },
+          "colorPalette": "blue-steel",
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle"
+        },
+        "thresholds": []
+      }
+    }
+  },
+  "variables": [
+    {
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\" \n| summarize distinctRepositories = collectDistinct(vcs.repository.url.full)\n| expand distinctRepositories\n| sort distinctRepositories",
+      "key": "Repository",
+      "multiple": true,
+      "type": "query",
+      "version": 2,
+      "visible": true
+    },
+    {
+      "defaultValue": [
+        "main"
+      ],
+      "input": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"change\" \n| filter event.provider == \"gitlab\"\n| summarize distinctBase = collectDistinct(vcs.ref.base.name)\n| expand distinctBase\n| sort distinctBase",
+      "key": "Branch",
+      "multiple": true,
+      "type": "query",
+      "version": 2,
+      "visible": true
+    }
+  ],
+  "version": 20
+}
