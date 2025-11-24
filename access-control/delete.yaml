@@ -1,0 +1,10 @@
+delete:
+- project: access-control
+  type: app:dynatrace.github.connector:connection
+  id: config-acl-none
+- project: access-control
+  type: app:dynatrace.github.connector:connection
+  id: config-acl-read
+- project: access-control
+  type: app:dynatrace.github.connector:connection
+  id: config-acl-write
