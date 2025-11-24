@@ -1,0 +1,12 @@
+configs:
+  - id: config-acl-write
+    config:
+      name: Read and write public connection
+      template: config.json
+    type:
+      settings:
+        schema: app:dynatrace.github.connector:connection
+        schemaVersion: "1.0.1"
+        scope: environment
+        permissions:
+          allUsers: write
