@@ -9,8 +9,5 @@ environmentGroups:
           type: value
           value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
         auth:
-            oAuth:
-              clientId:
-                name: OAUTH_CLIENT_ID
-              clientSecret:
-                name: OAUTH_CLIENT_SECRET
+          platformToken:
+            name: DT_PLATFORM_TOKEN
