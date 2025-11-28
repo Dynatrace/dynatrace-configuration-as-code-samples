@@ -207,7 +207,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"succeeded\"\n| summarize count(), by: {result}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"succeeded\"\n| summarize count(), by: {result}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -371,7 +371,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"failed\"\n| summarize count(), by: {result}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"failed\"\n| summarize count(), by: {result}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -528,7 +528,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"partiallySucceeded\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"partiallySucceeded\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -622,7 +622,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"partiallySucceeded\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"partiallySucceeded\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -723,7 +723,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"canceled\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"canceled\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -817,7 +817,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"canceled\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"canceled\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -925,7 +925,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| summarize count(), by: {releaseStatus}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| summarize count(), by: {releaseStatus}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1094,7 +1094,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| summarize `Release Count`=count(), by: {releaseName}\n| filter in(releaseName, array($ReleaseName))\n| fieldsRename `Release Name`= releaseName\n| sort `Release Count` desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| summarize `Release Count`=count(), by: {releaseName}\n| filter in(releaseName, array($ReleaseName))\n| fieldsRename `Release Name`= releaseName\n| sort `Release Count` desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1208,7 +1208,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"canceled\"\n| summarize count(), by: {result}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"canceled\"\n| summarize count(), by: {result}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1355,7 +1355,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"succeeded\"\n| summarize count=count(), by:{stageName}\n| filter in(stageName,array($ReleaseStage))\n| sort count desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"succeeded\"\n| summarize count=count(), by:{stageName}\n| filter in(stageName,array($ReleaseStage))\n| sort count desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1456,7 +1456,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"succeeded\"\n| summarize count(), by:{projectName}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"succeeded\"\n| summarize count(), by:{projectName}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1573,7 +1573,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"rejected\"\n| summarize count(), by:{releaseStatus}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"rejected\"\n| summarize count(), by:{releaseStatus}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1737,7 +1737,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"rejected\"\n| filter in(stageName,array($ReleaseStage))\n| summarize count(), by:{stageName}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"rejected\"\n| filter in(stageName,array($ReleaseStage))\n| summarize count(), by:{stageName}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1850,7 +1850,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"rejected\"\n| summarize `Release Count`=count(), by: {releaseName}\n| filter in(releaseName, array($ReleaseName))\n| fieldsRename `Release Name`=releaseName\n| sort `Release Count` desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"rejected\"\n| summarize `Release Count`=count(), by: {releaseName}\n| filter in(releaseName, array($ReleaseName))\n| fieldsRename `Release Name`=releaseName\n| sort `Release Count` desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1972,7 +1972,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"rejected\"\n| summarize count(), by:{projectName}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"rejected\"\n| summarize count(), by:{projectName}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2089,7 +2089,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"partiallySucceeded\"\n| summarize count(), by: {result}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"partiallySucceeded\"\n| summarize count(), by: {result}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2234,7 +2234,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| parse `resource.deployment.startedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployStartTime LD\"\n| parse `resource.deployment.completedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployEndTime LD\"\n| fields DeployDuration=DeployEndTime-DeployStartTime, releaseName\n| filterOut isNull(DeployDuration)\n| summarize avg(DeployDuration)",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| parse `resource.deployment.startedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployStartTime LD\"\n| parse `resource.deployment.completedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployEndTime LD\"\n| fields DeployDuration=DeployEndTime-DeployStartTime, releaseName\n| filterOut isNull(DeployDuration)\n| summarize avg(DeployDuration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2372,7 +2372,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| parse `resource.deployment.startedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployStartTime LD\"\n| parse `resource.deployment.completedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployEndTime LD\"\n| fields DeployDuration=DeployEndTime-DeployStartTime, releaseName\n| filterOut isNull(DeployDuration)\n| filter in(releaseName, array($ReleaseName))\n| sort DeployDuration desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| parse `resource.deployment.startedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployStartTime LD\"\n| parse `resource.deployment.completedOn`, \"TIMESTAMP('yyyy-MM-ddTHH:mm:ss.SSSSSS'):DeployEndTime LD\"\n| fields DeployDuration=DeployEndTime-DeployStartTime, releaseName\n| filterOut isNull(DeployDuration)\n| filter in(releaseName, array($ReleaseName))\n| sort DeployDuration desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2492,7 +2492,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| filter releaseStatus == \"succeeded\"\n| fields timestamp,releaseStatus,releaseName\n| makeTimeseries count(), by:{releaseName},interval:15m\n| filter in(releaseName, array($ReleaseName))",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| filter releaseStatus == \"succeeded\"\n| fields timestamp,releaseStatus,releaseName\n| makeTimeseries count(), by:{releaseName},interval:15m\n| filter in(releaseName, array($ReleaseName))",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2628,7 +2628,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"succeeded\"\n| summarize `Build Count`=count(), by: {buildNumber}\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"succeeded\"\n| summarize `Build Count`=count(), by: {buildNumber}\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2739,7 +2739,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"succeeded\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"succeeded\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2856,7 +2856,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"failed\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"failed\"\n| summarize `Build Count`=count(), by: buildNumber\n| filter in(buildNumber, array($BuildNumber))\n| fieldsRename `Build Number`=buildNumber\n| sort `Build Count` desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -2960,7 +2960,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| filter result == \"failed\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| filter result == \"failed\"\n| summarize count=count(), by: resource.reason\n| sort count desc",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -3062,7 +3062,7 @@
       "defaultValue": [
         "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
       ],
-      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| dedup releaseName\n| fields releaseName",
+      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| dedup releaseName\n| fields releaseName",
       "key": "ReleaseName",
       "multiple": true,
       "type": "query",
@@ -3072,7 +3072,7 @@
       "defaultValue": [
         "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
       ],
-      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"ms.vss-release.deployment-completed-event\")\n| dedup stageName\n| filterOut isNull(stageName)\n| fields stageName",
+      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"deployment\") and matchesPhrase(event.status,\"finished\")\n| dedup stageName\n| filterOut isNull(stageName)\n| fields stageName",
       "key": "ReleaseStage",
       "multiple": true,
       "type": "query",
@@ -3082,7 +3082,7 @@
       "defaultValue": [
         "{{ .extractedIDs.id_3420b2ac_f1cf_4b24_b62d_61ba1ba8ed05 }}*"
       ],
-      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"AzureDevOps\" and matchesPhrase(event.type,\"build.complete\")\n| dedup buildNumber\n| fields buildNumber",
+      "input": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.provider == \"azure.devops\" and matchesPhrase(event.type,\"build\") and matchesPhrase(event.status,\"finished\")\n| dedup buildNumber\n| fields buildNumber",
       "key": "BuildNumber",
       "multiple": true,
       "type": "query",
