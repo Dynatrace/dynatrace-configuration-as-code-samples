@@ -3,7 +3,7 @@
 This example shows how [Dynatrace Segments] can be configured and managed using Monaco.
 
 The example provides the `segments` project with two configurations. First, the `segment` configuration, and second, the `dashboard` configuration.\
-The dashboard depends on the segment to automatically include the segment.
+The dashboard depends on the segment to automatically include the segment. The dashboard will get the ID `dashboard-with-segment`.
 
 ## Requirements
 
