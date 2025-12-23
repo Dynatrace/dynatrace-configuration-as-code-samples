@@ -1,0 +1,11 @@
+// Bucket to be filtered by boundary
+ALLOW
+storage:buckets:read;
+
+// Logs to be filtered by security context via boundary
+ALLOW
+storage:logs:read;
+
+// Files to be filtered by boundary
+ALLOW
+storage:files:read;

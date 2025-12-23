@@ -1,0 +1,16 @@
+ALLOW
+automation:workflows:run;
+
+ALLOW
+app-settings:objects:write
+WHERE shared:app-id IN ("dynatrace.site.reliability.guardian");
+
+ALLOW settings:objects:write
+WHERE settings:schemaId IN ("builtin:davis.anomaly-detectors");
+
+// Required for running validations of SRGs
+ALLOW
+storage:events:write;
+
+ALLOW
+slo:slos:write;

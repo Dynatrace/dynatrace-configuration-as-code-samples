@@ -1,0 +1,58 @@
+ALLOW
+storage:events:read,
+storage:metrics:read,
+storage:entities:read,
+storage:spans:read,
+storage:bizevents:read,
+storage:user.events:read,
+storage:user.sessions:read,
+storage:smartscape:read;
+
+ALLOW storage:events:read
+WHERE storage:bucket-name startsWith "default_davis";
+
+ALLOW
+storage:system:read;
+
+ALLOW
+storage:fieldsets:read,
+storage:bucket-definitions:read,
+storage:application.snapshots:read,
+storage:filter-segments:read;
+
+ALLOW
+storage:buckets:read
+WHERE
+storage:bucket-name startsWith "default";
+
+ALLOW
+storage:buckets:read
+WHERE
+storage:bucket-name startsWith "confidential";
+
+ALLOW
+storage:buckets:read
+WHERE storage:bucket-name IN ("dt_system_metrics","dt_system_events");
+
+// Logs need to be restricted
+ALLOW
+storage:logs:read
+WHERE
+storage:dt.security_context startsWith "confidential";
+
+// Allows a user to read all confidential logs in the default bucket
+ALLOW
+storage:logs:read
+WHERE
+storage:bucket-name startsWith "default" and
+storage:dt.security_context startsWith "confidential";
+
+// Allows a user to read lookup files marked as confidential
+ALLOW
+storage:files:read
+WHERE
+storage:file-path startsWith "/lookups/confidential";
+
+ALLOW
+environment:roles:viewer
+WHERE environment:management-zone NOT startsWith "s_";

@@ -1,0 +1,28 @@
+ALLOW
+automation:workflows:run;
+
+ALLOW
+settings:objects:write;
+
+ALLOW
+environment:roles:manage-settings;
+
+ALLOW
+extensions:configurations:write,
+extensions:configuration.actions:write;
+
+ALLOW
+document:direct-shares:write,
+document:direct-shares:delete;
+
+// Required for running validations of SRGs
+ALLOW
+storage:events:write;
+
+ALLOW
+slo:slos:write;
+
+// File access to be filtered by boundary
+ALLOW
+storage:files:write,
+storage:files:delete;

@@ -1,0 +1,27 @@
+// Allow all users to read logs in sandbox
+ALLOW storage:logs:read;
+
+ALLOW
+environment:roles:agent-install;
+
+ALLOW
+slo:objective-templates:read,
+slo:slos:write;
+
+ALLOW settings:objects:write
+WHERE settings:schemaId IN
+("builtin:davis.anomaly-detectors");
+
+// To allow all api tokens to be created
+ALLOW environment:roles:manage-settings;
+
+ALLOW
+automation:workflows:write,
+automation:workflows:run;
+
+ALLOW storage:events:write;
+
+ALLOW openpipeline:configurations:read, openpipeline:configurations:write;
+
+ALLOW document:direct-shares:write,
+document:direct-shares:delete;
