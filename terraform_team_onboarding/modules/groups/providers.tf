@@ -5,4 +5,4 @@ terraform {
       source  = "dynatrace-oss/dynatrace"
     }
   }
-} 
+}

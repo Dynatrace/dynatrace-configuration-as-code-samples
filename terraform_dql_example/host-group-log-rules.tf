@@ -7,7 +7,7 @@ data "dynatrace_dql" "host_group_dql" {
   query = <<EOT
   fetch dt.entity.host_group
   | filter startsWith(entity.name, "a_team1")
-EOT 
+EOT
 }
 
 # Update log rules 
