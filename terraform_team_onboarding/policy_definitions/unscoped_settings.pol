@@ -14,5 +14,5 @@ ALLOW
 settings:objects:write
 WHERE settings:schemaId IN ("builtin:cloud.aws","builtin:cloud.azure","builtin:rum.web.app-detection", "builtin:anomaly-detection.metric-events", "builtin:davis.anomaly-detectors");
 
-// Access all piplines where access granted
+// Access all pipelines where access granted
 ALLOW settings:objects:write WHERE settings:schemaGroup IN ("group:openpipeline.all.pipelines");
