@@ -6,7 +6,7 @@ resource "dynatrace_iam_group" "default_viewer_contactor_group" {
 
 resource "dynatrace_iam_group" "default_viewer_group" {
   name                       = "Default user"
-  description                =<<-EOT
+  description                = <<-EOT
     Basic user access granted to all.
     Access to view all data (except logs)
     Access to view all configuration
