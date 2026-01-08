@@ -124,31 +124,6 @@ environment:roles:manage-settings,
 // Needed for AG support archive
 environment:roles:view-sensitive-request-data;
 
-ALLOW
-cloudautomation:resources:read,
-cloudautomation:resources:write,
-cloudautomation:resources:delete,
-cloudautomation:metadata:read,
-cloudautomation:events:read,
-cloudautomation:events:write,
-cloudautomation:logs:read,
-cloudautomation:logs:write,
-cloudautomation:projects:read,
-cloudautomation:projects:write,
-cloudautomation:projects:delete,
-cloudautomation:stages:read,
-cloudautomation:services:read,
-cloudautomation:services:write,
-cloudautomation:services:delete,
-cloudautomation:integrations:read,
-cloudautomation:integrations:write,
-cloudautomation:integrations:delete,
-cloudautomation:secrets:read,
-cloudautomation:secrets:write,
-cloudautomation:secrets:delete,
-cloudautomation:instance:manage,
-cloudautomation:statistics:read;
-
 ALLOW hyperscaler-authentication:aws:authenticate;
 
 ALLOW geolocation:locations:lookup;

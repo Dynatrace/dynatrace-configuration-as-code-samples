@@ -63,6 +63,3 @@ For a full schema refer to [naming standards](<insert team link here>).
 - `poweruser_group` (also known as the "PUsr" group) is the name of a group in Entra ID that must already exist
 
 - `data_group` (also known as the "standard user group" or "SUsr" group) is the name of a group in Entra ID that must already exist
-
-## Development
-Before working on [services-input.json](services-input.json), consider installing the [pre-commit](../pre-commit-check/), to be able to run the pre-commit check locally. This is more for maintainers who are working with the file frequently. The check also runs in a GitLab pipeline on MR creation/change.
