@@ -46,12 +46,12 @@ In this tutorial, you'll learn how to
     <!-- windows version -->
    Windows:
     ```
-    $env:DT_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
+    $env:DYNATRACE_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
     ```
     <!-- linux / macOS version -->
    Linux / macOS:
     ```
-    export DT_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
+    export DYNATRACE_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
     ```
 
 3. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository using the following commands and move to the `gitlab_pipeline_observability` directory.
@@ -74,7 +74,7 @@ In this tutorial, you'll learn how to
               value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
             auth:
               platformToken:
-                name: DT_PLATFORM_TOKEN
+                name: DYNATRACE_PLATFORM_TOKEN
     ```
 
 ### Check the OpenPipeline configuration for SDLC events

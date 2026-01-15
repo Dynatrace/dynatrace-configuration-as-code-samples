@@ -10,4 +10,4 @@ environmentGroups:
           value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
         auth:
           platformToken:
-            name: DT_PLATFORM_TOKEN
+            name: DYNATRACE_PLATFORM_TOKEN
