@@ -1,7 +1,7 @@
 #region "team resources"
 resource "dynatrace_platform_bucket" "teambuckets" {
   # Will not create any resources if buckets is missing or empty in config.yaml
-  for_each = { for b in lookup(local.config, "buckets", []) : b.name => b }
+  for_each = { for b in (can(local.config.buckets) && local.config.buckets != null ? local.config.buckets : []) : b.name => b }
   name         = each.value.name
   display_name = lookup(each.value, "display_name", format("%s/%s", "Bucket: ", each.value.name))
   retention    = lookup(each.value, "retention", 10)
@@ -68,7 +68,7 @@ resource "dynatrace_iam_policy_boundary" "bound" {
 resource "dynatrace_iam_policy_bindings_v2" "binding" {
   for_each = {
     for b in local.bindings_with_details_split :
-    tostring(b.id) => b
+    "${b.groupname}-${b.levelType}-${b.levelId}" => b
     if length(b.policies) > 0
   }
 
@@ -106,7 +106,7 @@ resource "dynatrace_iam_policy_bindings_v2" "binding" {
 #region "open pipelines"
 resource "dynatrace_openpipeline_events" "eventsonly" {
   # Will not create any resources if openpipelines is missing or empty in config.yaml
-  for_each = { for idx, p in local.openpipeline_events : tostring(idx) => p }
+  for_each = length(local.openpipeline_events) > 0 ? { for idx, p in local.openpipeline_events : tostring(idx) => p } : {}
 
   dynamic "endpoints" {
     for_each = lookup(each.value, "endpoints", [])
@@ -319,7 +319,7 @@ resource "dynatrace_openpipeline_events" "eventsonly" {
 }
 
 resource "dynatrace_openpipeline_logs" "logsonly" {
-  for_each = { for idx, p in local.openpipeline_logs : tostring(idx) => p }
+  for_each = length(local.openpipeline_logs) > 0 ? { for idx, p in local.openpipeline_logs : tostring(idx) => p } : {}
   
   endpoints {
     dynamic "endpoint" {
@@ -542,7 +542,7 @@ resource "dynatrace_openpipeline_logs" "logsonly" {
 
 #region "segments"
 resource "dynatrace_segment" "this" {
-  for_each = { for s in lookup(local.config, "segments", []) : s.name => s }
+  for_each = { for s in try(local.config.segments, []) : s.name => s }
 
   name        = each.value.name
   description = lookup(each.value, "description", null)

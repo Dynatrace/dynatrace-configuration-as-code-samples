@@ -8,12 +8,12 @@ locals {
   environments = lookup(local.config, "environments", {})
   openpipelines = lookup(local.config, "openpipelines", [])
   openpipeline_events = [
-    for p in local.openpipelines : p
+    for p in coalesce(local.openpipelines, []) : p #for p in local.openpipelines : p
     if lower(lookup(p, "pipeline_type", "")) == "events"
   ]
 
   openpipeline_logs = [
-    for p in local.openpipelines : p
+    for p in coalesce(local.openpipelines, []) : p #for p in local.openpipelines : p
     if lower(lookup(p, "pipeline_type", "")) == "logs"
   ]
   
