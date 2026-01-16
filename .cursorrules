@@ -1,0 +1,117 @@
+# Cursor AI Rules for Dynatrace Configuration-as-Code Samples
+
+## Repository Overview
+Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform usage for observability automation. Focus on production-ready, secure, well-documented configurations.
+
+## Critical Rules
+
+### 🔐 Security First
+- NEVER hardcode credentials, tokens, or secrets
+- ALWAYS use environment variables for sensitive data
+- CREATE `.env.example` files with `<PLACEHOLDER>` format
+- REQUIRE OAuth authentication for Platform environments
+- MARK sensitive Terraform variables with `sensitive = true`
+
+### 📦 Version Requirements (January 2026)
+- Monaco: >= 2.24.0 (latest stable preferred)
+- Terraform: >= 1.0.0
+- Dynatrace Provider: >= 1.90.0 (check registry for latest)
+- Document version requirements in every README
+
+### 🔧 Monaco Standards
+```yaml
+manifestVersion: 1.0  # Always unquoted
+auth:
+  oAuth:              # Preferred over API tokens
+    clientId:
+      type: environment
+      name: CLIENT_ID
+```
+
+### 🏗️ Terraform Standards
+```hcl
+terraform {
+  required_providers {
+    dynatrace = {
+      version = "~> 1.90"
+      source  = "dynatrace-oss/dynatrace"
+    }
+  }
+}
+```
+
+### 📝 Documentation Requirements
+Every sample MUST have:
+- Clear use case description
+- Prerequisites with versions
+- Complete OAuth scope list
+- Step-by-step setup
+- Cleanup/deletion instructions
+- Troubleshooting section
+
+### 🔑 OAuth Scopes
+Document all required scopes:
+```markdown
+## Required OAuth Scopes
+- `settings:objects:read`, `settings:objects:write`
+- `document:documents:read`, `document:documents:write`
+- [Feature-specific scopes]
+```
+
+### 🗂️ File Organization
+```
+sample-name/
+├── README.md
+├── manifest.yaml / providers.tf
+├── .env.example
+├── .gitignore
+└── config/ or terraform files
+```
+
+### 🚫 Never Do
+- Use Terraform provider < 1.85.0
+- Mix OAuth and API token auth in same sample
+- Hardcode entity IDs (use references)
+- Omit cleanup instructions
+- Reference deprecated APIs
+- Forget `.gitignore` for `.env`
+
+### ✅ Always Do
+- Use latest stable versions
+- Document OAuth scopes completely
+- Provide `.env.example`
+- Include validation steps
+- Test deployment instructions
+- Use descriptive configuration IDs
+- Add troubleshooting tips
+
+### 🛠️ Common Commands
+```bash
+# Monaco
+monaco deploy manifest.yaml
+monaco deploy --dry-run manifest.yaml
+monaco delete -m manifest.yaml
+
+# Terraform
+terraform init && terraform plan
+terraform apply
+terraform destroy
+```
+
+### 🎯 Code Review Checklist
+- [ ] No hardcoded credentials
+- [ ] Latest provider versions
+- [ ] OAuth documented
+- [ ] README complete
+- [ ] `.env.example` exists
+- [ ] Cleanup instructions
+- [ ] Tested deployment
+
+### 📚 Quick Links
+- [Monaco Docs](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco)
+- [Terraform Provider](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
+- [OAuth Guide](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client)
+
+---
+**Active Dynatrace Environment**: wkf10640.apps.dynatrace.com  
+**Use Dynatrace MCP tools** to validate configurations and query environment state
