@@ -7,89 +7,90 @@
 # Use this section to specify one or many environments belonging to the account you are deploying
 # Note that permissions scopes can reference any of these environments, but deployment of resources (buckets, openpipelines, segments) will only happen in the environment specified by the dt_env_url variable that is used by the Dynatrace Terraform provider
 environments:
-  env_dev: "abc" #placeholder for the first environment
+  env_dev: "yqx03344" #placeholder for the first environment
   env_prod: "def" #placeholder for the second environment. Continue adding more environments as needed and referencing them in the grants section
 
 
 # OPENPIPELINES
 # The entire section is optional, if not present, no open pipelines will be created.
+# ! Temporarily commented out due to recent API and Terraform resource changes for Openpipelines.
 openpipelines:
-  - pipeline_type: "events"
-    endpoints:
-      - enabled: true
-        default_bucket: "default_events"
-        display_name: "Custom ingest source"
-        segment: "something"
-        routing:
-          type: "static"
-          pipeline_id: "default"
-    pipelines:
-      - enabled: true
-        display_name: "Custom pipeline 1"
-        id: "pipeline_Pipeline_8075"
-        processing:
-          processors:
-            - type: "fields_add_processor"
-              description: "Add a field 1"
-              enabled: true
-              id: "processor_Add_a_field_6856"
-              matcher: "true"
-              fields:
-                - name: "field"
-                  value: "value"
-        security_context:
-          processors:
-            - type: "security_context_processor"
-              description: "Set Security context for Morpheus team"
-              enabled: true
-              id: "sc_morpheus_team_1"
-              matcher: "true"
-              value:
-                - type: "field"
-                  field: "team"
-    routing:
-      - enabled: true
-        matcher: "true"
-        note: "Custom route"
-        pipeline_id: "pipeline_Pipeline_8075"
+  # - pipeline_type: "events"
+  #   endpoints:
+  #     - enabled: true
+  #       default_bucket: "default_events"
+  #       display_name: "Custom ingest source"
+  #       segment: "something"
+  #       routing:
+  #         type: "static"
+  #         pipeline_id: "default"
+  #   pipelines:
+  #     - enabled: true
+  #       display_name: "Custom pipeline 1"
+  #       id: "pipeline_Pipeline_8075"
+  #       processing:
+  #         processors:
+  #           - type: "fields_add_processor"
+  #             description: "Add a field 1"
+  #             enabled: true
+  #             id: "processor_Add_a_field_6856"
+  #             matcher: "true"
+  #             fields:
+  #               - name: "field"
+  #                 value: "value"
+  #       security_context:
+  #         processors:
+  #           - type: "security_context_processor"
+  #             description: "Set Security context for Morpheus team"
+  #             enabled: true
+  #             id: "sc_morpheus_team_1"
+  #             matcher: "true"
+  #             value:
+  #               - type: "field"
+  #                 field: "team"
+  #   routing:
+  #     - enabled: true
+  #       matcher: "true"
+  #       note: "Custom route"
+  #       pipeline_id: "pipeline_Pipeline_8075"
 
-  - pipeline_type: "logs"
-    pipelines:
-      - enabled: true
-        display_name: "Morpheus logs pipeline"
-        id: "pipeline_Morpheus_1"
-        processing:
-          processors:
-            - type: "dql_processor"
-              description: "process_team_morpheus"
-              enabled: true
-              dql_script: "parse content, \"LD 'team=' STRING:team\""
-              id: "processor_morpheus_team_1"
-              matcher: "matchesValue(content, \"*team*\")"
-        security_context:
-          processors:
-            - type: "security_context_processor"
-              description: "Set Security context for Morpheus team"
-              enabled: true
-              id: "sc_morpheus_team_1"
-              matcher: "true"
-              value:
-                - type: "field"
-                  field: "team"
-        storage:
-          catch_all_bucket_name: "default_logs" 
-          processors:
-            - type: "bucket_assignment_processor"
-              description: "Bucket assignment for Morpheus team"
-              enabled: true
-              bucket_name : "demo_morpheus_bucket"
-              id: "processor_bucket_assignment_morpheus_1"
-              matcher: "matchesValue(team, \"morpheus\")"
-    routing:
-      - enabled: true
-        matcher: "true"
-        note: "route morpheus"
-        pipeline_id: "pipeline_Morpheus_1"
+  # - pipeline_type: "logs"
+  #   pipelines:
+  #     - enabled: true
+  #       display_name: "Morpheus logs pipeline"
+  #       id: "pipeline_Morpheus_1"
+  #       processing:
+  #         processors:
+  #           - type: "dql_processor"
+  #             description: "process_team_morpheus"
+  #             enabled: true
+  #             dql_script: "parse content, \"LD 'team=' STRING:team\""
+  #             id: "processor_morpheus_team_1"
+  #             matcher: "matchesValue(content, \"*team*\")"
+  #       security_context:
+  #         processors:
+  #           - type: "security_context_processor"
+  #             description: "Set Security context for Morpheus team"
+  #             enabled: true
+  #             id: "sc_morpheus_team_1"
+  #             matcher: "true"
+  #             value:
+  #               - type: "field"
+  #                 field: "team"
+  #       storage:
+  #         catch_all_bucket_name: "default_logs" 
+  #         processors:
+  #           - type: "bucket_assignment_processor"
+  #             description: "Bucket assignment for Morpheus team"
+  #             enabled: true
+  #             bucket_name : "demo_morpheus_bucket"
+  #             id: "processor_bucket_assignment_morpheus_1"
+  #             matcher: "matchesValue(team, \"morpheus\")"
+  #   routing:
+  #     - enabled: true
+  #       matcher: "true"
+  #       note: "route morpheus"
+  #       pipeline_id: "pipeline_Morpheus_1"
 
 
 # BUCKETS
