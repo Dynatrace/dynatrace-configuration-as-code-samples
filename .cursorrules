@@ -69,7 +69,7 @@ sample-name/
 ```
 
 ### 🚫 Never Do
-- Use Terraform provider < 1.85.0
+- Never use Terraform provider < 1.85.0
 - Mix OAuth and API token auth in same sample
 - Hardcode entity IDs (use references)
 - Omit cleanup instructions
