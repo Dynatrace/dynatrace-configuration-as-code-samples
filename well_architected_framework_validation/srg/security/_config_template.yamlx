@@ -26,8 +26,7 @@ configs:
         dql_query_security_score: 
           type: compound
           format: |
-            fetch events
-            | filter event.kind == "SECURITY_EVENT" 
+            fetch security.events
             | filter event.type == "VULNERABILITY_STATE_REPORT_EVENT" 
             | filter event.level == "ENTITY" 
             | filter vulnerability.resolution.status == "OPEN" 

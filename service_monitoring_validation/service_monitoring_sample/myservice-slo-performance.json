@@ -1,0 +1,17 @@
+{
+  "criteria": [
+    {
+      "target": 95,
+      "timeframeFrom": "now-7d",
+      "timeframeTo": "now",
+      "warning": 98
+    }
+  ],
+  "customSli": {
+    "filterSegments": [],
+    "indicator": "timeseries total=avg(dt.service.request.response_time, default:0)\n, by: { dt.entity.service }, filter: { in (dt.entity.service, { \"{{ .service_id }}\" }) }\n| fieldsAdd high=iCollectArray(if(total[]\u003e (1000 * 500), total[]))\n| fieldsAdd low=iCollectArray(if(total[]\u003c= (1000 * 500), total[]))\n| fieldsAdd highRespTimes=iCollectArray(if(isNull(high[]),0,else:1))\n| fieldsAdd lowRespTimes=iCollectArray(if(isNull(low[]),0,else:1))\n| fieldsAdd sli=100*(lowRespTimes[]/(lowRespTimes[]+highRespTimes[]))\n| fieldsAdd entityName(dt.entity.service)\n| fieldsRemove total, high, low, highRespTimes, lowRespTimes"
+  },
+  "description": "Measures the proportion of service requests served faster than a defined response time.",
+  "name": "{{ .name }}",
+  "tags": {{ .tags }}
+}

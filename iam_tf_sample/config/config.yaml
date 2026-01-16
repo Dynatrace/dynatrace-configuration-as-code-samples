@@ -7,8 +7,9 @@
 # Use this section to specify one or many environments belonging to the account you are deploying
 # Note that permissions scopes can reference any of these environments, but deployment of resources (buckets, openpipelines, segments) will only happen in the environment specified by the dt_env_url variable that is used by the Dynatrace Terraform provider
 environments:
-  env_dev: "yqx03344" #placeholder for the first environment
+  env_dev: "abc" #placeholder for the first environment
   env_prod: "def" #placeholder for the second environment. Continue adding more environments as needed and referencing them in the grants section
+
 
 
 # OPENPIPELINES

@@ -11,6 +11,7 @@ configs:
     document:
       kind: dashboard
       private: true
+      id: dashboard-with-segment
   config:
     name: Log Dashboard with Dynatrace Segment
     parameters:

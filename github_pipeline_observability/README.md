@@ -8,11 +8,12 @@ Excited to dive into your GitHub workflow performance and uncover the secrets be
 
 ## Concepts
 
-| Concept        | Description |
-|------------|-----|
-| Software Development Lifecycle (SDLC) events   | [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events. |
-| Why were GitHub webhook events changed into SDLC events? | The main benefit is data normalization and becoming tool agnostic. As a result, Dynatrace Dashboards, Apps, and Workflows can build on SDLC events with well-defined properties rather than tool-specific details. |
-| Why going with GitHub webhooks instead of REST API?  | Using webhooks has the following advantages over using the API: (1) Webhooks require less effort and less resources than polling an API. (2) Webhooks scale better than API calls. (3) Webhooks allow near real-time updates, since webhooks are triggered when an event happens. See [Choosing webhooks or the REST API](https://docs.github.com/en/webhooks/about-webhooks#choosing-webhooks-or-the-rest-api) for more details. |
+
+| Concept                                                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|----------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Software Development Lifecycle (SDLC) events             | [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events. |
+| Why were GitHub webhook events changed into SDLC events? | The main benefit is data normalization and becoming tool agnostic. As a result, Dynatrace Dashboards, Apps, and Workflows can build on SDLC events with well-defined properties rather than tool-specific details.                                                                                                                                                                                                                                            |
+| Why going with GitHub webhooks instead of REST API?      | Using webhooks has the following advantages over using the API: (1) Webhooks require less effort and less resources than polling an API. (2) Webhooks scale better than API calls. (3) Webhooks allow near real-time updates, since webhooks are triggered when an event happens. See [Choosing webhooks or the REST API](https://docs.github.com/en/webhooks/about-webhooks#choosing-webhooks-or-the-rest-api) for more details.                             |
 
 ## Target audience
 
@@ -34,25 +35,23 @@ In this tutorial, you'll learn how to
 
 ### Prepare the Monaco configuration
 
-1. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
+1. [Create a Platform token](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-platform-token) with the following permissions.
     * Run apps: `app-engine:apps:run`
-    * View OpenPipeline configurations: `openpipeline:configurations:read`
-    * Edit OpenPipeline configurations: `openpipeline:configurations:write`
+    * View OpenPipeline configurations: `settings:objects:read`
+    * Edit OpenPipeline configurations: `settings:objects:write`
     * Create and edit documents: `document:documents:write`
     * View documents: `document:documents:read`
 
-2. Store the retrieved client ID and secret as separate environment variables.
+2. Store the retrieved platform token in an environment variable.
     <!-- windows version -->
-    Windows:
+   Windows:
     ```
-    $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-    $env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    $env:DYNATRACE_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
     ```
     <!-- linux / macOS version -->
-    Linux / macOS:
+   Linux / macOS:
     ```
-    export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-    export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    export DYNATRACE_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
     ```
 
 3. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository using the following commands and move to the `github_pipeline_observability` directory.
@@ -74,14 +73,8 @@ In this tutorial, you'll learn how to
               type: value
               value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
             auth:
-                oAuth:
-                  clientId:
-                    name: OAUTH_CLIENT_ID
-                  clientSecret:
-                    name: OAUTH_CLIENT_SECRET
-                  tokenEndpoint:
-                    type: environment
-                    value: OAUTH_TOKEN_ENDPOINT
+              platformToken:
+                name: DYNATRACE_PLATFORM_TOKEN
     ```
 
 ### Check the OpenPipeline configuration for SDLC events
@@ -91,20 +84,18 @@ If your OpenPipeline configuration contains only default/built-in values, you ca
 
 > Step 3 will indicate if a configuration merge is needed or if you can apply the provided configuration directly.
 
-1. Go to **OpenPipeline** > **Events** > **Software development lifecycle**.
-2.  Check the **Ingest sources**, **Dynamic routing**, and **Pipelines**.
-    * Under **Ingest sources**, are there any other sources than **Endpoint for Software Development Lifecycle events**?
-    * Under **Dynamic routing**, are there any other routes than **Default route**?
-    * Under **Pipelines**, are there any other pipelines than **events.sdlc**?
-3. If the answer to one of those questions is "yes", follow the steps below. Otherwise, skip ahead to step 4.
+1. Go to **Settings** > **Process and contextualize** > **OpenPipeline** > **Software Development Lifecycle**.
+2.  Check the **Dynamic routing** section, are there any other routes than **Default route**?
+3. If the answer is "yes", follow the steps below. Otherwise, skip ahead to step 4.
     * Download your OpenPipeline configuration
       ```
-      monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
+      monaco download -e <YOUR-DT-ENV-ID> --settings-schema "builtin:openpipeline.events.sdlc.routing"
       ```
     * Open the following files:
-      * Your downloaded configuration file, `download_<DATE>_<NUMBER>/project/openpipline/events.sdlc.json`.
-      * The provided configuration file, `pipeline_observability/openpipline/events.sdlc.github.json`.
-    * Merge the contents of events.sdlc.json into events.sdlc.github.json, and then save the file.
+        * Your downloaded configuration file, `download_<DATE>-<TIME>/project_<YOUR-DT-ENV-ID>/builtinopenpipeline.events.sdlc.routing/<SOME-UUID>.json`.
+        * The provided configuration file, `pipeline_observability/openpipeline/events.sdlc.global.routing.json`.
+    * Merge the `routingEntries` of your downloaded routing file into the `routingEntries` of `events.sdlc.global.routing.json`, and then save the file.
+      This is mandatory as the **Dynamic Routing table** is a global configuration and the order of the entries as well as the `matcher` clauses determine the overall routing.
 4. Apply the Monaco configuration.
   Run this command to apply the provided Monaco configuration.
   The configuration consists of (1) Dashboards to analyze GitHub activities and (2) OpenPipeline configuration to normalize [GitHub events](https://docs.github.com/en/webhooks/webhook-events-and-payloads) into [SDLC events](pipeline-observability-ingest-sdlc-events).
@@ -124,7 +115,7 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Gi
     * OpenPipeline - Ingest Software Development Lifecycle Events (Custom)(`openpipeline.events_sdlc`)
 5. Click **Generate token**
 6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
-​
+
 ### Create the GitHub webhook 
 
 Currently, sending GitHub webhook events to Dynatrace necessitates an additional step because Dynatrace does not support HMAC-SHA256 signature verification, and GitHub does not offer custom headers for request authentication. Therefore, setting up a proxy, such as a serverless function, is required as an interim solution.
@@ -258,9 +249,9 @@ In Dynatrace, open the **GitHub Workflow Pulse** and the **GitHub Pull Requests*
 * Gain job insights.
 * Review step durations for workflows.
 
-| Workflow details: | Job insights: | Pull request insights: |
-|------------|-----|-------------|
-| ![image](images/pipeline_dashboard_pipeline_details.png)   | ![image](images/pipeline_dashboard_job_details.png) | ![image](images/pull_request_dashboard.png) |
+| Workflow details:                                        | Job insights:                                       | Pull request insights:                      |
+|----------------------------------------------------------|-----------------------------------------------------|---------------------------------------------|
+| ![image](images/pipeline_dashboard_pipeline_details.png) | ![image](images/pipeline_dashboard_job_details.png) | ![image](images/pull_request_dashboard.png) |
 
 ### Optimize
 

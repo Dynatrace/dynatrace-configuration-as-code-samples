@@ -1,6 +1,6 @@
 # Dynatrace Configuration as Code Samples
 
-This repository collects sample projects for the Dynatrace Configuration as Code tool Monaco.
+This repository collects sample projects for the Dynatrace Configuration as Code.
 
 ## Getting Started with Dynatrace Configuration as Code
 
@@ -13,10 +13,7 @@ If you're new to Monaco and want to learn more, check out the [Observability Cli
 ## License
 [Apache License v2.0](https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/blob/main/LICENSE).
 
-## Other forms of Dynatrace Configuration as Code
+## Terraform and Dynatrace Configuration as Code
 
-In addition to our official Configuration as Code tool Monaco there is also a [Dynatrace Terraform provider](https://github.com/dynatrace-oss/terraform-provider-dynatrace).
+While most of the samples in this repository can be used with our tool Monaco, we recommend using our [Dynatrace Terraform provider](https://github.com/dynatrace-oss/terraform-provider-dynatrace), especially when you're already invested in using Terraform for Infrastructure as Code.
 
-**Please note that unlike Monaco there is no official support provided for the Terraform provider.**
-
-Unless you are already strongly invested in using Terraform for Infrastructure as Code we recommend using Monaco for Dynatrace configuration as code.

@@ -6,3 +6,10 @@ policies:
     description: Allows admin (read, write, delete) access to Bucket definition.
     policy: |-
       ALLOW storage:bucket-definitions:write, storage:bucket-definitions:delete, storage:buckets:read, storage:bucket-definitions:read;
+  - name: Workflow - Admin
+    id: workflow-admin
+    level:
+      type: environment
+      environment: %YOUR_ENVIRONMENT_ID%
+    policy: |-
+      ALLOW automation:workflows:read, automation:workflows:write, automation:workflows:admin, automation:workflows:run, automation:rules:read, automation:rules:write, automation:calendars:read, automation:calendars:write;
