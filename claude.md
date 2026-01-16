@@ -60,7 +60,7 @@ You have access to powerful Dynatrace MCP (Model Context Protocol) tools:
 
 #### Manifest File Structure
 ```yaml
-manifestVersion: 1.0  # Always use 1.0, unquoted
+manifestVersion: 1.0  # Current stable version is 1.0 (unquoted)
 projects:
   - name: descriptive-project-name
     path: path/to/configs
