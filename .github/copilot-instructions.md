@@ -9,6 +9,9 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
 ### 1. Authentication & Security
 - **ALWAYS use OAuth authentication or platform tokens** for Dynatrace Platform environments (preferred over API tokens)
 - **NEVER hardcode credentials** - use environment variables exclusively
+- **Token Compatibility**:
+  - Classic API tokens can be used together with OAuth or platform tokens
+  - Platform tokens and OAuth **cannot** be used together (mutually exclusive)
 - When creating new samples or modifying authentication:
   - Use `DYNATRACE_PLATFORM_TOKEN` or OAuth client credentials (`CLIENT_ID`, `CLIENT_SECRET`)
   - Document required OAuth scopes in README files
@@ -217,7 +220,7 @@ variable "DYNATRACE_API_TOKEN" {
 - ❌ Don't hardcode environment URLs or credentials
 - ❌ Don't omit OAuth scope documentation
 - ❌ Don't create samples without cleanup instructions
-- ❌ Don't mix API token and OAuth patterns in the same sample
+- ❌ Don't use platform token and OAuth together (they are mutually exclusive)
 - ❌ Don't reference deprecated API endpoints
 - ❌ Don't forget to update README when changing configurations
 
