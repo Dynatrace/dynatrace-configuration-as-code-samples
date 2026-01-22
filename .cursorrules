@@ -53,7 +53,6 @@ sample-name/
 
 ### 🚫 Never Do
 - Never use Terraform provider < 1.85.0
-- Mix OAuth and API token auth in same sample
 - Hardcode entity IDs (use references)
 - Omit cleanup instructions
 - Reference deprecated APIs
@@ -70,15 +69,17 @@ sample-name/
 
 ### 🛠️ Common Commands
 ```bash
+# Terraform
+terraform init && terraform plan
+terraform apply
+terraform destroy
+
 # Monaco
 monaco deploy manifest.yaml
 monaco deploy --dry-run manifest.yaml
 monaco delete -m manifest.yaml
 
-# Terraform
-terraform init && terraform plan
-terraform apply
-terraform destroy
+
 ```
 
 ### 🎯 Code Review Checklist
@@ -91,8 +92,8 @@ terraform destroy
 - [ ] Tested deployment
 
 ### 📚 Quick Links
-- [Dynatrace configuration as code documentation](https://docs.dynatrace.com/docs/shortlink/configuration-as-code)
 - [Terraform Provider](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
+- [Dynatrace configuration as code documentation](https://docs.dynatrace.com/docs/shortlink/configuration-as-code)
 - [Authentication Guide](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
 
 ---
