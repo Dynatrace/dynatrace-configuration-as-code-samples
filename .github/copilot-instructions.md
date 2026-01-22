@@ -13,7 +13,7 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   - Use platform tokens by default unless the sample specifically requires OAuth (e.g., account-level access, specific scoped permissions)
 - **NEVER hardcode credentials** - use environment variables exclusively
 - When creating new samples or modifying authentication:
-  - Use `DYNATRACE_PLATFORM_TOKEN` for platform tokens or OAuth client credentials (`CLIENT_ID`, `CLIENT_SECRET`)
+  - Use `DYNATRACE_PLATFORM_TOKEN` for platform tokens, or OAuth client credentials (`CLIENT_ID`, `CLIENT_SECRET`) for OAuth authentication
   - Document required permissions (platform token capabilities or OAuth scopes) in README files
   - Create `.env.example` files with placeholder values (NEVER real credentials)
   - Use format: `export VAR_NAME="<PLACEHOLDER_DESCRIPTION>"` in shell scripts
@@ -66,8 +66,8 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   }
 
   provider "dynatrace" {
-    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
-    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
+    dt_env_url    = var.DYNATRACE_ENV_URL          # from DYNATRACE_ENV_URL env var
+    dt_api_token  = var.DYNATRACE_PLATFORM_TOKEN   # from DYNATRACE_PLATFORM_TOKEN env var
     # OR use OAuth for granular permissions:
     # client_id     = var.DT_CLIENT_ID
     # client_secret = var.DT_CLIENT_SECRET
@@ -200,8 +200,8 @@ variable "DYNATRACE_ENV_URL" {
   sensitive   = false
 }
 
-variable "DYNATRACE_API_TOKEN" {
-  description = "Dynatrace API token or Platform token"
+variable "DYNATRACE_PLATFORM_TOKEN" {
+  description = "Dynatrace Platform token"
   type        = string
   sensitive   = true
 }
