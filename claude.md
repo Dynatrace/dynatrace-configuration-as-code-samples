@@ -21,7 +21,7 @@ Provide high-quality, production-ready sample configurations that demonstrate Dy
 ### Environment Information
 - **Dynatrace Environment**: Platform environments (Gen3) using apps.dynatrace.com
 - **Authentication**: OAuth-based authentication is REQUIRED for Platform environments
-- **Primary Tools**: Terraform with Dynatrace provider v1.90+, Monaco CLI v2.24.0+
+- **Primary Tools**: Terraform with Dynatrace provider v1.90+, Monaco CLI v2.26.0+
 - **Repository Owner**: Dynatrace organization
 
 ### Current State Analysis (January 2026)
@@ -358,26 +358,26 @@ When reviewing or modifying code, verify:
 ### Monaco: Reference Between Configurations
 ```yaml
 configs:
-  - id: management-zone
+  - id: segment
+    type: segment
     config:
-      name: "Production MZ"
-      template: mz-template.json
-    type:
-      settings:
-        schema: builtin:management-zones
-        scope: environment
+      name: "Production Segment"
+      template: segment-template.json
 
-  - id: alerting-profile
-    config:
-      name: "Prod Alerts"
-      template: alerting-template.json
+  - id: dashboard
     type:
-      settings:
-        schema: builtin:alerting.profile
-        scope: environment
-    references:
-      - id: management-zone
-        property: managementZoneId
+      document:
+        kind: dashboard
+        private: true
+    config:
+      name: "Prod Dashboard"
+      template: dashboard-template.json
+      parameters:
+        segment_id:
+          type: reference
+          configId: segment
+          configType: segment
+          property: id
 ```
 
 ### Monaco: Environment-Specific Variables
@@ -405,13 +405,13 @@ locals {
   env_config = local.environments[var.environment]
 }
 
-resource "dynatrace_management_zone_v2" "this" {
-  name = "${var.environment}-zone"
+resource "dynatrace_segment" "this" {
+  name = "${var.environment}-segment"
+  description = "Segment for ${var.environment} environment"
   
-  rules {
-    rule {
-      type    = "ME"
-      enabled = true
+  includes {
+    items {
+      data_object = "logs"
       # ... configuration
     }
   }
@@ -505,10 +505,10 @@ environmentGroups:
 ### Terraform: Resource Import Pattern
 ```hcl
 # Import existing Dynatrace resources
-# terraform import dynatrace_management_zone_v2.imported "MANAGEMENT_ZONE_ID"
+# terraform import dynatrace_segment.imported "SEGMENT_ID"
 
-resource "dynatrace_management_zone_v2" "imported" {
-  name = "Existing Management Zone"
+resource "dynatrace_segment" "imported" {
+  name = "Existing Segment"
   # ... configuration matches existing resource
 }
 ```
