@@ -326,9 +326,9 @@ When reviewing or modifying code, verify:
 - [ ] Version requirements documented in README
 
 ### Authentication ✅
-- [ ] OAuth preferred over API tokens for Platform environments
-- [ ] All required OAuth scopes documented
-- [ ] OAuth client creation steps in README
+- [ ] Appropriate authentication method chosen (platform token for simplicity, OAuth for granular permissions)
+- [ ] All required permissions (token capabilities or OAuth scopes) documented
+- [ ] OAuth client creation steps in README (if using OAuth)
 - [ ] Authentication pattern consistent within sample
 
 ### Configuration Quality ✅

@@ -7,11 +7,14 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
 ## Core Principles
 
 ### 1. Authentication & Security
-- **ALWAYS use OAuth authentication** for Dynatrace Platform environments (preferred over API tokens)
+- **Choose appropriate authentication** for Dynatrace Platform environments:
+  - **Platform tokens**: Simpler setup, good for most Configuration-as-Code use cases
+  - **OAuth clients**: Better for production environments requiring granular scope-based permissions, service accounts, and automated token rotation
+  - Use platform tokens by default unless the sample specifically requires OAuth (e.g., account-level access, specific scoped permissions)
 - **NEVER hardcode credentials** - use environment variables exclusively
 - When creating new samples or modifying authentication:
-  - Use `DYNATRACE_PLATFORM_TOKEN` or OAuth client credentials (`CLIENT_ID`, `CLIENT_SECRET`)
-  - Document required OAuth scopes in README files
+  - Use `DYNATRACE_PLATFORM_TOKEN` for platform tokens or OAuth client credentials (`CLIENT_ID`, `CLIENT_SECRET`)
+  - Document required permissions (platform token capabilities or OAuth scopes) in README files
   - Create `.env.example` files with placeholder values (NEVER real credentials)
   - Use format: `export VAR_NAME="<PLACEHOLDER_DESCRIPTION>"` in shell scripts
 
@@ -35,7 +38,7 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
             platformToken:
               name: DYNATRACE_PLATFORM_TOKEN
   ```
-- **OAuth Configuration** (preferred):
+- **OAuth Configuration**:
   ```yaml
   auth:
     oAuth:
@@ -65,7 +68,7 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   provider "dynatrace" {
     dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
     dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
-    # OR use OAuth (recommended):
+    # OR use OAuth for granular permissions:
     # client_id     = var.DT_CLIENT_ID
     # client_secret = var.DT_CLIENT_SECRET
     # account_id    = var.DT_ACCOUNT_ID

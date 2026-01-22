@@ -9,7 +9,7 @@ Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform u
 - NEVER hardcode credentials, tokens, or secrets
 - ALWAYS use environment variables for sensitive data
 - CREATE `.env.example` files with `<PLACEHOLDER>` format
-- REQUIRE OAuth authentication for Platform environments
+- USE platform tokens for simplicity, OAuth for granular permissions
 - MARK sensitive Terraform variables with `sensitive = true`
 
 ### 📦 Version Requirements (January 2026)
@@ -22,10 +22,13 @@ Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform u
 ```yaml
 manifestVersion: 1.0  # Always unquoted
 auth:
-  oAuth:              # Preferred over API tokens
+  oAuth:              # Use OAuth for granular permissions
     clientId:
       type: environment
       name: CLIENT_ID
+  # OR use platform token for simplicity:
+  # platformToken:
+  #   name: DYNATRACE_PLATFORM_TOKEN
 ```
 
 ### 🏗️ Terraform Standards
@@ -78,7 +81,7 @@ sample-name/
 
 ### ✅ Always Do
 - Use latest stable versions
-- Document OAuth scopes completely
+- Document required permissions (OAuth scopes or token capabilities) completely
 - Provide `.env.example`
 - Include validation steps
 - Test deployment instructions
