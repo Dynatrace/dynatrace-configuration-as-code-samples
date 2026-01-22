@@ -412,7 +412,7 @@ resource "dynatrace_segment" "this" {
   
   includes {
     items {
-      data_object = "logs"  # Can also be: events, metrics, traces, entities
+      data_object = "logs"  # Valid values: logs, events, metrics, traces, entities
       filter      = jsonencode({
         type   = "Group"
         logicalOperator = "AND"
@@ -537,10 +537,12 @@ resource "dynatrace_segment" "imported" {
     items {
       data_object = "logs"
       filter      = jsonencode({
-        # Filter structure matching the existing segment
+        # Filter structure matching the existing segment configuration
         type = "Group"
         logicalOperator = "AND"
-        children = [/* existing filter criteria */]
+        children = [
+          # Add actual filter conditions from the existing segment
+        ]
       })
     }
   }
