@@ -10,7 +10,7 @@ Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform u
 - ALWAYS use environment variables for sensitive data
 - CREATE `.env.example` files with `<PLACEHOLDER>` format
 - REQUIRE [Platform token](https://docs.dynatrace.com/docs/shortlink/platform-tokens) or OAuth authentication for Platform environments
-- MARK sensitive Terraform variables with `sensitive = true`
+- DO NOT use Terraform variables for tokens/credentials (they get stored in state file - use environment variables or credential vaults)
 
 ### 📦 Version Requirements (January 2026)
 - Terraform: >= 1.0.0
@@ -53,6 +53,7 @@ sample-name/
 
 ### 🚫 Never Do
 - Never use Terraform provider < 1.85.0
+- Never use Terraform variables for tokens/credentials (use environment variables or credential vaults)
 - Hardcode entity IDs (use references)
 - Omit cleanup instructions
 - Reference deprecated APIs
