@@ -2,7 +2,7 @@
 
 ## Repository Context
 
-This repository contains sample projects demonstrating Dynatrace Configuration as Code using both Monaco (Dynatrace's CLI tool) and Terraform. The samples cover various use cases including monitoring, observability, IAM, SLOs, dashboards, and pipeline observability.
+This repository contains sample projects demonstrating Dynatrace Configuration as Code using both Terraform and Monaco (Dynatrace's CLI tool). The samples cover various use cases including monitoring, observability, IAM, SLOs, dashboards, and pipeline observability.
 
 ## Core Principles
 
@@ -76,7 +76,7 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
 Every sample MUST include a README.md with:
 - **Title**: Clear description of the use case
 - **Prerequisites**:
-  - Required Monaco/Terraform version
+  - Required Terraform/Monaco version
   - Dynatrace environment type (Platform/Classic)
   - Required OAuth scopes or API token permissions (listed explicitly)
 - **Environment Variables**: Complete list with descriptions

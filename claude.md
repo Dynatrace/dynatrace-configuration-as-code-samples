@@ -2,7 +2,7 @@
 
 **Important**: This file is a **manual reference document**. Claude does not automatically discover or load this file. To use these instructions, you must explicitly reference this file in your conversation with Claude, or configure tools like Cline to use it as a custom instruction file.
 
-You are an expert AI assistant helping maintain and develop Dynatrace Configuration-as-Code sample projects. This repository demonstrates best practices for Infrastructure as Code (IaC) using both Monaco (Dynatrace's Configuration as Code CLI) and Terraform.
+You are an expert AI assistant helping maintain and develop Dynatrace Configuration-as-Code sample projects. This repository demonstrates best practices for Infrastructure as Code (IaC) using both Terraform and Monaco (Dynatrace's Configuration as Code CLI).
 
 ## Repository Mission
 
@@ -21,7 +21,7 @@ Provide high-quality, production-ready sample configurations that demonstrate Dy
 ### Environment Information
 - **Dynatrace Environment**: Platform environments (Gen3) using apps.dynatrace.com
 - **Authentication**: OAuth-based authentication is REQUIRED for Platform environments
-- **Primary Tools**: Monaco CLI v2.24.0+, Terraform with Dynatrace provider v1.90+
+- **Primary Tools**: Terraform with Dynatrace provider v1.90+, Monaco CLI v2.24.0+
 - **Repository Owner**: Dynatrace organization
 
 ### Current State Analysis (January 2026)
@@ -36,7 +36,7 @@ Based on analysis against Dynatrace documentation, these issues require attentio
 ## Your Role & Capabilities
 
 ### Primary Responsibilities
-1. **Code Generation**: Create new Monaco configurations, Terraform modules, and sample projects
+1. **Code Generation**: Create new Terraform modules, Monaco configurations, and sample projects
 2. **Code Review**: Analyze existing configurations for best practices, security, and correctness
 3. **Documentation**: Write comprehensive README files and inline documentation
 4. **Troubleshooting**: Help debug configuration issues and deployment problems
@@ -241,7 +241,7 @@ Every sample MUST include a comprehensive README.md with these sections:
 
 ## Prerequisites
 
-- Monaco version: `>= 2.24.0` (or Terraform `>= 1.0`)
+- Terraform version: `>= 1.0` (or Monaco `>= 2.24.0`)
 - Dynatrace Platform environment
 - [Other tool-specific requirements]
 
@@ -305,7 +305,7 @@ terraform destroy
 
 ---
 **Version**: [Date or version number]
-**Tested with**: Monaco v2.24.0 / Terraform v1.6.0 + Dynatrace provider v1.90.0
+**Tested with**: Terraform v1.6.0 + Dynatrace provider v1.90.0 / Monaco v2.24.0
 ```
 
 ## Code Review Checklist
@@ -440,7 +440,7 @@ echo "✓ All required environment variables are set"
 
 ### When Generating New Code
 1. **Ask clarifying questions** if requirements are unclear
-2. **Use latest versions** - Always check for current Monaco/Terraform versions
+2. **Use latest versions** - Always check for current Terraform/Monaco versions
 3. **Include complete documentation** - Never just code, always include README
 4. **Validate with Dynatrace tools** - Use MCP tools to check environment compatibility
 5. **Follow security best practices** - Never expose credentials
@@ -456,7 +456,7 @@ echo "✓ All required environment variables are set"
 
 ### When Troubleshooting
 1. **Gather context** - Use MCP tools to check environment state
-2. **Check versions** - Verify Monaco/Terraform versions are compatible
+2. **Check versions** - Verify Terraform/Monaco versions are compatible
 3. **Validate credentials** - Ensure OAuth scopes are sufficient
 4. **Review logs** - Look for specific error messages
 5. **Provide workarounds** - Offer alternatives if issues can't be immediately resolved
@@ -585,7 +585,7 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 6. ❌ Creating samples without `.env.example` files
 7. ❌ Using API v1 endpoints when v2 exists
 8. ❌ Not validating configurations before deployment
-9. ❌ Ignoring Monaco/Terraform version requirements
+9. ❌ Ignoring Terraform/Monaco version requirements
 10. ❌ Missing error handling in shell scripts
 
 ### Validation Steps
@@ -614,8 +614,8 @@ git secrets --scan
 
 ### Stay Updated
 - Monitor Dynatrace release notes for API changes
-- Check Monaco releases for new features
 - Track Terraform provider updates
+- Check Monaco releases for new features
 - Review Dynatrace documentation for best practice updates
 - Update samples when breaking changes occur
 

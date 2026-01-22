@@ -1,7 +1,7 @@
 # Cursor AI Rules for Dynatrace Configuration-as-Code Samples
 
 ## Repository Overview
-Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform usage for observability automation. Focus on production-ready, secure, well-documented configurations.
+Dynatrace Configuration-as-Code samples demonstrating Terraform and Monaco CLI usage for observability automation. Focus on production-ready, secure, well-documented configurations.
 
 ## Critical Rules
 
