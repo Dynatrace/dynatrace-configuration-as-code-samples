@@ -226,24 +226,6 @@ variable "DYNATRACE_API_TOKEN" {
 
 ## Useful Commands Reference
 
-### Monaco
-```bash
-# Deploy configuration
-monaco deploy manifest.yaml
-
-# Delete configuration
-monaco delete -m manifest.yaml
-
-# Download existing configuration
-monaco download -e <ENV-ID> --settings-schema "schema-id"
-
-# Validate configuration
-monaco deploy manifest.yaml --dry-run
-
-# Convert v1 to v2
-monaco convert --source v1-config/ --target v2-config/
-```
-
 ### Terraform
 ```bash
 # Initialize Terraform
@@ -265,23 +247,26 @@ terraform destroy
 terraform fmt -recursive
 ```
 
-## Sample Directory Template Structure
+### Monaco
+```bash
+# Deploy configuration
+monaco deploy manifest.yaml
 
-### Monaco Sample Structure
+# Delete configuration
+monaco delete -m manifest.yaml
+
+# Download existing configuration
+monaco download -e <ENV-ID> --settings-schema "schema-id"
+
+# Validate configuration
+monaco deploy manifest.yaml --dry-run
+
+# Convert v1 to v2
+monaco convert --source v1-config/ --target v2-config/
 ```
-monaco-sample-name/
-├── README.md                    # Comprehensive documentation
-├── manifest.yaml                # Monaco manifest
-├── delete.yaml                  # Monaco delete configuration (if applicable)
-├── .gitignore                   # Git ignore file
-├── .env.example                 # Example environment variables
-├── scripts/
-│   ├── deploy.sh               # Deployment script
-│   └── cleanup.sh              # Cleanup script
-├── config/                      # Configuration files
-│   └── *.yaml                  # Monaco config files
-└── images/                      # Screenshots/diagrams for README
-```
+
+
+## Sample Directory Template Structure
 
 ### Terraform Sample Structure
 ```
@@ -299,12 +284,28 @@ terraform-sample-name/
 └── images/                      # Screenshots/diagrams for README
 ```
 
+### Monaco Sample Structure
+```
+monaco-sample-name/
+├── README.md                    # Comprehensive documentation
+├── manifest.yaml                # Monaco manifest
+├── delete.yaml                  # Monaco delete configuration (if applicable)
+├── .gitignore                   # Git ignore file
+├── .env.example                 # Example environment variables
+├── scripts/
+│   ├── deploy.sh               # Deployment script
+│   └── cleanup.sh              # Cleanup script
+├── config/                      # Configuration files
+│   └── *.yaml                  # Monaco config files
+└── images/                      # Screenshots/diagrams for README
+```
+
 ## Version Compatibility Matrix (January 2026)
 
 | Tool              | Minimum Version | Recommended Version | Notes                                    |
 |-------------------|----------------|---------------------|------------------------------------------|
 | Monaco            | 2.22.0         | 2.28.0+             | Required for latest Platform features    |
-| Terraform         | 1.0.0          | 1.6.0+              | Use latest stable                        |
+| Terraform         | 1.0.0          | 1.14.0+              | Use latest stable                        |
 | Dynatrace Provider| 1.85.0         | 1.89.0+             | Check registry for latest                |
 | Dynatrace Platform| -              | Current             | Platform environments required for OAuth |
 
