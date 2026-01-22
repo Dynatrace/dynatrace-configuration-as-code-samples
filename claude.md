@@ -359,22 +359,25 @@ When reviewing or modifying code, verify:
 ```yaml
 configs:
   - id: segment
+    type: segment
     config:
       name: "Production Segment"
       template: segment-template.json
-    type: segment
 
   - id: dashboard
-    config:
-      name: "Prod Dashboard"
-      template: dashboard-template.json
     type:
       document:
         kind: dashboard
         private: true
-    references:
-      - id: segment
-        property: segmentId
+    config:
+      name: "Prod Dashboard"
+      template: dashboard-template.json
+      parameters:
+        segment_id:
+          type: reference
+          configId: segment
+          configType: segment
+          property: id
 ```
 
 ### Monaco: Environment-Specific Variables
