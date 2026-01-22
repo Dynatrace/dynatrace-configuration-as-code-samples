@@ -657,7 +657,7 @@ printenv | grep DT     # Check vars
 - [Dynatrace Configuration as Code Documentation](https://docs.dynatrace.com/docs/shortlink/configuration-as-code)
 - [Terraform Provider](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
 - [Dynatrace API](https://docs.dynatrace.com/docs/dynatrace-api)
-- [OAuth Client Guide](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client)
+- [Authentication Guide](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
 - [Settings Schema Browser](https://docs.dynatrace.com/docs/dynatrace-api/environment-api/settings)
 
 ---
