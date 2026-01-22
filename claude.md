@@ -505,10 +505,10 @@ environmentGroups:
 ### Terraform: Resource Import Pattern
 ```hcl
 # Import existing Dynatrace resources
-# terraform import dynatrace_management_zone_v2.imported "MANAGEMENT_ZONE_ID"
+# terraform import dynatrace_segment.imported "SEGMENT_ID"
 
-resource "dynatrace_management_zone_v2" "imported" {
-  name = "Existing Management Zone"
+resource "dynatrace_segment" "imported" {
+  name = "Existing Segment"
   # ... configuration matches existing resource
 }
 ```
