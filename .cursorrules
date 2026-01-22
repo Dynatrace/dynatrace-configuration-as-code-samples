@@ -17,28 +17,7 @@ Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform u
 - Terraform: >= 1.0.0
 - Dynatrace Provider: >= 1.89.0 (check registry for latest): [Terraform Registry](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
 - Document version requirements in every README
-
-### 🔧 Monaco Standards
-```yaml
-manifestVersion: 1.0  # Always unquoted
-auth:
-  oAuth:              # Preferred over API tokens
-    clientId:
-      type: environment
-      name: CLIENT_ID
-```
-
-### 🏗️ Terraform Standards
-```hcl
-terraform {
-  required_providers {
-    dynatrace = {
-      version = "~> 1.90"
-      source  = "dynatrace-oss/dynatrace"
-    }
-  }
-}
-```
+- For detailed information about Monaco and Terraform configuration, see [Dynatrace Configuration as Code](https://docs.dynatrace.com/docs/deliver/configuration-as-code)
 
 ### 📝 Documentation Requirements
 Every sample MUST have:
