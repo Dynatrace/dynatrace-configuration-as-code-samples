@@ -15,7 +15,36 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   - Create `.env.example` files with placeholder values (NEVER real credentials)
   - Use format: `export VAR_NAME="<PLACEHOLDER_DESCRIPTION>"` in shell scripts
 
-### 2. Monaco Best Practices
+### 2. Terraform Best Practices
+- **Provider Version**: Always use the latest stable Dynatrace provider version
+  - As of January 2026: `version = "~> 1.89"` or higher
+  - Check [Terraform Registry](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest) for updates
+- **Provider Configuration**:
+  ```hcl
+  terraform {
+    required_providers {
+      dynatrace = {
+        version = "~> 1.89"
+        source  = "dynatrace-oss/dynatrace"
+      }
+    }
+    
+    backend "local" {
+    path = "./terraform.tfstate"
+  }
+  }
+
+  provider "dynatrace" {
+    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
+    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
+    # OR use OAuth (recommended):
+    # client_id     = var.DT_CLIENT_ID
+    # client_secret = var.DT_CLIENT_SECRET
+    # account_id    = var.DT_ACCOUNT_ID
+  }
+  ```
+
+### 3. Monaco Best Practices
 - **Monaco version**: Always use the latest stable version: Use Monaco v2.28.0 or later for new samples
 - **Manifest Version**: Always use `manifestVersion: 1.0` (unquoted)
 - **Project Structure**:
@@ -45,35 +74,6 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
       clientSecret:
         type: environment
         name: CLIENT_SECRET
-  ```
-
-### 3. Terraform Best Practices
-- **Provider Version**: Always use the latest stable Dynatrace provider version
-  - As of January 2026: `version = "~> 1.89"` or higher
-  - Check [Terraform Registry](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest) for updates
-- **Provider Configuration**:
-  ```hcl
-  terraform {
-    required_providers {
-      dynatrace = {
-        version = "~> 1.89"
-        source  = "dynatrace-oss/dynatrace"
-      }
-    }
-    
-    backend "local" {
-    path = "./terraform.tfstate"
-  }
-  }
-
-  provider "dynatrace" {
-    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
-    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
-    # OR use OAuth (recommended):
-    # client_id     = var.DT_CLIENT_ID
-    # client_secret = var.DT_CLIENT_SECRET
-    # account_id    = var.DT_ACCOUNT_ID
-  }
   ```
 
 ### 4. Documentation Standards
