@@ -63,12 +63,19 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   }
 
   provider "dynatrace" {
-    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
-    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
-    # OR use OAuth (recommended):
-    # client_id     = var.DT_CLIENT_ID
-    # client_secret = var.DT_CLIENT_SECRET
-    # account_id    = var.DT_ACCOUNT_ID
+    # Environment URL (e.g., https://abc12345.apps.dynatrace.com)
+    dt_env_url    = var.DYNATRACE_ENV_URL
+    
+    # OAuth authentication for Platform environments (RECOMMENDED)
+    client_id     = var.DT_CLIENT_ID
+    client_secret = var.DT_CLIENT_SECRET
+    account_id    = var.DT_ACCOUNT_ID
+    
+    # OR use Platform Token for Platform environments
+    # dt_platform_token = var.DYNATRACE_PLATFORM_TOKEN
+    
+    # OR use API Token for Classic and Managed environments only
+    # dt_api_token  = var.DYNATRACE_API_TOKEN
   }
   ```
 
@@ -197,8 +204,35 @@ variable "DYNATRACE_ENV_URL" {
   sensitive   = false
 }
 
+# For OAuth authentication (Platform environments - RECOMMENDED)
+variable "DT_CLIENT_ID" {
+  description = "OAuth client ID for Dynatrace Platform"
+  type        = string
+  sensitive   = true
+}
+
+variable "DT_CLIENT_SECRET" {
+  description = "OAuth client secret for Dynatrace Platform"
+  type        = string
+  sensitive   = true
+}
+
+variable "DT_ACCOUNT_ID" {
+  description = "Dynatrace account ID for Platform environments"
+  type        = string
+  sensitive   = false
+}
+
+# For Platform Token authentication (Platform environments)
+variable "DYNATRACE_PLATFORM_TOKEN" {
+  description = "Dynatrace Platform token for Platform environments"
+  type        = string
+  sensitive   = true
+}
+
+# For API Token authentication (Classic and Managed environments only)
 variable "DYNATRACE_API_TOKEN" {
-  description = "Dynatrace API token or Platform token"
+  description = "Dynatrace API token for Classic and Managed environments"
   type        = string
   sensitive   = true
 }
