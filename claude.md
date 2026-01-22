@@ -124,45 +124,36 @@ terraform {
 }
 
 provider "dynatrace" {
-  # Environment URL (e.g., https://abc12345.apps.dynatrace.com)
-  dt_env_url    = var.DYNATRACE_ENV_URL
-  
-  # Use OAuth for Platform environments (RECOMMENDED)
-  client_id     = var.DT_CLIENT_ID
-  client_secret = var.DT_CLIENT_SECRET
-  account_id    = var.DT_ACCOUNT_ID
-  
-  # OR use API token (legacy, for Classic environments)
-  # dt_api_token  = var.DYNATRACE_API_TOKEN
+  # Provider automatically reads from environment variables:
+  # - DYNATRACE_ENV_URL for dt_env_url
+  # - DT_CLIENT_ID for client_id (OAuth, recommended for Platform)
+  # - DT_CLIENT_SECRET for client_secret (OAuth, recommended for Platform)
+  # - DT_ACCOUNT_ID for account_id (OAuth, recommended for Platform)
+  # OR
+  # - DYNATRACE_API_TOKEN for dt_api_token (legacy, for Classic environments)
+  #
+  # Do NOT use Terraform variables for credentials as they get stored in state file.
 }
 ```
 
-#### Variable Definitions
-```hcl
-variable "DYNATRACE_ENV_URL" {
-  description = "Dynatrace environment URL (e.g., https://abc12345.apps.dynatrace.com)"
-  type        = string
-  sensitive   = false
-}
+#### Environment Variables for Authentication
+**Important**: Do NOT use Terraform variables for tokens or credentials, as they get stored in the Terraform state file. The Dynatrace provider automatically reads from environment variables.
 
-variable "DT_CLIENT_ID" {
-  description = "OAuth client ID for Dynatrace authentication"
-  type        = string
-  sensitive   = true
-}
+**Required Environment Variables:**
+```bash
+# Environment URL (required)
+export DYNATRACE_ENV_URL="https://abc12345.apps.dynatrace.com"
 
-variable "DT_CLIENT_SECRET" {
-  description = "OAuth client secret for Dynatrace authentication"
-  type        = string
-  sensitive   = true
-}
+# OAuth credentials (recommended for Platform environments)
+export DT_CLIENT_ID="your-client-id"
+export DT_CLIENT_SECRET="your-client-secret"
+export DT_ACCOUNT_ID="your-account-uuid"
 
-variable "DT_ACCOUNT_ID" {
-  description = "Dynatrace account UUID"
-  type        = string
-  sensitive   = false
-}
+# OR API Token (legacy, for Classic environments)
+export DYNATRACE_API_TOKEN="your-api-token"
 ```
+
+For production use, consider using credential vaults like HashiCorp Vault instead of plain environment variables.
 
 ### Authentication & Security Requirements
 

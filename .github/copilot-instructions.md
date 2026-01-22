@@ -38,12 +38,12 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   }
 
   provider "dynatrace" {
-    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
-    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
-    # OR use OAuth (recommended):
-    # client_id     = var.DT_CLIENT_ID
-    # client_secret = var.DT_CLIENT_SECRET
-    # account_id    = var.DT_ACCOUNT_ID
+    # Provider automatically reads from environment variables:
+    # - DYNATRACE_ENV_URL for dt_env_url
+    # - DYNATRACE_API_TOKEN for dt_api_token (legacy, for Classic environments)
+    # - DT_CLIENT_ID for client_id (OAuth, recommended for Platform)
+    # - DT_CLIENT_SECRET for client_secret (OAuth, recommended for Platform)
+    # - DT_ACCOUNT_ID for account_id (OAuth, recommended for Platform)
   }
   ```
 
@@ -200,24 +200,29 @@ monaco deploy manifest.yaml
 echo "Deployment completed successfully!"
 ```
 
-### Terraform Variables Pattern
-```hcl
-variable "DYNATRACE_ENV_URL" {
-  description = "Dynatrace environment URL (e.g., https://abc12345.apps.dynatrace.com)"
-  type        = string
-  sensitive   = false
-}
+### Terraform Environment Variables Pattern
+The Dynatrace Terraform provider automatically reads credentials from environment variables. **Do not** use Terraform variables for tokens, as they get stored in the state file.
 
-variable "DYNATRACE_API_TOKEN" {
-  description = "Dynatrace API token or Platform token"
-  type        = string
-  sensitive   = true
-}
+**Required Environment Variables:**
+```bash
+# Environment URL (required)
+export DYNATRACE_ENV_URL="https://abc12345.apps.dynatrace.com"
+
+# OAuth credentials (recommended for Platform environments)
+export DT_CLIENT_ID="your-client-id"
+export DT_CLIENT_SECRET="your-client-secret"
+export DT_ACCOUNT_ID="your-account-uuid"
+
+# OR API Token (legacy, for Classic environments)
+export DYNATRACE_API_TOKEN="your-api-token"
 ```
+
+The provider configuration should omit explicit credential parameters to allow automatic environment variable reading.
 
 ## Critical Don'ts
 - ❌ Don't use outdated Terraform provider versions (< 1.85)
 - ❌ Don't hardcode environment URLs or credentials
+- ❌ Don't use Terraform variables for tokens/credentials (they get stored in state file - use environment variables or credential vaults instead)
 - ❌ Don't omit OAuth scope documentation
 - ❌ Don't create samples without cleanup instructions
 - ❌ Don't use platform token and OAuth together (they are mutually exclusive)
