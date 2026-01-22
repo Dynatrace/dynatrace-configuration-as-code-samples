@@ -26,9 +26,10 @@ auth:
     clientId:
       type: environment
       name: CLIENT_ID
-  # OR use platform token for simplicity:
-  # platformToken:
-  #   name: DYNATRACE_PLATFORM_TOKEN
+# OR use platform token for simplicity:
+# auth:
+#   platformToken:
+#     name: DYNATRACE_PLATFORM_TOKEN
 ```
 
 ### 🏗️ Terraform Standards

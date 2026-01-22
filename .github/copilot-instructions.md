@@ -201,7 +201,7 @@ variable "DYNATRACE_ENV_URL" {
 }
 
 variable "DYNATRACE_PLATFORM_TOKEN" {
-  description = "Dynatrace Platform token"
+  description = "Dynatrace Platform token for API authentication"
   type        = string
   sensitive   = true
 }
