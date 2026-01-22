@@ -358,26 +358,23 @@ When reviewing or modifying code, verify:
 ### Monaco: Reference Between Configurations
 ```yaml
 configs:
-  - id: management-zone
+  - id: segment
     config:
-      name: "Production MZ"
-      template: mz-template.json
-    type:
-      settings:
-        schema: builtin:management-zones
-        scope: environment
+      name: "Production Segment"
+      template: segment-template.json
+    type: segment
 
-  - id: alerting-profile
+  - id: dashboard
     config:
-      name: "Prod Alerts"
-      template: alerting-template.json
+      name: "Prod Dashboard"
+      template: dashboard-template.json
     type:
-      settings:
-        schema: builtin:alerting.profile
-        scope: environment
+      document:
+        kind: dashboard
+        private: true
     references:
-      - id: management-zone
-        property: managementZoneId
+      - id: segment
+        property: segmentId
 ```
 
 ### Monaco: Environment-Specific Variables
@@ -405,13 +402,13 @@ locals {
   env_config = local.environments[var.environment]
 }
 
-resource "dynatrace_management_zone_v2" "this" {
-  name = "${var.environment}-zone"
+resource "dynatrace_segment" "this" {
+  name = "${var.environment}-segment"
+  description = "Segment for ${var.environment} environment"
   
-  rules {
-    rule {
-      type    = "ME"
-      enabled = true
+  includes {
+    items {
+      data_object = "logs"
       # ... configuration
     }
   }
