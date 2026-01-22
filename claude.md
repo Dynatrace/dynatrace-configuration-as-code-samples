@@ -358,26 +358,26 @@ When reviewing or modifying code, verify:
 ### Monaco: Reference Between Configurations
 ```yaml
 configs:
-  - id: management-zone
+  - id: segment
     config:
-      name: "Production MZ"
-      template: mz-template.json
-    type:
-      settings:
-        schema: builtin:management-zones
-        scope: environment
+      template: segment.json
+    type: segment
 
-  - id: alerting-profile
-    config:
-      name: "Prod Alerts"
-      template: alerting-template.json
+  - id: dashboard
     type:
-      settings:
-        schema: builtin:alerting.profile
-        scope: environment
-    references:
-      - id: management-zone
-        property: managementZoneId
+      document:
+        kind: dashboard
+        private: true
+        id: dashboard-with-segment
+    config:
+      name: "Dashboard with Segment"
+      parameters:
+        segment_id:
+          configId: segment
+          configType: segment
+          property: id
+          type: reference
+      template: dashboard.json
 ```
 
 ### Monaco: Environment-Specific Variables
@@ -394,7 +394,7 @@ configs:
         scope: environment
 ```
 
-### Terraform: Dynamic Configuration
+### Terraform: Dynamic Configuration with Segments
 ```hcl
 locals {
   environments = {
@@ -405,14 +405,35 @@ locals {
   env_config = local.environments[var.environment]
 }
 
-resource "dynatrace_management_zone_v2" "this" {
-  name = "${var.environment}-zone"
+resource "dynatrace_segment" "this" {
+  name        = "${var.environment}-segment"
+  description = "Segment for ${var.environment} environment"
+  is_public   = false
   
-  rules {
-    rule {
-      type    = "ME"
-      enabled = true
-      # ... configuration
+  includes {
+    items {
+      data_object = "logs"
+      filter      = jsonencode({
+        type   = "Group"
+        logicalOperator = "AND"
+        children = [
+          {
+            type = "Statement"
+            key  = {
+              type  = "Key"
+              value = "environment"
+            }
+            operator = {
+              type  = "ComparisonOperator"
+              value = "="
+            }
+            value = {
+              type  = "String"
+              value = var.environment
+            }
+          }
+        ]
+      })
     }
   }
 }
@@ -505,11 +526,19 @@ environmentGroups:
 ### Terraform: Resource Import Pattern
 ```hcl
 # Import existing Dynatrace resources
-# terraform import dynatrace_management_zone_v2.imported "MANAGEMENT_ZONE_ID"
+# terraform import dynatrace_segment.imported "SEGMENT_ID"
 
-resource "dynatrace_management_zone_v2" "imported" {
-  name = "Existing Management Zone"
-  # ... configuration matches existing resource
+resource "dynatrace_segment" "imported" {
+  name        = "Existing Segment"
+  description = "Previously created segment"
+  is_public   = true
+  
+  includes {
+    items {
+      data_object = "logs"
+      filter      = "..." # Configuration matches existing resource
+    }
+  }
 }
 ```
 
