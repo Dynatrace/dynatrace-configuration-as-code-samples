@@ -255,21 +255,36 @@ terraform fmt -recursive
 ```
 
 ## Sample Directory Template Structure
+
+### Monaco Sample Structure
 ```
-sample-name/
+monaco-sample-name/
 ├── README.md                    # Comprehensive documentation
-├── manifest.yaml                # Monaco manifest (if Monaco-based)
+├── manifest.yaml                # Monaco manifest
 ├── delete.yaml                  # Monaco delete configuration (if applicable)
 ├── .gitignore                   # Git ignore file
 ├── .env.example                 # Example environment variables
-├── providers.tf                 # Terraform providers (if Terraform-based)
-├── variables.tf                 # Terraform variables (if Terraform-based)
-├── main.tf                      # Terraform main config (if Terraform-based)
 ├── scripts/
 │   ├── deploy.sh               # Deployment script
 │   └── cleanup.sh              # Cleanup script
 ├── config/                      # Configuration files
 │   └── *.yaml                  # Monaco config files
+└── images/                      # Screenshots/diagrams for README
+```
+
+### Terraform Sample Structure
+```
+terraform-sample-name/
+├── README.md                    # Comprehensive documentation
+├── .gitignore                   # Git ignore file
+├── .env.example                 # Example environment variables
+├── providers.tf                 # Terraform providers
+├── variables.tf                 # Terraform variables
+├── main.tf                      # Terraform main config
+├── outputs.tf                   # Terraform outputs (optional)
+├── scripts/
+│   ├── deploy.sh               # Deployment script
+│   └── cleanup.sh              # Cleanup script
 └── images/                      # Screenshots/diagrams for README
 ```
 
