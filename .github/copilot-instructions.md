@@ -63,12 +63,16 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   }
 
   provider "dynatrace" {
-    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
-    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
-    # OR use OAuth (recommended):
-    # client_id     = var.DT_CLIENT_ID
-    # client_secret = var.DT_CLIENT_SECRET
-    # account_id    = var.DT_ACCOUNT_ID
+    dt_env_url    = var.DYNATRACE_ENV_URL
+    # Use environment variables directly for credentials (recommended)
+    # Terraform will read these from TF_VAR_dt_api_token or DT_API_TOKEN
+    dt_api_token  = var.dt_api_token
+    # OR use OAuth (recommended for Platform environments):
+    # client_id     = var.dt_client_id
+    # client_secret = var.dt_client_secret
+    # account_id    = var.dt_account_id
+    # OR use credential vault providers (most secure):
+    # dt_api_token = data.vault_generic_secret.dynatrace.data["token"]
   }
   ```
 
@@ -189,24 +193,49 @@ monaco deploy manifest.yaml
 echo "Deployment completed successfully!"
 ```
 
-### Terraform Variables Pattern
+### Terraform Credential Management Pattern
+
+**⚠️ IMPORTANT: Token Security**
+- **DO NOT** define token variables in `variables.tf` - Terraform state files store variable values and can expose secrets
+- **DO** use environment variables directly via `TF_VAR_` prefix or credential vaults
+- **DO** use sensitive credential providers (HashiCorp Vault, AWS Secrets Manager, etc.)
+
+**Recommended Pattern 1: Environment Variables (via TF_VAR prefix)**
 ```hcl
-variable "DYNATRACE_ENV_URL" {
-  description = "Dynatrace environment URL (e.g., https://abc12345.apps.dynatrace.com)"
+# variables.tf - Define variables without defaults
+variable "dt_env_url" {
+  description = "Dynatrace environment URL"
   type        = string
-  sensitive   = false
 }
 
-variable "DYNATRACE_API_TOKEN" {
-  description = "Dynatrace API token or Platform token"
+variable "dt_api_token" {
+  description = "Dynatrace API token - provided via TF_VAR_dt_api_token env var"
   type        = string
   sensitive   = true
+}
+
+# Set in shell before running terraform:
+# export TF_VAR_dt_env_url="https://abc12345.apps.dynatrace.com"
+# export TF_VAR_dt_api_token="dt0c01.xxxxx"
+```
+
+**Recommended Pattern 2: Credential Vault Integration**
+```hcl
+# Using HashiCorp Vault
+data "vault_generic_secret" "dynatrace" {
+  path = "secret/dynatrace"
+}
+
+provider "dynatrace" {
+  dt_env_url   = var.dt_env_url
+  dt_api_token = data.vault_generic_secret.dynatrace.data["token"]
 }
 ```
 
 ## Critical Don'ts
 - ❌ Don't use outdated Terraform provider versions (< 1.85)
 - ❌ Don't hardcode environment URLs or credentials
+- ❌ Don't use Terraform variables for tokens/credentials (use env vars or vaults instead)
 - ❌ Don't omit OAuth scope documentation
 - ❌ Don't create samples without cleanup instructions
 - ❌ Don't mix API token and OAuth patterns in the same sample
