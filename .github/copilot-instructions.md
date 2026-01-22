@@ -67,7 +67,7 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
             platformToken:
               name: DYNATRACE_PLATFORM_TOKEN
   ```
-- **OAuth Configuration** (preferred):
+- **OAuth Configuration**:
   ```yaml
   auth:
     oAuth:
@@ -311,7 +311,6 @@ monaco-sample-name/
 
 ## References
 - [Dynatrace Configuration as Code Documentation](https://docs.dynatrace.com/docs/deliver/configuration-as-code)
-- [Monaco Documentation](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco)
 - [Terraform Provider Documentation](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs)
 - [Dynatrace API Documentation](https://docs.dynatrace.com/docs/dynatrace-api)
 - [Authentication Guide](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
