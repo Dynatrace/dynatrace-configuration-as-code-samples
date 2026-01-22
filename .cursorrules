@@ -42,10 +42,13 @@ terraform {
 
 ### 📝 Documentation Requirements
 Every sample MUST have:
+- Title
 - Clear use case description
 - Prerequisites with versions
-- Complete OAuth scope list
-- Step-by-step setup
+- Complete OAuth or platform token scope list (example see below)
+- Project / File structure (example see below)
+- Getting started: Step-by-step setup
+- Images/Screenshots of the expected outcome (where applicable)
 - Cleanup/deletion instructions
 - Troubleshooting section
 
@@ -62,10 +65,11 @@ Document all required scopes:
 ```
 sample-name/
 ├── README.md
-├── manifest.yaml / providers.tf
+├── providers.tf
+├── main.tf / manifest.yaml
 ├── .env.example
 ├── .gitignore
-└── config/ or terraform files
+└── config / or terraform files (e.g., variables.tf, locals.tf, output.tf, etc.)
 ```
 
 ### 🚫 Never Do
@@ -101,16 +105,16 @@ terraform destroy
 ### 🎯 Code Review Checklist
 - [ ] No hardcoded credentials
 - [ ] Latest provider versions
-- [ ] OAuth documented
+- [ ] OAuth scopes documented
 - [ ] README complete
 - [ ] `.env.example` exists
 - [ ] Cleanup instructions
 - [ ] Tested deployment
 
 ### 📚 Quick Links
-- [Monaco Docs](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco)
+- [Dynatrace configuration as code documentation](https://docs.dynatrace.com/docs/shortlink/configuration-as-code)
 - [Terraform Provider](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
-- [OAuth Guide](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client)
+- [Authentication Guide](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
 
 ---
 **Active Dynatrace Environment**: wkf10640.apps.dynatrace.com  

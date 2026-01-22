@@ -20,8 +20,8 @@ Provide high-quality, production-ready sample configurations that demonstrate Dy
 
 ### Environment Information
 - **Dynatrace Environment**: Platform environments (Gen3) using apps.dynatrace.com
-- **Authentication**: OAuth-based authentication is REQUIRED for Platform environments
-- **Primary Tools**: Monaco CLI v2.24.0+, Terraform with Dynatrace provider v1.90+
+- **Authentication**: Platform token or OAuth-based authentication is REQUIRED for Platform environments 
+- **Primary Tools**: Terraform with Dynatrace provider v1.89+ (recommended), Monaco CLI v2.26.0+, 
 - **Repository Owner**: Dynatrace organization
 
 ### Current State Analysis (January 2026)
