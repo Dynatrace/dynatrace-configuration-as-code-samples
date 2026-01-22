@@ -2,7 +2,7 @@
 
 ## Repository Context
 
-This repository contains sample projects demonstrating Dynatrace Configuration as Code using both Monaco (Dynatrace's CLI tool) and Terraform. The samples cover various use cases including monitoring, observability, IAM, SLOs, dashboards, and pipeline observability.
+This repository contains sample projects demonstrating Dynatrace Configuration as Code using both Terraform and Monaco (Dynatrace-specific CLI tool). The samples cover various use cases, including monitoring, observability, IAM, SLOs, dashboards, and pipeline observability.
 
 ## Core Principles
 
@@ -11,15 +11,48 @@ This repository contains sample projects demonstrating Dynatrace Configuration a
   - **Platform tokens**: Simpler setup, good for most Configuration-as-Code use cases
   - **OAuth clients**: Better for production environments requiring granular scope-based permissions, service accounts, and automated token rotation
   - Use platform tokens by default unless the sample specifically requires OAuth (e.g., account-level access, specific scoped permissions)
+- **ALWAYS use OAuth authentication or platform tokens** for Dynatrace Platform environments (preferred over API tokens)
 - **NEVER hardcode credentials** - use environment variables exclusively
+- **Token Compatibility**:
+  - Classic API tokens can be used together with OAuth or platform tokens
+  - Platform tokens and OAuth **cannot** be used together (mutually exclusive)
 - When creating new samples or modifying authentication:
   - Use `DYNATRACE_PLATFORM_TOKEN` for platform tokens, or OAuth client credentials (`CLIENT_ID`, `CLIENT_SECRET`) for OAuth authentication
   - Document required permissions (platform token capabilities or OAuth scopes) in README files
   - Create `.env.example` files with placeholder values (NEVER real credentials)
   - Use format: `export VAR_NAME="<PLACEHOLDER_DESCRIPTION>"` in shell scripts
 
-### 2. Monaco Best Practices
-- **Minimum Version**: Use Monaco v2.24.0 or later for new samples
+### 2. Terraform Best Practices
+- **Provider Version**: Always use the latest stable Dynatrace provider version
+  - As of January 2026: `version = "~> 1.89"` or higher
+  - Check [Terraform Registry](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest) for updates
+- **Provider Configuration**:
+  ```hcl
+  terraform {
+    required_providers {
+      dynatrace = {
+        version = "~> 1.89"
+        source  = "dynatrace-oss/dynatrace"
+      }
+    }
+    
+    backend "local" {
+    path = "./terraform.tfstate"
+  }
+  }
+
+  provider "dynatrace" {
+    dt_env_url    = var.DYNATRACE_ENV_URL    # from DYNATRACE_ENV_URL env var
+    dt_api_token  = var.DYNATRACE_API_TOKEN  # from DYNATRACE_API_TOKEN env var
+    # OR use OAuth (recommended):
+    # client_id     = var.DT_CLIENT_ID
+    # client_secret = var.DT_CLIENT_SECRET
+    # account_id    = var.DT_ACCOUNT_ID
+  }
+  ```
+
+### 3. Monaco Best Practices
+- **Monaco version**: Always use the latest stable version: Use Monaco v2.28.0 or later for new samples
 - **Manifest Version**: Always use `manifestVersion: 1.0` (unquoted)
 - **Project Structure**:
   ```yaml
@@ -84,12 +117,13 @@ Every sample MUST include a README.md with:
   - Required OAuth scopes or API token permissions (listed explicitly)
 - **Environment Variables**: Complete list with descriptions
 - **Setup Instructions**: Step-by-step deployment guide
+- **Screenshots / Images** of the expected outcome, where applicable
 - **Cleanup Instructions**: How to delete/remove configurations
 - **Links**: Use official Dynatrace documentation URLs (https://docs.dynatrace.com)
 
 ### 5. File Naming & Organization
 - Use lowercase with hyphens for directories: `pipeline-observability`, `service-level-objectives`
-- Configuration files: Use descriptive names like `config.yaml`, `manifest.yaml`
+- Configuration files: Use descriptive names like `main.tf`, `provider.tf, `variables.tf`, `output.tf`, `locals.tf`, `config.yaml`, `manifest.yaml`, `<resources>.tf`, etc.
 - Scripts: Use `.sh` extension with descriptive names: `deploy.sh`, `cleanup.sh`, `configure.sh`
 - Make scripts executable: `chmod +x script.sh`
 
@@ -113,6 +147,9 @@ response.log
 
 ### 7. OAuth Scopes Reference
 Common scopes for different use cases:
+
+- Note: The required scopes vary depending on the use case and required resources.
+
 
 **Basic Configuration Management**:
 - `settings:objects:read`, `settings:objects:write`
@@ -212,7 +249,7 @@ variable "DYNATRACE_PLATFORM_TOKEN" {
 - ❌ Don't hardcode environment URLs or credentials
 - ❌ Don't omit OAuth scope documentation
 - ❌ Don't create samples without cleanup instructions
-- ❌ Don't mix API token and OAuth patterns in the same sample
+- ❌ Don't use platform token and OAuth together (they are mutually exclusive)
 - ❌ Don't reference deprecated API endpoints
 - ❌ Don't forget to update README when changing configurations
 
@@ -258,16 +295,15 @@ terraform fmt -recursive
 ```
 
 ## Sample Directory Template Structure
+
+### Monaco Sample Structure
 ```
-sample-name/
+monaco-sample-name/
 ├── README.md                    # Comprehensive documentation
-├── manifest.yaml                # Monaco manifest (if Monaco-based)
+├── manifest.yaml                # Monaco manifest
 ├── delete.yaml                  # Monaco delete configuration (if applicable)
 ├── .gitignore                   # Git ignore file
 ├── .env.example                 # Example environment variables
-├── providers.tf                 # Terraform providers (if Terraform-based)
-├── variables.tf                 # Terraform variables (if Terraform-based)
-├── main.tf                      # Terraform main config (if Terraform-based)
 ├── scripts/
 │   ├── deploy.sh               # Deployment script
 │   └── cleanup.sh              # Cleanup script
@@ -276,13 +312,29 @@ sample-name/
 └── images/                      # Screenshots/diagrams for README
 ```
 
+### Terraform Sample Structure
+```
+terraform-sample-name/
+├── README.md                    # Comprehensive documentation
+├── .gitignore                   # Git ignore file
+├── .env.example                 # Example environment variables
+├── providers.tf                 # Terraform providers
+├── variables.tf                 # Terraform variables
+├── main.tf                      # Terraform main config
+├── outputs.tf                   # Terraform outputs (optional)
+├── scripts/
+│   ├── deploy.sh               # Deployment script
+│   └── cleanup.sh              # Cleanup script
+└── images/                      # Screenshots/diagrams for README
+```
+
 ## Version Compatibility Matrix (January 2026)
 
 | Tool              | Minimum Version | Recommended Version | Notes                                    |
 |-------------------|----------------|---------------------|------------------------------------------|
-| Monaco            | 2.22.0         | 2.24.0+             | Required for latest Platform features    |
+| Monaco            | 2.22.0         | 2.28.0+             | Required for latest Platform features    |
 | Terraform         | 1.0.0          | 1.6.0+              | Use latest stable                        |
-| Dynatrace Provider| 1.85.0         | 1.90.0+             | Check registry for latest                |
+| Dynatrace Provider| 1.85.0         | 1.89.0+             | Check registry for latest                |
 | Dynatrace Platform| -              | Current             | Platform environments required for OAuth |
 
 ## References
@@ -290,7 +342,7 @@ sample-name/
 - [Monaco Documentation](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco)
 - [Terraform Provider Documentation](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs)
 - [Dynatrace API Documentation](https://docs.dynatrace.com/docs/dynatrace-api)
-- [OAuth Client Creation Guide](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client)
+- [Authentication Guide](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
 
 ---
 Last Updated: January 2026
