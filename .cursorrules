@@ -13,8 +13,8 @@ Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform u
 - MARK sensitive Terraform variables with `sensitive = true`
 
 ### 📦 Version Requirements (January 2026)
-- Monaco: >= 2.28.0 (latest stable preferred)
 - Terraform: >= 1.0.0
+- Monaco: >= 2.28.0 (latest stable preferred)
 - Dynatrace Provider: >= 1.89.0 (check registry for latest): [Terraform Registry](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
 - Document version requirements in every README
 - For detailed information about Monaco and Terraform configuration, see [Dynatrace Configuration as Code](https://docs.dynatrace.com/docs/deliver/configuration-as-code)
