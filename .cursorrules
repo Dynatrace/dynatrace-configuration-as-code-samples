@@ -9,7 +9,7 @@ Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform u
 - NEVER hardcode credentials, tokens, or secrets
 - ALWAYS use environment variables for sensitive data
 - CREATE `.env.example` files with `<PLACEHOLDER>` format
-- REQUIRE OAuth authentication for Platform environments
+- REQUIRE [Platform token](https://docs.dynatrace.com/docs/shortlink/platform-tokens) or OAuth authentication for Platform environments
 - MARK sensitive Terraform variables with `sensitive = true`
 
 ### 📦 Version Requirements (January 2026)
