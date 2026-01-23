@@ -1,102 +1,23 @@
 # Cursor AI Rules for Dynatrace Configuration-as-Code Samples
 
-## Repository Overview
-Dynatrace Configuration-as-Code samples demonstrating Monaco CLI and Terraform usage for observability automation. Focus on production-ready, secure, well-documented configurations.
+> **All AI agent instructions are consolidated in a central file.**
+>
+> Please refer to: [AGENTS.md](AGENTS.md)
+
+This file exists for Cursor AI auto-discovery. The full instructions are maintained in `AGENTS.md` at the repository root.
+
+---
+
+## Quick Reference
+
+- **Central Instructions**: [AGENTS.md](AGENTS.md)
+- **Terraform Provider**: >= 1.89.0
+- **Monaco**: >= 2.28.0
 
 ## Critical Rules
 
-### 🔐 Security First
-- NEVER hardcode credentials, tokens, or secrets
-- ALWAYS use environment variables for sensitive data
-- CREATE `.env.example` files with `<PLACEHOLDER>` format
-- REQUIRE [Platform token](https://docs.dynatrace.com/docs/shortlink/platform-tokens) or OAuth authentication for Platform environments
-- DO NOT use Terraform variables for tokens/credentials (they get stored in state file - use environment variables or credential vaults)
-
-### 📦 Version Requirements (January 2026)
-- Terraform: >= 1.0.0
-- Monaco: >= 2.28.0 (latest stable preferred)
-- Dynatrace Provider: >= 1.89.0 (check registry for latest): [Terraform Registry](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
-- Document version requirements in every README
-- For detailed information about Monaco and Terraform configuration, see [Dynatrace Configuration as Code](https://docs.dynatrace.com/docs/deliver/configuration-as-code)
-
-### 📝 Documentation Requirements
-Every sample MUST have:
-- Title
-- Clear use case description
-- Prerequisites with versions
-- Complete OAuth or platform token scope list (example see below)
-- Project / File structure (example see below)
-- Getting started: Step-by-step setup
-- Images/Screenshots of the expected outcome (where applicable)
-- Cleanup/deletion instructions
-- Troubleshooting section
-
-### 🔑 OAuth Scopes
-Document all required scopes:
-```markdown
-## Required OAuth Scopes
-- `settings:objects:read`, `settings:objects:write`
-- `document:documents:read`, `document:documents:write`
-- [Feature-specific scopes]
-```
-
-### 🗂️ File Organization
-```
-sample-name/
-├── README.md
-├── providers.tf
-├── main.tf / manifest.yaml
-├── .env.example
-├── .gitignore
-└── config / or terraform files (e.g., variables.tf, locals.tf, output.tf, etc.)
-```
-
-### 🚫 Never Do
-- Never use Terraform provider < 1.85.0
-- Never use Terraform variables for tokens/credentials (use environment variables or credential vaults)
-- Hardcode entity IDs (use references)
-- Omit cleanup instructions
-- Reference deprecated APIs
-- Forget `.gitignore` for `.env`
-
-### ✅ Always Do
-- Use latest stable versions
-- Document OAuth scopes completely
-- Provide `.env.example`
-- Include validation steps
-- Test deployment instructions
-- Use descriptive configuration IDs
-- Add troubleshooting tips
-
-### 🛠️ Common Commands
-```bash
-# Terraform
-terraform init && terraform plan
-terraform apply
-terraform destroy
-
-# Monaco
-monaco deploy manifest.yaml
-monaco deploy --dry-run manifest.yaml
-monaco delete -m manifest.yaml
-
-
-```
-
-### 🎯 Code Review Checklist
-- [ ] No hardcoded credentials
-- [ ] Latest provider versions
-- [ ] OAuth scopes documented
-- [ ] README complete
-- [ ] `.env.example` exists
-- [ ] Cleanup instructions
-- [ ] Tested deployment
-
-### 📚 Quick Links
-- [Terraform Provider](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest)
-- [Dynatrace configuration as code documentation](https://docs.dynatrace.com/docs/shortlink/configuration-as-code)
-- [Authentication Guide](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
-
----
-**Active Dynatrace Environment**: wkf10640.apps.dynatrace.com  
-**Use Dynatrace MCP tools** to validate configurations and query environment state
+- Never hardcode credentials
+- Always use environment variables
+- Document OAuth scopes in READMEs
+- Provide `.env.example` files
+- Include cleanup instructions
