@@ -1,0 +1,18 @@
+ALLOW
+extensions:definitions:read,
+extensions:definitions:write,
+extensions:configurations:read,
+extensions:configurations:write,
+extensions:configuration.actions:write;
+
+ALLOW storage:system:read;
+
+ALLOW storage:buckets:read
+WHERE storage:bucket-name ="dt_system_events";
+
+ALLOW
+settings:objects:write
+WHERE settings:schemaId IN ("builtin:cloud.aws","builtin:cloud.azure","builtin:rum.web.app-detection", "builtin:anomaly-detection.metric-events", "builtin:davis.anomaly-detectors");
+
+// Access all pipelines where access granted
+ALLOW settings:objects:write WHERE settings:schemaGroup IN ("group:openpipeline.all.pipelines");

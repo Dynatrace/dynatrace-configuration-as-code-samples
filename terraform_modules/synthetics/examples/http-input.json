@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Test",
+        "frequency": 60,
+        "requiredSynthetics": [
+            {
+                "certificateVerification": "30",
+                "httpStatusesList" : ">=500",
+                "url": "https://www.dynatrace.com"
+            },
+            {
+                "url": "https://www.google.com"
+            }
+        ]
+    }
+]

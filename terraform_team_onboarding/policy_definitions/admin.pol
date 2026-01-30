@@ -1,0 +1,136 @@
+ALLOW
+app-engine:edge-connects:write,
+app-engine:edge-connects:delete;
+
+ALLOW
+state:app-states:delete,
+state:app-states:read,
+state:app-states:write,
+state:user-app-states:read,
+state:user-app-states:write,
+state:user-app-states:delete,
+state-management:user-app-states:delete,
+state-management:user-app-states:delete-all,
+state-management:app-states:delete;
+
+ALLOW
+document:documents:read,
+document:documents:write,
+document:documents:delete,
+document:documents:admin,
+document:environment-shares:read,
+document:environment-shares:write,
+document:environment-shares:claim,
+document:environment-shares:delete,
+document:direct-shares:read,
+document:direct-shares:write,
+document:direct-shares:delete,
+document:trash.documents:read,
+document:trash.documents:restore,
+document:trash.documents:delete;
+
+ALLOW unified-analysis:screen-definition:read;
+
+ALLOW
+storage:files:delete;
+
+ALLOW
+storage:system:read,
+storage:events:write;
+
+ALLOW storage:buckets:read
+WHERE storage:table-name =  "dt.system.events";
+
+ALLOW
+storage:buckets:read
+WHERE storage:bucket-name IN ("dt_system_metrics","dt_system_events");
+
+ALLOW
+storage:bucket-definitions:read,
+storage:bucket-definitions:write;
+
+ALLOW
+storage:filter-segments:read,
+storage:filter-segments:write,
+storage:filter-segments:share,
+storage:filter-segments:delete,
+storage:filter-segments:admin;
+
+ALLOW hub:catalog:read;
+
+ALLOW app-engine:apps:run
+WHERE shared:app-id != "dynatrace.classic.vmware";
+
+ALLOW
+app-engine:functions:run,
+app-engine:edge-connects:read,
+app-engine:apps:install,
+app-engine:apps:delete;
+
+ALLOW
+email:emails:send,
+notification:self-notifications:read,
+notification:self-notifications:write;
+
+ALLOW
+automation:workflows:read,
+automation:calendars:read,
+automation:rules:read,
+automation:workflows:write,
+automation:workflows:run,
+automation:calendars:write,
+automation:rules:write,
+automation:workflows:admin;
+
+ALLOW davis:analyzers:read,
+davis-copilot:conversations:execute,
+davis-copilot:nl2dql:execute,
+davis:analyzers:execute;
+
+ALLOW
+iam:bindings:read,
+iam:service-users:use,
+oauth2:clients:manage;
+
+ALLOW settings:objects:read,
+settings:schemas:read,
+app-settings:objects:read,
+app-settings:objects:write,
+settings:objects:write,
+settings:objects:admin,
+app-settings:objects:admin;
+
+ALLOW
+extensions:definitions:read,
+extensions:definitions:write,
+extensions:configurations:read,
+extensions:configurations:write,
+extensions:configuration.actions:write;
+
+ALLOW
+deployment:activegates.network-zones:write,
+deployment:activegates.groups:write,
+deployment:oneagents.network-zones:write,
+deployment:oneagents.host-groups:write,
+deployment:oneagents.host-tags:write,
+deployment:oneagents.host-properties:write;
+
+
+// Removed environment:roles:configure-request-capture-data due to allowing all entities
+ALLOW
+environment:roles:agent-install,
+environment:roles:manage-security-problems,
+environment:roles:manage-settings,
+// Needed for AG support archive
+environment:roles:view-sensitive-request-data;
+
+ALLOW hyperscaler-authentication:aws:authenticate;
+
+ALLOW geolocation:locations:lookup;
+
+ALLOW vulnerability-service:vulnerabilities:read;
+ALLOW vulnerability-service:vulnerabilities:write;
+
+ALLOW slo:slos:read, slo:slos:write, slo:objective-templates:read;
+
+ALLOW insights:opportunities:read;

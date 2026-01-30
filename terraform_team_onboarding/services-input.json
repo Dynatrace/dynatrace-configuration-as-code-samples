@@ -1,0 +1,40 @@
+[
+    {
+        "team_name": "Database",
+        "apps": [
+            {
+                "security_context": "confrestricted_mysql",
+                "app_name": "mysql"
+            },
+            {
+                "security_context": "confrestricted_postgresql",
+                "app_name": "postgresql"
+            },
+            {
+                "security_context": "confrestricted_microsoftsql",
+                "app_name": "microsoftsql"
+            }
+        ],
+        "poweruser_group": "App-Prod-DT-Database-PUsr",
+        "data_group": "App-Prod-DT-Database-SUsr"
+    },
+    {
+        "team_name": "Engineering Collaboration",
+        "apps": [
+            {
+                "security_context": "confrestricted_jira",
+                "app_name": "jira"
+            },
+            {
+                "security_context": "confrestricted_confluence",
+                "app_name": "confluence"
+            },
+            {
+                "security_context": "confrestricted_bamboo",
+                "app_name": "bamboo"
+            }
+        ],
+        "poweruser_group": "App-Prod-DT-Engineering-Collaboration-PUsr",
+        "data_group": "App-Prod-DT-Engineering-Collaboration-SUsr"
+    }
+]

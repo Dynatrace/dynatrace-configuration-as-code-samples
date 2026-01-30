@@ -1,0 +1,7 @@
+// Needed for SRG creation
+ALLOW
+app-settings:objects:write
+WHERE shared:app-id IN ("dynatrace.site.reliability.guardian");
+
+ALLOW
+slo:slos:write;
