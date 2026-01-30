@@ -1,65 +1,38 @@
-# Onboarding teams and the applications they own
+# Dynatrace IAM Team Based Onboarding Terraform Sample
+This repository shows how to create policies, and groups based on input files - while integrating with Azure Entra ID for SAML.
 
-## High-level overview of access controls
+# Getting started 
 
-| Role | Access description | Process to grant | Policies in use| 
-| - | - | - | - |
-| Default User | View all confidential data. This includes entities, metrics, spans, logs, and events. <br> Access to view all settings, but not edit any. <br> Create and share documents with others. | Granted to all users and specified contractors. <br> No process required for employees, and most contractors | [Data Access](./policy_definitions/data_access.pol), and [Functional](./policy_definitions/functional.pol) in all environments. <br> [Sandbox](./policy_definitions/sandbox.pol) in [our sandbox environment](https://<your_sandbox>.apps.dynatrace.com/). | 
-| Standard User <br> [team scope] | Data access group. <br> View confidential restricted data for a given team. | Entra ID group owned by the team. A block must exist in [services-input.json](services-input.json) for this team to work | [Additional Data](./policy_definitions/additional_data.pol) restricted by a boundary |
-|  Power User <br> [team scope] | Settings and advanced features group. <br> Configure monitoring settings for a given team. | Entra ID group owned by the team. A block must exist in [services-input.json](services-input.json) for this team to work | [Power User](./policy_definitions/poweruser.pol) restricted by a boundary. <br> [Unscoped Settings](./policy_definitions/unscoped_settings.pol) |
+## Policies
+Read through the policies that will be created, adjusting to your needs using the [IAM policy reference](https://docs.dynatrace.com/docs/manage/identity-access-management/permission-management/manage-user-permissions-policies/advanced/iam-policystatements). 
 
-Further links:
-- To review all policies in use refer to [policy_definitions](./policy_definitions/)
-- To view all policies possible in Dynatrace refer to [IAM policy reference](https://docs.dynatrace.com/docs/manage/identity-access-management/permission-management/manage-user-permissions-policies/advanced/iam-policystatements)
-- Team specific boundary is templated in [groups module](./modules/groups/groups.tf)
+## Groups
+Review the groups design, noting that `/modules/groups/groups.tf` creates the team specific resources by iterating over `/services-input.json`
+Other groups in this module are groups that are not team specific.
 
-## Dynatrace groups, policies, and policy bindings
+Adjust by removing, or adding groups needed for your use cases.
 
-Dynatrace groups are created using Terraform, which is fed from an input file [services-input.json](services-input.json) which follows the format:
+## Main
+Finally review `/main.tf` to see how the modules are integrated together, and how a `data` block is used to query Azure.
 
-```
-[
-    {
-        "team_name": "Engineering Collaboration",
-        "apps": [
-            {
-                "security_context": "confrestricted_jira",
-                "app_name": "jira"
-            },
-            {
-                "security_context": "confrestricted_confluence",
-                "app_name": "confluence"
-            },
-            {
-                "security_context": "confrestricted_bamboo",
-                "app_name": "bamboo"
-            }
-        ],
-        "poweruser_group": "App-Prod-DT-Engineering-Collaboration-PUsr",
-        "data_group": "App-Prod-DT-Engineering-Collaboration-SUsr"
-    },
-    ...
-]
+## Deploy
+Update group references to match the groups you use in Azure, and export the environment variables required for [AzureAd Group Datasource](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/group).
 
-```
-**Important!**
+Next Export environment variables for the oAuth client following the [Dynatrace terraform provider documentation](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs).
 
-> Do not specify a `Function` (`f_`) in the input file that has been defined in the host group.
-> <br> The team scoped boundary uses `startsWith` to ensure the file is easier to maintain as any access to any Function of the Application is automatically granted.
-> <br> *Links: [Naming standards](<insert team link here>) / [Boundary](./modules/groups/groups.tf)*
+You will now be ready to plan and apply.
 
-### Schema
-For a full schema refer to [naming standards](<insert team link here>).
 
-- `team_name` is the name of the team, and is only used as an identifier and part of the unique name for each user group to be created - allowed characters: `free text`
+## Repository Structure
 
-- `apps` is a JSON array where each object is an application that is owned of the team. This should be updated when onboarding a new app for an already onboarded team.
+#### modules/groups/
+This module manages the creation and configuration of various user groups within Dynatrace. It includes Terraform files for different group types such as admin groups, automation users, default users, elevated access groups, and viewer-only groups. It also handles integration with external identity providers like Azure Entra ID.
 
-- `apps[n]` is an object containing:
-    - `security_context` used for data access as part of the `dynatrace_iam_policy_boundary`
-    - `app_name` exactly equal to `application.name` used in `dynatrace_iam_policy_boundary` - allowed characters: `[a-z0-9]{3,80}`
-    - Application in `security context` and `app_name` **must match** `application` (`a_`) used in host group
+#### modules/iam_policy/
+This module defines and manages IAM policies for the groups. It includes configurations for core policies, additional policies, and outputs the policy details for use in group assignments.
 
-- `poweruser_group` (also known as the "PUsr" group) is the name of a group in Entra ID that must already exist
+### policy_definitions/
+This directory holds the policy definition files in `.pol` format. These files define the specific permissions and access levels for different roles, including admin, data access, functional, power user, sandbox, and unscoped settings policies. They serve as input for the IAM policy module to create corresponding policies in Dynatrace.
 
-- `data_group` (also known as the "standard user group" or "SUsr" group) is the name of a group in Entra ID that must already exist
+# Contributing
+Contributions are welcome! Please open issues or submit pull requests to help improve this repository. Suggestions for new patterns, bug fixes, or documentation improvements are appreciated.
