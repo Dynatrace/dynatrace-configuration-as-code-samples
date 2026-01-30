@@ -1,5 +1,11 @@
 # Synthetic templates to reuse to create in bulk
 
+This sample shows synthetic modules for use with an input file. 
+
+You will require an API token and Environment Variables set as per the provider documentation for the [HTTP resource](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs/resources/http_monitor) and [Network Monitor Resource](https://registry.terraform.io/providers/dynatrace-oss/dynatrace/latest/docs/resources/network_monitor).
+
+Use this as a starting point, to adjust to your specific naming standards and tagging rules.
+
 ## Network availability monitor (nam)
 
 Iterates over a file with name, port, and ips
