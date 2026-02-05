@@ -11,7 +11,7 @@ configs:
   - id: gitlab_pipeline_pulse
     config:
       name: GitLab Pipeline Pulse
-      template: gitlab.workflow.json
+      template: gitlab.pipeline.json
       skip: false
     type:
       document:
