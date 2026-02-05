@@ -8,8 +8,8 @@ locals {
   job_pipeline_display_name = "Gitlab Job"
   job_pipeline_custom_id  = "pipeline_gitlab_job_v2"
 
-  workflow_pipeline_display_name = "Gitlab Pipeline"
-  workflow_pipeline_custom_id = "pipeline_gitlab_pipeline_v2"
+  pipeline_pipeline_display_name = "Gitlab Pipeline"
+  pipeline_pipeline_custom_id = "pipeline_gitlab_pipeline_v2"
 
   merge_request_pipeline_display_name = "Gitlab Merge Request"
   merge_request_pipeline_custom_id = "pipeline_gitlab_merge_request_v2"

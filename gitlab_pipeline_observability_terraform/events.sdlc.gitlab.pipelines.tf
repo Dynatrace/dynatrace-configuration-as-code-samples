@@ -243,8 +243,8 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
 }
 
 resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline_gitlab_pipeline" {
-  display_name = local.workflow_pipeline_display_name
-  custom_id    = local.workflow_pipeline_custom_id
+  display_name = local.pipeline_pipeline_display_name
+  custom_id    = local.pipeline_pipeline_custom_id
   processing {
     processors {
       processor {

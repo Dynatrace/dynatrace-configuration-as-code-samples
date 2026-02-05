@@ -9,7 +9,7 @@ resource "dynatrace_document" "dashboard_gitlab_pipeline_pulse" {
   type      = "dashboard"
   name      = "GitLab Pipeline Pulse"
   custom_id = "gitlab-pipeline-pulse"
-  content = file("${path.module}/dashboards/gitlab.workflow.json")
+  content = file("${path.module}/dashboards/gitlab.pipeline.json")
 }
 
 resource "dynatrace_document" "dashboard_gitlab_merge_requests" {
