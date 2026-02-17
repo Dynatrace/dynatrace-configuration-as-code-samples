@@ -1,8 +1,39 @@
 configs:
-- id: events.sdlc
+
+###
+# INDEPENDENT CONFIGS
+#
+# This can be done in any order as the configs are independent.
+###
+- id: openpipeline.events.sdlc.argocd.pipelines.application
   config:
-    template: events.sdlc.argocd.json
+    parameters:
+      pipelineDisplayName: "ArgoCD Application"
+      pipelineCustomName: "pipeline_argocd_application_v2"
+    template: events.sdlc.argocd.pipelines.application.json
     skip: false
   type:
-    openpipeline:
-      kind: events.sdlc
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.pipelines"
+      schemaVersion: &schemaVersion "1.52"
+      scope: &scope "environment"
+
+- id: openpipeline.events.sdlc.argocd.ingest_sources
+  config:
+    parameters:
+      eventProvider: "argocd"
+      ingestSourceDisplayName: "ArgoCD"
+      ingestSourcePathSegment: "argocd"
+      argocdApplicationPipelineId:
+        configId: openpipeline.events.sdlc.argocd.pipelines.application
+        configType: builtin:openpipeline.events.sdlc.pipelines
+        property: id
+        type: reference
+    template: events.sdlc.argocd.ingest_sources.json
+    skip: false
+  type:
+    settings:
+      schema: "builtin:openpipeline.events.sdlc.ingest-sources"
+      schemaVersion: *schemaVersion
+      scope: *scope
+

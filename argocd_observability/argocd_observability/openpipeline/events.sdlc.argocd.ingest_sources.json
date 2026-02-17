@@ -1,0 +1,56 @@
+{
+  "displayName": "{{.ingestSourceDisplayName}}",
+  "sourceType": "http",
+  "pathSegment": "{{.ingestSourcePathSegment}}",
+  "defaultBucket": "default_events",
+  "enabled": true,
+  "processing": {
+    "processors": [
+      {
+        "id": "processor_add_event_properties",
+        "type": "fieldsAdd",
+        "matcher": "true",
+        "description": "Add event properties",
+        "enabled": true,
+        "fieldsAdd": {
+          "fields": [
+            {
+              "name": "event.kind",
+              "value": "SDLC_EVENT"
+            },
+            {
+              "name": "event.provider",
+              "value": "{{.eventProvider}}"
+            },
+            {
+              "name": "event.version",
+              "value": "0.1.0"
+            },
+            {
+              "name": "event.category",
+              "value": "task"
+            },
+            {
+              "name": "event.type",
+              "value": "deployment"
+            }
+          ]
+        }
+      },
+      {
+        "id": "processor_add_event_id_if_not_set",
+        "type": "dql",
+        "matcher": "isNull(event.id)",
+        "description": "Add event.id if not set",
+        "enabled": true,
+        "dql": {
+          "script": "fieldsAdd event.id = hashSha1(concat(toString(toLong(now())), toString(RANDOM())))"
+        }
+      }
+    ]
+  },
+  "staticRouting": {
+    "pipelineId": "{{.argocdApplicationPipelineId}}",
+    "pipelineType": "custom"
+  }
+}

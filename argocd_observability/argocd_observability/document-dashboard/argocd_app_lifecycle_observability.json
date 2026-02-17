@@ -1,0 +1,1560 @@
+{
+  "annotations": [],
+  "importedWithCode": false,
+  "layouts": {
+    "0": {
+      "h": 6,
+      "w": 14,
+      "x": 0,
+      "y": 2
+    },
+    "2": {
+      "h": 6,
+      "w": 24,
+      "x": 0,
+      "y": 14
+    },
+    "3": {
+      "h": 2,
+      "w": 4,
+      "x": 0,
+      "y": 10
+    },
+    "4": {
+      "h": 4,
+      "w": 4,
+      "x": 4,
+      "y": 10
+    },
+    "5": {
+      "h": 6,
+      "w": 5,
+      "x": 14,
+      "y": 2
+    },
+    "6": {
+      "h": 6,
+      "w": 5,
+      "x": 19,
+      "y": 2
+    },
+    "7": {
+      "h": 2,
+      "w": 4,
+      "x": 20,
+      "y": 10
+    },
+    "8": {
+      "h": 2,
+      "w": 4,
+      "x": 20,
+      "y": 12
+    },
+    "9": {
+      "h": 5,
+      "w": 8,
+      "x": 0,
+      "y": 27
+    },
+    "10": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "11": {
+      "h": 2,
+      "w": 4,
+      "x": 0,
+      "y": 12
+    },
+    "12": {
+      "h": 5,
+      "w": 8,
+      "x": 8,
+      "y": 27
+    },
+    "14": {
+      "h": 9,
+      "w": 24,
+      "x": 0,
+      "y": 37
+    },
+    "15": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 8
+    },
+    "16": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 25
+    },
+    "17": {
+      "h": 5,
+      "w": 24,
+      "x": 0,
+      "y": 32
+    },
+    "20": {
+      "h": 5,
+      "w": 8,
+      "x": 16,
+      "y": 27
+    },
+    "21": {
+      "h": 5,
+      "w": 12,
+      "x": 0,
+      "y": 20
+    },
+    "22": {
+      "h": 5,
+      "w": 12,
+      "x": 12,
+      "y": 20
+    },
+    "23": {
+      "h": 4,
+      "w": 12,
+      "x": 8,
+      "y": 10
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "0": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Health = health_status, Sync = sync_status , Server = dest_server, Namespace = dest_namespace, Project = project}, shift: -1m, interval: 1m\n| filter in(Name, $Application)\n| filter in(Namespace, $Namespace)\n| filter in(Project, $Project)\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "segments": {
+        "tileSegments": [],
+        "tileSegmentsEnabled": false
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-1m",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": true
+      },
+      "title": "Applications  not in Healthy state",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-03-default, #2a7453)"
+              },
+              "field": "Health",
+              "value": "Healthy"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              },
+              "field": "Health",
+              "value": "Progressing"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "Health",
+              "value": "Degraded"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "Health",
+              "value": "Missing"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "Health",
+              "value": "Unknown"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-03-default, #2a7453)"
+              },
+              "field": "Sync",
+              "value": "Synced"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              },
+              "field": "Sync",
+              "value": "OutOfSync"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": "#AE132D",
+              "field": "Sync",
+              "value": "Unknown"
+            }
+          ]
+        },
+        "table": {
+          "colorThresholdTarget": "background",
+          "columnWidths": {
+            "[\"Health\"]": 148.58,
+            "[\"Name\"]": 387,
+            "[\"Sync\"]": 96
+          },
+          "hiddenColumns": [
+            [
+              "timeframe"
+            ],
+            [
+              "interval"
+            ],
+            [
+              "Server"
+            ],
+            [
+              "Namespace"
+            ],
+            [
+              "Project"
+            ],
+            [
+              "argocd_app_info"
+            ]
+          ],
+          "lineWrapIds": [
+            [
+              "Name"
+            ],
+            [
+              "Health"
+            ]
+          ],
+          "linewrapEnabled": true,
+          "rowDensity": "default",
+          "selectedColumnForRowThreshold": "Sync"
+        },
+        "unitsOverrides": [
+          {
+            "added": 0,
+            "baseUnit": "unspecified",
+            "decimals": 0,
+            "delimiter": false,
+            "id": "argocd_app_info",
+            "identifier": "argocd_app_info",
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ]
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {deployment.name, deployment.namespace}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= deployment.name, Namespace = deployment.namespace , Status = task.outcome ,SyncToRev = vcs.ref.base.revision,TimeFromLastSync = toTimestamp(now()) - ToTimestamp(end_time), Started = start_time, Ended = end_time\n| sort AppName asc\n\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-24h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Last Application Sync Operation ",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+              },
+              "field": "Status",
+              "value": "succeeded"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+              },
+              "field": "Status",
+              "value": "running"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+              },
+              "field": "Status",
+              "value": "failed"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "Status",
+              "value": "error"
+            }
+          ]
+        },
+        "table": {
+          "columnWidths": {
+            "[\"Ended\"]": 347.6875,
+            "[\"Started\"]": 277.6875,
+            "[\"Status\"]": 148.0859375,
+            "[\"SyncToRev\"]": 409.8671875
+          },
+          "enableThresholdInRow": true,
+          "monospacedFontColumns": [
+            [
+              "AppName"
+            ],
+            [
+              "Namespace"
+            ],
+            [
+              "Status"
+            ],
+            [
+              "SyncToRev"
+            ],
+            [
+              "TimeFromLastSync"
+            ],
+            [
+              "Started"
+            ],
+            [
+              "Ended"
+            ]
+          ],
+          "rowDensity": "comfortable",
+          "selectedColumnForRowThreshold": "Status"
+        }
+      }
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Total Finished Sync Operations",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "thresholdRules": []
+        },
+        "singleValue": {
+          "label": "count()",
+          "labelMode": "none",
+          "recordField": "count()",
+          "trend": {
+            "isVisible": true
+          }
+        }
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize count(), by:{task.outcome}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Finished Sync Operations by Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "task.outcome"
+            ],
+            "categoryAxisLabel": "task.outcome",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {
+            "error": {
+              "added": 6822197,
+              "color": {
+                "Default": "var(--dt-colors-charts-security-risk-level-critical-default, #8a0012)"
+              }
+            },
+            "failed": {
+              "added": 583774.7000000179,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "succeeded": {
+              "added": 591684,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-security-risk-level-critical-default, #8a0012)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "error"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "failed"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "succeeded"
+            }
+          ],
+          "thresholdRules": []
+        },
+        "legend": {
+          "ratio": 49
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Health = health_status, Server = dest_server, Namespace = dest_namespace, Project = project }, shift: -1m, interval: 1m\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc\n| filter in(Name, $Application)\n| filter in(Namespace, $Namespace)\n| filter in(Project, $Project)\n| summarize count(), by:{Health}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "segments": {
+        "tileSegments": [],
+        "tileSegmentsEnabled": false
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-1m",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": true
+      },
+      "title": "Health ",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Health"
+            ],
+            "categoryAxisLabel": "Health",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {
+            "Degraded": {
+              "added": 1477996.300000012,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "Healthy": {
+              "added": 1968419.6000000238,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              }
+            },
+            "Missing": {
+              "added": 1484196.5,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-05-default, #84859a)"
+              }
+            },
+            "Progressing": {
+              "added": 1492732.900000006,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "Degraded"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "Healthy"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-05-default, #84859a)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "Missing"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "Progressing"
+            }
+          ],
+          "thresholdRules": []
+        },
+        "legend": {
+          "ratio": 43
+        },
+        "unitsOverrides": [
+          {
+            "added": 0,
+            "baseUnit": "unspecified",
+            "decimals": 0,
+            "delimiter": false,
+            "id": "argocd_app_info",
+            "identifier": "argocd_app_info",
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ]
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Sync = sync_status, Server = dest_server, Namespace = dest_namespace, Project = project }, shift: -1m, interval: 1m\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc\n| filter in(Name, $Application)\n| filter in(Namespace, $Namespace)\n| filter in(Project, $Project)\n| summarize count(), by:{Sync}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "segments": {
+        "tileSegments": [],
+        "tileSegmentsEnabled": false
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-1m",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": true
+      },
+      "title": "Sync ",
+      "type": "data",
+      "visualization": "pieChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Sync"
+            ],
+            "categoryAxisLabel": "Sync",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {
+            "OutOfSync": {
+              "added": 1477996.300000012,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              }
+            },
+            "Progressing": {
+              "added": 1492732.900000006,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              }
+            },
+            "Synced": {
+              "added": 1484196.5,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative"
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "OutOfSync"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "Progressing"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "Synced"
+            }
+          ],
+          "thresholdRules": []
+        },
+        "unitsOverrides": [
+          {
+            "added": 0,
+            "baseUnit": "unspecified",
+            "decimals": 0,
+            "delimiter": false,
+            "id": "argocd_app_info",
+            "identifier": "argocd_app_info",
+            "suffix": "",
+            "unitCategory": "unspecified"
+          }
+        ]
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize median(duration)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Operation Duration | Median ",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "thresholdRules": []
+        },
+        "singleValue": {
+          "label": "count()",
+          "labelMode": "none",
+          "recordField": "median(duration)",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "unitsOverrides": [
+          {
+            "added": 1746545304593,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "median(duration)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize percentile(duration,90)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Operation Duration | p90 ",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "thresholdRules": []
+        },
+        "singleValue": {
+          "label": "count()",
+          "labelMode": "none",
+          "recordField": "percentile(duration, 90)",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "unitsOverrides": [
+          {
+            "added": 1746542863767,
+            "baseUnit": "nanosecond",
+            "decimals": 1,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "percentile(duration, 90)",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "9": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize Count = count(), by:{ deployment.name}\n| sort Count desc\n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": " Sync Operations Frequency by Application (Top 5)",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "deployment.name"
+            ],
+            "categoryAxisLabel": "deployment.name",
+            "valueAxis": [
+              "Count"
+            ],
+            "valueAxisLabel": "Count"
+          },
+          "categoryOverrides": {
+            "failed": {
+              "added": 583774.7000000179,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "succeeded": {
+              "added": 591684,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              }
+            }
+          },
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "failed"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-swamps-color-01-default, #006650)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "succeeded"
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "10": {
+      "content": "### ArgoCD Sync and Deployment Pulse\n\nThis dashboard provides a comprehensive view of the status of ArgoCD Application States and sync notifications related to the deployment of new applications. It is designed to help platform engineers and DevOps teams monitor and manage their applications and deployment processes effectively.",
+      "type": "markdown"
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize errorRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome == \"failed\")) / toDouble(count())*100)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Error rate",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "custom-color",
+              "comparator": ">",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+              },
+              "field": "errorRate",
+              "value": 0
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+              },
+              "field": "errorRate",
+              "value": 0
+            }
+          ]
+        },
+        "singleValue": {
+          "label": "Error rate",
+          "labelMode": "none",
+          "recordField": "errorRate",
+          "trend": {
+            "isVisible": true
+          }
+        },
+        "unitsOverrides": [
+          {
+            "added": 1746458190343,
+            "baseUnit": "percent",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "errorRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ]
+      }
+    },
+    "12": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter task.outcome == \"succeeded\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize count(), by:{argocd.app.health.status}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Application  Health Status after Succesfull Sync",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "argocd.app.health.status"
+            ],
+            "categoryAxisLabel": "argocd.app.health.status",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {
+            "degraded": {
+              "added": 12013411.299999997,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              }
+            },
+            "healthy": {
+              "added": 12015872.899999999,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-03-default, #2a7453)"
+              }
+            },
+            "progressing": {
+              "added": 13356614.699999996,
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              }
+            }
+          },
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "valueType": "relative"
+          },
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "degraded"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-03-default, #2a7453)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "healthy"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-14-default, #d56b1a)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "progressing"
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "14": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### Additional resources\n**Pipeline Observability**\n* [Observability throughout the software development lifecycle increases delivery performance](https://www.dynatrace.com/news/blog/observability-throughout-the-software-development-lifecycle/) (blog post)\n* [Concepts](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/pipeline-observability-concepts) (docs)\n\n**Software Development Lifecycle Events**\n* [Ingest SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) (docs)\n* [SDLC event specification]() (docs)\n#\n---\n\n#### About this dashboard\n\nRelease v0.2.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) ",
+      "type": "markdown"
+    },
+    "15": {
+      "content": "### Application Sync Events \n\nThis section provides a clear and detailed view of ArgoCD sync activities, such as currently running syncs, status of finished syncs, and performance indicators.\n\n---",
+      "type": "markdown"
+    },
+    "16": {
+      "content": "### Deployment overview \n\nThis section provides a comprehensive view of the deployment status across different applications.\n\n---",
+      "type": "markdown"
+    },
+    "17": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {deployment.name, deployment.namespace, end_time, vcs.ref.base.revision}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= deployment.name, Namespace = deployment.namespace , Status = task.outcome , Health = argocd.app.health.status, SyncToRev = vcs.ref.base.revision, Duration = duration, Started = start_time, Ended = end_time, Message = argocd.sync.operation_state.outcome, Repository = vcs.repository.url.full, RepositoryRef = vcs.ref.base.name,Project = argocd.app.project.name, Server = deployment.server\n| sort Ended desc\n| limit 20\n\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-24h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Finished deployments | last 20",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+              },
+              "field": "Status",
+              "value": "succeeded"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+              },
+              "field": "Status",
+              "value": "running"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+              },
+              "field": "Status",
+              "value": "failed"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "Status",
+              "value": "error"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+              },
+              "field": "Health",
+              "value": "healthy"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-warning-default, #eca440)"
+              },
+              "field": "Health",
+              "value": "progressing"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+              },
+              "field": "Health",
+              "value": "degraded"
+            }
+          ]
+        },
+        "table": {
+          "columnWidths": {
+            "[\"AppName\"]": 119.7109375,
+            "[\"Ended\"]": 248.6875,
+            "[\"Server\"]": 636,
+            "[\"Started\"]": 231.6875,
+            "[\"Status\"]": 148.0859375,
+            "[\"SyncToRev\"]": 327.8671875
+          },
+          "selectedColumnForRowThreshold": "Status",
+          "sortBy": [
+            {
+              "columnId": "[\"Message\"]",
+              "direction": "ascending"
+            }
+          ]
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize deploymentDuration = median(duration), by: appName = deployment.name\n| sort deploymentDuration desc\n| limit 5",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Median Deployment Duration by Application  (Top 5)",
+      "type": "data",
+      "visualization": "categoricalBarChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "appName"
+            ],
+            "categoryAxisLabel": "appName",
+            "valueAxis": [
+              "deploymentDuration"
+            ],
+            "valueAxisLabel": "deploymentDuration"
+          },
+          "categoryOverrides": {},
+          "colorPalette": "swamps",
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "swamps",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "21": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| makeTimeseries duration=median(duration), by:{deployment.name}\n//| fields deploymentDuration = duration, endTime = end_time, deploymnent.name\n\n//| fieldsAdd arrayAvg(`avg(duration)`)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Median Sync Duration",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "colorPalette": "swamps",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "duration"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "deployment",
+            "interval",
+            "avg(duration)"
+          ],
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "swamps",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        },
+        "unitsOverrides": [
+          {
+            "added": 1746606983492,
+            "baseUnit": "nanosecond",
+            "decimals": 0,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "duration",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "22": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time , sort:{argocd.app.reconciliation.time desc}\n| makeTimeseries count=count(), by:{deployment.name}\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Activities",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "colorPalette": "swamps",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "count"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "deployment",
+            "interval",
+            "avg(duration)"
+          ],
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "swamps",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        },
+        "unitsOverrides": [
+          {
+            "added": 1746606983492,
+            "baseUnit": "nanosecond",
+            "decimals": 0,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "duration",
+            "suffix": "",
+            "unitCategory": "time"
+          }
+        ]
+      }
+    },
+    "23": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter task.outcome == \"failed\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project) \n| fieldsAdd prompt = concat(\"Explain the following Argo error message and also analyze the health status \", `argocd.sync.operation_state.outcome`), execute=true, contexts=array(record(type=\"supplementary\", value=substring(concat(\"Argo App Name: \", `argocd.app.name`, \"Argo Deployment Name: \", `deployment.name`, \"Argo Status: \", `status`), to:20000)))\n| fields timestamp, argocd.app.name, argocd.sync.operation_state.outcome, prompt, execute, contexts",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Last Failed Operation States (Open With CoPilot)",
+      "type": "data",
+      "visualization": "table",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "custom-color",
+              "comparator": ">",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-critical-default, #c4233b)"
+              },
+              "field": "errorRate",
+              "value": 0
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-status-ideal-default, #2f6863)"
+              },
+              "field": "errorRate",
+              "value": 0
+            }
+          ]
+        },
+        "table": {
+          "columnOrder": [
+            "[\"timestamp\"]",
+            "[\"argocd.app.name\"]",
+            "[\"argocd.sync.operation_state.outcome\"]",
+            "[\"prompt\"]",
+            "[\"execute\"]",
+            "[\"contexts\"]"
+          ],
+          "columnWidths": {
+            "[\"argocd.app.name\"]": 127,
+            "[\"argocd.sync.operation_state.outcome\"]": 1278,
+            "[\"timestamp\"]": 180
+          },
+          "hiddenColumns": [
+            [
+              "prompt"
+            ],
+            [
+              "execute"
+            ],
+            [
+              "contexts"
+            ]
+          ]
+        },
+        "unitsOverrides": [
+          {
+            "added": 1746458190343,
+            "baseUnit": "percent",
+            "decimals": 2,
+            "delimiter": false,
+            "displayUnit": null,
+            "identifier": "errorRate",
+            "suffix": "",
+            "unitCategory": "percentage"
+          }
+        ]
+      }
+    }
+  },
+  "variables": [
+    {
+      "editable": true,
+      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: {name}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields name=deployment.name \n]\n| summarize appName = collectDistinct(name)\n| expand appName\n| sort appName",
+      "key": "Application",
+      "multiple": true,
+      "type": "query",
+      "version": 2,
+      "visible": true
+    },
+    {
+      "editable": true,
+      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: { dest_namespace}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields dest_namespace=deployment.namespace\n]\n| summarize namespace = collectDistinct(dest_namespace)\n| expand namespace\n| sort namespace",
+      "key": "Namespace",
+      "multiple": true,
+      "type": "query",
+      "version": 2,
+      "visible": true
+    },
+    {
+      "editable": true,
+      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: { project}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields project=argocd.app.project.name\n]\n| summarize project = collectDistinct(project)\n| expand project\n| sort project",
+      "key": "Project",
+      "multiple": true,
+      "type": "query",
+      "version": 2,
+      "visible": true
+    }
+  ],
+  "version": 21
+}

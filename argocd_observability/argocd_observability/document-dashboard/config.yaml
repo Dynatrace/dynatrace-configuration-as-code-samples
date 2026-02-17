@@ -1,41 +1,13 @@
 configs:
-# 
-# Dashboard that works based on events
+
 #
-#- id: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
-#  config:
-#    name: ArgoCD Application Lifecycle
-#    template: argocd_app_lifecycle_observability_0.1.0.json
-#    skip: false
-#    originObjectId: 01551ee0-1ebf-4894-9f35-4c0ff232e91e
-#  type:
-#    document:
-#      kind: dashboard
-#      private: true
-
-
-# 
-# Dashboard that works based on events and metrics
-#
-# - id: 48ceb455-7769-4ac4-acf7-09636c564729
-#   config:
-#     name: ArgoCD Application Lifecycle
-#     template: argocd_app_lifecycle_observability_0.2.0.json
-#     skip: false
-#     originObjectId: 48ceb455-7769-4ac4-acf7-09636c564729
-#   type:
-#     document:
-#       kind: dashboard
-#       private: false
-
-# 
 # Dashboard that works based on events, metrics and SDLC events
 # Application Sync Events section with Copilot Failed Syncs analyse
-# 
-- id: argocd_app_lifecycle_observability_3
+#
+- id: argocd_app_lifecycle_observability
   config:
     name: ArgoCD Application Lifecycle
-    template: argocd_app_lifecycle_observability_0.3.0.json
+    template: argocd_app_lifecycle_observability.json
     skip: false
   type:
     document:
@@ -45,12 +17,11 @@ configs:
 #
 # Dashboard to observe ArgoCD Infrastructure
 #
-- id: 3e152ce0-5638-406d-9bc5-609fa830d88f
+- id: argocd_platform_observability
   config:
     name: ArgoCD Platform Observability
     template: argocd_platform_observability.json
     skip: false
-    originObjectId: 3e152ce0-5638-406d-9bc5-609fa830d88f
   type:
     document:
       kind: dashboard

@@ -8,10 +8,10 @@ Excited to dive into your ArgoCD sync activities and deployment states of your A
 
 ## Concepts
 
-| Concept        | Description |
-|------------|-----|
-| Software Development Lifecycle (SDLC) events   | [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events. |
-| Why were ArgoCD notifications changed into SDLC events? | The main benefit is data normalization and becoming tool agnostic. As a result, Dynatrace Dashboards, Apps, and Workflows can build on SDLC events with well-defined properties rather than tool-specific details. |
+| Concept                                                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|---------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Software Development Lifecycle (SDLC) events            | [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events) are events with a separate event kind in Dynatrace that follow a well-defined semantic for capturing data points from a software component's software development lifecycle. The [SDLC event specification](https://docs.dynatrace.com/docs/discover-dynatrace/references/semantic-dictionary/model/sdlc-events) defines the semantics of those events. |
+| Why were ArgoCD notifications changed into SDLC events? | The main benefit is data normalization and becoming tool agnostic. As a result, Dynatrace Dashboards, Apps, and Workflows can build on SDLC events with well-defined properties rather than tool-specific details.                                                                                                                                                                                                                                            |
 
 ## Target audience
 
@@ -32,25 +32,23 @@ In this tutorial, you'll learn how to
 
 ## Setup
 
-1. [Create an OAuth client](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client) with the following permissions.
+1. [Create a Platform token](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-platform-token) with the following permissions.
     * Run apps: `app-engine:apps:run`
-    * View OpenPipeline configurations: `openpipeline:configurations:read`
-    * Edit OpenPipeline configurations: `openpipeline:configurations:write`
+    * View OpenPipeline configurations: `settings:objects:read`
+    * Edit OpenPipeline configurations: `settings:objects:write`
     * Create and edit documents: `document:documents:write`
     * View documents: `document:documents:read`
 
-2. Store the retrieved client ID and secret as separate environment variables.
+2. Store the retrieved platform token in an environment variable.
     <!-- windows version -->
-    Windows:
+   Windows:
     ```
-    $env:OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-    $env:OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    $env:DYNATRACE_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
     ```
     <!-- linux / macOS version -->
-    Linux / macOS:
+   Linux / macOS:
     ```
-    export OAUTH_CLIENT_ID='<YOUR_CLIENT_ID>'
-    export OAUTH_CLIENT_SECRET='<YOUR_CLIENT_SECRET>'
+    export DYNATRACE_PLATFORM_TOKEN='<YOUR_PLATFORM_TOKEN>'
     ```
 
 3. Clone the [Dynatrace configuration as code sample](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) repository and go to `argocd_observability`.
@@ -72,40 +70,17 @@ In this tutorial, you'll learn how to
               type: value
               value: https://<YOUR-DT-ENV-ID>.apps.dynatrace.com
             auth:
-                oAuth:
-                  clientId:
-                    name: OAUTH_CLIENT_ID
-                  clientSecret:
-                    name: OAUTH_CLIENT_SECRET
-                  tokenEndpoint:
-                    type: environment
-                    value: OAUTH_TOKEN_ENDPOINT
+              platformToken:
+                name: DYNATRACE_PLATFORM_TOKEN
     ```
 
-### Check the OpenPipeline configuration for SDLC events
+### OpenPipeline configuration for SDLC events
 
-> These steps modify the OpenPipeline configuration for SDLC events.
-If your OpenPipeline configuration contains only default/built-in values, you can directly apply the Monaco configuration. If you have any custom ingest sources, dynamic routes, or pipelines, you'll first need to download your configuration and manually merge it into the Monaco configuration.
+This configuration uses static routing for its pipeline, so there is no need to download and merge the dynamic routing configuration.
 
-> Step 3 will indicate if a configuration merge is needed or if you can apply the provided configuration directly.
-
-1. Go to **OpenPipeline** > **Events** > **Software development lifecycle**.
-2.  Check the **Ingest sources**, **Dynamic routing**, and **Pipelines**.
-    * Under **Ingest sources**, are there any other sources than **Endpoint for Software Development Lifecycle events**?
-    * Under **Dynamic routing**, are there any other routes than **Default route**?
-    * Under **Pipelines**, are there any other pipelines than **events.sdlc**?
-3. If the answer to one of those questions is "yes", follow the steps below. Otherwise, skip ahead to step 4.
-    * Download your OpenPipeline configuration
-      ```
-      monaco download -e <YOUR-DT-ENV-ID> --only-openpipeline
-      ```
-    * Open the following files:
-      * Your downloaded configuration file, `download_<DATE>_<NUMBER>/project/openpipline/events.sdlc.json`.
-      * The provided configuration file, `pipeline_observability/openpipline/events.sdlc.argocd.json`.
-    * Merge the contents of events.sdlc.json into events.sdlc.argocd.json, and then save the file.
-4. Apply the Monaco configuration.
-  Run this command to apply the provided Monaco configuration.
-  The configuration consists of (1) Dashboards to analyze ArgoCD activities and (2) OpenPipeline configuration to normalize [ArgoCD Notifications](https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/) into [SDLC events](pipeline-observability-ingest-sdlc-events).
+1. Apply the Monaco configuration.
+   Run this command to apply the provided Monaco configuration.
+   The configuration consists of (1) Dashboards to analyze ArgoCD activities and (2) OpenPipeline configuration to normalize [ArgoCD Notifications](https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/) into [SDLC events](https://docs.dynatrace.com/docs/deliver/pipeline-observability-sdlc-events/sdlc-events).
     ```
     monaco deploy manifest.yaml
     ```
@@ -122,7 +97,7 @@ An access token with *openpipeline scopes* is needed for Dynatrace to receive Ar
     * OpenPipeline - Ingest Software Development Lifecycle Events (Custom)(`openpipeline.events_sdlc.custom`)
 5. Click **Generate token**
 6. Save the generated token securely for subsequent steps. It will be referred as `<YOUR-ACCESS-TOKEN>`.
-​
+
 ### Configure ArgoCD Notifications
 
 ArgoCD notifications are a feature of ArgoCD. These notifications provide a flexible way to alert users about important changes in the state of their applications managed by ArgoCD. Here's how they work:
@@ -153,7 +128,7 @@ kubectl apply -f {secret_file_name}.yaml -n argocd
 
 #### Create a Notification Template and Trigger
 
-1. ​If you do not currently have any notification configuration, create a config map as follows:​
+1. If you do not currently have any notification configuration, create a config map as follows:
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -216,16 +191,16 @@ metadata:
 
 ### Send ArgoCD Prometheus metrics to Dynatrace
 
-Argo CD exposes different sets of Prometheus metrics per server. Configure your ArgoCD components exposing this information wich is then collected by Dynatrace. In Dynatrace, you can use ActiveGate installed on the Kubernetes cluster hosting ArgoCD, or you can use the [Dynatrace OpenTelemetry Collector](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/collector).
+Argo CD exposes different sets of Prometheus metrics per server. Configure your ArgoCD components exposing this information which is then collected by Dynatrace. In Dynatrace, you can use ActiveGate installed on the Kubernetes cluster hosting ArgoCD, or you can use the [Dynatrace OpenTelemetry Collector](https://docs.dynatrace.com/docs/ingest-from/opentelemetry/collector).
 
 In case of the Dynatrace ActiveGate:  
 
 1. Enable the Prometheus metrics monitoring capability:  
 
-* In Dynatrace, go to **Kubernetes**, and then select the monitored cluster with ArgoCD installation.
-* Click on **...** in the upper right corner, and then select **Connection settings**.
-* Choose **Monitoring Settings** and enable **Monitor annotated Prometheus exporters**
-* Save changes
+   * In Dynatrace, go to **Kubernetes**, and then select the monitored cluster with ArgoCD installation.
+   * Click on **...** in the upper right corner, and then select **Connection settings**.
+   * Choose **Monitoring Settings** and enable **Monitor annotated Prometheus exporters**
+   * Save changes
 
 2. Add the following two annotations to services in your ArgoCD installation namespace. 
 
@@ -263,9 +238,9 @@ In Dynatrace, open the **ArgoCD Application Lifecycle** dashboard to:
 * Analyze duration of sync operations
 * See sync status and application health
 
-| ArgoCD Sync Overview | ArgoCD Platform Insights |
-|------------|------------|
-| ![image](images/argocd_sync_deployment_overview.png) | ![image](images/argocd_platform_observability.png) |
+| ArgoCD Sync Overview                                  | ArgoCD Platform Insights                           |
+|-------------------------------------------------------|----------------------------------------------------|
+| ![image](images/argocd_sync_deployment_overview.png)  | ![image](images/argocd_platform_observability.png) |
 
 ### Optimize
 
