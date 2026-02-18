@@ -15,7 +15,7 @@ configs:
   type:
     settings:
       schema: "builtin:openpipeline.events.sdlc.pipelines"
-      schemaVersion: &schemaVersion "1.52"
+      schemaVersion: &schemaVersion "1.51"
       scope: &scope "environment"
 
 - id: openpipeline.events.sdlc.argocd.ingest_sources
