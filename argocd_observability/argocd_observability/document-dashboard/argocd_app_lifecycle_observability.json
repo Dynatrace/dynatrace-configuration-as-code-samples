@@ -1054,7 +1054,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Application  Health Status after Succesfull Sync",
+      "title": "Application  Health Status after Successfull Sync",
       "type": "data",
       "visualization": "donutChart",
       "visualizationSettings": {
