@@ -290,7 +290,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {deployment.name, deployment.namespace}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= deployment.name, Namespace = deployment.namespace , Status = task.outcome ,SyncToRev = vcs.ref.base.revision,TimeFromLastSync = toTimestamp(now()) - ToTimestamp(end_time), Started = start_time, Ended = end_time\n| sort AppName asc\n\n",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {cicd.deployment.name, cicd.deployment.namespace}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= cicd.deployment.name, Namespace = cicd.deployment.namespace , Status = task.outcome ,SyncToRev = vcs.ref.base.revision,TimeFromLastSync = toTimestamp(now()) - ToTimestamp(end_time), Started = start_time, Ended = end_time\n| sort AppName asc\n\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -393,7 +393,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize count()",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize count()",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -426,7 +426,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize count(), by:{task.outcome}",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize count(), by:{task.outcome}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -806,7 +806,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize median(duration)",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize median(duration)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -851,7 +851,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize percentile(duration,90)",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize percentile(duration,90)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -896,7 +896,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize Count = count(), by:{ deployment.name}\n| sort Count desc\n| limit 5",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter event.status == \"finished\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| summarize Count = count(), by:{ cicd.deployment.name}\n| sort Count desc\n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -912,9 +912,9 @@
         "chartSettings": {
           "categoricalBarChartSettings": {
             "categoryAxis": [
-              "deployment.name"
+              "cicd.deployment.name"
             ],
-            "categoryAxisLabel": "deployment.name",
+            "categoryAxisLabel": "cicd.deployment.name",
             "valueAxis": [
               "Count"
             ],
@@ -982,7 +982,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize errorRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome == \"failed\")) / toDouble(count())*100)",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize errorRate = if(count() == 0, 0, else: toDouble(countIf(task.outcome == \"failed\")) / toDouble(count())*100)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1046,7 +1046,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter task.outcome == \"succeeded\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize count(), by:{argocd.app.health.status}",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter task.outcome == \"succeeded\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize count(), by:{argocd.app.health.status}",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1160,7 +1160,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter event.status == \"finished\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {deployment.name, deployment.namespace, end_time, vcs.ref.base.revision}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= deployment.name, Namespace = deployment.namespace , Status = task.outcome , Health = argocd.app.health.status, SyncToRev = vcs.ref.base.revision, Duration = duration, Started = start_time, Ended = end_time, Message = argocd.sync.operation_state.outcome, Repository = vcs.repository.url.full, RepositoryRef = vcs.ref.base.name,Project = argocd.app.project.name, Server = deployment.server\n| sort Ended desc\n| limit 20\n\n",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter event.status == \"finished\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {cicd.deployment.name, cicd.deployment.namespace, end_time, vcs.ref.base.revision}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= cicd.deployment.name, Namespace = cicd.deployment.namespace , Status = task.outcome , Health = argocd.app.health.status, SyncToRev = vcs.ref.base.revision, Duration = duration, Started = start_time, Ended = end_time, Message = argocd.sync.operation_state.outcome, Repository = vcs.repository.url.full, RepositoryRef = vcs.ref.base.name,Project = argocd.app.project.name, Server = cicd.deployment.server.url.full\n| sort Ended desc\n| limit 20\n\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1273,7 +1273,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize deploymentDuration = median(duration), by: appName = deployment.name\n| sort deploymentDuration desc\n| limit 5",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| summarize deploymentDuration = median(duration), by: appName = cicd.deployment.name\n| sort deploymentDuration desc\n| limit 5",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1323,7 +1323,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| makeTimeseries duration=median(duration), by:{deployment.name}\n//| fields deploymentDuration = duration, endTime = end_time, deploymnent.name\n\n//| fieldsAdd arrayAvg(`avg(duration)`)",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time\n| makeTimeseries duration=median(duration), by:{cicd.deployment.name}\n//| fields deploymentDuration = duration, endTime = end_time, deploymnent.name\n\n//| fieldsAdd arrayAvg(`avg(duration)`)",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1387,7 +1387,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time , sort:{argocd.app.reconciliation.time desc}\n| makeTimeseries count=count(), by:{deployment.name}\n",
+      "query": "fetch events\n| filter event.kind == \"SDLC_EVENT\"\n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.provider == \"argocd\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup vcs.ref.base.revision, start_time , sort:{argocd.app.reconciliation.time desc}\n| makeTimeseries count=count(), by:{cicd.deployment.name}\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1451,7 +1451,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter task.outcome == \"failed\"\n| filter in(deployment.name, $Application)\n| filter in(deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project) \n| fieldsAdd prompt = concat(\"Explain the following Argo error message and also analyze the health status \", `argocd.sync.operation_state.outcome`), execute=true, contexts=array(record(type=\"supplementary\", value=substring(concat(\"Argo App Name: \", `argocd.app.name`, \"Argo Deployment Name: \", `deployment.name`, \"Argo Status: \", `status`), to:20000)))\n| fields timestamp, argocd.app.name, argocd.sync.operation_state.outcome, prompt, execute, contexts",
+      "query": "fetch events \n| filter event.kind == \"SDLC_EVENT\" \n| filter event.category == \"task\" \n| filter event.type == \"deployment\"\n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| filter task.outcome == \"failed\"\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project) \n| fieldsAdd prompt = concat(\"Explain the following Argo error message and also analyze the health status \", `argocd.sync.operation_state.outcome`), execute=true, contexts=array(record(type=\"supplementary\", value=substring(concat(\"Argo App Name: \", `argocd.app.name`, \"Argo Deployment Name: \", `cicd.deployment.name`, \"Argo Status: \", `status`), to:20000)))\n| fields timestamp, argocd.app.name, argocd.sync.operation_state.outcome, prompt, execute, contexts",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
@@ -1530,7 +1530,7 @@
   "variables": [
     {
       "editable": true,
-      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: {name}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields name=deployment.name \n]\n| summarize appName = collectDistinct(name)\n| expand appName\n| sort appName",
+      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: {name}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields name=cicd.deployment.name \n]\n| summarize appName = collectDistinct(name)\n| expand appName\n| sort appName",
       "key": "Application",
       "multiple": true,
       "type": "query",
@@ -1539,7 +1539,7 @@
     },
     {
       "editable": true,
-      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: { dest_namespace}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields dest_namespace=deployment.namespace\n]\n| summarize namespace = collectDistinct(dest_namespace)\n| expand namespace\n| sort namespace",
+      "input": "timeseries argocd_app_info = avg(argocd_app_info),by: { dest_namespace}\n| append [fetch events \n| filter event.category == \"task\" \n| filter event.type == \"deployment\" \n| filter event.status == \"finished\" \n| filter event.provider == \"argocd\"\n| fields dest_namespace=cicd.deployment.namespace\n]\n| summarize namespace = collectDistinct(dest_namespace)\n| expand namespace\n| sort namespace",
       "key": "Namespace",
       "multiple": true,
       "type": "query",
