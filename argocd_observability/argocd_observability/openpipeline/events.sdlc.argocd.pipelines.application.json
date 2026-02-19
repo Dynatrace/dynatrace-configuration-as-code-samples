@@ -14,7 +14,7 @@
         }
       },
       {
-        "id": "processor_add_argoc_app_url",
+        "id": "processor_add_argocd_app_url",
         "type": "dql",
         "matcher": "isNotNull(context)",
         "description": "Add ArgoCD app URL",
