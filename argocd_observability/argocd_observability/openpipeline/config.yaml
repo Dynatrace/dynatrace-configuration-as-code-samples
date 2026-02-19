@@ -36,4 +36,3 @@ configs:
       schema: "builtin:openpipeline.events.sdlc.ingest-sources"
       schemaVersion: *schemaVersion
       scope: *scope
-
