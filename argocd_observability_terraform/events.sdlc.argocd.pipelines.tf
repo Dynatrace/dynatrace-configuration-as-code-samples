@@ -80,7 +80,7 @@ resource "dynatrace_openpipeline_v2_events_sdlc_pipelines" "events_sdlc_pipeline
 
             | fieldsAdd argocd.app.health.status = lower(status[health][status])
             | fieldsAdd argocd.app.conditions = status[conditions]
-            | fieldsAdd argocd.app.reconciliation.time =  toTimeStamp(status[reconciledAt])
+            | fieldsAdd argocd.app.reconciliation.time =  toTimestamp(status[reconciledAt])
             | fieldsAdd argocd.sync.status = lower(status[sync][status])
             | fieldsAdd argocd.sync.operation_state.outcome = lower(status[operationState][message])
 
