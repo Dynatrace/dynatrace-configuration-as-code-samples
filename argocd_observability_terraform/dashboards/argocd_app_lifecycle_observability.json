@@ -290,7 +290,7 @@
         },
         "enabled": false
       },
-      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {cicd.deployment.name, cicd.deployment.namespace}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= cicd.deployment.name, Namespace = cicd.deployment.namespace , Status = task.outcome ,SyncToRev = vcs.ref.base.revision,TimeFromLastSync = toTimestamp(now()) - ToTimestamp(end_time), Started = start_time, Ended = end_time\n| sort AppName asc\n\n",
+      "query": "fetch events | filter event.provider == \"argocd\" \n| filter isNotNull(argocd.app.reconciliation.time)\n| filter in(cicd.deployment.name, $Application)\n| filter in(cicd.deployment.namespace, $Namespace)\n| filter in(argocd.app.project.name, $Project)\n| dedup {cicd.deployment.name, cicd.deployment.namespace}, sort:{argocd.app.reconciliation.time desc}\n| fields AppName= cicd.deployment.name, Namespace = cicd.deployment.namespace , Status = task.outcome ,SyncToRev = vcs.ref.base.revision,TimeFromLastSync = toTimestamp(now()) - toTimestamp(end_time), Started = start_time, Ended = end_time\n| sort AppName asc\n\n",
       "querySettings": {
         "defaultSamplingRatio": 10,
         "defaultScanLimitGbytes": 500,
