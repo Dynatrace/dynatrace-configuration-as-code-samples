@@ -151,7 +151,7 @@
         },
         "tileTimeframeEnabled": true
       },
-      "title": "Applications  not in Healthy state",
+      "title": "Applications not in Healthy state",
       "type": "data",
       "visualization": "table",
       "visualizationSettings": {
