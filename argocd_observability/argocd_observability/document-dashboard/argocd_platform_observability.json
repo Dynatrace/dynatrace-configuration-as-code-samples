@@ -803,7 +803,7 @@
         "maxResultMegaBytes": 1,
         "maxResultRecords": 1000
       },
-      "title": "Reconcillations  Performance",
+      "title": "Reconciliations Performance",
       "type": "data",
       "visualization": "lineChart",
       "visualizationSettings": {
