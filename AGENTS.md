@@ -501,7 +501,7 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 
 ### Authentication
 - [ ] Platform token or OAuth clients are needed for Platform environments
-- [ ] All required OAuth scopes documented
+- [ ] All required permission scopes for platform token or OAuth client documented
 - [ ] OAuth client creation steps in README
 - [ ] Authentication pattern consistent within sample
 
