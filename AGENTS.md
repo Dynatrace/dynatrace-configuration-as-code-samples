@@ -266,7 +266,9 @@ environmentGroups:
       - name: prod-env-1
         url:
           value: https://prod001.apps.dynatrace.com
-        auth:
+         auth: # use platform token or oauth credentials
+          # platformToken:
+            # name: DYNATRACE_PLATFORM_TOKEN
           oAuth:
             clientId:
               type: environment
