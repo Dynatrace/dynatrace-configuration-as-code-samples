@@ -327,7 +327,7 @@ Create an OAuth client with the following scopes:
 - `slo:slos:read`, `slo:slos:write` - SLO management
 - `document:documents:read`, `document:documents:write` - Dashboard management
 
-Create OAuth client: https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client
+Create platform token or OAuth clients: [Dynatrace Configuration as Code authentication](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
 ```
 
 ---
