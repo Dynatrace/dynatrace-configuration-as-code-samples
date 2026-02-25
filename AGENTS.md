@@ -455,7 +455,7 @@ echo "All required environment variables are set"
 
 When working with OpenPipeline (logs/events/metrics ingestion):
 - Always check existing configuration before modifying
-- Use `monaco download` to get current state
+- Use `terraform export` (see: [Terraform export utility](https://docs.dynatrace.com/docs/deliver/configuration-as-code/terraform/terraform-cli-commands#export) `monaco download` (see: [monaco download](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/reference/commands-saas#download)) to get the current state
 - Merge new routes with existing ones (order matters!)
 - Document the routing logic clearly
 - Test with sample data before production deployment
