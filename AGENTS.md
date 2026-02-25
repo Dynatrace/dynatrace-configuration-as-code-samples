@@ -314,7 +314,7 @@ Document all required scopes in README files. Common scopes:
 ### Permission Scope Documentation Template (for platform token or OAuth)
 
 ```markdown
-## OAuth Client Requirements
+## Platform token or OAuth Client Requirements
 
 Create an OAuth client with the following scopes:
 
