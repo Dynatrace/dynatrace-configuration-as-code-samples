@@ -366,7 +366,9 @@ monaco-sample-name/
 │   ├── deploy.sh               # Deployment script
 │   └── cleanup.sh              # Cleanup script
 ├── config/                      # Configuration files
-│   └── *.yaml                  # Monaco config files
+│   ├── config.yaml         # Monaco configs YAML file
+│   └── *.json                  # Monaco JSON template file
+
 └── images/                      # Screenshots/diagrams for README
 ```
 
