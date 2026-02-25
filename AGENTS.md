@@ -99,8 +99,11 @@ provider "dynatrace" {
   # - DT_CLIENT_SECRET for client_secret (OAuth, recommended for Platform)
   # - DT_ACCOUNT_ID for account_id (OAuth, recommended for Platform)
   # OR
+  # - DYNATRACE_PLATFORM_TOKEN for dt_platform_token (Platform token, alternative to OAuth)
+  # OR
   # - DYNATRACE_API_TOKEN for dt_api_token (legacy, for Classic environments)
   #
+  # Note: Platform token and OAuth are mutually exclusive.
   # Do NOT use Terraform variables for credentials as they get stored in state file.
 }
 ```
@@ -116,6 +119,9 @@ export DYNATRACE_ENV_URL="https://abc12345.apps.dynatrace.com"
 export DT_CLIENT_ID="your-client-id"
 export DT_CLIENT_SECRET="your-client-secret"
 export DT_ACCOUNT_ID="your-account-uuid"
+
+# OR Platform token (alternative to OAuth for Platform environments)
+export DYNATRACE_PLATFORM_TOKEN="your-platform-token"
 
 # OR API Token (legacy, for Classic environments)
 export DYNATRACE_API_TOKEN="your-api-token"
