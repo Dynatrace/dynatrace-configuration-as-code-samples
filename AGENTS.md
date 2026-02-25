@@ -117,6 +117,9 @@ export DT_CLIENT_ID="your-client-id"
 export DT_CLIENT_SECRET="your-client-secret"
 export DT_ACCOUNT_ID="your-account-uuid"
 
+# OR Platform Token (for Platform environments)
+export DYNATRACE_PLATFORM_TOKEN="your-platform-token"
+
 # OR API Token (legacy, for Classic environments)
 export DYNATRACE_API_TOKEN="your-api-token"
 ```
