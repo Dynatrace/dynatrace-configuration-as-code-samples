@@ -380,6 +380,7 @@ monaco-sample-name/
 !.env.example
 *.tfstate
 *.tfstate.*
+*.tfvars          # Exclude tf.vars files if they contain sensitive data that should not be part of version control
 .terraform/
 .terraform.lock.hcl
 download_*/
