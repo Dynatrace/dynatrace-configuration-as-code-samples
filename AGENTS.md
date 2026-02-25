@@ -170,7 +170,7 @@ environmentGroups:
         auth:
           platformToken:
             name: DYNATRACE_PLATFORM_TOKEN
-          # Preferred: OAuth
+          # Alternative: OAuth
           # oAuth:
           #   clientId:
           #     type: environment
