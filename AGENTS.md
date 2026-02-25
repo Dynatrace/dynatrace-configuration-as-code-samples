@@ -403,6 +403,7 @@ response.log
 ```bash
 # .env.example
 export DYNATRACE_ENV_URL="https://<YOUR-ENV-ID>.apps.dynatrace.com"
+export DYNATRACE_PLATFORM_TOKEN="<YOUR-PLATFORM-TOKEN>"
 export CLIENT_ID="<YOUR-OAUTH-CLIENT-ID>"
 export CLIENT_SECRET="<YOUR-OAUTH-CLIENT-SECRET>"
 export DT_ACCOUNT_ID="<YOUR-ACCOUNT-UUID>"
