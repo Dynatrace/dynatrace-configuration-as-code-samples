@@ -349,7 +349,8 @@ terraform-sample-name/
 ├── scripts/
 │   ├── deploy.sh               # Deployment script
 │   └── cleanup.sh              # Cleanup script
-└── images/                      # Screenshots/diagrams for README
+├── images/                      # Screenshots/diagrams for README
+└── config/                      #  (Optional) Declarative configuration for Dynatrace resources
 ```
 
 ### Monaco Sample Structure
