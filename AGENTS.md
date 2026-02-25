@@ -99,8 +99,11 @@ provider "dynatrace" {
   # - DT_CLIENT_SECRET for client_secret (OAuth, recommended for Platform)
   # - DT_ACCOUNT_ID for account_id (OAuth, recommended for Platform)
   # OR
+  # - DYNATRACE_PLATFORM_TOKEN for dt_platform_token (Platform token, alternative to OAuth)
+  # OR
   # - DYNATRACE_API_TOKEN for dt_api_token (legacy, for Classic environments)
   #
+  # Note: Platform token and OAuth are mutually exclusive.
   # Do NOT use Terraform variables for credentials as they get stored in state file.
 }
 ```
@@ -117,7 +120,7 @@ export DT_CLIENT_ID="your-client-id"
 export DT_CLIENT_SECRET="your-client-secret"
 export DT_ACCOUNT_ID="your-account-uuid"
 
-# OR Platform Token (for Platform environments)
+# OR Platform token (alternative to OAuth for Platform environments)
 export DYNATRACE_PLATFORM_TOKEN="your-platform-token"
 
 # OR API Token (legacy, for Classic environments)
@@ -173,7 +176,7 @@ environmentGroups:
         auth:
           platformToken:
             name: DYNATRACE_PLATFORM_TOKEN
-          # Preferred: OAuth
+          # Alternative: OAuth
           # oAuth:
           #   clientId:
           #     type: environment
@@ -252,7 +255,10 @@ environmentGroups:
       - name: dev-env-1
         url:
           value: https://dev001.apps.dynatrace.com
-        auth:
+        auth: # use platform token or oauth credentials
+          # platformToken:
+            # name: DYNATRACE_PLATFORM_TOKEN
+
           oAuth:
             clientId:
               type: environment
@@ -266,7 +272,9 @@ environmentGroups:
       - name: prod-env-1
         url:
           value: https://prod001.apps.dynatrace.com
-        auth:
+         auth: # use platform token or oauth credentials
+          # platformToken:
+            # name: DYNATRACE_PLATFORM_TOKEN
           oAuth:
             clientId:
               type: environment
@@ -278,7 +286,7 @@ environmentGroups:
 
 ---
 
-## OAuth Scopes Reference
+## Permission Scopes Reference (for platform token or OAuth)
 
 Document all required scopes in README files. Common scopes:
 
@@ -309,12 +317,12 @@ Document all required scopes in README files. Common scopes:
 - `automation:workflows:read`, `automation:workflows:write`, `automation:workflows:run`
 - `app-engine:apps:run`, `app-engine:apps:install`
 
-### OAuth Scope Documentation Template
+### Permission Scope Documentation Template (for platform token or OAuth)
 
 ```markdown
-## OAuth Client Requirements
+## Platform token or OAuth Client Requirements
 
-Create an OAuth client with the following scopes:
+Create a platform token or an OAuth client with the following scopes:
 
 **Platform Access**:
 - `settings:objects:read` - Read settings configurations
@@ -325,7 +333,7 @@ Create an OAuth client with the following scopes:
 - `slo:slos:read`, `slo:slos:write` - SLO management
 - `document:documents:read`, `document:documents:write` - Dashboard management
 
-Create OAuth client: https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/guides/create-oauth-client
+Create platform token or OAuth clients: [Dynatrace Configuration as Code authentication](https://docs.dynatrace.com/docs/shortlink/terraform-api-support-access-permission-handling)
 ```
 
 ---
@@ -347,7 +355,8 @@ terraform-sample-name/
 ├── scripts/
 │   ├── deploy.sh               # Deployment script
 │   └── cleanup.sh              # Cleanup script
-└── images/                      # Screenshots/diagrams for README
+├── images/                      # Screenshots/diagrams for README
+└── config/                      #  (Optional) Declarative configuration for Dynatrace resources
 ```
 
 ### Monaco Sample Structure
@@ -363,11 +372,13 @@ monaco-sample-name/
 │   ├── deploy.sh               # Deployment script
 │   └── cleanup.sh              # Cleanup script
 ├── config/                      # Configuration files
-│   └── *.yaml                  # Monaco config files
+│   ├── config.yaml         # Monaco configs YAML file
+│   └── *.json                  # Monaco JSON template file
+
 └── images/                      # Screenshots/diagrams for README
 ```
 
-### Standard .gitignore
+### Standard .gitignore (Terraform)
 
 ```gitignore
 .env
@@ -375,8 +386,21 @@ monaco-sample-name/
 !.env.example
 *.tfstate
 *.tfstate.*
+*.tfvars          # Exclude tf.vars files if they contain sensitive data that should not be part of version control
 .terraform/
 .terraform.lock.hcl
+*.bak
+.logs/
+request.log
+response.log
+```
+
+### Standard .gitignore (Monaco)
+
+```gitignore
+.env
+*.env
+!.env.example
 download_*/
 converted-v2-config/
 *.bak
@@ -397,6 +421,7 @@ response.log
 ```bash
 # .env.example
 export DYNATRACE_ENV_URL="https://<YOUR-ENV-ID>.apps.dynatrace.com"
+export DYNATRACE_PLATFORM_TOKEN="<YOUR-PLATFORM-TOKEN>"
 export CLIENT_ID="<YOUR-OAUTH-CLIENT-ID>"
 export CLIENT_SECRET="<YOUR-OAUTH-CLIENT-SECRET>"
 export DT_ACCOUNT_ID="<YOUR-ACCOUNT-UUID>"
@@ -448,7 +473,7 @@ echo "All required environment variables are set"
 
 When working with OpenPipeline (logs/events/metrics ingestion):
 - Always check existing configuration before modifying
-- Use `monaco download` to get current state
+- Use `terraform export` (see: [Terraform export utility](https://docs.dynatrace.com/docs/deliver/configuration-as-code/terraform/terraform-cli-commands#export) `monaco download` (see: [monaco download](https://docs.dynatrace.com/docs/deliver/configuration-as-code/monaco/reference/commands-saas#download)) to get the current state
 - Merge new routes with existing ones (order matters!)
 - Document the routing logic clearly
 - Test with sample data before production deployment
@@ -493,8 +518,8 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 - [ ] Version requirements documented in README
 
 ### Authentication
-- [ ] OAuth preferred over API tokens for Platform environments
-- [ ] All required OAuth scopes documented
+- [ ] Platform token or OAuth clients are needed for Platform environments
+- [ ] All required permission scopes for platform token or OAuth client documented
 - [ ] OAuth client creation steps in README
 - [ ] Authentication pattern consistent within sample
 
@@ -535,13 +560,12 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 9. Ignoring Monaco/Terraform version requirements
 10. Missing error handling in shell scripts
 11. Using Terraform variables for tokens/credentials
-12. Using platform token and OAuth together (mutually exclusive)
 
 ---
 
 ## Commands Reference
 
-### Terraform
+### [Terraform CLI commands (selected)](https://docs.dynatrace.com/docs/shortlink/terraform-cli-commands)
 
 ```bash
 terraform init              # Initialize
@@ -552,16 +576,18 @@ terraform apply             # Apply changes
 terraform destroy           # Destroy resources
 terraform state list        # List resources
 terraform state show        # Show resource
+terraform -export [-ref] [-migrate] [-import-state] [-id] [-flat] [-exclude] [<resourcename>[=<id>]]'       # Dynatrace Terraform provider specific command (see [Export utility](https://docs.dynatrace.com/docs/shortlink/terraform-cli-commands#export))
 ```
 
-### Monaco
+### [Monaco CLI commands](https://docs.dynatrace.com/docs/shortlink/monaco-cli-commands)
 
 ```bash
 monaco deploy manifest.yaml              # Deploy
 monaco deploy --dry-run manifest.yaml    # Validate (dry run)
 monaco delete -m manifest.yaml           # Delete
 monaco download -e ENV_ID                # Download existing config
-monaco convert --source v1/ --target v2/ # Convert v1 to v2
+monaco account [ARGS] [OPTIONS]        # Operations involving Account Management resources (deploy, download, delete) - Note: monaco account operations require an OAuth client (Platform token aren't supported for account-based operations)
+monaco generate [ARGS] [OPTIONS]        # Generate file skeletons based on a given configuration (deletefile, DOT graph, JSON schema files)
 ```
 
 ### Environment
