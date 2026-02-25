@@ -541,7 +541,7 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 
 ## Commands Reference
 
-### Terraform
+### [Terraform CLI commands (selected)](https://docs.dynatrace.com/docs/shortlink/terraform-cli-commands)
 
 ```bash
 terraform init              # Initialize
