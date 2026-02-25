@@ -561,7 +561,8 @@ monaco deploy manifest.yaml              # Deploy
 monaco deploy --dry-run manifest.yaml    # Validate (dry run)
 monaco delete -m manifest.yaml           # Delete
 monaco download -e ENV_ID                # Download existing config
-monaco convert --source v1/ --target v2/ # Convert v1 to v2
+monaco account [ARGS] [OPTIONS]        # Operations involving Account Management resources (deploy, download, delete) - Note: monaco account operations require an OAuth client (Platform token aren't supported for account-based operations)
+monaco generate [ARGS] [OPTIONS]        # Generate file skeletons based on a given configuration (deletefile, DOT graph, JSON schema files)
 ```
 
 ### Environment
