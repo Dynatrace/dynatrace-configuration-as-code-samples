@@ -537,7 +537,6 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 9. Ignoring Monaco/Terraform version requirements
 10. Missing error handling in shell scripts
 11. Using Terraform variables for tokens/credentials
-12. Using platform token and OAuth together (mutually exclusive)
 
 ---
 
