@@ -557,7 +557,7 @@ terraform state show        # Show resource
 terraform -export [-ref] [-migrate] [-import-state] [-id] [-flat] [-exclude] [<resourcename>[=<id>]]'       # Dynatrace Terraform provider specific command (see [Export utility](https://docs.dynatrace.com/docs/shortlink/terraform-cli-commands#export))
 ```
 
-### Monaco
+### [Monaco CLI commands](https://docs.dynatrace.com/docs/shortlink/monaco-cli-commands)
 
 ```bash
 monaco deploy manifest.yaml              # Deploy
