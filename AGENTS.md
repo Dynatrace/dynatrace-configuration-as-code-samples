@@ -500,7 +500,7 @@ When working with OpenPipeline (logs/events/metrics ingestion):
 - [ ] Version requirements documented in README
 
 ### Authentication
-- [ ] OAuth preferred over API tokens for Platform environments
+- [ ] Platform token or OAuth clients are needed for Platform environments
 - [ ] All required OAuth scopes documented
 - [ ] OAuth client creation steps in README
 - [ ] Authentication pattern consistent within sample
