@@ -1,0 +1,1188 @@
+{
+  "annotations": [],
+  "importedWithCode": false,
+  "layouts": {
+    "1": {
+      "h": 7,
+      "w": 10,
+      "x": 3,
+      "y": 20
+    },
+    "2": {
+      "h": 5,
+      "w": 10,
+      "x": 3,
+      "y": 35
+    },
+    "3": {
+      "h": 5,
+      "w": 12,
+      "x": 0,
+      "y": 42
+    },
+    "4": {
+      "h": 7,
+      "w": 11,
+      "x": 13,
+      "y": 20
+    },
+    "5": {
+      "h": 5,
+      "w": 12,
+      "x": 12,
+      "y": 42
+    },
+    "6": {
+      "h": 7,
+      "w": 10,
+      "x": 3,
+      "y": 13
+    },
+    "7": {
+      "h": 6,
+      "w": 10,
+      "x": 3,
+      "y": 29
+    },
+    "8": {
+      "h": 6,
+      "w": 6,
+      "x": 18,
+      "y": 5
+    },
+    "9": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 27
+    },
+    "10": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 40
+    },
+    "11": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 29
+    },
+    "12": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 11
+    },
+    "13": {
+      "h": 6,
+      "w": 3,
+      "x": 0,
+      "y": 5
+    },
+    "14": {
+      "h": 7,
+      "w": 11,
+      "x": 13,
+      "y": 13
+    },
+    "15": {
+      "h": 6,
+      "w": 11,
+      "x": 13,
+      "y": 29
+    },
+    "16": {
+      "h": 6,
+      "w": 12,
+      "x": 0,
+      "y": 47
+    },
+    "17": {
+      "h": 4,
+      "w": 24,
+      "x": 0,
+      "y": 53
+    },
+    "18": {
+      "h": 3,
+      "w": 24,
+      "x": 0,
+      "y": 0
+    },
+    "19": {
+      "h": 6,
+      "w": 4,
+      "x": 3,
+      "y": 5
+    },
+    "20": {
+      "h": 6,
+      "w": 11,
+      "x": 7,
+      "y": 5
+    },
+    "22": {
+      "h": 2,
+      "w": 24,
+      "x": 0,
+      "y": 3
+    },
+    "23": {
+      "h": 4,
+      "w": 3,
+      "x": 0,
+      "y": 13
+    },
+    "24": {
+      "h": 6,
+      "w": 3,
+      "x": 0,
+      "y": 17
+    }
+  },
+  "settings": {},
+  "tiles": {
+    "1": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries workqueue_depth = sum(workqueue_depth), by: { controller }\n| sort arraySum(workqueue_depth) desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Work Queue Depth",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "workqueue_depth"
+            ],
+            "timestamp": "timeframe"
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "2": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_git_lsremote_fail_total = sum(argocd_git_lsremote_fail_total)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-7d",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git LsRemote Requests Failed",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "colorPalette": "fireplace",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_git_lsremote_fail_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "leftYAxisSettings": {
+            "isLabelVisible": true
+          },
+          "legend": {
+            "hidden": true
+          },
+          "seriesOverrides": [
+            {
+              "override": {
+                "color": "#b3007d"
+              },
+              "seriesId": [
+                "argocd_git_lsremote_fail_total"
+              ]
+            }
+          ],
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "fireplace",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": "#b3007d",
+              "field": "DT.name",
+              "type": "string",
+              "value": "argocd_git_lsremote_fail_total"
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "3": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_redis_request_total = sum(argocd_redis_request_total), by: { failed }\n| fieldsAdd state= if(failed == \"true\",\"failed\", else: \"success\")\n| sort arraySum(argocd_redis_request_total) desc\n| limit 20",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Redis Request Activities",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_redis_request_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "failed"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true
+          },
+          "seriesOverrides": [
+            {
+              "override": {
+                "color": {
+                  "Default": "var(--dt-colors-charts-vulnerability-status-resolved-default, #3e8e6a)"
+                }
+              },
+              "seriesId": [
+                "success"
+              ]
+            },
+            {
+              "override": {
+                "color": "#b3007d"
+              },
+              "seriesId": [
+                "failed"
+              ]
+            }
+          ],
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-vulnerability-status-resolved-default, #3e8e6a)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "success"
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": "#b3007d",
+              "field": "DT.name",
+              "type": "string",
+              "value": "failed"
+            }
+          ],
+          "thresholdRules": []
+        },
+        "unitsOverrides": []
+      }
+    },
+    "4": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_kubectl_exec_pending = sum(argocd_kubectl_exec_pending), by: { command }\n| sort arrayAvg(argocd_kubectl_exec_pending) desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Number of pending kubectl Executions",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "colorPalette": "fireplace",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_kubectl_exec_pending"
+            ],
+            "timestamp": "timeframe"
+          },
+          "leftYAxisSettings": {
+            "isLabelVisible": true
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "fireplace",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "5": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_repo_pending_request_total = sum(argocd_repo_pending_request_total)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git Pending Requests",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_repo_pending_request_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "leftYAxisSettings": {
+            "isLabelVisible": true
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "6": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_reconcile_count = sum(argocd_app_reconcile_count)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Reconciliation Activities",
+      "type": "data",
+      "visualization": "areaChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_app_reconcile_count"
+            ],
+            "timestamp": "timeframe"
+          },
+          "leftYAxisSettings": {
+            "isLabelVisible": true
+          },
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "7": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_git_request_total = sum(argocd_git_request_total), by: { repo }\n| sort arraySum(argocd_git_request_total) desc",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git Request Activities by Repository",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_git_request_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "leftYAxisSettings": {
+            "isLabelVisible": true
+          },
+          "legend": {
+            "position": "right"
+          },
+          "tooltip": {
+            "seriesDisplayMode": "multi-line"
+          },
+          "truncationMode": "start",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "8": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_cluster_connection_status = max(argocd_cluster_connection_status), by: {Server=server}\n| fieldsAdd argocd_cluster_connection_status.single_value = arrayLast(argocd_cluster_connection_status)",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Kubernetes Connection Status",
+      "type": "data",
+      "visualization": "honeycomb",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "custom-color",
+              "comparator": "≥",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-apdex-unacceptable-default, #cd3741)"
+              },
+              "field": "argocd_cluster_connection_status.single_value",
+              "value": 0
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "≥",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+              },
+              "field": "argocd_cluster_connection_status.single_value",
+              "value": 1
+            }
+          ],
+          "thresholdRules": []
+        },
+        "honeycomb": {
+          "colorMode": "custom-colors",
+          "colorPalette": "blue",
+          "customColors": [
+            {
+              "color": {
+                "Default": "var(--dt-colors-charts-apdex-unacceptable-default, #cd3741)"
+              },
+              "comparator": "≥",
+              "id": 1530711.599999994,
+              "value": 0
+            },
+            {
+              "color": {
+                "Default": "var(--dt-colors-charts-categorical-color-09-default, #649438)"
+              },
+              "comparator": "≥",
+              "id": 1548392.099999994,
+              "value": 1
+            }
+          ],
+          "dataMappings": {
+            "value": "argocd_cluster_connection_status.single_value"
+          },
+          "displayedFields": [
+            "Server"
+          ],
+          "legend": {
+            "hidden": true
+          },
+          "truncationMode": "middle"
+        }
+      }
+    },
+    "9": {
+      "content": "#### Repo Server Stats\n\nMonitors repository server health, including Git fetch times and request throughput, ensuring efficient and reliable access to configuration sources.\n\n---",
+      "type": "markdown"
+    },
+    "10": {
+      "content": "#### Redis Status\n\nDisplays Redis metrics such as request activities and request performance that are vital for maintaining the performance of ArgoCD’s internal state management.\n\n---",
+      "type": "markdown"
+    },
+    "11": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries max(argocd_git_request_total), by: { repo }\n| dedup repo\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Git Repositories",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": []
+        },
+        "singleValue": {
+          "label": "count()",
+          "labelMode": "none",
+          "recordField": "count()",
+          "trend": {
+            "isVisible": true
+          }
+        }
+      }
+    },
+    "12": {
+      "content": "#### ArgoCD Controller Stats\n\nIt tracks controller performance metrics such as work queue depth, reconciliation lag, and error rates, offering insights into the control plane's responsiveness and stability.\n\n---",
+      "type": "markdown"
+    },
+    "13": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries max(argocd_app_info), by: { name }\n| dedup name\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "timeframe": {
+        "tileTimeframe": {
+          "from": "now()-2h",
+          "to": "now()"
+        },
+        "tileTimeframeEnabled": false
+      },
+      "title": "Applications",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "colorRules": []
+        },
+        "singleValue": {
+          "label": "count()",
+          "labelMode": "none",
+          "recordField": "count()",
+          "sparklineSettings": {
+            "record": "max(argocd_app_info)"
+          },
+          "trend": {
+            "isVisible": true
+          }
+        }
+      }
+    },
+    "14": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries { {p50 = median(argocd_app_reconcile_bucket), p90 =percentile(argocd_app_reconcile_bucket,90)}, filter:{ le != \"+Inf\"}}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Reconciliations Performance",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": true,
+        "chartSettings": {
+          "colorPalette": "swamps",
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "label": "argocd_app_reconcile_bucket"
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "swamps",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "15": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries { {p50 = median(argocd_git_request_duration_seconds_bucket), p90 =percentile(argocd_git_request_duration_seconds_bucket,90)}, filter:{ le != \"+Inf\"}}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Git Requests Performance",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "label": "argocd_git_request_duration_seconds_bucket"
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "16": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries { {p50 = median(argocd_redis_request_duration_bucket), p90 =percentile(argocd_redis_request_duration_bucket,90)}, filter:{ le != \"+Inf\"}}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Redis Request Performance",
+      "type": "data",
+      "visualization": "lineChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "p50",
+              "p90"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "interval"
+          ],
+          "leftYAxisSettings": {
+            "label": "argocd_redis_request_duration_bucket"
+          },
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "17": {
+      "content": "#### Share feedback \nWe welcome your feedback on this dashboard to help us improve and deliver a more effective observability solution, ensuring it provides maximum value to your software development lifecycle and delivery processes. Please post a comment here: [Feedback channel for CI/CD Pipeline Observability](https://community.dynatrace.com/t5/Platform-Engineering/Feedback-channel-for-CI-CD-Pipeline-Observability/m-p/269193/highlight/true#M1) (Dynatrace Community).\n#\n---\n\n#### About this dashboard\n\nRelease v0.5.0, [Origin](https://github.com/Dynatrace/dynatrace-configuration-as-code-samples) ",
+      "type": "markdown"
+    },
+    "18": {
+      "content": "### ArgoCD Instance/Infrastructure Health\n\nThis dashboard provides a comprehensive, real-time overview of ArgoCD's operational health and performance. Designed to support platform engineers and DevOps teams, it consolidates critical telemetry from multiple components of the ArgoCD ecosystem to enhance visibility, troubleshooting, and optimization.\n\nBy aggregating these metrics into a single pane of glass, the dashboard empowers teams to proactively manage their GitOps infrastructure, quickly identify bottlenecks, and maintain high availability and performance of their continuous delivery pipelines.",
+      "type": "markdown"
+    },
+    "19": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Health = health_status, Server = dest_server, Namespace = dest_namespace, Project = project }, shift: -1m, interval: 1m\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc\n| summarize count(), by:{Health}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Application Health Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Health"
+            ],
+            "categoryAxisLabel": "Health",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-moss",
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "blue-moss",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "20": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_notifications_deliveries_total = AVG(argocd_notifications_deliveries_total), by: { service, succeeded }\n\n\n\n",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Notifications Delivery",
+      "type": "data",
+      "visualization": "barChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "fieldMapping": {
+            "leftAxisValues": [
+              "argocd_notifications_deliveries_total"
+            ],
+            "timestamp": "timeframe"
+          },
+          "hiddenLegendFields": [
+            "interval",
+            "argocd_notifications_deliveries_total"
+          ],
+          "leftYAxisSettings": {
+            "isLabelVisible": true,
+            "label": "argocd_notifications_deliveries_total"
+          },
+          "seriesOverrides": [
+            {
+              "override": {
+                "color": {
+                  "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+                },
+                "geometry": "bar"
+              },
+              "seriesId": [
+                "dynatrace-webhook",
+                "false"
+              ]
+            }
+          ],
+          "truncationMode": "middle",
+          "xAxisLabel": "timeframe",
+          "xAxisScaling": "analyzedTimeframe"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "categorical",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "colorMode": "custom-color",
+              "comparator": "=",
+              "customColor": {
+                "Default": "var(--dt-colors-charts-categorical-themed-fireplace-color-01-default, #ae132d)"
+              },
+              "field": "DT.name",
+              "type": "string",
+              "value": "dynatrace-webhook•false"
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    },
+    "22": {
+      "content": "#### Application Health and Status\n---",
+      "type": "markdown"
+    },
+    "23": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_sync_total = sum(argocd_app_sync_total)\n| summarize count()",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Application syncs",
+      "type": "data",
+      "visualization": "singleValue",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "coloring": {
+          "thresholdRules": []
+        },
+        "singleValue": {
+          "label": "count()",
+          "labelMode": "none",
+          "recordField": "count()",
+          "sparklineSettings": {
+            "record": "argocd_app_sync_total"
+          },
+          "trend": {
+            "isVisible": true
+          }
+        }
+      }
+    },
+    "24": {
+      "davis": {
+        "davisVisualization": {
+          "isAvailable": true
+        },
+        "enabled": false
+      },
+      "query": "timeseries argocd_app_info = avg(argocd_app_info), by: { Name= name, Status = sync_status, Server = dest_server, Namespace = dest_namespace, Project = project }, shift: -1m, interval: 1m\n| fieldsAdd argocd_app_info = arrayLast(argocd_app_info)  | sort Name asc\n| summarize count(), by:{Status}",
+      "querySettings": {
+        "defaultSamplingRatio": 10,
+        "defaultScanLimitGbytes": 500,
+        "enableSampling": false,
+        "maxResultMegaBytes": 1,
+        "maxResultRecords": 1000
+      },
+      "title": "Sync Status",
+      "type": "data",
+      "visualization": "donutChart",
+      "visualizationSettings": {
+        "autoSelectVisualization": false,
+        "chartSettings": {
+          "categoricalBarChartSettings": {
+            "categoryAxis": [
+              "Status"
+            ],
+            "categoryAxisLabel": "Status",
+            "valueAxis": [
+              "count()"
+            ],
+            "valueAxisLabel": "count()"
+          },
+          "categoryOverrides": {},
+          "circleChartSettings": {
+            "groupingThresholdType": "relative",
+            "valueType": "relative"
+          },
+          "colorPalette": "blue-moss",
+          "truncationMode": "middle"
+        },
+        "coloring": {
+          "colorRules": [
+            {
+              "colorMode": "color-palette",
+              "colorPalette": "blue-moss",
+              "comparator": "= *value*",
+              "field": "DT.name",
+              "type": "string",
+              "value": ""
+            }
+          ],
+          "thresholdRules": []
+        }
+      }
+    }
+  },
+  "variables": [],
+  "version": 21
+}
