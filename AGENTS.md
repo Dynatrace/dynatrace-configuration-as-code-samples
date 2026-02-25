@@ -129,26 +129,46 @@ export DYNATRACE_API_TOKEN="your-api-token"
 
 For production use, consider using credential vaults like HashiCorp Vault instead of plain environment variables.
 
+### Platform Resource Example
+
+Segments are a Gen3 Platform-only resource. Use OAuth or a platform token for authentication (API tokens are not supported for segments).
+
+```hcl
+resource "dynatrace_segment" "production_logs" {
+  name        = "Production Logs - Kubernetes"
+  description = "Filter logs for production Kubernetes namespaces"
+  is_public   = true
+
+  includes {
+    items {
+      data_object = "logs"
+      filter      = "k8s.namespace.name = \"production\""
+    }
+  }
+}
+```
+
 ### Dynamic Configuration Example
 
 ```hcl
 locals {
   environments = {
-    dev  = { retention = 7,  replicas = 1 }
-    prod = { retention = 30, replicas = 3 }
+    dev  = { segment_name = "Dev Logs",  filter = "k8s.namespace.name = \"dev\"" }
+    prod = { segment_name = "Prod Logs", filter = "k8s.namespace.name = \"production\"" }
   }
 
   env_config = local.environments[var.environment]
 }
 
 resource "dynatrace_segment" "this" {
-  name        = "${var.environment}-segment"
-  description = "Segment for ${var.environment} environment"
+  name        = local.env_config.segment_name
+  description = "Log segment for ${var.environment} environment"
+  is_public   = true
 
   includes {
     items {
       data_object = "logs"
-      # ... configuration
+      filter      = local.env_config.filter
     }
   }
 }
@@ -199,6 +219,35 @@ configs:
       settings:
         schema: builtin:settings.schema.id
         scope: environment  # or entity scope
+```
+
+### Platform Resource Example
+
+Segments are a Gen3 Platform-only resource. Use OAuth or a platform token for authentication (API tokens are not supported for segments).
+
+`_config.yaml`:
+```yaml
+configs:
+  - id: production-logs-segment
+    type: segment
+    config:
+      name: "Production Logs - Kubernetes"
+      template: segment.json
+```
+
+`segment.json`:
+```json
+{
+  "name": "Production Logs - Kubernetes",
+  "description": "Filter logs for production Kubernetes namespaces",
+  "isPublic": true,
+  "includes": [
+    {
+      "dataObject": "logs",
+      "filter": "k8s.namespace.name = \"production\""
+    }
+  ]
+}
 ```
 
 ### Reference Between Configurations
