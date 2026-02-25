@@ -311,7 +311,7 @@ Document all required scopes in README files. Common scopes:
 - `automation:workflows:read`, `automation:workflows:write`, `automation:workflows:run`
 - `app-engine:apps:run`, `app-engine:apps:install`
 
-### OAuth Scope Documentation Template
+### Permission Scope Documentation Template (for platform token or OAuth)
 
 ```markdown
 ## OAuth Client Requirements
