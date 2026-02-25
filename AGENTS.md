@@ -280,7 +280,7 @@ environmentGroups:
 
 ---
 
-## OAuth Scopes Reference
+## Permission Scopes Reference (for platform token or OAuth)
 
 Document all required scopes in README files. Common scopes:
 
