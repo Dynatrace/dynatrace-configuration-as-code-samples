@@ -372,7 +372,7 @@ monaco-sample-name/
 └── images/                      # Screenshots/diagrams for README
 ```
 
-### Standard .gitignore
+### Standard .gitignore (Terraform)
 
 ```gitignore
 .env
@@ -383,6 +383,18 @@ monaco-sample-name/
 *.tfvars          # Exclude tf.vars files if they contain sensitive data that should not be part of version control
 .terraform/
 .terraform.lock.hcl
+*.bak
+.logs/
+request.log
+response.log
+```
+
+### Standard .gitignore (Monaco)
+
+```gitignore
+.env
+*.env
+!.env.example
 download_*/
 converted-v2-config/
 *.bak
