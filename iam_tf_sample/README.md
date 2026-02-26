@@ -57,12 +57,10 @@ To get this project running on your system:
     ```sh
     terraform init
     ```
-    
 9. **Review the plan:**
     ```sh
     terraform plan
     ```
-    
 10. **Apply the configuration:**
 
     ```sh
