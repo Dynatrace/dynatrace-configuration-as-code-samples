@@ -74,7 +74,7 @@ while IFS= read -r var_name; do
 done < <(
   # Pattern 1: `type: environment` blocks with `name: VAR_NAME`
   grep -rh 'type:\s*environment' -A2 --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
-    | grep 'name:' | sed 's/.*name:\s*//' | tr -d '"'"'" "
+    | grep 'name:' | sed 's/.*name:\s*//' | tr -d "\"' "
   # Pattern 2: direct `name: VAR_NAME` under value/parameter blocks
   grep -rh '^\s*name:\s*[A-Z_][A-Z0-9_]*\s*$' --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
     | sed 's/.*name:\s*//' | tr -d ' '
