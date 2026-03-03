@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import os, yaml, glob
+import os
+import yaml
+import glob
 
 base = os.path.dirname(os.path.abspath(__file__))
 os.chdir(base)
@@ -60,7 +62,7 @@ for cf in config_files:
     with open(cf) as f:
         try:
             data = yaml.safe_load(f)
-        except:
+        except Exception:
             continue
     configs = data.get('configs', []) if data else []
     for c in (configs or []):
