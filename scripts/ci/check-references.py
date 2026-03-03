@@ -3,11 +3,12 @@
 Reference Integrity & JSON Syntax Check
 
 Validates:
-  1. JSON syntax   — all .json files parse without errors (skips Go templates)
-  2. Go templates  — checks .json files with {{...}} for basic structural issues
-  3. Merge conflicts — flags leftover Git merge conflict markers
-  4. Template refs — config.yaml `template:` fields point to existing files
-  5. Project refs  — manifest.yaml `projects[].path` dirs exist on disk
+  1. JSON syntax    — all non-templated .json files parse without errors
+                     (files containing Go template syntax {{...}} are skipped;
+                      Monaco dry-run validates those separately)
+  2. Merge conflicts — flags leftover Git merge conflict markers
+  3. Template refs   — config.yaml `template:` fields point to existing files
+  4. Project refs    — manifest.yaml `projects[].path` dirs exist on disk
 
 No external dependencies (stdlib only).
 
@@ -160,20 +161,26 @@ def extract_project_paths(manifest_path: str) -> list[str]:
         content = fh.read()
 
     in_projects = False
+    projects_indent: str | None = None
     current_name: str | None = None
     current_path: str | None = None
 
     for line in content.split("\n"):
-        # Detect the projects section
-        if re.match(r"^projects\s*:", line):
+        # Detect the projects section (allow leading indentation)
+        proj_match = re.match(r"^(\s*)projects\s*:", line)
+        if proj_match:
             in_projects = True
+            projects_indent = proj_match.group(1)
             continue
 
-        # Detect end of projects section (new top-level key)
-        if in_projects and line and not line[0].isspace() and ":" in line:
-            if current_name is not None:
-                projects.append(current_path if current_path else current_name)
-            break
+        # Detect end of projects section (new key at the same indentation level)
+        if in_projects and projects_indent is not None and line and ":" in line:
+            indent_re = re.escape(projects_indent)
+            if re.match(rf"^{indent_re}\S.*:", line):
+                if current_name is not None:
+                    projects.append(current_path if current_path else current_name)
+                    current_name = None  # prevent double-append after loop
+                break
 
         if not in_projects:
             continue
