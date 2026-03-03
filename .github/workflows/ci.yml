@@ -1,0 +1,118 @@
+###############################################################################
+# CI — Validate Dynatrace Configuration-as-Code Samples
+#
+# Jobs:
+#   1. terraform-validate  – fmt, init, validate for every TF root module
+#   2. monaco-validate     – monaco deploy --dry-run for every manifest
+#   3. secret-scan         – regex scan for leaked credentials / tokens
+#   4. documentation       – README presence + key section checks
+#   5. references          – template file & project path integrity + JSON lint
+#
+# None of the jobs require Dynatrace credentials.
+# Monaco dry-run and terraform validate are purely offline / syntax checks.
+#
+# Run locally:
+#   bash scripts/ci/validate-terraform.sh
+#   bash scripts/ci/validate-monaco.sh    # requires `monaco` CLI in PATH
+#   bash scripts/ci/check-secrets.sh
+#   bash scripts/ci/check-docs.sh
+#   python3 scripts/ci/check-references.py
+###############################################################################
+name: CI - Validate Samples
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/.terraform-plugin-cache
+  MONACO_VERSION: "2.28.0"       # keep in sync with AGENTS.md
+  TERRAFORM_VERSION: "1.14.0"
+
+jobs:
+  # ─── Terraform ──────────────────────────────────────────────────────
+  terraform-validate:
+    name: Terraform – Format & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+          terraform_wrapper: false          # avoid wrapper scripts that break $?
+
+      - name: Create plugin cache directory
+        run: mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
+      - name: Cache Terraform providers
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
+          key: tf-providers-${{ hashFiles('**/providers.tf') }}
+          restore-keys: tf-providers-
+
+      - name: Validate all Terraform samples
+        run: bash scripts/ci/validate-terraform.sh
+
+  # ─── Monaco ─────────────────────────────────────────────────────────
+  monaco-validate:
+    name: Monaco – Dry-Run Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Monaco CLI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Download from GitHub Releases (most reliable via gh CLI)
+          gh release download "v${MONACO_VERSION}" \
+            --repo Dynatrace/dynatrace-configuration-as-code \
+            --pattern '*linux*amd64*' \
+            --output /tmp/monaco 2>/dev/null \
+          || {
+            echo "::warning::gh download failed — falling back to go install"
+            go install "github.com/Dynatrace/dynatrace-configuration-as-code/v2/cmd/monaco@v${MONACO_VERSION}"
+          }
+          if [[ -f /tmp/monaco ]]; then
+            chmod +x /tmp/monaco
+            sudo mv /tmp/monaco /usr/local/bin/monaco
+          fi
+          monaco version
+
+      - name: Validate all Monaco samples
+        run: bash scripts/ci/validate-monaco.sh
+
+  # ─── Secret Scan ────────────────────────────────────────────────────
+  secret-scan:
+    name: Secret & Credential Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan for hardcoded secrets and tokens
+        run: bash scripts/ci/check-secrets.sh
+
+  # ─── Documentation ──────────────────────────────────────────────────
+  documentation:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify documentation completeness
+        run: bash scripts/ci/check-docs.sh
+
+  # ─── Reference Integrity ────────────────────────────────────────────
+  references:
+    name: Reference Integrity & JSON Syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check file references and JSON syntax
+        run: python3 scripts/ci/check-references.py
