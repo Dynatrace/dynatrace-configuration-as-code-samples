@@ -7,7 +7,7 @@
 #   WARN   – Missing prerequisites / setup section     (informational)
 #   WARN   – Missing .gitignore                        (informational)
 #
-# Only sections that AGENTS.md mandates as required cause errors.
+# Only missing README.md causes an error; all other findings are warnings.
 # Warnings are informational and do NOT fail the CI to avoid false positives.
 #
 # Usage:  bash scripts/ci/check-docs.sh
