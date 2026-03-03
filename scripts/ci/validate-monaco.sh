@@ -72,15 +72,17 @@ while IFS= read -r var_name; do
     AUTO_VARS=$((AUTO_VARS + 1))
   fi
 done < <(
-  # Pattern 1: `type: environment` blocks with `name: VAR_NAME`
-  grep -rh 'type:\s*environment' -A2 --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
-    | grep 'name:' | sed 's/.*name:\s*//' | tr -d "\"' "
-  # Pattern 2: direct `name: VAR_NAME` under value/parameter blocks
-  grep -rh '^\s*name:\s*[A-Z_][A-Z0-9_]*\s*$' --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
-    | sed 's/.*name:\s*//' | tr -d ' '
-  # Pattern 3: Go template {{ .Env.VAR_NAME }}
-  grep -roh '{{ *\.Env\.\([A-Za-z_][A-Za-z0-9_]*\)' --include="*.json" --include="*.yaml" "$REPO_ROOT" 2>/dev/null \
-    | sed 's/.*\.Env\.//'
+  {
+    # Pattern 1: `type: environment` blocks with `name: VAR_NAME`
+    grep -rh 'type:\s*environment' -A2 --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
+      | grep 'name:' | sed 's/.*name:\s*//'
+    # Pattern 2: direct `name: VAR_NAME` under value/parameter blocks
+    grep -rh '^\s*name:\s*[A-Z_][A-Z0-9_]*' --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
+      | sed 's/.*name:\s*//'
+    # Pattern 3: Go template {{ .Env.VAR_NAME }}
+    grep -roh '{{ *\.Env\.\([A-Za-z_][A-Za-z0-9_]*\)' --include="*.json" --include="*.yaml" "$REPO_ROOT" 2>/dev/null \
+      | sed 's/.*\.Env\.//'
+  } | sed "s/[\"' \t\r]//g" | sort -u
 )
 echo "  Set $AUTO_VARS additional env vars to dummy values"
 echo ""
