@@ -72,19 +72,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          # Download from GitHub Releases (most reliable via gh CLI)
-          gh release download "v${MONACO_VERSION}" \
-            --repo Dynatrace/dynatrace-configuration-as-code \
-            --pattern '*linux*amd64*' \
-            --output /tmp/monaco 2>/dev/null \
-          || {
-            echo "::warning::gh download failed — falling back to go install"
-            go install "github.com/Dynatrace/dynatrace-configuration-as-code/v2/cmd/monaco@v${MONACO_VERSION}"
-          }
-          if [[ -f /tmp/monaco ]]; then
-            chmod +x /tmp/monaco
-            sudo mv /tmp/monaco /usr/local/bin/monaco
-          fi
+          DOWNLOAD_URL="https://github.com/Dynatrace/dynatrace-configuration-as-code/releases/download/v${MONACO_VERSION}/monaco-linux-amd64"
+          echo "Downloading Monaco v${MONACO_VERSION} from: $DOWNLOAD_URL"
+          curl -fsSL -o /tmp/monaco "$DOWNLOAD_URL"
+          chmod +x /tmp/monaco
+          sudo mv /tmp/monaco /usr/local/bin/monaco
           monaco version
 
       - name: Validate all Monaco samples

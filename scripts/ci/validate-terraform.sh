@@ -101,6 +101,8 @@ echo "    Validate: $VALIDATE_PASSED passed, $VALIDATE_FAILED failed, $VALIDATE_
 echo "============================================="
 
 EXIT_CODE=0
-[[ $FMT_FAILED -gt 0 ]]       && EXIT_CODE=1
+if [[ $FMT_FAILED -gt 0 ]]; then
+  echo "::warning::$FMT_FAILED Terraform sample(s) need formatting — run 'terraform fmt -recursive' to fix"
+fi
 [[ $VALIDATE_FAILED -gt 0 ]]  && EXIT_CODE=1
 exit $EXIT_CODE
