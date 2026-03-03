@@ -24,53 +24,66 @@ cd "$REPO_ROOT"
 # ── Dummy environment variables ──────────────────────────────────────
 # Monaco resolves env var references in manifests even during dry-run.
 # These values are never sent anywhere — dry-run is fully offline.
+#
+# Instead of maintaining a manual list, we scan ALL Monaco config files
+# for env var references and set any unset ones to dummy values.
+# This ensures new samples don't break CI without manual updates.
 
-# Tokens
-export DYNATRACE_PLATFORM_TOKEN="ci-dummy-token"
-export PLATFORM_TOKEN="ci-dummy-token"
-export API_TOKEN="ci-dummy-token"
-export DT_API_TOKEN="ci-dummy-token"
-export DEMO_ENV_TOKEN="ci-dummy-token"
-export devToken="ci-dummy-token"
+# Auth-related vars that need specific formats (set explicitly)
+export DYNATRACE_PLATFORM_TOKEN="${DYNATRACE_PLATFORM_TOKEN:-ci-dummy-token}"
+export PLATFORM_TOKEN="${PLATFORM_TOKEN:-ci-dummy-token}"
+export API_TOKEN="${API_TOKEN:-ci-dummy-token}"
+export DT_API_TOKEN="${DT_API_TOKEN:-ci-dummy-token}"
+export DEMO_ENV_TOKEN="${DEMO_ENV_TOKEN:-ci-dummy-token}"
+export devToken="${devToken:-ci-dummy-token}"
 
-# OAuth client credentials
-export OAUTH_CLIENT_ID="ci-dummy-client-id"
-export OAUTH_CLIENT_SECRET="ci-dummy-client-secret"
-export OAUTH_TOKEN_ENDPOINT="https://sso.dynatrace.com/sso/oauth2/token"
-export CLIENT_ID="ci-dummy-client-id"
-export CLIENT_SECRET="ci-dummy-client-secret"
-export DT_OAUTH_CLIENT_ID="ci-dummy-client-id"
-export DT_OAUTH_CLIENT_SECRET="ci-dummy-client-secret"
-export DYNATRACE_CLIENT_ID="ci-dummy-client-id"
-export DYNATRACE_SECRET="ci-dummy-client-secret"
-export ACCOUNT_OAUTH_CLIENT_ID="ci-dummy-client-id"
-export ACCOUNT_OAUTH_CLIENT_SECRET="ci-dummy-client-secret"
+export OAUTH_CLIENT_ID="${OAUTH_CLIENT_ID:-ci-dummy-client-id}"
+export OAUTH_CLIENT_SECRET="${OAUTH_CLIENT_SECRET:-ci-dummy-client-secret}"
+export OAUTH_TOKEN_ENDPOINT="${OAUTH_TOKEN_ENDPOINT:-https://sso.dynatrace.com/sso/oauth2/token}"
+export CLIENT_ID="${CLIENT_ID:-ci-dummy-client-id}"
+export CLIENT_SECRET="${CLIENT_SECRET:-ci-dummy-client-secret}"
+export DT_OAUTH_CLIENT_ID="${DT_OAUTH_CLIENT_ID:-ci-dummy-client-id}"
+export DT_OAUTH_CLIENT_SECRET="${DT_OAUTH_CLIENT_SECRET:-ci-dummy-client-secret}"
+export DYNATRACE_CLIENT_ID="${DYNATRACE_CLIENT_ID:-ci-dummy-client-id}"
+export DYNATRACE_SECRET="${DYNATRACE_SECRET:-ci-dummy-client-secret}"
+export ACCOUNT_OAUTH_CLIENT_ID="${ACCOUNT_OAUTH_CLIENT_ID:-ci-dummy-client-id}"
+export ACCOUNT_OAUTH_CLIENT_SECRET="${ACCOUNT_OAUTH_CLIENT_SECRET:-ci-dummy-client-secret}"
 
-# Account / URL references
-export ACCOUNT_UUID="00000000-0000-0000-0000-000000000000"
-export DT_ACCOUNT_ID="00000000-0000-0000-0000-000000000000"
-export DT_ENV_URL="https://dummy.apps.dynatrace.com"
-export DT_URL="https://dummy.apps.dynatrace.com"
-export DEMO_ENV_URL="https://dummy.apps.dynatrace.com"
-export ENVIRONMENT_URL="https://dummy.apps.dynatrace.com"
-export DYNATRACE_URL_GEN3="https://dummy.apps.dynatrace.com"
-export DYNATRACE_SSO_URL="https://sso.dynatrace.com/sso/oauth2/token"
-export DYNATRACE_ENV_URL="https://dummy.apps.dynatrace.com"
+export ACCOUNT_UUID="${ACCOUNT_UUID:-00000000-0000-0000-0000-000000000000}"
+export DT_ACCOUNT_ID="${DT_ACCOUNT_ID:-00000000-0000-0000-0000-000000000000}"
+export DT_ENV_URL="${DT_ENV_URL:-https://dummy.apps.dynatrace.com}"
+export DT_URL="${DT_URL:-https://dummy.apps.dynatrace.com}"
+export DEMO_ENV_URL="${DEMO_ENV_URL:-https://dummy.apps.dynatrace.com}"
+export ENVIRONMENT_URL="${ENVIRONMENT_URL:-https://dummy.apps.dynatrace.com}"
+export DYNATRACE_URL_GEN3="${DYNATRACE_URL_GEN3:-https://dummy.apps.dynatrace.com}"
+export DYNATRACE_SSO_URL="${DYNATRACE_SSO_URL:-https://sso.dynatrace.com/sso/oauth2/token}"
+export DYNATRACE_ENV_URL="${DYNATRACE_ENV_URL:-https://dummy.apps.dynatrace.com}"
 
-# Sample-specific env vars (referenced by individual configs)
-export SERVICE_ID="SERVICE-000000000000000"
-export USER_EMAIL="ci-dummy@example.com"
-export JIRA_URL="https://dummy.atlassian.net"
-export JIRA_TOKEN="ci-dummy-jira-token"
-export OWNERSHIP_TEAM_NAME="ci-dummy-team"
-export OWNERSHIP_EMAIL="ci-dummy@example.com"
-export CHANNEL_URL="https://dummy.slack.com/channel"
-export TAG_KEY="ci-dummy-tag"
-export SERVICE_TAG_VALUE="ci-dummy-value"
-export KUBERNETES_CLUSTER_NAME="ci-dummy-cluster"
-export RUM_PERCENTAGE="100"
-export REPLAY_PERCENTAGE="0"
-export REPLAY_ENABLED="false"
+# Auto-discover ALL env vars referenced in Monaco config files and
+# set any that aren't already defined to a dummy placeholder.
+echo "  Auto-discovering env var references in Monaco configs..."
+AUTO_VARS=0
+while IFS= read -r var_name; do
+  [[ -z "$var_name" ]] && continue
+  # Skip invalid bash variable names
+  [[ ! "$var_name" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] && continue
+  if [[ -z "${!var_name:-}" ]]; then
+    export "$var_name=ci-dummy-value"
+    AUTO_VARS=$((AUTO_VARS + 1))
+  fi
+done < <(
+  # Pattern 1: `type: environment` blocks with `name: VAR_NAME`
+  grep -rh 'type:\s*environment' -A2 --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
+    | grep 'name:' | sed 's/.*name:\s*//' | tr -d '"'"'" "
+  # Pattern 2: direct `name: VAR_NAME` under value/parameter blocks
+  grep -rh '^\s*name:\s*[A-Z_][A-Z0-9_]*\s*$' --include="*.yaml" --include="*.yml" "$REPO_ROOT" 2>/dev/null \
+    | sed 's/.*name:\s*//' | tr -d ' '
+  # Pattern 3: Go template {{ .Env.VAR_NAME }}
+  grep -roh '{{ *\.Env\.\([A-Za-z_][A-Za-z0-9_]*\)' --include="*.json" --include="*.yaml" "$REPO_ROOT" 2>/dev/null \
+    | sed 's/.*\.Env\.//'
+)
+echo "  Set $AUTO_VARS additional env vars to dummy values"
+echo ""
 
 # ── Discovery & validation ───────────────────────────────────────────
 FAILED=0
