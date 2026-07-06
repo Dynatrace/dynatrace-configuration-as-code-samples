@@ -40,9 +40,9 @@ jobs:
     name: Terraform – Format & Validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
           terraform_wrapper: false          # avoid wrapper scripts that break $?
@@ -51,7 +51,7 @@ jobs:
         run: mkdir -p "$TF_PLUGIN_CACHE_DIR"
 
       - name: Cache Terraform providers
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.TF_PLUGIN_CACHE_DIR }}
           key: tf-providers-${{ hashFiles('**/providers.tf') }}
@@ -65,7 +65,7 @@ jobs:
     name: Monaco – Dry-Run Validation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install Monaco CLI
         env:
@@ -87,7 +87,7 @@ jobs:
     name: Secret & Credential Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Scan for hardcoded secrets and tokens
         run: bash scripts/ci/check-secrets.sh
 
@@ -96,7 +96,7 @@ jobs:
     name: Documentation Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify documentation completeness
         run: bash scripts/ci/check-docs.sh
 
@@ -105,6 +105,6 @@ jobs:
     name: Reference Integrity & JSON Syntax
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check file references and JSON syntax
         run: python3 scripts/ci/check-references.py
