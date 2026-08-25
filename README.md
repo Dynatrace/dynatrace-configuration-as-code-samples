@@ -1,3 +1,5 @@
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Dynatrace/dynatrace-configuration-as-code/badge)](https://scorecard.dev/viewer/?uri=github.com/Dynatrace/dynatrace-configuration-as-code)
+
 # Dynatrace Configuration as Code Samples
 
 This repository collects sample projects for the Dynatrace Configuration as Code.
