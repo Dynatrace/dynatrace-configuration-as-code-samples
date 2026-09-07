@@ -1,4 +1,16 @@
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Dynatrace/dynatrace-configuration-as-code/badge)](https://scorecard.dev/viewer/?uri=github.com/Dynatrace/dynatrace-configuration-as-code)
+# ⚠️ This repository has moved
+
+The Dynatrace **Configuration as Code samples** are no longer maintained here.
+They now live in **[Dynatrace Community Examples & Solutions](https://github.com/Dynatrace/community-examples)**, under the **`configuration-as-code/`** folder — alongside dashboards, notebooks, apps, agents, and more.
+
+**What this means for you**
+- 👉 Find the latest samples here: **[configuration-as-code/](https://github.com/Dynatrace/community-examples/tree/main/configuration-as-code)**
+- 🔒 This repository is now **archived and read-only**. Existing links and clones still work, but it won't receive further updates.
+- ✍️ Submit new samples via the new repository, not this one.
+
+Thanks to everyone who contributed here — your samples have moved with us. 🙌
+
+-----------------------------------------------------------------------------------
 
 # Dynatrace Configuration as Code Samples
 
